@@ -2,6 +2,8 @@ import "./App.css";
 import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css'; 
+import './components/header/Hearder.css'; 
+
 import Order from "./pages/admin/order/Order";
 import '../src/pages/admin/order/order.css'
 import UserMenu from "./components/userMenu/UserMenu";
@@ -43,10 +45,10 @@ function App() {
         <Route path='/admin' element={<AdminPage/>}>
             <Route path={'/admin/order'} element={<Order/>}/>
             <Route path="/admin/category" element={<Category/>}/>
-            <Route path="/admin/product/create" element={<AddProduct/>}/>
+            <Route path="/admin/product/detail/create" element={<AddProduct/>}/>
             <Route path="/admin/product" element={<AdminListProduct/>}/>
             <Route path="/admin/product/detail" element={<AdminListProductDetail/>}/>
-            <Route path="/admin/product/detail/create" element={<AddProductDetail/>}/>
+            <Route path="/admin/product/create" element={<AddProductDetail/>}/>
             <Route path='/admin/profile' element={<AdminProfile/>}/>
         </Route>
         
