@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import UserMenu from "./components/userMenu/UserMenu";
+import UserMenu from "./components/userMenu/userMenu";
 import 'antd/dist/antd.css'
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
@@ -16,7 +16,7 @@ function App() {
           <Route path="/user" element={<UserProfile />} />
           <Route path="/user/changePassword" element={<ChangeMenu />} />
         </Route>
-            <Route path={'/pages/admin/order'} element={<Order/>}/>
+        <Route path='/pages/admin/order' element={<Order />} />
       </Routes>
     </BrowserRouter>
   );

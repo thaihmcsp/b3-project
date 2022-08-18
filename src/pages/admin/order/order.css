@@ -28,3 +28,24 @@
   .input-search{
     padding: 40px 20px;
   }
+
+  .btn-next button{
+    padding: 8px 16px;
+    border-color: #ee4d2d;
+    border-radius: 5px;
+    outline: none;
+    background: #ee4d2d;
+    color: white;
+    font-size: medium;
+  }
+
+  .footer-order {
+    margin: 20px 0;
+    margin-left: 50px;
+
+  }
+
+  .link-order{
+    color: rgb(51, 51, 187) !important ;
+    text-decoration: underline;
+  }

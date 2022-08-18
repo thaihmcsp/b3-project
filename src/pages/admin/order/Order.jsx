@@ -77,7 +77,7 @@ function Order() {
       </div>
       <hr />
       <div className='search-product'>
-        <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
+        <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
       </div>
       <div className='order-body'>
         <div className="input-search">
@@ -88,7 +88,7 @@ function Order() {
               width: '30%',
               borderRadius: 20
             }}
-          /> <span>Chọn nghành hàng chính xác , <a href="">Bấm vào đây để tìm hiểu</a></span>
+          /> <span>Chọn nghành hàng chính xác , <a className='link-order' href="/">Bấm vào đây để tìm hiểu</a></span>
         </div>
         <div className="menuOrder">
           <Menu
@@ -100,8 +100,16 @@ function Order() {
             items={items}
           />
         </div>
-
       </div>
+      <div className='footer-order'>
+        <div>
+          <p>Đã chọn :</p>
+        </div>
+        <div className='btn-next'>
+          <button>Tiếp theo</button>
+        </div>
+      </div>
+
     </div>
   )
 }
