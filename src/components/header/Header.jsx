@@ -1,4 +1,5 @@
 import React from 'react'
+import './Hearder.css'
 import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined , ShoppingCartOutlined} from "@ant-design/icons"
 
 function Header() {
