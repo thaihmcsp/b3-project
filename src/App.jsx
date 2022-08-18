@@ -8,6 +8,8 @@ import UserMenu from "./components/userMenu/UserMenu";
 import 'antd/dist/antd.css'
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
+import Footer from "./components/footer/Footer";
+import 'antd/dist/antd.css'; 
 
 function App() {
   return (
