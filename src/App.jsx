@@ -1,6 +1,8 @@
 import "./App.css";
 import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Footer from "./components/footer/Footer";
+import 'antd/dist/antd.css'; 
 import Order from "./pages/admin/order/Order";
 import 'antd/dist/antd.css';
 import '../src/pages/admin/order/order.css'
@@ -20,6 +22,7 @@ function App() {
         </Route>
             <Route path={'/pages/admin/order'} element={<Order/>}/>
       </Routes>
+      <Route path="/" element={<Footer/>}/>
     </BrowserRouter>
   );
 }
