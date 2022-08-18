@@ -1,7 +1,6 @@
 import React from 'react'
 import MenuProfile from './MenuProfile'
 import { Outlet } from 'react-router-dom'
-import './usermenu.css'
 
 function UserMenu() {
     return (
