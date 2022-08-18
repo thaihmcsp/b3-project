@@ -1,0 +1,170 @@
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     }
+     
+     .shopee-svg-icon{
+     width: 11.875rem;
+     height: 42px;
+     fill: #ee4d2d;
+     margin-top: -10px;
+     }
+     .header-signup{
+       margin-top: 10px;
+     }
+     .help{
+         color: #ee4d2d;
+         font-size: .875rem;
+         margin-right: 15px;
+         cursor: pointer;
+         text-decoration: none;
+     }
+     .header-signup{
+       width: 1200px;
+       margin: 0 auto;
+       justify-content: space-between;
+       display: flex;
+       align-items: center;
+       margin-top: 20px;
+     }
+     .header-signup-left{
+       display: flex;
+       align-items: center;
+     }
+     
+     .header-dang-ky{
+       font-size: 25px;
+       margin-left: 0px;
+     }
+     /* ==============content-signup====================== */
+     .content-signup{
+       background-color: rgb(238, 77, 45);
+       display: block;
+       height: 600px;
+       width: 100%;
+      margin-top: 10px;
+      position: relative;
+     }
+     .form-dang-ky{
+       background-color: white;
+       width: 24.8125rem;;
+       height: 500px;
+       position: absolute;
+       right: 100px;
+       top: 50px;
+       border-radius: 10px;
+     }
+     .content-dang-ky{
+       font-size: 20px;
+       padding: 1.375rem 1.875rem;
+     }
+     
+     .content-center {
+       padding: 0 1.875rem 1.875rem;
+       overflow: hidden;
+     }
+     .phone-number {
+       box-sizing: border-box;
+       width: 100%;
+       height: 2.5rem;
+       overflow: hidden;
+       border: 1px solid rgba(0,0,0,.14);
+       border-radius: 2px;
+       box-shadow: inset 0 2px 0 rgb(0 0 0 / 2%);
+     
+     }
+     .center-input {
+       padding: 0.75rem;
+       outline: none;
+       border: 0;
+       width: 100%;
+     }
+     .button-next{
+         color: #fff;
+         background-color: #ee4d2d;
+         opacity: .7;
+         /* cursor: not-allowed; */
+         width: 100%;
+         height: 2.5rem;
+         min-width: 8.75rem;
+         outline: none;
+         padding: 0 0.625rem;
+         border: 0;
+         border-radius: 0.125rem;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         text-transform: uppercase;
+         margin: 30px 0;
+         letter-spacing: 2px;
+     }
+     .duong-ke{
+       display: flex;
+       align-items: center;
+       margin: 25px 0;
+     }
+     .ke-hr{
+         height: 1px;
+         width: 100%;
+         background-color: #dbdbdb;
+         flex: 1;
+     }
+     .hoac{
+         color: #ccc;
+         padding: 0 1rem;
+         text-transform: uppercase;
+         font-size: .75rem;
+     }
+     .icon img{
+       width: 30px;
+     }
+     .icon{
+       display: flex;
+       justify-content: space-between;
+       margin-top: 20px;
+     }
+     .icon button{
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       padding: 8px;
+       width: 100%;
+       background-color: #fff;
+       outline: none;
+       border: 1px solid rgba(0,0,0,.26);
+     }
+     .icon span{
+       margin-left: 10px;
+     }
+     .icon .facebook{
+       margin-right: 10px;
+     }
+     .ghi-chu{
+       text-align: center;
+       font-size: 12px;
+       margin: 40px 0;
+     }
+     .ghi-chu span{
+       margin: 0 5px;
+     }
+     .dieu-khoan{
+         color: #ee4d2d;
+         cursor: pointer;
+         user-select: none;
+         text-decoration: none;
+     }
+     .cuoi-trang{
+         align-items: center;
+         display: flex;
+         justify-content: center;
+         margin: 60px 0;
+     }
+     .tai-khoan{
+       color: rgba(0,0,0,.26);
+     }
+     .dang-nhap a{
+     color: #ee4d2d;
+     margin-left: 5px;
+     text-decoration: none;
+     }
