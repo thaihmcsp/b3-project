@@ -6,7 +6,6 @@ import 'antd/dist/antd.css';
 import '../src/pages/admin/order/order.css'
 import SignIn from "./pages/user/sign-in/SignIn";
 import SignUp from "./pages/user/sign-up/SignUp";
-import 'antd/dist/antd.css'
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
 import AdminMenu from "./components/adminMenu/AdminMenu";

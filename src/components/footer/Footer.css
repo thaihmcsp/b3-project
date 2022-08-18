@@ -1,0 +1,116 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: 100%;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+}
+.top{
+    width: 1210px;
+    margin: 0px -5px;
+    margin: 0 auto;
+}
+
+.chSocKhachHangMain{
+    width:1200px ;
+    height: 411.781px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+.chSocKhachHangMain ul li{
+    list-style: none;
+}
+
+.img img{
+    width: 40px;
+    height: 40px;
+}
+
+.image {
+    display: flex;
+    flex-wrap: wrap;
+}
+.image li {
+    width: 33.33%;
+}
+
+.logos img{
+    width: 20px;
+    height: 20px;
+}
+
+.icon a{
+    display: flex;
+    padding: 12px 0px;
+}
+.logos{
+    padding-right: 12px;
+}
+
+.updateApp{
+    display: flex;
+}
+.updateApp img{
+    width: 86px;
+    height: 86px;
+    margin-right: 15px;
+}
+
+.apps {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.apps img{
+    max-height: 20px;
+}
+
+
+.baoLuuVaquocGia {
+    width: 1200px;
+    height: 117px;
+    padding: 40px 0px;
+    display: flex;
+    border-top: 1px solid black;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.baoLuuVaquocGia .baoLuu{
+    margin-right: 25px;
+}
+
+.quocGia{
+    width: 870.828px;
+    height: 36px;
+    margin: 0px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+}
+
+.qg-kv a {
+    border-right:0.5px solid black;
+}
+.bottom{
+    width: 100%;
+    
+    
+}
+.bottom-container{
+    display: flex;
+    justify-content: center;
+}
+.chinhSach{
+    padding: 0px 25px;
+    border-right:1px solid black ;
+}
+.chinhSachHoanTien{
+    padding: 0px 25px;
+}
+
