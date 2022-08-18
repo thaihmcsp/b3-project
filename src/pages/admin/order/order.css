@@ -1,0 +1,30 @@
+.classOrder{
+    margin: 20px;
+  }
+  
+  .order-header p {
+    color: rgb(138, 138, 138);
+  }
+  
+  .search-product{
+    margin: 0 40px;
+    padding: 40px 20px;
+  }
+  
+  .input-search input {
+    width: 100% !important;
+    border-radius: 20px !important;
+  }
+  
+  .ant-input-group-addon button {
+    display: none;
+  }
+  .order-body {
+    margin: 0 40px;
+    padding: 40px 20px;
+    background-color: whitesmoke;
+  }
+  
+  .input-search{
+    padding: 40px 20px;
+  }
