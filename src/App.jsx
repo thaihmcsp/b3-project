@@ -1,16 +1,14 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/footer/Footer";
-import 'antd/dist/antd.css'; 
 import Order from "./pages/admin/order/Order";
-import 'antd/dist/antd.css';
-import '../src/pages/admin/order/order.css'
 import UserMenu from "./components/userMenu/UserMenu";
-import 'antd/dist/antd.css'
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
 import SignIn from "./pages/user/sign-in/SignIn";
 import SignUp from "./pages/user/sign-up/SignUp";
+import 'antd/dist/antd.css'; 
+import '../src/pages/admin/order/order.css'
 
 function App() {
   return (
