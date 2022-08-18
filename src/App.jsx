@@ -1,6 +1,9 @@
 import "./App.css";
 import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Order from "./pages/admin/order/Order";
+import 'antd/dist/antd.css';
+import '../src/pages/admin/order/order.css'
 import AdminMenu from "./components/adminMenu/AdminMenu";
 import UserMenu from "./components/userMenu/UserMenu";
 import 'antd/dist/antd.css'
@@ -15,6 +18,7 @@ function App() {
           <Route path="/user" element={<UserProfile />} />
           <Route path="/user/changePassword" element={<ChangeMenu />} />
         </Route>
+            <Route path={'/pages/admin/order'} element={<Order/>}/>
       </Routes>
     </BrowserRouter>
   );
