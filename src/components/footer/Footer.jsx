@@ -5,7 +5,7 @@ import "./Footer.css"
 
 function Footer() {
     return (
-        <div className="container">
+        <div className="footer-container">
             <div className="top">
                 <div className="chSocKhachHangMain">
                     <div className="ChamSocKhachHang">
@@ -183,7 +183,7 @@ function Footer() {
                                     LinkedIn
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
                     <div className="ChamSocKhachHang">

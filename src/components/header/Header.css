@@ -1,0 +1,122 @@
+.App {
+  text-align: center;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header:hover {
+  cursor: pointer;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fb5430;
+  font-size: 13px;
+  /* padding-top: 4px 0; */
+}
+
+.header-top-left {
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: space-around; */
+}
+
+.header-top-left p {
+  padding: 4px;
+  color: white;
+  border-right: 0.1px solid white;
+}
+
+.header-top-right {
+  display: flex;
+}
+
+.header-top-right p {
+  padding: 4px;
+  color: white;
+}
+
+.header {
+  padding: 0px 32px;
+  background-color: #fb5430;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+}
+
+.icon-fb {
+  padding: 4px 0px 4px 4px;
+  margin-right: 10px;
+}
+
+#kn {
+  border-right: none;
+
+}
+
+.header-seach {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 16px;
+  padding-bottom: 10px;
+}
+
+.logoSP {
+  width: 162px;
+  height: 50px;
+
+  fill: white;
+
+}
+
+.header-seach-main {
+  display: flex;
+  width: 70%;
+  background-color: white;
+  padding-top: 5px;
+
+
+}
+
+.header-seach-main input {
+  width: 100%;
+  padding: 0 10px;
+  border: none;
+  outline: 0;
+
+}
+
+.header-seach-main button {
+  padding: 8px 16px;
+  background-color: #fb5430;
+  color: white;
+  border: none;
+  font-size: 20px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.icon-cart {
+  zoom: 2;
+  margin: 0 10px;
+  position: absolute;
+  top: 30%;
+  right: 100%;
+  font-size: 15px;
+  fill: white;
+  color: white;
+}
+
+.header-seach-cart {
+  display: flex;
+  margin: 0 10px;
+  justify-content: end;
+  position: relative;
+  color: white;
+}
