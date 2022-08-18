@@ -1,10 +1,8 @@
 import React from 'react'
 import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select } from 'antd'
 import 'antd/dist/antd.css';
-import '../../../static/productDetail/productDetail.css'
-
+import './productDetail.css'
 import { useState } from 'react';
-
 const { Option } = Select;
 const handleChange = (value) => {
     console.log(`selected ${value}`);
