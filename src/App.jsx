@@ -1,5 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Footer from "./components/footer/Footer";
+import 'antd/dist/antd.css'; 
 import Order from "./pages/admin/order/Order";
 import 'antd/dist/antd.css';
 import '../src/pages/admin/order/order.css'
@@ -20,7 +22,8 @@ function App() {
           <Route path="/user/changePassword" element={<ChangeMenu />} />
         </Route>
         <Route path='/signin' element={<SignIn />} />
-        <Route path='/signup' element={<SignUp />}/>
+        <Route path='/signup' element={<SignUp />} />
+        <Route path="/" element={<Footer/>}/>
       </Routes>
     </BrowserRouter>
   );
