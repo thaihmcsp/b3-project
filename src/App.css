@@ -1,38 +1,123 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a {
+  color: black !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* UserMenu */
+
+.menu {
+  width: 15%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.menu-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 15px 0;
+  padding-left: 15px;
+  border-bottom: 0.0625rem solid #efefef;
 }
 
-.App-link {
-  color: #61dafb;
+.menu-header .header-left img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.menu-header .header-right {
+  padding: 0 0 0 15px;
 }
+
+.menu-header .header-right p {
+  color: gray;
+}
+
+
+
+
+/* user-menu */
+
+.user-menu .container {
+  display: flex;
+  width: 1200px;
+  padding: 20px 0;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.user-menu {
+  background:#f5f5f5
+}
+
+
+/* user-profile */
+
+.user-profile,
+.change-menu {
+  width: 85%;
+  padding: 0 30px;
+  background: white;
+}
+
+.user-profile .profile-header,
+.change-menu .change-header {
+  padding: 18px 0;
+  border-bottom: 0.0625rem solid #efefef;
+}
+
+.user-profile .profile-header p ,
+.user-profile .profile-header h3,
+.change-header p,
+.change-header h3 {
+  margin: 0;
+}
+
+
+.user-profile .profile-body {
+  display: flex;
+  padding-top: 30px;
+}
+
+.user-profile .body-right img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; 
+  margin: 1.25rem 0; 
+  border-radius: 50%;
+}
+
+.user-profile .body-right {
+  text-align: center;
+  width: 17.5rem;
+  border-left: 0.0625rem solid #efefef;
+}
+
+.user-profile .body-left {
+  padding-right: 3.125rem;
+  width: 70%;
+}
+
+.user-profile .body-left .ant-row {
+  margin-bottom: 1.875rem
+}
+
+.user-profile .body-left .ant-col-6 {
+  padding-right: 30px;
+  text-align: right;
+}
+
+.user-profile .profile-body .body-left tr {
+  height: 30px;
+  margin-bottom: 1.875rem;
+}
+
+
+.user-profile .profile-body .ant-btn-primary {
+    margin-bottom: 3.75rem;
+    margin-left: calc(20% + 1.25rem);
+}
+
