@@ -1,38 +1,36 @@
-.App {
-  text-align: center;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.menu-admin {
+  display: flex
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.menu-admin-left {
+  width: 20%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.menu-admin-right {
+  width: 80%;
 }
 
-.App-link {
-  color: #61dafb;
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: inherit !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-active,
+.ant-menu-item-selected,
+.ant-menu-submenu-selected,
+.ant-menu-submenu-title:hover,
+.ant-menu-light .ant-menu-submenu-active,
+.ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow {
+  color: red !important;
+}
+
+.ant-menu-inline .ant-menu-item:after {
+  border: none !important;
 }
