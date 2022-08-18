@@ -7,6 +7,8 @@ import UserMenu from "./components/userMenu/UserMenu";
 import 'antd/dist/antd.css'
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
+import SignIn from "./pages/user/sign-in/SignIn";
+import SignUp from "./pages/user/sign-up/SignUp";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path="/user" element={<UserProfile />} />
           <Route path="/user/changePassword" element={<ChangeMenu />} />
         </Route>
+        <Route path='/signin' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />}/>
       </Routes>
     </BrowserRouter>
   );
