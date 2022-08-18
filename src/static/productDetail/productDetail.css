@@ -42,6 +42,9 @@
     height: 500px;
 
 }
+.prodtuct-detail-address{
+    margin: 20px;
+}
 .product-detail-quantity {
     margin: 20px;
 }
@@ -51,4 +54,42 @@
     height: 34px;
     outline: 0;
     border: 1px solid #7d7c7c;
+    text-align: center;
+}
+.product-detail-footer span {
+    font-size: 18px;
+    line-height: 30px;
+    margin-right: 5px;
+}
+.product-detail-footer{
+    display: flex;
+    justify-content: space-between;
+}
+.product-detail-footer a .fa-brands, .fa-solid{
+    font-size: 25px;
+    margin: 0 2px;
+}
+.fa-facebook{
+    color: blue;
+}
+.fa-pinterest{
+    color:red;
+}
+.fa-heart{
+    color:aqua
+}
+.product-detail-add{
+    margin: 0px 20px; 
+}
+.pd-add-gh{
+    width: 200px;
+    padding: 5px;
+    height: 40px;
+}
+.pd-add-gh i{
+    font-size: 20px;
+}
+.pd-add-mh{
+    margin-left: 20px;
+    height: 38px;
 }
