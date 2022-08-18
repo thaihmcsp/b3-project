@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
