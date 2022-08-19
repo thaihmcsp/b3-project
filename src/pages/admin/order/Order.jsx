@@ -5,7 +5,7 @@ import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 
 const { Search } = Input;
-
+const listOrder = 'Chưa chọn nghàn hàng'
 const suffix = (
   <AudioOutlined
     style={{
@@ -103,13 +103,12 @@ function Order() {
       </div>
       <div className='footer-order'>
         <div>
-          <p>Đã chọn :</p>
+          <p>Đã chọn : {listOrder}</p>
         </div>
         <div className='btn-next'>
           <button>Tiếp theo</button>
         </div>
       </div>
-
     </div>
   )
 }
