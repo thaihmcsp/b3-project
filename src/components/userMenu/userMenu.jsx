@@ -11,7 +11,6 @@ function UserMenu() {
                 <MenuProfile />
                 <Outlet />
             </div>
-            <Footer/>
         </div>
     )
 }

@@ -42,10 +42,13 @@
     width: 20px;
     height: 20px;
 }
-
-.icon a{
+.icon{
     display: flex;
-    padding: 12px 0px;
+    flex-direction: column;
+}
+.iconA{
+    display: flex;
+    padding: 10px 0px;
 }
 .logos{
     padding-right: 12px;
