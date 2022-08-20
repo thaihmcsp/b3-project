@@ -26,6 +26,7 @@ import AdminListProductDetail from "./pages/admin/product/listProductDetail/Admi
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
+import FilterProduct from "./pages/user/filterProduct/FilterProduct";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/product-detail" element={<ProductDetail />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/create-order' element={<CreateOrder />} />
+          <Route path="/filter" element={<FilterProduct/>}/>
           <Route path="/user" element={<UserMenu />}>
             <Route path="/user" element={<UserProfile />} />
             <Route path="/user/changePassword" element={<ChangeMenu />} />
@@ -55,7 +57,7 @@ function App() {
           <Route path="/admin/category" element={<Category />} />
           <Route path="/admin/product/create" element={<AddProduct />} />
           <Route path="/admin/product" element={<AdminListProduct />} />
-          <Route path="/admin/product/detail" element={<AdminListProductDetail />} />
+          <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />
           <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
           <Route path='/admin/profile' element={<AdminProfile />} />
         </Route>
