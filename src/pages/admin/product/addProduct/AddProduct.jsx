@@ -6,6 +6,8 @@ import './AddProduct.css'
 import { Select } from 'antd';
 const { Option } = Select;
 function AddProduct() {
+  
+  // atn picture upload
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -27,12 +29,19 @@ function AddProduct() {
     return isJpgOrPng && isLt2M;
   };
   
-    const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState();
-  
-    const handleChange = (info) => {
+    const [loading, setLoading] = useState([false,false,false,false,false,false,false,false,false]);
+    const [imageUrl, setImageUrl] = useState(['','','','','','','','','']);
+    const name = ['* Ảnh bìa', 'Hình ảnh 1','Hình ảnh 2','Hình ảnh 3', 'Hình ảnh 4', 'Hình ảnh 5', 'Hình ảnh 6', 'Hình ảnh 7', 'Hình ảnh 8']
+    const handleChange = (info, index) => {
+      console.log(index);
       if (info.file.status === 'uploading') {
-        setLoading(true);
+        // setLoading(true);
+        getBase64(info.file.originFileObj, (url) => {
+          // setLoading(false);
+          let data = [...imageUrl]
+          data[index] = url
+          setImageUrl(data);
+        });
         return;
       }
   
@@ -44,17 +53,25 @@ function AddProduct() {
         });
       }
     }
-    const uploadButton = (
-      <div>
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div
-          style={{
-            marginTop: 8,
-          }}
-        >
-        </div>
-      </div>
-    );
+    const uploadButton = (index) => {
+      return (
+        (
+          <div>
+            {loading[index] ? <LoadingOutlined /> : <PlusOutlined />}
+            <div
+              style={{
+                marginTop: 8,
+                
+              }}
+            >
+            </div>
+          </div>
+        )
+      )
+    };
+
+
+    // atn input
     const onChange = (value) => {
       console.log(`selected ${value}`);
     };
@@ -71,240 +88,40 @@ function AddProduct() {
               <p className='item-p'>Hình ảnh sản phẩm</p>
             </div>
             <div className='add-zone'>
-              <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item-special'>* Ảnh bìa</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 1</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 2</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 3</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 4</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 5</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 6</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 7</p>
-            </div>
-            <div className='add-img-upload-item'>
-              <div >
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-              </div>
-              <p className='p-des-item'>Hình ảnh 8</p>
-            </div>
+
+              {imageUrl.map((data, index) => {
+                console.log(imageUrl[index] ? true : false);
+                return (
+                  <div className='add-img-upload-item'>
+                    <div>
+                    <Upload
+                      name="avatar"
+                      listType="picture-card"
+                      className="avatar-uploader"
+                      showUploadList={false}
+                      // action="https://www.mocky.io/v2/5cc8false9d300000980a055e76"
+                      beforeUpload={beforeUpload}
+                      onChange={(file) => {handleChange(file, index)}}
+                    >
+                      {imageUrl[index] ? (
+                        <img
+                          src={imageUrl[index]}
+                          alt="avatar"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      ) : (
+                        uploadButton(index)
+                      )}
+                    </Upload>
+                    </div>
+                    <p className='p-des-item-special'>{name[index]}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className='product-info-double'>

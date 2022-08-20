@@ -2,8 +2,6 @@ import "./App.css";
 import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css'; 
-// import './components/header/Hearder.css'; 
-
 import Order from "./pages/admin/order/Order";
 import '../src/pages/admin/order/order.css'
 import UserMenu from "./components/userMenu/UserMenu";
@@ -26,6 +24,7 @@ import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductD
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
 import product from './static/Truong/product.json'
+
 function App() {
   return (
     <BrowserRouter>
