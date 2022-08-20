@@ -2,7 +2,7 @@ import "./App.css";
 import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css'; 
-import './components/header/Hearder.css'; 
+// import './components/header/Hearder.css'; 
 
 import Order from "./pages/admin/order/Order";
 import '../src/pages/admin/order/order.css'
