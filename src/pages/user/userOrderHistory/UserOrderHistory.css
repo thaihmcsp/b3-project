@@ -1,24 +1,290 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 .order-history {
     width: 100%;
 }
 
-.ant-menu-horizontal li {
-    width: 16%;
+.order-history .ant-menu-horizontal li {
+    width: 16.66667%;
     text-align: center;
+    display: block;
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item {
+
+.order-history .ant-menu-horizontal>.ant-menu-item:after,
+.ant-menu-horizontal>.ant-menu-submenu:after {
+    left: 0;
+    right: 0;
+}
+
+.order-history .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item {
     padding: 0
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected:after {
+.order-history .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover,
+.order-history .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected {
+    color: #EE4D2D;
+}
+
+.order-history .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected:after {
     border-bottom: 2px solid red;
 }
 
-.ant-menu-horizontal {
+
+.order-history .ant-menu-horizontal {
     justify-content: space-between;
+}
+
+.order-history .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after {
+    border: none;
 }
 
 /* .ant-menu-item-selected {
     border-bottom: 2px solid red;
 } */
+
+
+.order-history {
+    padding: 20px;
+}
+
+.order-history sup {
+    top: -0.3em;
+    margin-right: 1px;
+}
+
+.total-product {
+    border-top: 1px solid #ccc;
+}
+
+.order-product--total {
+    padding: 12px 0;
+}
+
+.order-product {
+    background-color: #fff;
+}
+
+.order-container {
+    background-color: #fff;
+    padding: 12px 24px;
+    margin: 20px 0;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+
+
+.search-input input {
+    width: 100%;
+    outline: none;
+    background-color: #ccc;
+    border: none;
+}
+
+
+.order-product--detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    align-items: center;
+}
+
+
+
+.order-product--shop,
+.order-product--shop__left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-product--shop {
+    padding: 10px 0;
+}
+
+.order-product--shop__left {
+    width: 40%;
+}
+
+.order-product--shop__left button {
+    padding: 2px 16px;
+    cursor: pointer;
+    font-size: 12px;
+    border: none;
+}
+
+.chat,
+.chat i {
+    background-color: #EE4D2D;
+    border: none;
+}
+
+.chat {
+    color: #fff;
+}
+
+.chat:hover,
+.watch-shop:hover {
+    opacity: 0.8;
+}
+
+.chat i,
+.watch-shop i {
+    font-size: 12px;
+}
+
+.order-product--shop__left h1 {
+    margin: 0;
+}
+
+.shop-love {
+    background-color: #EE4D2D;
+    padding: 2px 4px;
+    display: block;
+    color: #fff;
+    font-size: 12px;
+}
+
+.order-product-detail__img img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+
+
+.order-product-detail__name {
+    width: 70%;
+    padding: 0 30px;
+}
+
+.order-product-detail__img {
+    width: 10%;
+}
+
+.order-product-detail__price {
+    width: 20%;
+}
+
+.order-product-detail__price span {
+    display: block;
+    text-align: right;
+    color: #EE4D2D;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.order-product-detail__category {
+    opacity: 0.6;
+}
+
+.line {
+    width: 100%;
+    height: 0.5px;
+    background-color: #ccc;
+    margin: 5px 0;
+}
+
+
+
+.total-status,
+.total-status-btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-price {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.total-price span {
+    color: #EE4D2D;
+    font-size: 20px;
+}
+
+.total-sum__text {
+    font-size: 18px;
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.total-status-text {
+    width: 40%;
+    text-align: justify;
+    padding-right: 25px;
+    font-size: 10px;
+    color: gray;
+}
+
+.total-status-btn {
+    width: 60%;
+}
+
+.total-status-btn button {
+    padding: 0 20px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.btn-took-product {
+    background-color: #EE4D2D;
+    color: #fff;
+    border: none;
+}
+
+.btn-took-product:hover {
+    opacity: 0.8;
+}
+
+.btn-secondary {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.btn-secondary:hover {
+    background-color: #ccc;
+    color: #fff;
+}
+
+.no-product {
+    box-shadow: rgb(0 0 0 / 5%) 0px 1px 1px 0px;
+    border-radius: 0.125rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 600px;
+    background: rgb(255, 255, 255);
+}
+
+.no-product__content {
+    background-position: 50% center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 100px;
+    background-image: url('https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/assets/5fafbb923393b712b96488590b8f781f.png');
+}
+
+.no-product__text {
+    margin: 20px 0px 0px;
+    font-size: 18px;
+    line-height: 1.4;
+    color: rgba(0, 0, 0, 0.8);
+}

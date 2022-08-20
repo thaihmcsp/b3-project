@@ -147,13 +147,13 @@ a {
 }
 
 
-.ant-menu-light .ant-menu-item:hover,
-.ant-menu-light .ant-menu-active,
-.ant-menu-item-selected,
-.ant-menu-submenu-selected,
-.ant-menu-submenu-title:hover,
-.ant-menu-light .ant-menu-submenu-active,
-.ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow {
+.menu-admin .ant-menu-light .ant-menu-item:hover,
+.menu-admin .ant-menu-light .ant-menu-active,
+.menu-admin .ant-menu-item-selected,
+.menu-admin .ant-menu-submenu-selected,
+.menu-admin .ant-menu-submenu-title:hover,
+.menu-admin .ant-menu-light .ant-menu-submenu-active,
+.menu-admin .ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow {
     color: red !important;
 }
 
