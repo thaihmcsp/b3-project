@@ -14,16 +14,20 @@ function Header() {
     nav("/user")
   }
   function LogOut (){
+    nav("/")
     window.location.reload()
   }
   function Buy (){
     nav("")
   }
+  function Admin (){
+    nav("/admin")
+  }
   return (
     <div className='header'>
                 <div className='header-top'>
                     <div className='header-top-left'>
-                            <p>Kênh Người Bán </p>
+                            <p onClick={Admin}>Kênh Người Bán </p>
                             <p>Trở Thành Người Bán </p>
                             <p>Tải Ứng Dụng </p>
                             <p id='kn'>Kết Nối   </p>
