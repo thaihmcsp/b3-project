@@ -39,6 +39,7 @@
     width: 100%;
     position: fixed;
     top: 0;
+    z-index: 100;
   }
   .icon-fb{
     padding: 4px 0px 4px 4px ;
@@ -59,7 +60,10 @@
     height: 50px;
     
     fill: white;
-   
+    /* position: absolute;
+    bottom: 15px;
+    */
+    margin-top: 0;
   }
   .header-seach-main{
     display: flex;
@@ -102,4 +106,47 @@
     position: relative;
     color: white;
   }
-  
+  .header-top-right-id{
+    display: flex;
+    display: none;
+  }
+  .header-top-right-icon{
+    display: flex;
+  }
+  .header-top-right-name{
+    display: flex;
+  }
+  .header-top-right-name-hover{
+    
+    position: absolute;
+    top:80%;
+    left: -80%;
+    
+  }
+  .header-top-right-user{
+    position: relative;
+  }
+  .list{
+    list-style: none;
+    background-color: white;
+    width: 120%;
+    font-size: 15px;
+    
+    
+  }
+.list li {
+  margin-top: 0px;
+  padding: 5px;
+}
+.list li:hover{
+  cursor: pointer;
+  background-color:#ccc ;
+  color: #fb5430;
+}
+.header-top-right-user:hover .header-top-right-name-hover{
+  display: block;
+  z-index: 2;
+}
+.header-top-right-name-hover{
+  display: none;
+}

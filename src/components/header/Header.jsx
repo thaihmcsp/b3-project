@@ -1,51 +1,42 @@
-import React from "react";
-import {
-  FacebookOutlined,
-  InstagramOutlined,
-  BellOutlined,
-  QuestionCircleOutlined,
-  SearchOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
-import "./Hearder.css";
-
+import React from 'react'
+import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
+import './header.css'
+import {useNavigate} from "react-router-dom"
 function Header() {
+  const nav = useNavigate()
+  function Login (){
+    nav("/signin")
+  }
+  function Sigup (){
+    nav("/signup")
+  }
+  function MyID (){
+    nav("/user")
+  }
+  function LogOut (){
+    window.location.reload()
+  }
+  function Buy (){
+    nav("")
+  }
   return (
-    <div className="header">
-      <div className="header-top">
-        <div className="header-top-left">
-          <p>Kênh Người Bán </p>
-          <p>Trở Thành Người Bán </p>
-          <p>Tải Ứng Dụng </p>
-          <p id="kn">Kết Nối </p>
-          <p>
-            {" "}
-            <span>
-              <FacebookOutlined className="icon-fb" />
-            </span>
-            <span>
-              <InstagramOutlined className="icon-itg" />
-            </span>{" "}
-          </p>
-        </div>
-        <dir className="header-top-right">
-          <p>
-            {" "}
-            <span>
-              <BellOutlined />
-            </span>
-            Thông Báo{" "}
-          </p>
-          <p>
-            <span>
-              <QuestionCircleOutlined />
-            </span>{" "}
-            Hỗ Trợ{" "}
-          </p>
-          <p>Đăng kí </p>
-          <p>Đăng Nhập </p>
-        </dir>
-      </div>
+    <div className='header'>
+                <div className='header-top'>
+                    <div className='header-top-left'>
+                            <p>Kênh Người Bán </p>
+                            <p>Trở Thành Người Bán </p>
+                            <p>Tải Ứng Dụng </p>
+                            <p id='kn'>Kết Nối   </p>
+                            <p> <span><FacebookOutlined className='icon-fb'/></span><span><InstagramOutlined className='icon-itg'/></span>    </p>
+                    </div>
+                    <dir className= "header-top-right" >
+                        <p> <span><BellOutlined /></span>Thông Báo </p>
+                        <p><span><QuestionCircleOutlined /></span> Hỗ Trợ </p>
+                        <p>Đăng kí  </p>
+                        <p>Đăng Nhập </p>
+                    </dir>
+
+                </div>
 
       <div className="header-seach">
         <div className="header-seach-logo">
