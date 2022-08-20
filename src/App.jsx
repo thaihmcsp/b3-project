@@ -25,13 +25,14 @@ import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListPr
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
+import product from './static/Truong/product.json'
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<UserPage/>}>
-            <Route path='/' element={<Home/>}/>
-            <Route path="/product-detail" element={<ProductDetail/>}/>
+            <Route path='/' element={<Home product={product} />}/>
+            <Route path="/product-detail/:productId" element={<ProductDetail/>}/>
             <Route path='/cart' element={<Cart/>}/>
             <Route path='/create-order' element={<CreateOrder/>}/>
             <Route path="/user" element={<UserMenu />}>
