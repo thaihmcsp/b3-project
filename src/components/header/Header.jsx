@@ -54,7 +54,7 @@ function Header() {
                             
                     </dir>
 
-                </div>
+      </div>
 
       <div className="header-seach">
         <div className="header-seach-logo">
