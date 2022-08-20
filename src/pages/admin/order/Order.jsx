@@ -35,8 +35,7 @@ function Order() {
 
   const items = [
     getItem('Điện thoại', 'sub1', null, [
-      getItem('Item 1', null, null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
-      getItem('Item 2', null, null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
+   
     ]),
     getItem('Laptop', 'sub2', null, [
 
@@ -102,8 +101,8 @@ function Order() {
         </div>
       </div>
       <div className='footer-order'>
-        <div>
-          <p>Đã chọn : {listOrder}</p>
+        <div className='chose-order'>
+          Đã chọn :   <p> {listOrder}</p>
         </div>
         <div className='btn-next'>
           <button>Tiếp theo</button>

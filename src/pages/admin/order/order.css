@@ -31,12 +31,13 @@
 
   .btn-next button{
     padding: 8px 16px;
-    border-color: #ee4d2d;
+    border: none;
     border-radius: 5px;
     outline: none;
     background: #ee4d2d;
     color: white;
     font-size: medium;
+    opacity: 0.5;
   }
 
   .footer-order {
@@ -48,4 +49,11 @@
   .link-order{
     color: rgb(51, 51, 187) !important ;
     text-decoration: underline;
+  }
+
+  .chose-order {
+    display: flex;
+  }
+  .chose-order p {
+    color: rgb(172, 172, 172);
   }
