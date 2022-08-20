@@ -24,8 +24,18 @@
     padding: 5px;
 }
 
+.ChamSocKhachHang ul {
+    margin: 0px;
+}
+
 .chSocKhachHangMain ul li {
     list-style: none;
+    font-size: 12px;
+
+}
+
+.ChamSocKhachHang ul li a:hover {
+    color: #ee4d2d !important;
 }
 
 .icon {
@@ -52,9 +62,9 @@
     height: 20px;
 }
 
-.icon a {
+.iconA {
     display: flex;
-    padding: 12px 0px;
+    padding: 10px 0px;
 }
 
 .logos {
@@ -123,9 +133,9 @@
 
 .chinhSach {
     padding: 0px 25px;
-    border-right: 1px solid black;
 }
 
 .chinhSachHoanTien {
     padding: 0px 25px;
+    border-right: 1px solid black;
 }
