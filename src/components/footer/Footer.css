@@ -4,6 +4,10 @@
     box-sizing: border-box;
     font-size: 100%;
 }
+.container{
+    display: flex;
+    flex-direction: column;
+}
 .top{
     width: 1210px;
     margin: 0px -5px;
@@ -17,8 +21,16 @@
     justify-content: space-between;
     padding: 5px;
 }
+.ChamSocKhachHang ul {
+    margin: 0px;
+}
 .chSocKhachHangMain ul li{
     list-style: none;
+    font-size: 12px;
+    
+}
+.ChamSocKhachHang ul li a:hover{
+    color: #ee4d2d !important;
 }
 
 .img img{
@@ -38,10 +50,15 @@
     width: 20px;
     height: 20px;
 }
-
-.icon a{
+.icon{
     display: flex;
-    padding: 12px 0px;
+    flex-direction: column;
+    
+}
+
+.iconA{
+    display: flex;
+    padding: 10px 0px;
 }
 .logos{
     padding-right: 12px;
@@ -104,7 +121,6 @@
 }
 .chinhSach{
     padding: 0px 25px;
-    border-right:1px solid black ;
 }
 .chinhSachHoanTien{
     padding: 0px 25px;
