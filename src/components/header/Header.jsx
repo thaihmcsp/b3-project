@@ -1,5 +1,6 @@
 import React from 'react'
 import './Hearder.css'
+import {Link} from 'react-router-dom'
 import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined , ShoppingCartOutlined} from "@ant-design/icons"
 
 function Header() {
@@ -16,8 +17,8 @@ function Header() {
                     <dir className= "header-top-right" >
                         <p> <span><BellOutlined /></span>Thông Báo </p>
                         <p><span><QuestionCircleOutlined /></span> Hỗ Trợ </p>
-                        <p>Đăng kí  </p>
-                        <p>Đăng Nhập </p>
+                        <p><Link to={'/signup'}>Đăng kí </Link> </p>
+                        <p><Link to={'/signin'}>Đăng Nhập </Link></p>
                     </dir>
 
                 </div>
