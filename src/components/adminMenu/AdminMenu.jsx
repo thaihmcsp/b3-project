@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormOutlined, ShoppingOutlined, ProfileOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import './AdminMenu.css'
 
 function getItem(label, key, icon, children, type) {
     return {
