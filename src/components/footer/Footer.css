@@ -1,21 +1,23 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-size: 100%;
 }
-.container{
+
+.footer-container {
     display: flex;
     flex-direction: column;
 }
-.top{
+
+.top {
     width: 1210px;
     margin: 0px -5px;
     margin: 0 auto;
 }
 
-.chSocKhachHangMain{
-    width:1200px ;
+.chSocKhachHangMain {
+    width: 1200px;
     height: 411.781px;
     display: flex;
     justify-content: space-between;
@@ -33,7 +35,12 @@
     color: #ee4d2d !important;
 }
 
-.img img{
+.icon {
+    display: flex;
+    flex-direction: column;
+}
+
+.img img {
     width: 40px;
     height: 40px;
 }
@@ -42,18 +49,14 @@
     display: flex;
     flex-wrap: wrap;
 }
+
 .image li {
     width: 33.33%;
 }
 
-.logos img{
+.logos img {
     width: 20px;
     height: 20px;
-}
-.icon{
-    display: flex;
-    flex-direction: column;
-    
 }
 
 .iconA{
@@ -64,10 +67,11 @@
     padding-right: 12px;
 }
 
-.updateApp{
+.updateApp {
     display: flex;
 }
-.updateApp img{
+
+.updateApp img {
     width: 86px;
     height: 86px;
     margin-right: 15px;
@@ -78,7 +82,8 @@
     flex-direction: column;
     justify-content: space-around;
 }
-.apps img{
+
+.apps img {
     max-height: 20px;
 }
 
@@ -93,36 +98,42 @@
     font-size: 14px;
 }
 
-.baoLuuVaquocGia .baoLuu{
+.baoLuuVaquocGia .baoLuu {
     margin-right: 25px;
 }
 
-.quocGia{
+.quocGia {
     width: 870.828px;
     height: 36px;
     margin: 0px auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    
+
 }
 
 .qg-kv a {
-    border-right:0.5px solid black;
+    border-right: 0.5px solid black;
 }
-.bottom{
+
+.bottom {
     width: 100%;
-    
-    
+
+
 }
-.bottom-container{
+
+.bottom-container {
     display: flex;
     justify-content: center;
 }
-.chinhSach{
+
+.chinhSach {
     padding: 0px 25px;
+    border-right: 1px solid black;
 }
-.chinhSachHoanTien{
+
+.chinhSachHoanTien {
     padding: 0px 25px;
+    border-right: 1px solid black;
 }
 

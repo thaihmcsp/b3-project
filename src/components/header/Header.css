@@ -57,6 +57,7 @@
 
 #kn {
   border-right: none;
+
 }
 
 .header-seach {
@@ -71,10 +72,7 @@
   height: 50px;
 
   fill: white;
-  /* position: absolute;
-    bottom: 15px;
-    */
-  margin-top: 0;
+
 }
 
 .header-seach-main {
@@ -82,6 +80,8 @@
   width: 70%;
   background-color: white;
   padding-top: 5px;
+
+
 }
 
 .header-seach-main input {
@@ -89,6 +89,7 @@
   padding: 0 10px;
   border: none;
   outline: 0;
+
 }
 
 .header-seach-main button {
