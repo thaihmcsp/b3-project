@@ -1,6 +1,6 @@
 import React from 'react'
 import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
-import './header.css'
+import './Header.css'
 import {useNavigate} from "react-router-dom"
 function Header() {
   const nav = useNavigate()
@@ -54,7 +54,7 @@ function Header() {
                             
                     </dir>
 
-                </div>
+      </div>
 
       <div className="header-seach">
         <div className="header-seach-logo">
