@@ -5,7 +5,7 @@ import "./Footer.css"
 
 function Footer() {
     return (
-        <div className="container">
+        <div className="footer-container">
             <div className="top">
                 <div className="chSocKhachHangMain">
                     <div className="ChamSocKhachHang">
@@ -160,7 +160,7 @@ function Footer() {
                         <div className="name"><span>THEO DÕI CHÚNG TÔI TRÊN</span></div>
                         <ul className='icon'>
                             <li>
-                                <a href="" >
+                                <a href="" className='iconA'>
                                     <div className="logos">
                                         <img src="https://cdn-icons-png.flaticon.com/512/20/20673.png" alt="" />
                                     </div>
@@ -168,7 +168,7 @@ function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="" >
+                                <a href=""className='iconA' >
                                     <div className="logos">
                                         <img src="https://cdn-icons-png.flaticon.com/512/20/20673.png" alt="" />
                                     </div>
@@ -176,14 +176,14 @@ function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="" >
+                                <a href=""className='iconA' >
                                     <div className="logos">
                                         <img src="https://cdn-icons-png.flaticon.com/512/20/20673.png" alt="" />
                                     </div>
                                     LinkedIn
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
                     <div className="ChamSocKhachHang">
