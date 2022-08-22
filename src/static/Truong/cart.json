@@ -4,7 +4,7 @@
         "userId": "u1",
         "listProduct": [
             {
-                "productDetailId": "1233",
+                "productDetailId": "pd1",
                 "quantity": 2,
                 "select": false
             }
@@ -15,17 +15,17 @@
         "userId": "u2",
         "listProduct": [
             {
-                "productDetailId": "1234",
+                "productDetailId": "pd2",
                 "quantity": 1,
                 "select": false
             },
             {
-                "productDetailId": "1235",
+                "productDetailId": "pd5",
                 "quantity": 2,
                 "select": false
             },
             {
-                "productDetailId": "1236",
+                "productDetailId": "pd10",
                 "quantity": 3,
                 "select": true
             }
@@ -36,12 +36,12 @@
         "userId": "u3",
         "listProduct": [
             {
-                "productDetailId": "1237",
+                "productDetailId": "pd4",
                 "quantity": 1,
                 "select": false
             },
             {
-                "productDetailId": "1238",
+                "productDetailId": "pd9",
                 "quantity": 2,
                 "select": true
             }
@@ -52,7 +52,7 @@
         "userId": "u4",
         "listProduct": [
             {
-                "productDetailId": "1239",
+                "productDetailId": "pd15",
                 "quantity": 2,
                 "select": false
             }
@@ -63,7 +63,7 @@
         "userId": "u5",
         "listProduct": [
             {
-                "productDetailId": "123",
+                "productDetailId": "pd20",
                 "quantity": 1,
                 "select": true
             }
