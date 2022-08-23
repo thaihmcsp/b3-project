@@ -9,7 +9,7 @@
 }
 
 .order-history .ant-menu-horizontal li {
-    width: 16.66667%;
+    width: 25%;
     text-align: center;
     display: block;
 }
@@ -188,6 +188,25 @@
 
 .order-product-detail__category {
     opacity: 0.6;
+}
+
+.order-success__status i {
+    font-size: 16px;
+}
+
+.order-pending__status,
+.status-success,
+.status-cancel,
+.status-pending {
+    font-weight: bold;
+}
+
+.status-success {
+    color: green;
+}
+
+.status-cancel {
+    color: #EE4D2D;
 }
 
 .line {

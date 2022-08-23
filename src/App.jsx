@@ -26,6 +26,7 @@ import AddProduct from "./components/addProduct/AddProduct";
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
+import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
               <Route path="/user/order/pending" element={<UserOrderPending></UserOrderPending>}></Route>
               <Route path="/user/order/" element={<UserOrderAll></UserOrderAll>}></Route>
               <Route path="/user/order/wait" element={<UserOrderWait></UserOrderWait>}></Route>
+              <Route path="/user/order/cancel" element={<UserOrderCancel></UserOrderCancel>}></Route>
               {/*  */}
             </Route>
           </Route>
