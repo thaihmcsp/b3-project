@@ -1,0 +1,11 @@
+.cart-container{
+    margin-top: 150px;
+}
+.cart-container .ant-radio{
+    display: none;
+}
+
+.cart-list .ant-table-cell img{
+    width: 140px;
+    height: 100px;
+}
