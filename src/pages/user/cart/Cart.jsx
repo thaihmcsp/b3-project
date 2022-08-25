@@ -3,9 +3,9 @@ import 'antd/dist/antd.css';
 import tableCart from '../../../static/Truong/cart.json'
 import tableProductDetail from "../../../static/Truong/productDetail.json"
 import tableProduct from '../../../static/Truong/product.json'
-import { useState } from 'react';
+import { useState ,useEffect } from 'react';
 import './cart.css'
-import { Col, Row, Radio, Table, Divider, Button ,Popconfirm } from 'antd'
+import { Col, Row, Radio, Table, Divider, Button, Popconfirm, Select } from 'antd'
 
 
 tableCart[1].listProduct.map(
@@ -47,16 +47,19 @@ tableCart[1].listProduct.map(
 )
 function Cart() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [dataSource, setDataSource] = useState([dataCart]);
-  const [count, setCount] = useState(2);
+  const [dataSource, setDataSource] = useState(dataCart);
+  const [count, setCount] = useState(0);
+
   // Table
   const handleDelete = (key) => {
+    console.log(key);
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
   const onSelectChange = (newSelectedRowKeys) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
+    setCount(selectedRowKeys.length)
   };
 
   const rowSelection = {
@@ -122,24 +125,47 @@ function Cart() {
     {
       title: 'Thao Tác',
       dataIndex: 'delete',
-      render: (_, record) =>
-        dataSource.length >= 1 ? (
+      render: (_, record) =>{
+        // console.log(128,_, record.key);
+        return dataSource.length >= 1 ? (
           <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.key)}>
             <Button type='text'><i class="fa-solid fa-trash-can"></i></Button>
           </Popconfirm>
-        ) : null,
+        ) : null
+      }
+       
     },
-    
+
   ];
   // selecttion
 
+  // Select 
+  const { Option } = Select;
+  const children = [
+    <Option key={1}> {'Giảm 10%'}</Option>,
+    <Option key={2}> {'Giảm 15%'}</Option>,
+    <Option key={3}>{'Giảm 25%'}</Option>,
+    <Option key={4}>{'Giảm 50%'}</Option>,
+    <Option key={5}>{'Free ship'}</Option>,
 
- 
+  ];
 
- 
+  const handleChange = (value) => {
+    console.log(`Selected: ${value}`);
 
+  };
+
+console.log(dataSource);
+// console.log(157, dataSource);
 
   // table antd
+useEffect(
+  ()=>{
+    setCount(selectedRowKeys.length)
+    console.log(164,count);
+  }
+);
+
   return (
     <div className='cart-container'>
       <Row justify='center'>
@@ -168,7 +194,6 @@ function Cart() {
           })}
 
           <div className='cart-list'>
-            {/* <Table rowSelection={rowSelection} columns={columns} dataSource={dataCart} /> */}
             <Table
               rowSelection={rowSelection}
               columns={defaultColumns}
@@ -184,8 +209,52 @@ function Cart() {
               //   ),
               //   rowExpandable: (record) => record.name !== 'Not Expandable',
               // }}
-              dataSource={dataCart}
+              dataSource={dataSource}
             />
+          </div>
+        </Col>
+      </Row>
+      <Row justify='center'>
+        <Col span={20}>
+          <div className='cart-footer'>
+            <Row justify='center'>
+              <Col span={10}></Col>
+              <Col span={10}>
+                <div className="cart-voucher-1">
+                  <div className="cart-title">
+                    <h2><i className="fa-solid fa-ticket"></i> <span>Shopee Voucher</span></h2>
+                  </div>
+                  <div className="cart-voucher">
+                    <Select
+                      mode="multiple"
+                      placeholder="Chọn hoặc nhập mã"
+                      defaultValue={['Free ship']}
+                      onChange={handleChange}
+                      style={{
+                        width: '100%',
+                      }}
+                    >
+                      {children}
+                    </Select>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <Row justify='center'>
+              <Col span={10}>
+                <div className="cart-footer">
+                  <span>Chọn tất cả ({count})</span> <span> Xóa </span> <span> Bỏ sản phẩm không hoạt động</span>
+                </div>
+              </Col>
+              <Col span={10}>
+                <div className="cart-footer2">
+                  <span>Tổng thanh toán ((0) Sản phẩm ): </span> <span className='cart-price'>0 đ</span>
+                  <Button type="primary" >
+                    Mua hàng
+                  </Button>
+                </div>
+              </Col>
+            </Row>
           </div>
         </Col>
       </Row>
