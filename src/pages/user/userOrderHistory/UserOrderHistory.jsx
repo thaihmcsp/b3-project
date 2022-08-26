@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react'
 import productDetail from '../../../static/Truong/productDetail.json'
 import order from '../../../static/Truong/order.json'
+import product from '../../../static/Truong/product.json'
 import { Menu } from 'antd';
 import { useState } from 'react'
 import './UserOrderHistory.css'
 import { Link, Outlet } from 'react-router-dom';
 
-
+console.log(10, product);
 
 const items = [
   {
@@ -20,22 +21,12 @@ const items = [
     icon: null,
   },
   {
-    label: <Link to={'/user/order/wait'}>Chờ lấy hàng</Link>,
-    key: 'wait-order',
-    icon: null
-  },
-  {
-    label: 'Đang giao',
+    label: <Link to={'/user/order/wait'}>Đã giao</Link>,
     key: 'shipping',
     icon: null
   },
   {
-    label: 'Đã giao',
-    key: 'shipped',
-    icon: null
-  },
-  {
-    label: 'Đã hủy',
+    label: <Link to={'/user/order/cancel'}>Đã hủy</Link>,
     key: 'cancel',
     icon: null
   }
@@ -80,7 +71,7 @@ function UserOrderHistory() {
       {/* {
         data.map(function (value, index) {
           let result = value.listProduct.map((data) => {
-            // console.log(83, data);
+            console.log(83, data);
             return (
               <Fragment>
                 <div className="order-product">
@@ -89,7 +80,18 @@ function UserOrderHistory() {
                       <img src={data.newData.listImg} alt="" />
                     </div>
                     <div className="order-product-detail__name">
-                      <h3>Laptop Dell Latitude 3960</h3>
+                      {
+                        product.map((product) => {
+                          let name = product.listDetail.map((id) => {
+                            if (id === data.productDetailId) {
+                              return (
+                                <h3>{product.productName}</h3>
+                              )
+                            }
+                          })
+                          return name
+                        })
+                      }
                       <div className="order-product-detail__category">
                         <span>Phân loại hàng : {data.newData.color},{data.newData.ram},{data.newData.rom}</span>
                       </div>

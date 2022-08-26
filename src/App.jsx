@@ -1,7 +1,7 @@
 import "./App.css";
 import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import 'antd/dist/antd.css'; 
+import 'antd/dist/antd.css';
 import Order from "./pages/admin/order/Order";
 import '../src/pages/admin/order/order.css'
 import UserMenu from "./components/userMenu/userMenu";
@@ -26,6 +26,7 @@ import AddProduct from "./components/addProduct/AddProduct";
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
+import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
               <Route path="/user/order/pending" element={<UserOrderPending></UserOrderPending>}></Route>
               <Route path="/user/order/" element={<UserOrderAll></UserOrderAll>}></Route>
               <Route path="/user/order/wait" element={<UserOrderWait></UserOrderWait>}></Route>
+              <Route path="/user/order/cancel" element={<UserOrderCancel></UserOrderCancel>}></Route>
               {/*  */}
             </Route>
           </Route>
