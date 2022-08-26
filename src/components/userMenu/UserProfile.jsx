@@ -79,9 +79,9 @@ function UserProfile() {
                     <Row>
                         <Col span={6} >Giới tính</Col>
                         <Col span={18}>
-                            <input type="radio" name="" id="" checked />Nam
-                            <input type="radio" name="" id="" />Nữ
-                            <input type="radio" name="" id="" />Khác
+                            <input type="radio" name="sex" id="" checked />Nam
+                            <input type="radio" name="sex" id="" />Nữ
+                            <input type="radio" name="sex" id="" />Khác
                         </Col>
                     </Row>
 

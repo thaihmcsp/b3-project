@@ -23,7 +23,7 @@ const items = [
         getItem(<Link to={'/user'}>Hồ sơ </Link>, '1'),
         getItem(<Link to={'/user/changePassword'}>Đổi mật khẩu </Link>, '2'),
     ]),
-    getItem('Đơn mua', 'sub2', <FileDoneOutlined />),
+    getItem(<Link to='/user/order'>Đơn mua</Link>, 'sub2', <FileDoneOutlined />),
 ]; // submenu keys of first level
 
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
