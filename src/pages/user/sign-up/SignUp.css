@@ -4,7 +4,7 @@
      box-sizing: border-box;
      }
      
-     .shopee-svg-icon{
+     .signup-shopee-svg-icon{
      width: 11.875rem;
      height: 42px;
      fill: #ee4d2d;
@@ -13,7 +13,7 @@
      .header-signup{
        margin-top: 10px;
      }
-     .help{
+     .signup-help{
          color: #ee4d2d;
          font-size: .875rem;
          margin-right: 15px;
@@ -116,15 +116,15 @@
          text-transform: uppercase;
          font-size: .75rem;
      }
-     .icon img{
+     .signup-icon img{
        width: 30px;
      }
-     .icon{
+     .signup-icon{
        display: flex;
        justify-content: space-between;
        margin-top: 20px;
      }
-     .icon button{
+     .signup-icon button{
        display: flex;
        justify-content: center;
        align-items: center;
@@ -134,10 +134,10 @@
        outline: none;
        border: 1px solid rgba(0,0,0,.26);
      }
-     .icon span{
+     .signup-icon span{
        margin-left: 10px;
      }
-     .icon .facebook{
+     .signup-icon .facebook{
        margin-right: 10px;
      }
      .ghi-chu{
@@ -164,7 +164,7 @@
        color: rgba(0,0,0,.26);
      }
      .dang-nhap a{
-     color: #ee4d2d;
+     color: #ee4d2d !important;
      margin-left: 5px;
      text-decoration: none;
      }
