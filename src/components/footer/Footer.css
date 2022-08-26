@@ -23,12 +23,10 @@
     justify-content: space-between;
     padding: 5px;
 }
-
 .ChamSocKhachHang ul {
     margin: 0px;
 }
-
-.chSocKhachHangMain ul li {
+.chSocKhachHangMain ul li{
     list-style: none;
     font-size: 12px;
 
@@ -132,7 +130,6 @@
 
 .chinhSach {
     padding: 0px 25px;
-    border-right: 1px solid black;
 }
 
 .chinhSachHoanTien {

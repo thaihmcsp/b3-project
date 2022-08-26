@@ -1,0 +1,12 @@
+.AdminPage {
+    display: flex;
+}
+
+
+.adminPage-left {
+    width: 20%;
+}
+
+.adminPage-right {
+    width: 80%;
+}

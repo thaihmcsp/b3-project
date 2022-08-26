@@ -18,7 +18,8 @@ import Home from "./pages/user/home/Home";
 import OrderDetail from "./pages/user/orderDetail/OrderDetail";
 import UserOrderHistory from "./pages/user/userOrderHistory/UserOrderHistory";
 import Category from "./pages/admin/category/Category";
-import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct";
+import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct"; 
+import AddProduct from "./pages/admin/product/addProduct/AddProduct"; 
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/product-detail/:productId" element={<ProductDetail />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/create-order' element={<CreateOrder />} />
+          <Route path="/filter" element={<FilterProduct/>}/>
           <Route path="/user" element={<UserMenu />}>
             <Route path="/user" element={<UserProfile />} />
             <Route path="/user/changePassword" element={<ChangeMenu />} />
@@ -58,7 +60,7 @@ function App() {
           <Route path="/admin/category" element={<Category />} />
           <Route path="/admin/product/create" element={<AddProduct />} />
           <Route path="/admin/product" element={<AdminListProduct />} />
-          <Route path="/admin/product/detail" element={<AdminListProductDetail />} />
+          <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />
           <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
           <Route path='/admin/profile' element={<AdminProfile />} />
         </Route>

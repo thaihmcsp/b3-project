@@ -1,0 +1,31 @@
+/* #ee4d2d */
+
+.adminListProductDetail {
+    padding: 15px;
+}
+
+
+
+.adminListProductDetail-header {
+    display: flex;
+    margin: 0 24px 24px 24px;
+    justify-content: space-between;
+}
+
+.adminListProductDetail-header-right button {
+    background: #ee4d2d ;
+    border: none;
+}
+
+.adminListProductDetail-header-right button:hover {
+    background: #ee4d2d ;
+}
+
+
+.adminListProductDetail-body .product {
+    padding: 25px 10px 0px 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+    border: 1px solid #ccc;
+}
