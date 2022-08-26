@@ -1,6 +1,6 @@
 import React from 'react'
 import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
-import './Header.css'
+import './header.css'
 import {useNavigate} from "react-router-dom"
 function Header() {
   const nav = useNavigate()

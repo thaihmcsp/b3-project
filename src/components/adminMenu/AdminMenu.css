@@ -11,15 +11,6 @@ a {
 .menu-admin {
     display: flex;
 }
-
-.menu-admin-left {
-    width: 20%;
-}
-
-.menu-admin-right {
-    width: 80%;
-}
-
 .menu-header {
     display: flex;
     padding: 15px 0;
