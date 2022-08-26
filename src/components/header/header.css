@@ -40,6 +40,7 @@
     position: fixed;
     top: 0;
     z-index: 100;
+    z-index: 1000;
   }
   .icon-fb{
     padding: 4px 0px 4px 4px ;

@@ -299,8 +299,7 @@ function Home({ product }) {
             )}
           </div>
         </div>
-      </div>
-    </div>
+      
   );
 }
 

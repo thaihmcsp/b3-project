@@ -1,11 +1,7 @@
 import React from 'react'
-<<<<<<< HEAD
-import './Header.css'
-import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
-=======
 import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
 import './header.css'
->>>>>>> 03148c6f89378f1373c5e30ffdea3f57ea6e4008
+
 import {useNavigate} from "react-router-dom"
 function Header() {
   const nav = useNavigate()
@@ -26,40 +22,8 @@ function Header() {
   }
   return (
     <div className='header'>
-<<<<<<< HEAD
-      <div className='header-top'>
-        <div className='header-top-left'>
-          <p>Kênh Người Bán </p>
-          <p>Trở Thành Người Bán </p>
-          <p>Tải Ứng Dụng </p>
-          <p id='kn'>Kết Nối   </p>
-          <p> <span><FacebookOutlined className='icon-fb' /></span><span><InstagramOutlined className='icon-itg' /></span>    </p>
-        </div>
-        <dir className="header-top-right" >
-          <div className='header-top-right-icon'>
-            <p> <span><BellOutlined /></span>Thông Báo </p>
-            <p><span><QuestionCircleOutlined /></span> Hỗ Trợ </p>
-          </div>
-          <div className='header-top-right-id'>
-            <p onClick={Sigup}>Đăng kí  </p>
-            <p onClick={Login}>Đăng Nhập </p>
-          </div>
-          <div className='header-top-right-user'>
-            <div className='header-top-right-name'>
-              <p><UserOutlined /></p>
-              <p>UserName</p>
-            </div>
-            <div className='header-top-right-name-hover'>
-              <ul className='list'>
-                <li onClick={MyID}>Tài Khoản Của Tôi</li>
-                <li >Đơn Mua</li>
-                <li onClick={LogOut}>Đăng Xuất</li>
-              </ul>
-            </div>
-          </div>
 
-        </dir>
-=======
+
                 <div className='header-top'>
                     <div className='header-top-left'>
                             <p>Kênh Người Bán </p>
@@ -92,7 +56,7 @@ function Header() {
                             </div>
                             
                     </dir>
->>>>>>> 03148c6f89378f1373c5e30ffdea3f57ea6e4008
+
 
       </div>
 
