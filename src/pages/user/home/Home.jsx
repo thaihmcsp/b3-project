@@ -15,16 +15,16 @@ const contentStyle = {
   borderRadius: "4px",
 };
 
-const tab1 = document.querySelector(".home_product-heading");
-const tab2 = document.querySelector(".home_product-img");
-
 function Home({ product }) {
   const nav = useNavigate();
   const [showDataPage, setShowDataPage] = useState([]);
   const [showPagination, setShowPagination] = useState(false);
-  const [count, setCount] = useState(0)
-  const [showBtnSeeMore, setShowBtnSeeMore] = useState(true)
-  console.log(showDataPage);
+  const [showBtnSeeMore, setShowBtnSeeMore] = useState(true);
+  const [showHeaderProduct, setShowHeaderProduct] = useState(true);
+  const [count, setCount] = useState(0);
+  
+  const tab1 = document.querySelector(".home_product-heading");
+  const tab2 = document.querySelector(".home_product-img");
 
   const search = useLocation();
   let objectSearch = { page: 1, pageSize: 10 };
@@ -71,7 +71,7 @@ function Home({ product }) {
     let stop = current * pageSize;
     setShowDataPage(product.slice(start, stop));
     nav(`?page=${current}&pageSize=${pageSize}`);
-    setCount(pre => pre + 1)
+    setCount((pre) => pre + 1);
   };
 
   return (
@@ -209,29 +209,35 @@ function Home({ product }) {
       </div>
       <div className="home_product">
         <div className="home_product-body">
-          <div className="home_product-header">
-            <div
-              className="home_product-heading tab-active"
-              onClick={() => {
-                tab2.classList.remove("tab-active");
-                tab1.classList.add("tab-active");
-              }}
-            >
-              <h2>GỢI Ý HÔM NAY</h2>
+          {showHeaderProduct ? (
+            <div className="home_product-header">
+              <div
+                className="home_product-heading tab-active"
+                onClick={() => {
+                  tab2.classList.remove("tab-active");
+                  tab1.classList.add("tab-active");
+                }}
+              >
+                <h2>GỢI Ý HÔM NAY</h2>
+              </div>
+              <div
+                className="home_product-img"
+                onClick={() => {
+                  tab2.classList.add("tab-active");
+                  tab1.classList.remove("tab-active");
+                }}
+              >
+                <img
+                  src="https://cf.shopee.vn/file/bc036304a0bd28830f0c2a7c105240df"
+                  alt=""
+                />
+              </div>
             </div>
-            <div
-              className="home_product-img"
-              onClick={() => {
-                tab1.classList.remove("tab-active");
-                tab2.classList.add("tab-active");
-              }}
-            >
-              <img
-                src="https://cf.shopee.vn/file/bc036304a0bd28830f0c2a7c105240df"
-                alt=""
-              />
+          ) : (
+            <div className="user_home-all-container">
+              <button className="user_home-all-btn">Tất cả</button>
             </div>
-          </div>
+          )}
           <div className="home_product-list-product">
             {showDataPage.map((item, index) => {
               return (
@@ -262,29 +268,37 @@ function Home({ product }) {
           </div>
         </div>
 
-        {showPagination ? (
-          <Pagination
-            showSizeChanger={false}
-            onChange={onShowSizeChange}
-            defaultCurrent={2}
-            total={product.length}
-            pageSize={objectSearch.pageSize}
-          />
-        ) : (
-          ""
-        )}
+            {showPagination ? (
+              <Pagination
+                showSizeChanger={false}
+                onChange={onShowSizeChange}
+                defaultCurrent={2}
+                total={product.length}
+                pageSize={objectSearch.pageSize}
+                style={{ margin: "20px 0" }}
+              />
+            ) : (
+              ""
+            )}
 
-        {showBtnSeeMore ? <button
-          className="home_product-seemore-btn"
-          onClick={() => {
-            setCount(pre => pre + 1)
-            setShowPagination(true)
-            setShowBtnSeeMore(false)
-            nav(`?page=${2}&pageSize=${10}`);
-          }}
-        >
-          Xem thêm
-        </button> : ""}
+            {showBtnSeeMore ? (
+              <button
+                className="home_product-seemore-btn"
+                onClick={() => {
+                  setCount((pre) => pre + 1);
+                  setShowPagination(true);
+                  setShowBtnSeeMore(false);
+                  setShowHeaderProduct(false);
+                  nav(`?page=${2}&pageSize=${10}`);
+                }}
+              >
+                Xem thêm
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

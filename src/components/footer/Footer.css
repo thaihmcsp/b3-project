@@ -66,8 +66,7 @@
     display: flex;
     padding: 10px 0px;
 }
-
-.logos {
+.logos{
     padding-right: 12px;
 }
 
@@ -133,9 +132,11 @@
 
 .chinhSach {
     padding: 0px 25px;
+    border-right: 1px solid black;
 }
 
 .chinhSachHoanTien {
     padding: 0px 25px;
     border-right: 1px solid black;
 }
+

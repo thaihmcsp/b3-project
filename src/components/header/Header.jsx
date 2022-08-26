@@ -1,7 +1,7 @@
 import React from 'react'
-import { FacebookOutlined, InstagramOutlined, BellOutlined, QuestionCircleOutlined, SearchOutlined, UserOutlined, ShoppingCartOutlined } from "@ant-design/icons"
-import './header.css'
-import { useNavigate } from "react-router-dom"
+import './Header.css'
+import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
+import {useNavigate} from "react-router-dom"
 function Header() {
   const nav = useNavigate()
   function Login() {
