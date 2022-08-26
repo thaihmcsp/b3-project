@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import tableCart from '../../../static/Truong/cart.json'
 import tableProductDetail from "../../../static/Truong/productDetail.json"
 import tableProduct from '../../../static/Truong/product.json'
-import { useState ,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './cart.css'
 import { Col, Row, Radio, Table, Divider, Button, Popconfirm, Select } from 'antd'
 
@@ -24,13 +24,10 @@ tableCart[1].listProduct.map(
     return value
   }
 )
-
-
 // antd table
 
 
 const dataCart = [];
-// console.log(dataCart);
 tableCart[1].listProduct.map(
   (product, index) => {
     dataCart.push(
@@ -40,7 +37,8 @@ tableCart[1].listProduct.map(
         price: product.productDetailId.price,
         listImg: <img src={product.productDetailId.listImg[0]} alt="" />,
         stonge: product.quantity,
-        total: product.quantity * product.productDetailId.price
+        total: product.quantity * product.productDetailId.price,
+        select: false
       }
     )
   }
@@ -49,18 +47,27 @@ function Cart() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(dataCart);
   const [count, setCount] = useState(0);
-
+  const [total, setTotal] = useState(0);
   // Table
+
   const handleDelete = (key) => {
-    console.log(key);
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
+
+
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    let newDataSource = [...dataSource];
+    for (let i = 0; i < newSelectedRowKeys.length; i++) {
+      newDataSource[newSelectedRowKeys[i]].select = true
+    }
+    console.log(80, newDataSource);
+    setDataSource(newDataSource)
     setSelectedRowKeys(newSelectedRowKeys);
-    setCount(selectedRowKeys.length)
+    setCount(newSelectedRowKeys.length);
   };
+
 
   const rowSelection = {
     selectedRowKeys,
@@ -82,6 +89,7 @@ function Cart() {
             return true;
           });
           setSelectedRowKeys(newSelectedRowKeys);
+
         },
       },
       {
@@ -89,6 +97,7 @@ function Cart() {
         text: 'Select Even Row',
         onSelect: (changableRowKeys) => {
           let newSelectedRowKeys = [];
+
           newSelectedRowKeys = changableRowKeys.filter((_, index) => {
             if (index % 2 !== 0) {
               return true;
@@ -96,6 +105,7 @@ function Cart() {
 
             return false;
           });
+          // console.log(108,newSelectedRowKeys);
           setSelectedRowKeys(newSelectedRowKeys);
         },
       },
@@ -125,7 +135,7 @@ function Cart() {
     {
       title: 'Thao Tác',
       dataIndex: 'delete',
-      render: (_, record) =>{
+      render: (_, record) => {
         // console.log(128,_, record.key);
         return dataSource.length >= 1 ? (
           <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.key)}>
@@ -133,7 +143,7 @@ function Cart() {
           </Popconfirm>
         ) : null
       }
-       
+
     },
 
   ];
@@ -155,16 +165,24 @@ function Cart() {
 
   };
 
-console.log(dataSource);
-// console.log(157, dataSource);
-
   // table antd
-useEffect(
-  ()=>{
-    setCount(selectedRowKeys.length)
-    console.log(164,count);
-  }
-);
+  useEffect(
+    () => {
+      dataSource.map(
+
+        (value, index) => {
+          if (value.select == true) {
+            let newTotal = total + value.total;
+            setTotal(newTotal)
+            // totalQuality1 += value.stonge
+          }
+
+        }
+
+      )
+      // setCount(selectedRowKeys.length)
+    }, [count]
+  );
 
   return (
     <div className='cart-container'>
@@ -248,7 +266,9 @@ useEffect(
               </Col>
               <Col span={10}>
                 <div className="cart-footer2">
-                  <span>Tổng thanh toán ((0) Sản phẩm ): </span> <span className='cart-price'>0 đ</span>
+                  <span>Tổng thanh toán ( Sản phẩm ): </span> <span className='cart-price'>
+                    {total}
+                    đ</span>
                   <Button type="primary" >
                     Mua hàng
                   </Button>
