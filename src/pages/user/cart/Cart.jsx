@@ -48,6 +48,7 @@ function Cart() {
   const [dataSource, setDataSource] = useState(dataCart);
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
+  const [totalQuality ,setTotalQuality] = useState(0)
   // Table
 
   const handleDelete = (key) => {
@@ -57,14 +58,21 @@ function Cart() {
 
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    console.log(60, 'selectedRowKeys changed: ', newSelectedRowKeys);
     let newDataSource = [...dataSource];
+    newDataSource.map((value) => {
+      value.select = false
+    })
     for (let i = 0; i < newSelectedRowKeys.length; i++) {
       newDataSource[newSelectedRowKeys[i]].select = true
     }
+
+
+
     console.log(80, newDataSource);
     setDataSource(newDataSource)
     setSelectedRowKeys(newSelectedRowKeys);
+    // console.log(74, (newSelectedRowKeys.length));
     setCount(newSelectedRowKeys.length);
   };
 
@@ -168,19 +176,20 @@ function Cart() {
   // table antd
   useEffect(
     () => {
+      let newTotal = 0;
+      let newTotalQualyti = 0;
       dataSource.map(
-
         (value, index) => {
           if (value.select == true) {
-            let newTotal = total + value.total;
-            setTotal(newTotal)
+            newTotal += value.total;
+            newTotalQualyti += Number(value.stonge)
             // totalQuality1 += value.stonge
           }
 
         }
-
       )
-      // setCount(selectedRowKeys.length)
+      setTotal(newTotal)
+      setTotalQuality(newTotalQualyti)
     }, [count]
   );
 
@@ -266,7 +275,7 @@ function Cart() {
               </Col>
               <Col span={10}>
                 <div className="cart-footer2">
-                  <span>Tổng thanh toán ( Sản phẩm ): </span> <span className='cart-price'>
+                  <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span> <span className='cart-price'>
                     {total}
                     đ</span>
                   <Button type="primary" >
