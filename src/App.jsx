@@ -19,7 +19,6 @@ import OrderDetail from "./pages/user/orderDetail/OrderDetail";
 import UserOrderHistory from "./pages/user/userOrderHistory/UserOrderHistory";
 import Category from "./pages/admin/category/Category";
 import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct";
-import AddProduct from "./pages/admin/product/addProduct/AddProduct";
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
@@ -28,6 +27,8 @@ import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
+import FilterProduct from "./pages/user/filterProduct/FilterProduct";
+import AddProduct from "./pages/admin/product/addProduct/AddProduct";
 
 function App() {
   return (

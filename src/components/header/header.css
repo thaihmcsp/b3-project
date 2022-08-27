@@ -29,7 +29,7 @@
 .header-top-left p {
   padding: 4px;
   color: white;
-  border-right: 0.1px solid white;
+  /* border-right: 0.1px solid white; */
 }
 
 .header-top-right {
@@ -73,8 +73,8 @@
 
   fill: white;
   /* position: absolute;
-    bottom: 15px;
-    */
+  bottom: 15px;
+  */
   margin-top: 0;
 }
 
@@ -92,6 +92,7 @@
   padding: 0 10px;
   border: none;
   outline: 0;
+
 }
 
 .header-seach-main button {
