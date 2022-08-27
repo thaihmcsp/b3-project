@@ -1,7 +1,7 @@
 [
     {
         "_id": "p1",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 3000000,
         "brand": "Samsung",
         "productName": "Samsung A10S",
@@ -12,7 +12,7 @@
     },
     {
         "_id": "p2",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 20000000,
         "brand": "Asus",
         "productName": "Asus Vivobook 2022",
@@ -23,7 +23,7 @@
     },
     {
         "_id": "p3",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 6000000,
         "brand": "Redmi",
         "productName": "Redmi note 8",
@@ -34,7 +34,7 @@
     },
     {
         "_id": "p4",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 16900000,
         "brand": "Hp",
         "productName": "Hp Pavillion 15",
@@ -45,7 +45,7 @@
     },
     {
         "_id": "p5",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 13550000,
         "brand": "Hp",
         "productName": "HP Pavilion Aero 13",
@@ -56,7 +56,7 @@
     },
     {
         "_id": "p6",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 10000000,
         "brand": "Iphone",
         "productName": "Iphone XS max",
@@ -68,7 +68,7 @@
     },
     {
         "_id": "p7",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 19000000,
         "brand": "Iphone",
         "productName": "Iphone 13",
@@ -80,7 +80,7 @@
     },
     {
         "_id": "p8",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 16000000,
         "brand": "Iphone",
         "productName": "Iphone 12",
@@ -92,7 +92,7 @@
     },
     {
         "_id": "p9",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 20000000,
         "brand": "Apple",
         "productName": "Laptop MacBook Air 13 Retina 2020 MVH52SA/A Core i5 1.1GHz/8GB  LPDDR4X/512GB SSD PCIe/Touch ID - GoldLaptop MacBook Air 13 Retina 2020",
@@ -104,7 +104,7 @@
     },
     {
         "_id": "p10",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 16490000,
         "brand": "Asus",
         "productName": "Laptop Asus TUF Gaming FX506LHB-HN188W i5",
@@ -115,7 +115,7 @@
     },
     {
         "_id": "p11",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 11990000,
         "brand": "Hp",
         "productName": "Laptop HP 240 G8 i3",
@@ -126,7 +126,7 @@
     },
     {
         "_id": "p12",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 14990000,
         "brand": "Lenovo",
         "productName": "Laptop Lenovo IdeaPad Slim 5",
@@ -137,7 +137,7 @@
     },
     {
         "_id": "p13",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 15090000,
         "brand": "MSI",
         "productName": "Laptop MSI Modern 14",
@@ -148,7 +148,7 @@
     },
     {
         "_id": "p14",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 20390000,
         "brand": "Acer",
         "productName": "Laptop Acer Nitro Gaming AN515-57-5669 i5",
@@ -159,7 +159,7 @@
     },
     {
         "_id": "p14",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 16290000,
         "brand": "Asus",
         "productName": "Laptop Asus Vivobook A415EA-EB1471W i5",
@@ -171,7 +171,7 @@
     },
     {
         "_id": "p15",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 20390000,
         "brand": "MSI",
         "productName": "Laptop MSI GF63 Thin 11UC-442VN i7",
@@ -182,7 +182,7 @@
     },
     {
         "_id": "p16",
-        "categiryId": "",
+        "categoryId": "ct3",
         "price": 19999000,
         "brand": "Apple",
         "productName": "iPad Pro 11 2021 M1 Wi-Fi 128GB",
@@ -194,7 +194,7 @@
     },
     {
         "_id": "p17",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 8990000,
         "brand": "Samsung",
         "productName": "Samsung Galaxy Tab S6 Lite 2022",
@@ -206,7 +206,7 @@
     },
     {
         "_id": "p18",
-        "categiryId": "",
+        "categoryId": "ct3",
         "price": 3000000,
         "brand": "Apple",
         "productName": "iPad Gen 9 2021",
@@ -217,7 +217,7 @@
     },
     {
         "_id": "p19",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 8990000,
         "brand": "Xiaomi",
         "productName": "Xiaomi Pad 5 256GB",
@@ -228,7 +228,7 @@
     },
     {
         "_id": "p20",
-        "categiryId": "",
+        "categoryId": "ct1",
         "price": 10490000,
         "brand": "Samsung",
         "productName": "samsung A10S",
@@ -239,7 +239,7 @@
     },
     {
         "_id": "p21",
-        "categiryId": "",
+        "categoryId": "ct3",
         "price": 25499000,
         "brand": "Apple",
         "productName": "iPad Pro 12.9 2021",
@@ -250,7 +250,7 @@
     },
     {
         "_id": "p22",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 16990000,
         "brand": "Samsung",
         "productName": "Samsung Galaxy S22 Bora Purple",
@@ -262,7 +262,7 @@
     },
     {
         "_id": "p23",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 7990000,
         "brand": "Oppo",
         "productName": "OPPO Reno7 8GB-128GB",
@@ -274,7 +274,7 @@
     },
     {
         "_id": "p24",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 10490000,
         "brand": "Samsung",
         "productName": "Samsung Galaxy A53 5G 256GB",
@@ -285,7 +285,7 @@
     },
     {
         "_id": "p25",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 3090000,
         "brand": "Vivo",
         "productName": "Vivo Y15s",
@@ -297,7 +297,7 @@
     },
     {
         "_id": "p26",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 11499000,
         "brand": "Apple",
         "productName": "Iphone 11 64GB",
@@ -308,7 +308,7 @@
     },
     {
         "_id": "p27",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 3000000,
         "brand": "Apple",
         "productName": "iPhone SE 2022 64GB",
@@ -319,7 +319,7 @@
     },
     {
         "_id": "p28",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 6990000,
         "brand": "Realme",
         "productName": "Realme 9 Pro 5G 8G-128GB",
@@ -331,7 +331,7 @@
     },
     {
         "_id": "p29",
-        "categiryId": "",
+        "categoryId": "ct2",
         "price": 4990000,
         "brand": "Realme",
         "productName": "Realme C35 4GB-128GB",
