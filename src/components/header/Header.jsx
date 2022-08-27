@@ -1,29 +1,41 @@
-import React from 'react'
-import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
-import './header.css'
-import {useNavigate} from "react-router-dom"
+import React from "react";
+import "./header.css";
+import {
+  FacebookOutlined,
+  InstagramOutlined,
+  BellOutlined,
+  QuestionCircleOutlined,
+  SearchOutlined,
+  UserOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 function Header() {
-  const nav = useNavigate()
-  function Login (){
-    nav("/signin")
+  const nav = useNavigate();
+  function Login() {
+    nav("/signin");
   }
-  function Sigup (){
-    nav("/signup")
+  function Sigup() {
+    nav("/signup");
   }
-  function MyID (){
-    nav("/user")
+  function MyID() {
+    nav("/user");
   }
   function LogOut (){
+    nav("/")
     window.location.reload()
   }
   function Buy (){
     nav("")
   }
+  function Admin (){
+    nav("/admin")
+  }
   return (
     <div className='header'>
                 <div className='header-top'>
                     <div className='header-top-left'>
-                            <p>Kênh Người Bán </p>
+                            <p onClick={Admin}>Kênh Người Bán </p>
                             <p>Trở Thành Người Bán </p>
                             <p>Tải Ứng Dụng </p>
                             <p id='kn'>Kết Nối   </p>

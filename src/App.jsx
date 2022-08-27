@@ -19,13 +19,15 @@ import OrderDetail from "./pages/user/orderDetail/OrderDetail";
 import UserOrderHistory from "./pages/user/userOrderHistory/UserOrderHistory";
 import Category from "./pages/admin/category/Category";
 import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct";
-import AddProduct from "./pages/admin/product/addProduct/AddProduct";
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
+import AddProduct from "./components/addProduct/AddProduct";
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
+import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
+import product from './static/Truong/product.json'
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
 
 function App() {
@@ -33,13 +35,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<UserPage />}>
-          <Route path='/' element={<Home />} />
-          <Route path="/product-detail" element={<ProductDetail />} />
+          <Route path='/' element={<Home product={product} />} />
+          <Route path="/product-detail/:productId" element={<ProductDetail />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/create-order' element={<CreateOrder />} />
           <Route path="/filter" element={<FilterProduct />} />
           <Route path="/user" element={<UserMenu />}>
-            <Route path="/user" element={<UserProfile />} />
+            <Route path="/user" element={<UserProfile />} /> 
             <Route path="/user/changePassword" element={<ChangeMenu />} />
             <Route path="/user/order/:orderId" element={<OrderDetail />} />
             <Route path='/user/order' element={<UserOrderHistory></UserOrderHistory>} >
@@ -47,6 +49,7 @@ function App() {
               <Route path="/user/order/pending" element={<UserOrderPending></UserOrderPending>}></Route>
               <Route path="/user/order/" element={<UserOrderAll></UserOrderAll>}></Route>
               <Route path="/user/order/wait" element={<UserOrderWait></UserOrderWait>}></Route>
+              <Route path="/user/order/cancel" element={<UserOrderCancel></UserOrderCancel>}></Route>
               {/*  */}
             </Route>
           </Route>
