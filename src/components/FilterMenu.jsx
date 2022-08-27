@@ -1,7 +1,7 @@
 import React from "react";
 import { FiFilter } from "react-icons/fi";
 import { AiOutlineDown } from "react-icons/ai";
-import AppCss from "../App.css";
+
 
 function FilterMenu() {
   return (

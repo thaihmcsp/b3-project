@@ -25,6 +25,7 @@ function Header() {
   }
   return (
     <div className='header'>
+<<<<<<<<< Temporary merge branch 1
       <div className='header-top'>
         <div className='header-top-left'>
           <p>Kênh Người Bán </p>
@@ -56,7 +57,39 @@ function Header() {
             </div>
           </div>
 
-        </dir>
+                <div className='header-top'>
+                    <div className='header-top-left'>
+                            <p>Kênh Người Bán </p>
+                            <p>Trở Thành Người Bán </p>
+                            <p>Tải Ứng Dụng </p>
+                            <p id='kn'>Kết Nối   </p>
+                            <p> <span><FacebookOutlined className='icon-fb'/></span><span><InstagramOutlined className='icon-itg'/></span>    </p>
+                    </div>
+                    <dir className= "header-top-right" >
+                            <div className='header-top-right-icon'>
+                                <p> <span><BellOutlined /></span>Thông Báo </p>
+                                <p><span><QuestionCircleOutlined /></span> Hỗ Trợ </p>
+                            </div>
+                            <div className='header-top-right-id'>
+                                  <p onClick={Sigup}>Đăng kí  </p>
+                                  <p onClick={Login}>Đăng Nhập </p>
+                            </div>
+                            <div className='header-top-right-user'>
+                                         <div  className='header-top-right-name'> 
+                                              <p><UserOutlined /></p>
+                                              <p>UserName</p>
+                                         </div>
+                                         <div  className='header-top-right-name-hover'>
+                                                   <ul className='list'>
+                                                      <li onClick={MyID}>Tài Khoản Của Tôi</li>
+                                                      <li >Đơn Mua</li>
+                                                      <li onClick={LogOut}>Đăng Xuất</li>
+                                                    </ul>   
+                                         </div>
+                            </div>
+                            
+                    </dir>
+
 
       </div>
 
