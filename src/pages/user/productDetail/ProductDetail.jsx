@@ -101,7 +101,7 @@ function ProductDetail() {
                 <Col span={10}>
                     <div className="product-detail-right">
                         <div className="product-detail-title">
-                            <h2>Iphone 13 Pro Max 2021</h2>
+                            <h2>Điện thoại Iphone 13 Pro Max 2021</h2>
                         </div>
                         <div className="product-detail-price">
                             <Descriptions bordered>
@@ -136,6 +136,8 @@ function ProductDetail() {
                             <Descriptions>
                                 <Descriptions.Item label='Dung lượng'>
                                     <Radio.Group defaultValue="a" buttonStyle="solid">
+                                        <Radio.Button value="32">32Gb</Radio.Button>
+                                        <Radio.Button value="64">64Gb</Radio.Button>
                                         <Radio.Button value="a">128Gb</Radio.Button>
                                         <Radio.Button value="b">256GB</Radio.Button>
                                         <Radio.Button value="C">512GB</Radio.Button>
@@ -199,7 +201,7 @@ function ProductDetail() {
                 <Col span={10}>
                     <div className='product-detail-add'>
                         <Button danger className='pd-add-gh'> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
-                        <Button type='primary' danger  className='pd-add-mh'>Mua Ngay</Button>
+                        <Button type='primary' danger className='pd-add-mh'>Mua Ngay</Button>
                     </div>
                 </Col>
             </Row>
