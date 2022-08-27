@@ -183,7 +183,7 @@ return (
       onRow={(record,index) => {
         return {
           onClick: event => {
-            // navigate(`/admin/product/${newData[index].id}/detail` )
+            navigate(`/admin/product/${newData[index].id}/detail` )
           },
         }
       }}
