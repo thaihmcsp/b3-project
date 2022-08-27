@@ -18,8 +18,8 @@ import Home from "./pages/user/home/Home";
 import OrderDetail from "./pages/user/orderDetail/OrderDetail";
 import UserOrderHistory from "./pages/user/userOrderHistory/UserOrderHistory";
 import Category from "./pages/admin/category/Category";
-import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct"; 
-import AddProduct from "./pages/admin/product/addProduct/AddProduct"; 
+import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct";
+import AddProduct from "./pages/admin/product/addProduct/AddProduct";
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
@@ -37,7 +37,7 @@ function App() {
           <Route path="/product-detail" element={<ProductDetail />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/create-order' element={<CreateOrder />} />
-          <Route path="/filter" element={<FilterProduct/>}/>
+          <Route path="/filter" element={<FilterProduct />} />
           <Route path="/user" element={<UserMenu />}>
             <Route path="/user" element={<UserProfile />} />
             <Route path="/user/changePassword" element={<ChangeMenu />} />
