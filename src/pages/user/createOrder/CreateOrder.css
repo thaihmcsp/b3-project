@@ -1,0 +1,326 @@
+*{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+}
+/* =========header================== */
+.header-create-order{
+     display: flex;
+     background-color: #ee4d2d;
+     justify-content: space-between;
+     padding: 8px;
+}
+.header-create-order-left ,
+.header-create-order-right{
+     display: flex;
+     margin: 0 10px;
+}
+.header-create-order-left a{
+     color: white;
+     text-decoration: none;
+     /* margin-left: 10px; */
+}
+.tai-ung-dung{
+     margin-left: 10px;
+     padding: 0 10px;
+     border-left: 2px solid #ccc ;
+     border-right: 2px solid #ccc ;
+}
+.ket-noi{
+     color: white;
+     margin-left: 10px;
+}
+.ket-noi span{
+     margin-left: 10px;
+}
+.header-create-order-right{
+     color: white;
+}
+.header-create-order-right span{
+     margin-right: 5px;
+}
+.thong-bao,
+.ho-tro{
+     margin-right: 10px;
+}
+/* ===========shop-create-order============ */
+.shop-create-order{
+     display: flex;
+     margin-bottom: 20px;
+}
+.shopeee-logo {
+     width: 11.875rem;
+     height: 42px;
+     fill: #ee4d2d;
+     margin-top: -5px;
+ }
+.thanh-toan{
+     color: #ee4d2d;
+     margin-top: 30px;
+     border-left:2px solid #ee4d2d ;
+     padding-left: 30px;
+     font-size: 20px;
+     font-weight: 500;
+}
+/* ============describe-create-order=======================================*/
+.container-content{
+     background-color: #c4bebecc;
+     padding-top: 1px;
+}
+.describe-create-order{
+     margin: 10px 30px;
+     background-color: white;
+     padding-bottom: 30px;
+}
+.border{
+     height: 3px;
+    width: 100%;
+    background-position-x: -30px;
+    background-size: 116px 3px;
+    background-image: repeating-linear-gradient(45deg,#6fa6d6,#6fa6d6 33px,transparent 0,transparent 41px,#f18d9b 0,#f18d9b 74px,transparent 0,transparent 82px);
+}
+.dia-chi-nhan-hang {
+     display: flex;
+     align-items: center;
+     font-size: 1.125rem;
+     color: #ee4d2d;
+     margin-bottom: 20px;
+     text-transform: capitalize;
+     flex: 1 1 auto;
+     margin: 20px;
+ }
+ .icon-location-marker {
+     color: #ee4d2d;
+     fill: currentColor;
+     margin: 0 10px;
+ }
+ .personal-information{
+     display: flex;
+     margin-left: 30px;
+ }
+ .personal-information-name{
+     font-weight: 700;
+ }
+ .personal-information-address{
+     margin-left: 30px;
+     color: #c4bebecc
+ }
+ .mac-dinh{
+     padding: 2px 5px;
+    margin-left: 1.5em;
+    color: #ee4d2d;
+    border-radius: 1px;
+    border: 0.5px solid;
+    font-size: 10px;
+    text-transform: capitalize;
+    flex-shrink: 0;
+ }
+ .thay-doi{
+     color: #4080ee;
+    text-transform: capitalize;
+    margin-left: 2.5rem;
+    cursor: pointer;
+ }
+ /* ==================product-description============================ */
+ .product-description{
+     background-color: white;
+     margin: 10px 30px;
+     
+ }
+ .product-description-top{
+     display: flex;
+     justify-content: space-between;
+     padding: 24px 36px;
+ }
+
+.product-description-flex{
+     display: flex;
+}
+.product-description-product{
+     font-size: 20px;
+     font-weight: 500;
+}
+.product-description-price{
+     color: #bbb;
+     margin-right: 60px;
+}
+.product-description-amount{
+     color: #bbb;
+     margin-right: 200px;
+}
+ .product-description-money{
+     display: flex;
+     justify-content: flex-end;
+    color: #bbb;
+ }
+ .product-description-mid{
+     display: flex;
+     padding: 0 30px;
+ }
+ .product-description-mid-like{
+    display: flex;
+    align-items: center;
+ }
+ .product-description-mid-shop{
+     margin-left: 10px;
+     font-size: 15px;
+     display: flex;
+     align-items: center;
+ }
+ .product-description-mid-chat{
+     color: #00bfa5;
+     display: flex;
+    align-items: center;
+    margin-left: 20px;
+ }
+ .product-description-mid-chat-icon{
+     width: 20px;
+    height: 15px;
+    margin-left: 10px;
+    margin-right: 4px;
+    fill: currentColor;
+    
+ }
+ .product-description-between{
+     display: flex;
+     margin: 30px;
+     justify-content: space-between;
+    
+ }
+ .product-description-between-left{
+     display: flex;
+ }
+ .product-description-between img{
+     width: 40px;
+     height: 40px;
+ }
+ .product-description-between-describe{
+     display: flex;
+     align-items: center;
+     margin-left: 15px;
+ }
+ .product-description-between-right{
+     display: flex;
+     align-items: center; 
+ }
+ .product-description-between-right .absolute{
+     position: relative;
+ }
+ .product-description-between-right span{
+     font-size: 10px;
+     font-weight: 500;
+     position: absolute;
+     top: 2px;
+     left: -7px;
+     text-decoration: underline;
+ }
+ .product-description-between-right-price{
+     margin-right: 90px;
+ }
+ .product-description-between-right-amount{
+     margin-right: 240px;
+ }
+ .product-description-between-right-momey{
+     margin-right: 20px;
+ }
+ .product-description-between-border{
+     border-bottom: 1px dashed rgba(0,0,0,.09);
+     padding-bottom: 20px;
+ }
+ .icon-voucher-line{
+     width: 24px;
+     height: 100%;
+     fill: #ee4d2d;
+     margin-top: -5px;
+     display: flex;
+     align-items: center;
+ }
+ .product-description-voucher{
+     display: flex;
+     align-items: center;
+     padding: 18px 30px;
+     /* background-color: #00bfa5; */
+     justify-content: flex-end;
+     border-bottom: 2px solid #ccc;
+ }
+ .product-description-voucher-text{
+     margin-right: 350px;
+     font-size: 15px;
+     margin-bottom: 8px;
+ }
+ .product-description-voucher-button{
+    margin-right: 30px;
+    border: none;
+    color: #05a;
+    background-color: white;
+    cursor: pointer;
+ }
+ .product-description-bottom{
+     display: flex;
+ }
+ .product-description-bottom-note{
+     display: flex;
+    border-top: 0;
+    min-width: 0;
+    min-height: 0;
+    padding: 16px 30px;
+    border-right: 2px dashed rgba(0,0,0,.09);
+ }
+ .product-description-bottom-note-massage{
+     line-height: 40px;
+ }
+ .product-description-bottom-note-input{
+     padding: 4px 12px;
+    width: 400px;
+    height: 40px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+ }
+ .product-description-bottom-transport{
+     padding: 16px 0;
+     /* display: flex; */
+ 
+     
+ }
+ .product-description-bottom-transport-row{
+     display: flex;
+     justify-content: space-between;
+     
+ }
+ .product-description-bottom-transport-row-ship{
+     padding-left: 20px;
+    /* display: flex; */
+    color: #00bfa5;
+ }
+.product-description-bottom-transport-row-change{
+     color: #05a;
+     cursor: pointer;
+     margin-left: 30px;
+}
+.product-description-bottom-transport-row-shipping{}
+
+.product-description-bottom-transport-time,
+.product-description-bottom-transport-code{
+     margin-top: 5px;
+     font-size: 12px;
+     color: #888;  
+     padding-left: 200px;
+}
+.product-description-footer{
+    border-top:2px dashed rgba(0,0,0,.09) ;
+    text-align: right;
+   
+}
+.product-description-footer-money{
+    margin-right: 30px;
+    margin-top: 20px;
+}
+.product-description-footer-money span{
+    color: #ee4d2d;
+    font-size: 30px;
+}
+
+
+
+
