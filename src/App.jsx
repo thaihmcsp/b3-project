@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css';
 import Order from "./pages/admin/order/Order";
 import '../src/pages/admin/order/order.css'
-import UserMenu from "./components/userMenu/UserMenu";
+import UserMenu from "./components/userMenu/userMenu";
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
 import SignIn from "./pages/user/sign-in/SignIn";
@@ -23,7 +23,6 @@ import AddProduct from "./pages/admin/product/addProduct/AddProduct";
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
-import InventoryManagement from "./pages/admin/product/inventoryManagement/InventoryManagement";
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
@@ -60,7 +59,6 @@ function App() {
           <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />
           <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
           <Route path='/admin/profile' element={<AdminProfile />} />
-          <Route path="/admin/product/inventory-management" element={<InventoryManagement/>} />
         </Route>
 
         <Route path='/signin' element={<SignIn />} />
