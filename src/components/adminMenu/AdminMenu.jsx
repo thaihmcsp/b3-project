@@ -36,7 +36,6 @@ function AdminMenu() {
 
     return (
         <div className='menu-admin'>
-            <div className="menu-admin-left">
                 <Menu
                     style={{
                         width: '100%',
@@ -46,10 +45,7 @@ function AdminMenu() {
                     mode="inline"
                     items={items}
                 />
-            </div>
-            <div className="menu-admin-right">
 
-            </div>
         </div>
 
 
