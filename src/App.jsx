@@ -55,12 +55,28 @@ function App() {
           </Route>
         </Route>
         <Route path='/admin' element={<AdminPage />}>
-          <Route path={'/admin/order'} element={<Order />} />
+            {/* trang liệt kê tất cả đơn hàng của hệ thống */}
+          <Route path='/admin/order' element={<Order />} /> 
+
+          {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
+          <Route path='/admin/order/:orderId' element={<Order />} /> 
+
+            {/* trang hiển thị, thêm, sửa phân loại */}
           <Route path="/admin/category" element={<Category />} />
-          <Route path="/admin/product/create" element={<AddProduct />} />
+
+            {/* kho hàng */}
           <Route path="/admin/product" element={<AdminListProduct />} />
+
+            {/* tạo sản phẩm */}
+          <Route path="/admin/product/create" element={<AddProduct />} />
+
+            {/* tạo biến thể của sản phẩm
+          <Route path="/admin/product/detail/create" element={<AddProductDetail />} /> */}
+
+            {/* liệt kê các biến thể đang có của 1 sp cụ thể */}
           <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />
-          <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
+
+            {/* thông tin , đổi pass ... */}
           <Route path='/admin/profile' element={<AdminProfile />} />
         </Route>
 
