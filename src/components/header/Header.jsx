@@ -1,5 +1,5 @@
 import React from 'react'
-import './Header.css'
+import './header.css'
 import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
 import {useNavigate} from "react-router-dom"
 function Header() {
