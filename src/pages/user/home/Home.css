@@ -338,7 +338,7 @@
   min-width: 348px;
 }
 
-.home_product-seemore-btn:hover {
+.home_product-seemore-btn button:hover {
   background: rgba(0, 0, 0, 0.02);
   cursor: pointer;
 }
