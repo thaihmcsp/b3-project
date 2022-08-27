@@ -61,8 +61,13 @@
     width: 20px;
     height: 20px;
 }
+.icon{
+    display: flex;
+    flex-direction: column;
+    
+}
 
-.iconA {
+.iconA{
     display: flex;
     padding: 10px 0px;
 }
@@ -132,11 +137,9 @@
 
 .chinhSach {
     padding: 0px 25px;
-    border-right: 1px solid black;
 }
 
 .chinhSachHoanTien {
     padding: 0px 25px;
     border-right: 1px solid black;
 }
-
