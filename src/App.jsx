@@ -39,7 +39,7 @@ function App() {
           <Route path='/create-order' element={<CreateOrder />} />
           <Route path="/filter" element={<FilterProduct/>}/>
           <Route path="/user" element={<UserMenu />}>
-            <Route path="/user" element={<UserProfile />} />
+            <Route path="/user" element={<UserProfile />} /> 
             <Route path="/user/changePassword" element={<ChangeMenu />} />
             <Route path="/user/order/:orderId" element={<OrderDetail />} />
             <Route path='/user/order' element={<UserOrderHistory></UserOrderHistory>} >
