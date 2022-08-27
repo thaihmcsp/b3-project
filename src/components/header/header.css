@@ -24,7 +24,7 @@
   .header-top-left p {
     padding: 4px;
     color: white;
-    border-right: 0.1px solid white;
+    /* border-right: 0.1px solid white; */
   }
   .header-top-right{
     display: flex;

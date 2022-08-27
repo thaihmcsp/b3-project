@@ -10,7 +10,7 @@ const contentStyle = {
   lineHeight: "160px",
   textAlign: "center",
   background: "#364d79",
-  height: "235px",
+  height: "238px",
   borderRadius: "4px",
 };
 
@@ -83,7 +83,9 @@ function Home({ product }) {
             </button>
             <Carousel autoplay ref={(node) => (refCarousel = node)}>
               <div>
-                <h3 style={contentStyle}>1</h3>
+                <div style={contentStyle}>
+                  <img className="home_banner-left-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDgenxY2Zxcs6xDiftqUewTuCcq3cKvJcWOw&usqp=CAU" alt="" />
+                </div>
               </div>
               <div>
                 <h3 style={contentStyle}>2</h3>
