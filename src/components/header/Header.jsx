@@ -1,17 +1,17 @@
 import React from 'react'
-import { FacebookOutlined, InstagramOutlined, BellOutlined, QuestionCircleOutlined, SearchOutlined, UserOutlined, ShoppingCartOutlined } from "@ant-design/icons"
+import {FacebookOutlined,InstagramOutlined,BellOutlined,QuestionCircleOutlined,SearchOutlined ,UserOutlined, ShoppingCartOutlined} from "@ant-design/icons"
 import './header.css'
-import { useNavigate } from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 function Header() {
-  const nav = useNavigate();
-  function Login() {
-    nav("/signin");
+  const nav = useNavigate()
+  function Login (){
+    nav("/signin")
   }
-  function Sigup() {
-    nav("/signup");
+  function Sigup (){
+    nav("/signup")
   }
-  function MyID() {
-    nav("/user");
+  function MyID (){
+    nav("/user")
   }
   function LogOut (){
     nav("/")
@@ -25,41 +25,9 @@ function Header() {
   }
   return (
     <div className='header'>
-<<<<<<<<< Temporary merge branch 1
-      <div className='header-top'>
-        <div className='header-top-left'>
-          <p>Kênh Người Bán </p>
-          <p>Trở Thành Người Bán </p>
-          <p>Tải Ứng Dụng </p>
-          <p id='kn'>Kết Nối   </p>
-          <p> <span><FacebookOutlined className='icon-fb' /></span><span><InstagramOutlined className='icon-itg' /></span>    </p>
-        </div>
-        <dir className="header-top-right" >
-          <div className='header-top-right-icon'>
-            <p> <span><BellOutlined /></span>Thông Báo </p>
-            <p><span><QuestionCircleOutlined /></span> Hỗ Trợ </p>
-          </div>
-          <div className='header-top-right-id'>
-            <p onClick={Sigup}>Đăng kí  </p>
-            <p onClick={Login}>Đăng Nhập </p>
-          </div>
-          <div className='header-top-right-user'>
-            <div className='header-top-right-name'>
-              <p><UserOutlined /></p>
-              <p>UserName</p>
-            </div>
-            <div className='header-top-right-name-hover'>
-              <ul className='list'>
-                <li onClick={MyID}>Tài Khoản Của Tôi</li>
-                <li >Đơn Mua</li>
-                <li onClick={LogOut}>Đăng Xuất</li>
-              </ul>
-            </div>
-          </div>
-
                 <div className='header-top'>
                     <div className='header-top-left'>
-                            <p>Kênh Người Bán </p>
+                            <p onClick={Admin}>Kênh Người Bán </p>
                             <p>Trở Thành Người Bán </p>
                             <p>Tải Ứng Dụng </p>
                             <p id='kn'>Kết Nối   </p>
@@ -89,7 +57,6 @@ function Header() {
                             </div>
                             
                     </dir>
-
 
       </div>
 
