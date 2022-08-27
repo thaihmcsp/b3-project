@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-
 const contentStyle = {
   color: "#fff",
   lineHeight: "160px",
@@ -22,7 +21,7 @@ function Home({ product }) {
   const [showBtnSeeMore, setShowBtnSeeMore] = useState(true);
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
   const [count, setCount] = useState(0);
-  
+
   const tab1 = document.querySelector(".home_product-heading");
   const tab2 = document.querySelector(".home_product-img");
 
@@ -79,7 +78,8 @@ function Home({ product }) {
       <div className="home_body">
         <div className="home_banner">
           <div className="home_banner-left">
-            <button className="home_banner-left-btn" onClick={handlePrevSlider}>
+            <button className="home_banner-left-btn" 
+              onClick={handlePrevSlider}>
               <LeftOutlined />
             </button>
             <Carousel autoplay ref={(node) => (refCarousel = node)}>
@@ -268,18 +268,18 @@ function Home({ product }) {
           </div>
         </div>
 
-            {showPagination ? (
-              <Pagination
-                showSizeChanger={false}
-                onChange={onShowSizeChange}
-                defaultCurrent={2}
-                total={product.length}
-                pageSize={objectSearch.pageSize}
-                style={{ margin: "20px 0" }}
-              />
-            ) : (
-              ""
-            )}
+        {showPagination ? (
+          <Pagination
+            showSizeChanger={false}
+            onChange={onShowSizeChange}
+            defaultCurrent={2}
+            total={product.length}
+            pageSize={objectSearch.pageSize}
+            style={{ margin: "20px 0" }}
+          />
+        ) : (
+          ""
+        )}
 
             {showBtnSeeMore ? (
               <button

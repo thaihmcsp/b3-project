@@ -1,9 +1,6 @@
 import { React, Fragment } from 'react'
 import { data } from './UserOrderHistory'
 import product from '../../../static/Truong/product.json'
-import { } from '@fortawesome/react-fontawesome'
-
-
 
 function UserOrderWait() {
     let count = 0;
