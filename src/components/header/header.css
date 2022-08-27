@@ -78,23 +78,24 @@
     padding: 0 10px;
     border: none;
   outline: 0;
-   
-  }
-  .header-seach-main button{
-    padding: 8px 16px;
-    background-color: #fb5430;
-    color: white;
-    border: none;
-    font-size: 20px;
-    margin-right:10px ;
-    margin-bottom: 5px;
-  }
-  .icon-cart{
-    zoom: 2;
-    margin: 0 10px;
+}
+
+.header-seach-main button {
+  padding: 8px 16px;
+  background-color: #fb5430;
+  color: white;
+  border: none;
+  font-size: 20px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.icon-cart {
+  zoom: 2;
+  margin: 0 10px;
   position: absolute;
   top: 30%;
-  right:100%;
+  right: 100%;
   font-size: 15px;
   fill: white;
    color: white;
