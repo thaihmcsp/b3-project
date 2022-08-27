@@ -282,25 +282,25 @@ function Home({ product }) {
           ""
         )}
 
-            {showBtnSeeMore ? (
-              <button
-                className="home_product-seemore-btn"
-                onClick={() => {
-                  setCount((pre) => pre + 1);
-                  setShowPagination(true);
-                  setShowBtnSeeMore(false);
-                  setShowHeaderProduct(false);
-                  nav(`?page=${2}&pageSize=${10}`);
-                }}
-              >
-                Xem thêm
-              </button>
-            ) : (
-              ""
-            )}
+        {showBtnSeeMore ? (
+          <div className="home_product-seemore-btn">
+            <button
+              onClick={() => {
+                setCount((pre) => pre + 1);
+                setShowPagination(true);
+                setShowBtnSeeMore(false);
+                setShowHeaderProduct(false);
+                nav(`?page=${2}&pageSize=${10}`);
+              }}
+            >
+              Xem thêm
+            </button>
           </div>
-        </div>
-      
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
   );
 }
 

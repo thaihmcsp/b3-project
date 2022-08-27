@@ -6,6 +6,9 @@ import tableProduct from '../../../static/Truong/product.json'
 import { useState, useEffect } from 'react';
 import './cart.css'
 import { Col, Row, Radio, Table, Divider, Button, Popconfirm, Select } from 'antd'
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 
 tableCart[1].listProduct.map(
@@ -49,12 +52,17 @@ function Cart() {
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [totalQuality ,setTotalQuality] = useState(0)
+  const nav = useNavigate()
   // Table
 
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
+
+  function createOrder() {
+      nav('/create-order')
+  }
 
 
   const onSelectChange = (newSelectedRowKeys) => {
@@ -278,7 +286,7 @@ function Cart() {
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span> <span className='cart-price'>
                     {total}
                     đ</span>
-                  <Button type="primary" >
+                  <Button type="primary" onClick={createOrder}>
                     Mua hàng
                   </Button>
                 </div>
