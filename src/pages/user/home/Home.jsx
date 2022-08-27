@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 
+
 const contentStyle = {
   color: "#fff",
   lineHeight: "160px",
@@ -272,7 +273,7 @@ function Home({ product }) {
         ) : (
           ""
         )}
-        
+
         {showBtnSeeMore ? <button
           className="home_product-seemore-btn"
           onClick={() => {

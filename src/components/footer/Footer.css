@@ -23,15 +23,18 @@
     justify-content: space-between;
     padding: 5px;
 }
+
 .ChamSocKhachHang ul {
     margin: 0px;
 }
-.chSocKhachHangMain ul li{
+
+.chSocKhachHangMain ul li {
     list-style: none;
     font-size: 12px;
-    
+
 }
-.ChamSocKhachHang ul li a:hover{
+
+.ChamSocKhachHang ul li a:hover {
     color: #ee4d2d !important;
 }
 
