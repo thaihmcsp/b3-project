@@ -1,11 +1,11 @@
 import React from 'react'
 import { Input, Space } from 'antd';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+// import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 
 const { Search } = Input;
-
+const listOrder = 'Chưa chọn nghàn hàng'
 const suffix = (
   <AudioOutlined
     style={{
@@ -35,8 +35,7 @@ function Order() {
 
   const items = [
     getItem('Điện thoại', 'sub1', null, [
-      getItem('Item 1', null, null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
-      getItem('Item 2', null, null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
+   
     ]),
     getItem('Laptop', 'sub2', null, [
 
@@ -77,7 +76,7 @@ function Order() {
       </div>
       <hr />
       <div className='search-product'>
-        <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
+        <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
       </div>
       <div className='order-body'>
         <div className="input-search">
@@ -88,7 +87,7 @@ function Order() {
               width: '30%',
               borderRadius: 20
             }}
-          /> <span>Chọn nghành hàng chính xác , <a href="">Bấm vào đây để tìm hiểu</a></span>
+          /> <span>Chọn nghành hàng chính xác , <a className='link-order' href="/">Bấm vào đây để tìm hiểu</a></span>
         </div>
         <div className="menuOrder">
           <Menu
@@ -100,7 +99,14 @@ function Order() {
             items={items}
           />
         </div>
-
+      </div>
+      <div className='footer-order'>
+        <div className='chose-order'>
+          Đã chọn :   <p> {listOrder}</p>
+        </div>
+        <div className='btn-next'>
+          <button>Tiếp theo</button>
+        </div>
       </div>
     </div>
   )
