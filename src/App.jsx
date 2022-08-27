@@ -1,10 +1,11 @@
 import "./App.css";
-import 'antd/dist/antd.min.css';
+import React from "react";
+import "antd/dist/antd.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import 'antd/dist/antd.css'; 
+import "antd/dist/antd.css";
 import Order from "./pages/admin/order/Order";
-import '../src/pages/admin/order/order.css'
-import UserMenu from "./components/userMenu/UserMenu";
+import "../src/pages/admin/order/order.css";
+import UserMenu from "./components/userMenu/userMenu";
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
 import SignIn from "./pages/user/sign-in/SignIn";
@@ -27,31 +28,37 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<UserPage/>}>
-            <Route path='/' element={<Home/>}/>
-            <Route path="/product-detail" element={<ProductDetail/>}/>
-            <Route path='/cart' element={<Cart/>}/>
-            <Route path='/create-order' element={<CreateOrder/>}/>
-            <Route path="/user" element={<UserMenu />}>
-                <Route path="/user" element={<UserProfile />} />
-                <Route path="/user/changePassword" element={<ChangeMenu />} />
-                <Route path="/user/order/:orderId" element={<OrderDetail/>}/>
-                <Route path='/user/order' element={<UserOrderHistory/>}/>
-            </Route>
+        <Route path="/" element={<UserPage />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/product-detail" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/create-order" element={<CreateOrder />} />
+          <Route path="/user" element={<UserMenu />}>
+            <Route path="/user" element={<UserProfile />} />
+            <Route path="/user/changePassword" element={<ChangeMenu />} />
+            <Route path="/user/order/:orderId" element={<OrderDetail />} />
+            <Route path="/user/order" element={<UserOrderHistory />} />
+          </Route>
         </Route>
 
-        <Route path='/admin' element={<AdminPage/>}>
-            <Route path={'/admin/order'} element={<Order/>}/>
-            <Route path="/admin/category" element={<Category/>}/>
-            <Route path="/admin/product/create" element={<AddProduct/>}/>
-            <Route path="/admin/product" element={<AdminListProduct/>}/>
-            <Route path="/admin/product/detail" element={<AdminListProductDetail/>}/>
-            <Route path="/admin/product/detail/create" element={<AddProductDetail/>}/>
-            <Route path='/admin/profile' element={<AdminProfile/>}/>
+        <Route path="/admin" element={<AdminPage />}>
+          <Route path={"/admin/order"} element={<Order />} />
+          <Route path="/admin/category" element={<Category />} />
+          <Route path="/admin/product/create" element={<AddProduct />} />
+          <Route path="/admin/product" element={<AdminListProduct />} />
+          <Route
+            path="/admin/product/detail"
+            element={<AdminListProductDetail />}
+          />
+          <Route
+            path="/admin/product/detail/create"
+            element={<AddProductDetail />}
+          />
+          <Route path="/admin/profile" element={<AdminProfile />} />
         </Route>
-        
-        <Route path='/signin' element={<SignIn />} />
-        <Route path='/signup' element={<SignUp />} />
+
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
