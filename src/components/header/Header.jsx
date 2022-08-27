@@ -3,21 +3,25 @@ import { FacebookOutlined, InstagramOutlined, BellOutlined, QuestionCircleOutlin
 import './header.css'
 import { useNavigate } from "react-router-dom"
 function Header() {
-  const nav = useNavigate()
+  const nav = useNavigate();
   function Login() {
-    nav("/signin")
+    nav("/signin");
   }
   function Sigup() {
-    nav("/signup")
+    nav("/signup");
   }
   function MyID() {
-    nav("/user")
+    nav("/user");
   }
-  function LogOut() {
+  function LogOut (){
+    nav("/")
     window.location.reload()
   }
-  function Buy() {
+  function Buy (){
     nav("")
+  }
+  function Admin (){
+    nav("/admin")
   }
   return (
     <div className='header'>
