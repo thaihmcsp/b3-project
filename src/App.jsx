@@ -24,6 +24,7 @@ import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListPr
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
+import InventoryManagement from "./pages/admin/product/inventoryManagement/InventoryManagement";
 function App() {
   return (
     <BrowserRouter>
@@ -47,6 +48,7 @@ function App() {
             <Route path="/admin/product/create" element={<AddProduct/>}/>
             <Route path="/admin/product" element={<AdminListProduct/>}/>
             <Route path="/admin/product/detail" element={<AdminListProductDetail/>}/>
+            <Route path="/admin/product/inventory-management" element={<InventoryManagement/>}/>
             <Route path="/admin/product/detail/create" element={<AddProductDetail/>}/>
             <Route path='/admin/profile' element={<AdminProfile/>}/>
         </Route>
