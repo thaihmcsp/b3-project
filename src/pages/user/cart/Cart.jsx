@@ -33,7 +33,7 @@ tableCart[1].listProduct.map(
     dataCart.push(
       {
         key: index,
-        Name: product.productDetailId.productId.productName,
+        Name: <a>{product.productDetailId.productId.productName}</a>,
         price: product.productDetailId.price,
         listImg: <img src={product.productDetailId.listImg[0]} alt="" />,
         stonge: product.quantity,
