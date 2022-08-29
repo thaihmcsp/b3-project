@@ -1,9 +1,10 @@
 import "./App.css";
-import 'antd/dist/antd.min.css';
+import React from "react";
+import "antd/dist/antd.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css';
 import Order from "./pages/admin/order/Order";
-import '../src/pages/admin/order/order.css'
+import "../src/pages/admin/order/order.css";
 import UserMenu from "./components/userMenu/UserMenu";
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
