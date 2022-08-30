@@ -85,24 +85,6 @@ function Order() {
         <div className='btn-report'>
           <button><MenuOutlined /></button>
         </div>
-
-      <div className="input-selector">
-          <select id="typeSeacher">
-            <option value="order-code">Mã đơn hàng </option>
-            <option value="userName">Tên người mua </option>
-            <option value="product">Sản phẩm </option>
-            <option value="bill-code">Mã vận đơn </option>
-          </select>
-<<<<<<< HEAD
-          <div className='input-search-order'>
-            <Space direction="vertical">
-              <Search placeholder="input search text" onSearch={onSearch} style={{ width: 700 , }}/>
-=======
-          <div className='input-search'>
-            <Space direction="vertical">
-              <Search placeholder="input search text" onSearch={onSearch} style={{ width: 800 , }}/>
->>>>>>> 4d3564faad2af10446037606c6809224538f411b
-            </Space>
       </div>
 
       <div className="input-selector">
