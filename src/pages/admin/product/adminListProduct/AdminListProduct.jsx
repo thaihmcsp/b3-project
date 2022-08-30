@@ -9,10 +9,10 @@ let quantity=0
     const element = product[index];
     quantity=element.listDetail.length
   }
-let newData =[]
+let Data =[]
 product.map(
     (value)=>{
-        newData.push(
+        Data.push(
             {
                 productName: value.productName,
                 thumpnail:<img  src= {value.thumpnail} alt=''/>,
@@ -24,7 +24,6 @@ product.map(
         )
     }
 )
-console.log(27,newData[0].id);
 function AdminListProduct() {
   const navigate = useNavigate();
   const EditableCell = ({
@@ -64,12 +63,9 @@ function AdminListProduct() {
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState('');
-  console.log(67, editingKey);
-
   const isEditing = (record) => record.id === editingKey;
-
-  const edit = (record) => {
-    console.log(71, record);
+  const edit = (record, e) => {
+    e.stopPropagation()
     form.setFieldsValue({
       productName: '',
       brand: '',
@@ -183,11 +179,11 @@ return (
       onRow={(record,index) => {
         return {
           onClick: event => {
-            // navigate(`/admin/product/${newData[index].id}/detail` )
+            navigate(`/admin/product/${Data[index].id}/detail` )
           },
         }
       }}
-        dataSource={newData}
+        dataSource={Data}
     />
     </Form>
 )
