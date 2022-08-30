@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css';
 import Order from "./pages/admin/order/Order";
 import '../src/pages/admin/order/order.css'
-import UserMenu from "./components/userMenu/userMenu";
+import UserMenu from "./components/userMenu/UserMenu";
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
 import SignIn from "./pages/user/sign-in/SignIn";
@@ -39,9 +39,9 @@ function App() {
           <Route path="/product-detail/:productId" element={<ProductDetail />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/create-order' element={<CreateOrder />} />
-          {/* <Route path="/filter" element={<FilterProduct />} /> */}
+          <Route path="/filter" element={<FilterProduct />} />
           <Route path="/user" element={<UserMenu />}>
-            <Route path="/user" element={<UserProfile />} />
+            <Route path="/user" element={<UserProfile />} /> 
             <Route path="/user/changePassword" element={<ChangeMenu />} />
             <Route path="/user/order/:orderId" element={<OrderDetail />} />
             <Route path='/user/order' element={<UserOrderHistory></UserOrderHistory>} >
