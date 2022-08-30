@@ -107,35 +107,6 @@ function Order() {
         <h1>{count} Đơn Hàng</h1>
         <div><button><span><ShopOutlined /></span><span>Giao Hàng Loạt</span></button></div>
       </div>
-
-      {/* <div className='list-header-order'>
-        <span>User name</span>
-        <span>Tổng tiền</span>
-        <span>Phone</span>
-        <span>Địa chỉ</span>
-        <span>Ngày tạo</span>
-        <span>
-          <select name="" id="header-transport-order">
-            <option value="">Status</option>
-            <option value="">pending</option>
-            <option value="">delivering</option>
-          </select>
-        </span>
-      </div>
-      <div>
-        {order.map(function(value){
-          return (
-            <div className='order-list'>
-              <div id='userName'>{value.userName}</div>
-              <div id='total'>{value.total}</div>
-              <div id='phoneNumber'>{value.phone}</div>
-              <div id='address-user-order'>{value.address}</div>
-              <div id='createAt-order'>{value.createdAt}</div>
-              <div id='status-order'>{value.status}</div>
-            </div>
-          )
-        })}
-      </div> */}
       <Table columns={columns} dataSource={order} />
     </div>
   )
