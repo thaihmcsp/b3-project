@@ -1,0 +1,23 @@
+.admin_order-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order_info-item {
+    width: 33.3333%;
+    margin: 0 8px;
+}
+
+.order_info-item-user,
+.order_info-item-delivery,
+.order_info-item-pay {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 12px;
+    min-height: 190px;
+    font-size: 16px;
+}
+
+.order_info-item-delivery p {
+    margin: 4px 0;
+}

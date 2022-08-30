@@ -29,7 +29,7 @@ import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
-import AddProduct from "./pages/admin/product/addProduct/AddProduct";
+import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function App() {
           <Route path='/create-order' element={<CreateOrder />} />
           <Route path="/filter" element={<FilterProduct />} />
           <Route path="/user" element={<UserMenu />}>
-            <Route path="/user" element={<UserProfile />} />
+            <Route path="/user" element={<UserProfile />} /> 
             <Route path="/user/changePassword" element={<ChangeMenu />} />
             <Route path="/user/order/:orderId" element={<OrderDetail />} />
             <Route path='/user/order' element={<UserOrderHistory></UserOrderHistory>} >
