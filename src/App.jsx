@@ -1,9 +1,10 @@
 import "./App.css";
-import 'antd/dist/antd.min.css';
+import React from "react";
+import "antd/dist/antd.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css';
 import Order from "./pages/admin/order/Order";
-import '../src/pages/admin/order/order.css'
+import "../src/pages/admin/order/order.css";
 import UserMenu from "./components/userMenu/UserMenu";
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
@@ -28,6 +29,9 @@ import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
+import order from "./static/Truong/order.json"
+import user from "./static/Truong/user.json"
+import productDetail from "./static/Truong/productDetail.json";
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
 import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
 
@@ -56,13 +60,28 @@ function App() {
           </Route>
         </Route>
         <Route path='/admin' element={<AdminPage />}>
-          <Route path={'/admin/order'} element={<Order />} />
-          <Route path={'/admin/order/orderDetail'} element={<AdminOrderDetail />} />
+            {/* trang liệt kê tất cả đơn hàng của hệ thống */}
+          <Route path='/admin/order' element={<Order />} /> 
+
+          {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
+          <Route path='/admin/order/:orderId' element={<AdminOrderDetail order={order} user={user} productDetail={productDetail} product={product} />} /> 
+
+            {/* trang hiển thị, thêm, sửa phân loại */}
           <Route path="/admin/category" element={<Category />} />
-          <Route path="/admin/product/create" element={<AddProduct />} />
+
+            {/* kho hàng */}
           <Route path="/admin/product" element={<AdminListProduct />} />
+
+            {/* tạo sản phẩm */}
+          <Route path="/admin/product/create" element={<AddProduct />} />
+
+            {/* tạo biến thể của sản phẩm
+          <Route path="/admin/product/detail/create" element={<AddProductDetail />} /> */}
+
+            {/* liệt kê các biến thể đang có của 1 sp cụ thể */}
           <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />
-          <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
+
+            {/* thông tin , đổi pass ... */}
           <Route path='/admin/profile' element={<AdminProfile />} />
         </Route>
 
