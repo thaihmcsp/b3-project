@@ -56,6 +56,9 @@ function App() {
           </Route>
         </Route>
         <Route path='/admin' element={<AdminPage />}>
+
+          <Route path="/admin/profile" element={<AdminProfile/>}/>
+
             {/* trang liệt kê tất cả đơn hàng của hệ thống */}
           <Route path='/admin/order' element={<Order />} /> 
 

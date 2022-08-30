@@ -19,11 +19,10 @@ function getItem(label, key, icon, children, type) {
 const items = [
     getItem('Quản lí sản phẩm', 'sub2', <ShoppingOutlined />, [
         getItem(<Link to={'/admin/product'}>Tất Cả Sản Phẩm</Link>, '5'),
-        getItem(<Link to={'/admin/product/create'}>Thêm sản phẩm</Link>, '6'),
+        getItem(<Link to={'/admin/order'}>Thêm sản phẩm</Link>, '6'),
     ]),
     getItem('Quản lí hồ sơ', 'sub3', <SettingOutlined />, [
-        getItem(<Link to={'/user'}>Trang cá nhân</Link>, '7'),
-        getItem(<Link to={"/user/changePassword"}>Đổi mật khẩu</Link>, '8'),
+        getItem(<Link to={'/admin/profile'}>Trang cá nhân</Link>, '7'),
     ]),
 ];
 
@@ -34,7 +33,9 @@ function AdminMenu() {
         <div className='menu-admin'>
                 <Menu
                     style={{
-                        width: '100%',
+                        width: '20%',
+                        position: "fixed",
+                        left:'0'
                     }}
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1', 'sub2', 'sub3', 'sub4']}
