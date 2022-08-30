@@ -49,7 +49,7 @@ function AdminListProductDetail() {
     <div className='adminListProductDetail' >
       <div className="adminListProductDetail-header">
         <div className="adminListProductDetail-header-left">
-          <h3>Product : {productDT.productName}</h3>
+          {/* <h3>Product : {productDT.productName}</h3> */}
         </div>
         <div className="adminListProductDetail-header-right">
           <Button type="primary" onClick={showModal} >
@@ -63,37 +63,55 @@ function AdminListProductDetail() {
         </div>
       </div>
       <div className="adminListProductDetail-body">
-        {
-          data.map((value, index) => {
-            if (productId == value._id) {
-              return (
-                value.listDetail.map((val, ind) => {
+        <div className="adminListProductDetail-table">
+          <div className="adminListProductDetail-table-header">
+            <Descriptions title="" column={5}>
+              <Descriptions.Item label="Product"><b>{productDT.productName}</b></Descriptions.Item>
+              <Descriptions.Item label="">Color</Descriptions.Item>
+              <Descriptions.Item label="">Status</Descriptions.Item>
+              <Descriptions.Item label="">RAM-ROM</Descriptions.Item>
+              <Descriptions.Item label="">
+                Storage
+              </Descriptions.Item>
+            </Descriptions>
+          </div>
+          <div className="adminListProductDetail-table-body">
+            {
+              data.map((value, index) => {
+                if (productId == value._id) {
                   return (
-                    dataDetail.map((vall, indd) => {
-                      if (val == vall._id) {
-                        console.log(79, vall);
-                        return (
-                          <div className='product'>
-                            <Descriptions title="">
-                              <Descriptions.Item label=""><img src={vall.listImg[0]} alt="" width={100} /></Descriptions.Item>
-                              <Descriptions.Item label="Color">{vall.color}</Descriptions.Item>
-                              <Descriptions.Item label="Status">{vall.status}</Descriptions.Item>
-                              <Descriptions.Item label="">{}</Descriptions.Item>
-                              <Descriptions.Item label="Ram - Rom">{vall.ram} - {vall.rom}</Descriptions.Item>
-                              <Descriptions.Item label="Storage">
-                              {vall.storage}
-                              </Descriptions.Item>
-                            </Descriptions>
-                          </div>
-                        )
-                      }
+                    value.listDetail.map((val, ind) => {
+                      return (
+                        dataDetail.map((vall, indd) => {
+                          if (val == vall._id) {
+                            console.log(79, vall);
+                            return (
+                              <div className='product'>
+                                <Descriptions title="" column={5}>
+                                  <Descriptions.Item label=""><img src={vall.listImg[0]} alt="" width={100} /></Descriptions.Item>
+                                  <Descriptions.Item label="">{vall.color}</Descriptions.Item>
+                                  <Descriptions.Item label="">{vall.status}</Descriptions.Item>
+                                  <Descriptions.Item label="">{vall.ram} - {vall.rom}</Descriptions.Item>
+                                  <Descriptions.Item label="">
+                                    {vall.storage}
+                                  </Descriptions.Item>
+                                </Descriptions>
+                              </div>
+                            )
+                          }
+                        })
+                      )
                     })
                   )
-                })
-              )
+                }
+              })
             }
-          })
-        }
+          </div>
+        </div>
+
+
+
+
       </div>
     </div>
   )

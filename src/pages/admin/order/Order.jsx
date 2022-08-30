@@ -1,9 +1,26 @@
-import { DatePicker, Space , Input } from 'antd';
+import { DatePicker, Space , Input , Table } from 'antd';
 import { MenuOutlined , ShopOutlined} from '@ant-design/icons'
 import { AudioOutlined } from '@ant-design/icons';
 import React from 'react';
 import '../order/order.css'
-import '../../../static/Truong/order.json'
+import user from '../../../static/Truong/user.json'
+import order from '../../../static/Truong/order.json'
+
+for (let i = 0; i < order.length; i++) {
+  const elementOrder = order[i];
+  for (let j = 0; j < user.length; j++) {
+    const elementUser = user[j];
+    if(elementOrder.userId === elementUser._id){
+      elementOrder.userName = elementUser.fullname
+      elementOrder.phone = elementUser.phone
+    }
+  }
+}
+
+let count = 0 ;
+for (let i = 0; i < order.length; i++) {
+  count += 1;
+}
 
 const { RangePicker } = DatePicker;
 const { Search } = Input;
@@ -17,6 +34,40 @@ const suffix = (
 );
 
 const onSearch = (value) => console.log(value);
+
+const columns = [
+  {
+    title: 'userName',
+    dataIndex: 'userName',
+    key: 'userName',
+    render: (text) => <a>{text}</a>,
+  },
+  {
+    title: 'total',
+    dataIndex: 'total',
+    key: 'total',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: 'Phone',
+    key: 'phone',
+    dataIndex: 'phone',
+  },
+  {
+    title: 'Ngày tạo',
+    key: 'createdAt',
+    dataIndex: 'createdAt',
+  },
+  {
+    title: 'Status',
+    key: 'status',
+    dataIndex: 'status',
+  }
+];
 
 function Order() {
   return (
@@ -53,26 +104,39 @@ function Order() {
       </div>
 
       <div className='btn-delivery'> 
-        <h1>0 Đơn Hàng</h1>
+        <h1>{count} Đơn Hàng</h1>
         <div><button><span><ShopOutlined /></span><span>Giao Hàng Loạt</span></button></div>
       </div>
 
-      <div className='list-header-order'>
-        <span>Sản phẩm</span>
-        <span>Tổng đơn hàng</span>
-        <span>Trạng thái</span>
-        <span>Đếm ngược</span>
+      {/* <div className='list-header-order'>
+        <span>User name</span>
+        <span>Tổng tiền</span>
+        <span>Phone</span>
+        <span>Địa chỉ</span>
+        <span>Ngày tạo</span>
         <span>
           <select name="" id="header-transport-order">
-            <option value="">Vận chuyển</option>
-            <option value="">Nhanh</option>
-            <option value="">Tiết kiệm</option>
-            <option value="">Hỏa tốc</option>
-            <option value="">Khác</option>
+            <option value="">Status</option>
+            <option value="">pending</option>
+            <option value="">delivering</option>
           </select>
         </span>
-        <span>Thao tác</span>
       </div>
+      <div>
+        {order.map(function(value){
+          return (
+            <div className='order-list'>
+              <div id='userName'>{value.userName}</div>
+              <div id='total'>{value.total}</div>
+              <div id='phoneNumber'>{value.phone}</div>
+              <div id='address-user-order'>{value.address}</div>
+              <div id='createAt-order'>{value.createdAt}</div>
+              <div id='status-order'>{value.status}</div>
+            </div>
+          )
+        })}
+      </div> */}
+      <Table columns={columns} dataSource={order} />
     </div>
   )
 }

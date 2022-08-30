@@ -105,7 +105,7 @@ function AddProduct() {
           Đã chọn :   <p> {listOrder}</p>
         </div>
         <div className='btn-next'>
-          <Link to='' >
+          <Link to='/admin/product/create' >
             <button>Tiếp theo</button>
           </Link>
         </div>

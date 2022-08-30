@@ -1,5 +1,6 @@
 import "./App.css";
-import 'antd/dist/antd.min.css';
+import React from "react";
+import "antd/dist/antd.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css';
 import Order from "./pages/admin/order/Order";
@@ -17,17 +18,17 @@ import Home from "./pages/user/home/Home";
 import OrderDetail from "./pages/user/orderDetail/OrderDetail";
 import UserOrderHistory from "./pages/user/userOrderHistory/UserOrderHistory";
 import Category from "./pages/admin/category/Category";
-import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct"; 
-import AddProduct from "./pages/admin/product/addProduct/AddProduct"; 
+import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListProduct";
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
-
+import AddProduct from "./components/addProduct/AddProduct";
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
+import FilterProduct from "./pages/user/filterProduct/FilterProduct";
 
 function App() {
   return (
@@ -38,9 +39,9 @@ function App() {
           <Route path="/product-detail/:productId" element={<ProductDetail />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/create-order' element={<CreateOrder />} />
-         
+          <Route path="/filter" element={<FilterProduct />} />
           <Route path="/user" element={<UserMenu />}>
-            <Route path="/user" element={<UserProfile />} />
+            <Route path="/user" element={<UserProfile />} /> 
             <Route path="/user/changePassword" element={<ChangeMenu />} />
             <Route path="/user/order/:orderId" element={<OrderDetail />} />
             <Route path='/user/order' element={<UserOrderHistory></UserOrderHistory>} >
@@ -53,14 +54,29 @@ function App() {
             </Route>
           </Route>
         </Route>
-
         <Route path='/admin' element={<AdminPage />}>
-          <Route path={'/admin/order'} element={<Order />} />
+            {/* trang liệt kê tất cả đơn hàng của hệ thống */}
+          <Route path='/admin/order' element={<Order />} /> 
+
+          {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
+          <Route path='/admin/order/:orderId' element={<Order />} /> 
+
+            {/* trang hiển thị, thêm, sửa phân loại */}
           <Route path="/admin/category" element={<Category />} />
-          <Route path="/admin/product/create" element={<AddProduct />} />
+
+            {/* kho hàng */}
           <Route path="/admin/product" element={<AdminListProduct />} />
+
+            {/* tạo sản phẩm */}
+          <Route path="/admin/product/create" element={<AddProduct />} />
+
+            {/* tạo biến thể của sản phẩm
+          <Route path="/admin/product/detail/create" element={<AddProductDetail />} /> */}
+
+            {/* liệt kê các biến thể đang có của 1 sp cụ thể */}
           <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />
-          <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
+
+            {/* thông tin , đổi pass ... */}
           <Route path='/admin/profile' element={<AdminProfile />} />
         </Route>
 

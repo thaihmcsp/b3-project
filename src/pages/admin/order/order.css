@@ -96,3 +96,12 @@
   background-color: whitesmoke;
   border: none ;
 }
+
+.order-list {
+  display: flex;
+  padding-left: 20px;
+}
+
+.order-list div{
+  padding: 20px;
+}

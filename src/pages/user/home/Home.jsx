@@ -5,13 +5,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-
 const contentStyle = {
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
   background: "#364d79",
-  height: "235px",
+  height: "238px",
   borderRadius: "4px",
 };
 
@@ -22,7 +21,7 @@ function Home({ product }) {
   const [showBtnSeeMore, setShowBtnSeeMore] = useState(true);
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
   const [count, setCount] = useState(0);
-  
+
   const tab1 = document.querySelector(".home_product-heading");
   const tab2 = document.querySelector(".home_product-img");
 
@@ -84,7 +83,9 @@ function Home({ product }) {
             </button>
             <Carousel autoplay ref={(node) => (refCarousel = node)}>
               <div>
-                <h3 style={contentStyle}>1</h3>
+                <div style={contentStyle}>
+                  <img className="home_banner-left-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDgenxY2Zxcs6xDiftqUewTuCcq3cKvJcWOw&usqp=CAU" alt="" />
+                </div>
               </div>
               <div>
                 <h3 style={contentStyle}>2</h3>
@@ -268,38 +269,38 @@ function Home({ product }) {
           </div>
         </div>
 
-            {showPagination ? (
-              <Pagination
-                showSizeChanger={false}
-                onChange={onShowSizeChange}
-                defaultCurrent={2}
-                total={product.length}
-                pageSize={objectSearch.pageSize}
-                style={{ margin: "20px 0" }}
-              />
-            ) : (
-              ""
-            )}
+        {showPagination ? (
+          <Pagination
+            showSizeChanger={false}
+            onChange={onShowSizeChange}
+            defaultCurrent={2}
+            total={product.length}
+            pageSize={objectSearch.pageSize}
+            style={{ margin: "20px 0" }}
+          />
+        ) : (
+          ""
+        )}
 
-            {showBtnSeeMore ? (
-              <button
-                className="home_product-seemore-btn"
-                onClick={() => {
-                  setCount((pre) => pre + 1);
-                  setShowPagination(true);
-                  setShowBtnSeeMore(false);
-                  setShowHeaderProduct(false);
-                  nav(`?page=${2}&pageSize=${10}`);
-                }}
-              >
-                Xem thêm
-              </button>
-            ) : (
-              ""
-            )}
+        {showBtnSeeMore ? (
+          <div className="home_product-seemore-btn">
+            <button
+              onClick={() => {
+                setCount((pre) => pre + 1);
+                setShowPagination(true);
+                setShowBtnSeeMore(false);
+                setShowHeaderProduct(false);
+                nav(`?page=${2}&pageSize=${10}`);
+              }}
+            >
+              Xem thêm
+            </button>
           </div>
-        </div>
-      
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
   );
 }
 

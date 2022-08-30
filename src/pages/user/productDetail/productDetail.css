@@ -5,7 +5,9 @@
 }
 
 .product-detail {
+    margin-top: 115px;
     padding: 10px;
+    margin-bottom: 45px;
 }
 
 .product-detail-left {
@@ -16,7 +18,9 @@
     width: 100%;
     /* text-align: center; */
 }
-
+.product-detail-title h2{
+    font-size: 20px;
+}
 .product-detail-price span {
     padding-left: 30px;
     color: red;
@@ -69,10 +73,16 @@
     font-size: 25px;
     margin: 0 2px;
 }
-.fa-facebook{
+.product-detail-footer a  .fa-facebook{
     color: blue;
 }
-.fa-pinterest{
+.product-detail-footer a  .fa-facebook-messenger{
+    color: rgb(3, 114, 193);
+}
+.product-detail-footer a  .fa-twitter{
+    color: rgb(3, 114, 193);
+}
+.product-detail-footer a  .fa-pinterest{
     color:red;
 }
 .fa-heart{
