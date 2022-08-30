@@ -3,9 +3,10 @@ import { MenuOutlined , ShopOutlined} from '@ant-design/icons'
 import { AudioOutlined } from '@ant-design/icons';
 import React from 'react';
 import '../order/order.css'
+import '../../../static/Truong/order.json'
+
 const { RangePicker } = DatePicker;
 const { Search } = Input;
-
 const suffix = (
   <AudioOutlined
     style={{
@@ -42,9 +43,9 @@ function Order() {
             <option value="product">Sản phẩm </option>
             <option value="bill-code">Mã vận đơn </option>
           </select>
-          <div className='input-search'>
+          <div className='input-search-order'>
             <Space direction="vertical">
-              <Search placeholder="input search text" onSearch={onSearch} style={{ width: 800 , }}/>
+              <Search placeholder="input search text" onSearch={onSearch} style={{ width: 700 , }}/>
             </Space>
           </div>
           <button id='btn-search-product'>Tìm Kiếm</button>
@@ -54,6 +55,23 @@ function Order() {
       <div className='btn-delivery'> 
         <h1>0 Đơn Hàng</h1>
         <div><button><span><ShopOutlined /></span><span>Giao Hàng Loạt</span></button></div>
+      </div>
+
+      <div className='list-header-order'>
+        <span>Sản phẩm</span>
+        <span>Tổng đơn hàng</span>
+        <span>Trạng thái</span>
+        <span>Đếm ngược</span>
+        <span>
+          <select name="" id="header-transport-order">
+            <option value="">Vận chuyển</option>
+            <option value="">Nhanh</option>
+            <option value="">Tiết kiệm</option>
+            <option value="">Hỏa tốc</option>
+            <option value="">Khác</option>
+          </select>
+        </span>
+        <span>Thao tác</span>
       </div>
     </div>
   )
