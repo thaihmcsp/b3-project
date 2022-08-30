@@ -4,6 +4,7 @@ import "antd/dist/antd.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'antd/dist/antd.css';
 import Order from "./pages/admin/order/Order";
+import "../src/pages/admin/order/order.css";
 import UserMenu from "./components/userMenu/UserMenu";
 import UserProfile from "./components/userMenu/UserProfile";
 import ChangeMenu from "./components/userMenu/ChangeMenu";
@@ -22,13 +23,15 @@ import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListPr
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
-import AddProduct from "./components/addProduct/AddProduct";
+
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
+import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
+import AddProduct from "./pages/admin/product/addProduct/AddProduct"
 
 function App() {
   return (
@@ -55,6 +58,9 @@ function App() {
           </Route>
         </Route>
         <Route path='/admin' element={<AdminPage />}>
+
+          <Route path="/admin/profile" element={<AdminProfile/>}/>
+
             {/* trang liệt kê tất cả đơn hàng của hệ thống */}
           <Route path='/admin/order' element={<Order />} /> 
 
