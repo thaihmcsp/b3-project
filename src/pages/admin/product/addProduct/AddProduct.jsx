@@ -1,10 +1,23 @@
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
-import React, { useState } from 'react';
-import { Input } from 'antd';
-import './AddProduct.css'
-import { Select } from 'antd';
-const { Option } = Select;
+import React from 'react'
+import { Input, Space } from 'antd';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom'
+import { AudioOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import '../addProduct/addProduct.css'
+const { Search } = Input;
+const listOrder = 'Chưa chọn nghàn hàng'
+const suffix = (
+  <AudioOutlined
+    style={{
+      fontSize: 16,
+      color: '#1890ff',
+    }}
+  />
+);
+
+const onSearch = (value) => console.log(value);
+
 function AddProduct() {
 
   const onChange = (e) => {
