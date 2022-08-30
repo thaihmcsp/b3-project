@@ -30,6 +30,7 @@ import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
 import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
+import AddProduct from "./pages/admin/product/addProduct/AddProduct"
 
 function App() {
   return (
