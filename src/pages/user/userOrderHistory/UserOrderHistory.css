@@ -157,7 +157,7 @@
     font-size: 12px;
 }
 
-.order-product-detail__img img {
+.order-product__img img {
     width: 100px;
     height: 100px;
     object-fit: cover;
@@ -165,20 +165,20 @@
 
 
 
-.order-product-detail__name {
+.order-product__name {
     width: 70%;
     padding: 0 30px;
 }
 
-.order-product-detail__img {
+.order-product__img {
     width: 10%;
 }
 
-.order-product-detail__price {
+.order-product__price {
     width: 20%;
 }
 
-.order-product-detail__price span {
+.order-product__price span {
     display: block;
     text-align: right;
     color: #EE4D2D;
@@ -186,7 +186,7 @@
     font-weight: 500;
 }
 
-.order-product-detail__category {
+.order-product__category {
     opacity: 0.6;
 }
 
