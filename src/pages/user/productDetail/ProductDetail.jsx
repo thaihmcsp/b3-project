@@ -1,14 +1,28 @@
 import React from 'react'
-import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select } from 'antd'
+import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image } from 'antd'
 import 'antd/dist/antd.css';
 import './productDetail.css'
+import { Routes, Route, useParams } from 'react-router-dom';
 import { useState } from 'react';
+import product from '../../../static/Truong/product.json'
+
+
+
+// Select 
 const { Option } = Select;
+const children = [
+    <Option key={1}> {'Giảm 10%'}</Option>,
+    <Option key={2}> {'Giảm 15%'}</Option>,
+    <Option key={3}>{'Giảm 25%'}</Option>,
+    <Option key={4}>{'Giảm 50%'}</Option>,
+    <Option key={5}>{'Free ship'}</Option>,
+
+];
+
 const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    console.log(`Selected: ${value}`);
+
 };
-
-
 const routes = [
     {
         path: 'index',
@@ -25,6 +39,7 @@ const routes = [
 ];
 
 function ProductDetail() {
+    const { productId } = useParams()
     let [inputpd, setInputpd] = useState(1)
     let [like, setLike] = useState(200)
     function like1() {
@@ -53,158 +68,222 @@ function ProductDetail() {
         }
     }
 
+    let productData = product.filter(
+        (value) => {
+            return (
+                value._id == productId
+            )
+        }
+    )
+
     return (
         <div className='product-detail'>
-            <Row justify='center'>
-                <Col span={16}>
-                    <PageHeader
-                        className="site-page-header"
-                        breadcrumb={{
-                            routes,
-                        }}
-
-                    />
-                </Col>
-            </Row>
-            <Row justify='center' >
-
-                <Col span={6}>
-                    <div className="product-detail-left">
-                        <Carousel autoplay>
-                            <div>
-                                <div className='product-detail-carousel-card'>
-                                    <img src="https://pilt.elisa.ee/6bd99105-fee0-4653-bab3-d0db9bbc264d_size295x575.png" alt="" />
-                                </div>
-                            </div>
-                            <div>
-                                <div className='product-detail-carousel-card'>
-                                    <img src="https://pilt.elisa.ee/6bd99105-fee0-4653-bab3-d0db9bbc264d_size295x575.png" alt="" />
-
-                                </div>
-                            </div>
-                            <div>
-                                <div className='product-detail-carousel-card'>
-                                    <img src="https://pilt.elisa.ee/6bd99105-fee0-4653-bab3-d0db9bbc264d_size295x575.png" alt="" />
-
-                                </div>
-                            </div>
-                            <div>
-                                <div className='product-detail-carousel-card'>
-                                    <img src="https://pilt.elisa.ee/6bd99105-fee0-4653-bab3-d0db9bbc264d_size295x575.png" alt="" />
-
-                                </div>
-                            </div>
-
-                        </Carousel>
-                    </div>
-                </Col>
-                <Col span={10}>
-                    <div className="product-detail-right">
-                        <div className="product-detail-title">
-                            <h2>Điện thoại Iphone 13 Pro Max 2021</h2>
-                        </div>
-                        <div className="product-detail-price">
-                            <Descriptions bordered>
-                                <Descriptions.Item label="10.000.000 đ">
-                                </Descriptions.Item>
-                            </Descriptions>
-                        </div>
-                        <div className="product-detail-sale">
-                            <Descriptions bordered>
-                                <Descriptions.Item label='Mã giảm giá :'>
-                                    <Tag color="red">Giảm 25%</Tag>
-                                    <Tag color="red">Giảm 35%</Tag>
-                                    <Tag color="red"> Giảm 45%</Tag>
-                                    <Tag color="red">Giảm75%</Tag>
-
-                                </Descriptions.Item>
-                            </Descriptions>
-                        </div>
-                        <div className="prodtuct-detail-color">
-                            <Descriptions>
-                                <Descriptions.Item label='Màu Sắc'>
-                                    <Radio.Group defaultValue="a" buttonStyle="solid">
-                                        <Radio.Button value="a">Đỏ</Radio.Button>
-                                        <Radio.Button value="b">Xanh</Radio.Button>
-                                        <Radio.Button value="c">Trắng</Radio.Button>
-                                        <Radio.Button value="d">Xanh lá</Radio.Button>
-                                    </Radio.Group>
-                                </Descriptions.Item>
-                            </Descriptions>
-                        </div>
-                        <div className="prodtuct-detail-stroge">
-                            <Descriptions>
-                                <Descriptions.Item label='Dung lượng'>
-                                    <Radio.Group defaultValue="a" buttonStyle="solid">
-                                        <Radio.Button value="32">32Gb</Radio.Button>
-                                        <Radio.Button value="64">64Gb</Radio.Button>
-                                        <Radio.Button value="a">128Gb</Radio.Button>
-                                        <Radio.Button value="b">256GB</Radio.Button>
-                                        <Radio.Button value="C">512GB</Radio.Button>
-                                    </Radio.Group>
-                                </Descriptions.Item>
-                            </Descriptions>
-                        </div>
-                        <div className="prodtuct-detail-address">
-                            <Descriptions >
-                                <Descriptions.Item label="Vận chuyển">
-                                    <span> Địa chỉ: <span>A4 BT3 214 Nguyễn Xiển Thanh Xuân Hà Nội</span></span>
-                                </Descriptions.Item>
-                                <Descriptions.Item label='Phi vận chuyển'>
-                                    <Select
-                                        defaultValue="0"
-                                        style={{
-                                            width: 100,
+            {productData.map(
+                (value, index) => {
+                    return (
+                        <div>
+                            <Row justify='center'>
+                                <Col span={16}>
+                                    <PageHeader
+                                        className="site-page-header"
+                                        breadcrumb={{
+                                            routes,
                                         }}
-                                        onChange={handleChange}
-                                    >
 
-                                        <Option value="0">Miễn Phí</Option>
-                                        <Option value="15000">15000đ</Option>
-                                        <Option value="25000">25000đ</Option>
+                                    />
+                                </Col>
+                            </Row>
+                            <Row justify='center' >
 
-                                    </Select>
-                                </Descriptions.Item>
-                            </Descriptions>
+                                <Col span={6}>
+                                    <div className="product-detail-left">
+                                        <Carousel autoplay>
+                                            <div>
+                                                <div className='product-detail-carousel-card'>
+                                                    <img src={value.thumpnail} alt="" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className='product-detail-carousel-card'>
+                                                    <img src={value.thumpnail} alt="" />
+
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className='product-detail-carousel-card'>
+                                                    <img src={value.thumpnail} alt="" />
+
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className='product-detail-carousel-card'>
+                                                    <img src={value.thumpnail} alt="" />
+
+                                                </div>
+                                            </div>
+
+                                        </Carousel>
+                                        <div className="product-detail-listimg">
+                                            <Image
+                                                width={65}
+                                                src={value.thumpnail}
+                                            />
+                                            <Image
+                                                width={65}
+                                                src={value.thumpnail}
+                                            />
+                                            <Image
+                                                width={65}
+                                                src={value.thumpnail}
+                                            />
+                                            <Image
+                                                width={65}
+                                                src={value.thumpnail}
+                                            />
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col span={10}>
+                                    <div className="product-detail-right">
+                                        <div className="product-detail-title">
+                                            <h2> {value.productName}</h2>
+                                        </div>
+                                        <div className="product-detail-rank">
+                                            <div className="product-detail-rank-item">
+                                                <span className='product-detail-item1'>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star-half"></i>
+                                                </span>
+                                            </div>
+                                            <div className="product-detail-rank-item">
+                                                <span className='product-detail-item2'>Đánh giá</span>
+                                            </div>
+                                            <div className="product-detail-rank-item3">
+                                                <span>
+                                                    Đã bán
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="product-detail-price">
+                                            <Descriptions bordered>
+                                                <Descriptions.Item label={value.price}>
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </div>
+                                        <div className="product-detail-sale">
+                                            <Descriptions bordered>
+                                                <Descriptions.Item label='Mã giảm giá :'>
+                                                    <Select
+                                                        mode="multiple"
+                                                        placeholder="Chọn hoặc nhập mã"
+                                                        defaultValue={['Giảm 10%']}
+                                                        onChange={handleChange}
+                                                        style={{
+                                                            width: '100%',
+                                                        }}
+                                                    >
+                                                        {children}
+                                                    </Select>
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </div>
+                                        <div className="prodtuct-detail-color">
+                                            <Descriptions>
+                                                <Descriptions.Item label='Màu Sắc'>
+                                                    <Radio.Group defaultValue="a" buttonStyle="solid">
+                                                        <Radio.Button value="a">Đỏ</Radio.Button>
+                                                        <Radio.Button value="b">Xanh</Radio.Button>
+                                                        <Radio.Button value="c">Trắng</Radio.Button>
+                                                        <Radio.Button value="d">Xanh lá</Radio.Button>
+                                                    </Radio.Group>
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </div>
+                                        <div className="prodtuct-detail-stroge">
+                                            <Descriptions>
+                                                <Descriptions.Item label='Dung lượng'>
+                                                    <Radio.Group defaultValue="a" buttonStyle="solid">
+                                                        <Radio.Button value="32">32Gb</Radio.Button>
+                                                        <Radio.Button value="64">64Gb</Radio.Button>
+                                                        <Radio.Button value="a">128Gb</Radio.Button>
+                                                        <Radio.Button value="b">256GB</Radio.Button>
+                                                        <Radio.Button value="C">512GB</Radio.Button>
+                                                    </Radio.Group>
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </div>
+                                        <div className="prodtuct-detail-address">
+                                            <Descriptions >
+                                                <Descriptions.Item label="Vận chuyển">
+                                                    <span><i class="fa-solid fa-truck-moving"></i> Địa chỉ: <span> A4 BT3 214 Nguyễn Xiển Thanh Xuân Hà Nội</span></span>
+                                                </Descriptions.Item>
+
+                                            </Descriptions>
+                                        </div>
+                                        <div className="prodtuct-detail-address">
+                                            <Descriptions>
+                                                <Descriptions.Item label='Phi vận chuyển'>
+                                                    <Select
+                                                        defaultValue="0"
+                                                        style={{
+                                                            width: 100,
+                                                        }}
+                                                        onChange={handleChange}
+                                                    >
+
+                                                        <Option value="0">Miễn Phí</Option>
+                                                        <Option value="15000">15000đ</Option>
+                                                        <Option value="25000">25000đ</Option>
+
+                                                    </Select>
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </div>
+                                        <div className="product-detail-quantity">
+                                            <Descriptions>
+                                                <Descriptions.Item label='Số lượng'>
+                                                    <Button type="primary" onClick={giam}>-</Button>
+                                                    <input placeholder="Basic usage" value={inputpd} />
+                                                    <Button type="primary" onClick={tang}>+</Button>
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </div>
+
+                                    </div>
+                                </Col>
+
+                            </Row>
+                            <Row justify='center'>
+                                <Col span={6}>
+                                    <div className='product-detail-footer'>
+                                        <div>
+                                            <span>Chia sẻ:</span>
+                                            <a href="#"><i className="fa-brands fa-facebook-messenger"></i></a>
+
+                                            <a href="#"> <i className="fa-brands fa-facebook"></i></a>
+                                            <a href="#"> <i className="fa-brands fa-pinterest"></i></a>
+
+                                            <a href="#"> <i className="fa-brands fa-twitter"></i></a>
+                                        </div>
+                                        <div>
+                                            <a href="#" onClick={like1}><i className="fa-solid fa-heart"></i></a> <span> Đã Thích({like})</span>
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col span={10}>
+                                    <div className='product-detail-add'>
+                                        <Button danger className='pd-add-gh'> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
+                                        <Button type='primary' danger className='pd-add-mh'>Mua Ngay</Button>
+                                    </div>
+                                </Col>
+                            </Row>
                         </div>
-                        <div className="product-detail-quantity">
-                            <Descriptions>
-                                <Descriptions.Item label='Số lượng'>
-                                    <Button type="primary" onClick={giam}>-</Button>
-                                    <input placeholder="Basic usage" value={inputpd} />
-                                    <Button type="primary" onClick={tang}>+</Button>
-                                </Descriptions.Item>
-                            </Descriptions>
-                        </div>
-
-                    </div>
-                </Col>
-
-            </Row>
-            <Row justify='center'>
-                <Col span={6}>
-                    <div className='product-detail-footer'>
-                        <div>
-                            <span>Chia sẻ:</span>
-                            <a href="#"><i className="fa-brands fa-facebook-messenger"></i></a>
-
-                            <a href="#"> <i className="fa-brands fa-facebook"></i></a>
-                            <a href="#"> <i className="fa-brands fa-pinterest"></i></a>
-
-                            <a href="#"> <i className="fa-brands fa-twitter"></i></a>
-                        </div>
-                        <div>
-                            <a href="#" onClick={like1}><i className="fa-solid fa-heart"></i></a> <span> Đã Thích({like})</span>
-                        </div>
-                    </div>
-                </Col>
-                <Col span={10}>
-                    <div className='product-detail-add'>
-                        <Button danger className='pd-add-gh'> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
-                        <Button type='primary' danger className='pd-add-mh'>Mua Ngay</Button>
-                    </div>
-                </Col>
-            </Row>
+                    )
+                }
+            )}
         </div>
     )
 }
