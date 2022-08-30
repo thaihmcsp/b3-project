@@ -29,6 +29,7 @@ import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
+import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
         </Route>
         <Route path='/admin' element={<AdminPage />}>
           <Route path={'/admin/order'} element={<Order />} />
+          <Route path={'/admin/order/orderDetail'} element={<AdminOrderDetail />} />
           <Route path="/admin/category" element={<Category />} />
           <Route path="/admin/product/create" element={<AddProduct />} />
           <Route path="/admin/product" element={<AdminListProduct />} />
