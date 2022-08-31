@@ -7,9 +7,9 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
     const [orderDetail, setOrderDetail] = useState([]);
     const [userOrder, setUserOrder] = useState();
     const [orderProduct, setOrderProduct] = useState([])
-    const [total, setTotal] = useState(0)
 
     const sale = 13000;
+    let sum = 0, b = 0
     const getOrder = order.filter((item) => item._id === search.orderId);
     const getUser = user.filter((item) => {
         return item._id === getOrder[0].userId;
@@ -40,7 +40,6 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
     useEffect(() => {
         getData();
     }, []);
-    let sum = 0
 
     return (
         <div
@@ -111,7 +110,14 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
                                 {getOrder.map(item1 => {
                                     return item1.listProduct.map(value1 => {
                                         const check1 = value1.productDetailId === value[0]._id
-                                        sum = value[0].price * value1.quantity
+                                        // check1 ? sum = value[0].price * value1.quantity : sum = sum + 0
+                                        if (check1) {
+                                            sum = value[0].price * value1.quantity
+                                            b += value[0].price * value1.quantity
+                                        } else {
+                                            sum = sum
+                                            b = b
+                                        }
                                         return (
                                             check1 ? <div className="info_product-right">
                                                 <p>{value[0].price.toLocaleString()} ₫</p>
@@ -129,7 +135,7 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
                 <div className="order-info-product-footer">
                     <div>
                         <p>Tạm tính</p>
-                        <span>{sum.toLocaleString()} ₫</span>   
+                        <span>{(b).toLocaleString()} ₫</span>   
                     </div>
                     <div>
                         <p>Phí vận chuyển</p>
@@ -137,7 +143,7 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
                     </div>
                     <div>
                         <p>Tổng cộng</p>
-                        <span>{(sum + sale).toLocaleString()} ₫</span>
+                        <span>{(b + sale).toLocaleString()} ₫</span>
                     </div>
                 </div>
             </div>

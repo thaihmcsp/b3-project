@@ -23,7 +23,6 @@ import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListPr
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
-import AddProduct from "./components/addProduct/AddProduct";
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
@@ -34,6 +33,7 @@ import user from "./static/Truong/user.json"
 import productDetail from "./static/Truong/productDetail.json";
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
 import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
+import AddProduct from "./pages/admin/product/addProduct/AddProduct"
 
 function App() {
   return (
@@ -60,6 +60,9 @@ function App() {
           </Route>
         </Route>
         <Route path='/admin' element={<AdminPage />}>
+
+          <Route path="/admin/profile" element={<AdminProfile/>}/>
+
             {/* trang liệt kê tất cả đơn hàng của hệ thống */}
           <Route path='/admin/order' element={<Order />} /> 
 

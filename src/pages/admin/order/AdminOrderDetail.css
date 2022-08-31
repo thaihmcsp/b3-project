@@ -78,6 +78,7 @@
     width: 140px;
     height: 100px;
     display: block;
+    margin-right: 8px;
 }
 
 .info_product-left div h2 {
