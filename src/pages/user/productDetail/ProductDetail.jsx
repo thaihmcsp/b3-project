@@ -125,19 +125,19 @@ function ProductDetail() {
                                         </Carousel>
                                         <div className="product-detail-listimg">
                                             <Image
-                                                width={65}
+                                                width={68}
                                                 src={value.thumpnail}
                                             />
                                             <Image
-                                                width={65}
+                                                width={68}
                                                 src={value.thumpnail}
                                             />
                                             <Image
-                                                width={65}
+                                                width={68}
                                                 src={value.thumpnail}
                                             />
                                             <Image
-                                                width={65}
+                                                width={68}
                                                 src={value.thumpnail}
                                             />
                                         </div>
