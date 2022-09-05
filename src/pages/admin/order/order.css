@@ -15,29 +15,30 @@
   justify-content: end;
 }
 
-.btn-product-delivery {
+.date-order {
+  padding: 0 15px;
+}
+
+/* .btn-product-delivery {
   margin: 5px 20px ;
   border-radius: 4px ;
 }
 
 .btn-product-delivery button{
   padding: 0 20px;
-}
+} */
 
 .input-selector{
   display: flex;
 }
 
 .input-search-order input{
-  width: 100% !important;
+  width: 100% ;
+  border-right: none;
 }
 
 .input-search-order button{
   border-left: none;
-}
-
-.input-search-order input{
-  border-right: none;
 }
 
 .btn-report button{

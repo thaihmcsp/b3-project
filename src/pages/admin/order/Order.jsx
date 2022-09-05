@@ -5,71 +5,82 @@ import React from 'react';
 import '../order/order.css'
 import user from '../../../static/Truong/user.json'
 import order from '../../../static/Truong/order.json'
-
-for (let i = 0; i < order.length; i++) {
-  const elementOrder = order[i];
-  for (let j = 0; j < user.length; j++) {
-    const elementUser = user[j];
-    if(elementOrder.userId === elementUser._id){
-      elementOrder.userName = elementUser.fullname
-      elementOrder.phone = elementUser.phone
-    }
-  }
-}
-
-let count = 0 ;
-for (let i = 0; i < order.length; i++) {
-  count += 1;
-}
-
-const { RangePicker } = DatePicker;
-const { Search } = Input;
-const suffix = (
-  <AudioOutlined
-    style={{
-      fontSize: 16,
-      color: '#1890ff',
-    }}
-  />
-);
-
-const onSearch = (value) => console.log(value);
-
-const columns = [
-  {
-    title: 'userName',
-    dataIndex: 'userName',
-    key: 'userName',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'total',
-    dataIndex: 'total',
-    key: 'total',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Phone',
-    key: 'phone',
-    dataIndex: 'phone',
-  },
-  {
-    title: 'Ngày tạo',
-    key: 'createdAt',
-    dataIndex: 'createdAt',
-  },
-  {
-    title: 'Status',
-    key: 'status',
-    dataIndex: 'status',
-  }
-];
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 function Order() {
+  const [selectValue , setSelectValue] = useState([])
+
+    for (let i = 0; i < order.length; i++) {
+      const elementOrder = order[i];
+      for (let j = 0; j < user.length; j++) {
+        const elementUser = user[j];
+        if(elementOrder.userId === elementUser._id){
+          elementOrder.userName = elementUser.fullname
+          elementOrder.phone = elementUser.phone
+        }
+      }
+    }
+    
+    let count = 0 ;
+    for (let i = 0; i < order.length; i++) {
+      count += 1;
+    }
+    
+    const { RangePicker } = DatePicker;
+    const { Search } = Input;
+    const suffix = (
+      <AudioOutlined
+        style={{
+          fontSize: 16,
+          color: '#1890ff',
+        }}
+      />
+    );
+    
+    const onSearch = (value) => console.log(value);
+    
+    const columns = [
+      {
+        title: 'userName',
+        dataIndex: 'userName',
+        key: 'userName',
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: 'total',
+        dataIndex: 'total',
+        key: 'total',
+      },
+      {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+      },
+      {
+        title: 'Phone',
+        key: 'phone',
+        dataIndex: 'phone',
+      },
+      {
+        title: 'Ngày tạo',
+        key: 'createdAt',
+        dataIndex: 'createdAt',
+      },
+      {
+        title: 'Status',
+        key: 'status',
+        dataIndex: 'status',
+      }
+    ];
+
+    // function getSelectValue(){
+    //   let select = document.getElementById('typeSeacher')
+    //   let selectValue = select.options[select.selectedIndex].text
+    //   console.log(80 , selectValue);
+    // }
+ 
+    // getSelectValue()
   return (
     <div className="classOrder">
       <div className="header-order">
@@ -79,12 +90,12 @@ function Order() {
             <RangePicker />
           </Space>
         </div>
-        <div className='btn-product-delivery'>
+        {/* <div className='btn-product-delivery'>
           <button>Xuất</button>
         </div>
         <div className='btn-report'>
           <button><MenuOutlined /></button>
-        </div>
+        </div> */}
       </div>
 
       <div className="input-selector">
@@ -96,7 +107,7 @@ function Order() {
           </select>
           <div className='input-search-order'>
             <Space direction="vertical">
-              <Search placeholder="input search text" onSearch={onSearch} style={{ width: 700 , }}/>
+              <Search placeholder='{selectValue}' onSearch={onSearch} style={{ width: 720 }}/>
             </Space>
           </div>
           <button id='btn-search-product'>Tìm Kiếm</button>
