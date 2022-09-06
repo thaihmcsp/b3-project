@@ -1,8 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './SignIn.css'
+import { Button, Form, Input } from 'antd';
+import axios from 'axios';
+import 'antd/dist/antd.css';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
+     const nav = useNavigate()
+     let token = window.localStorage.getItem('user')
+     console.log(12,token);
+     const onFinish = async (values) => {
+          try {
+              let res = await axios.post('https://shope-b3.thaihm.site/api/auth/sign-in',values)
+              window.localStorage.setItem('user', res.data.token)
+              console.log(14,res);
+              nav('/')
+          } catch (error) {
+               console.log(error);
+          }
+          console.log('Success:', values);
+        };
+      
+        const onFinishFailed = (errorInfo) => {
+          console.log('Failed:', errorInfo);
+        };
   return (
     <div>
       <div className='container-signin'>
@@ -23,32 +45,38 @@ function SignIn() {
                    <div className='form-dang-ky'>
                          <div className="content-dang-ky">Đăng nhập</div>
           
-                         <div className="content-center">                            
-                             <div className="phone-number">
-                                       
-                                        <input className="center-input-username" type="text" name="" id="" placeholder="Email/Số điện thoại/Tên đăng nhập" value=""/>                            
-                              </div>
-                              <div className='password'>
-                                <input className='center-input-password' type="text" name="" id="" placeholder='Mật khẩu'/>
-                                
-                              </div>                           
-                              <button className="button-signin" disabled="">Đăng nhập</button>
+                         <div className="content-center"> 
+                         <Form  name="basic"labelCol={{span: 8,}}wrapperCol={{span: 16,}}initialValues = {{remember: true,}} onFinish={onFinish}onFinishFailed={onFinishFailed} autoComplete="off">                                                
+                                        <div>
+                                             <Form.Item name="email" rules={[{required: true,message: 'Please input your email!',},]}>
+                                             <Input placeholder='Email' className='content-center-input'/>
+                                             </Form.Item>
+                                        </div>
+                                        <div style={{width:'100%'}}>
+                                             <Form.Item  name="password" rules={[{required: true,message: 'Please input your password!',},]}>
+                                             <Input placeholder='Password'  className='content-center-input'/>
+                                             </Form.Item>
+                                        </div>
+                                        <Button type="primary" htmlType="submit" className="button-signin">Đăng Nhập</Button>
+                              
+                                   </Form>                           
+                             
                               <div className='forgot'>
                                   <div className='forgot-password'>
-                                    <a class="anLGcx" href="/buyer/reset">Quên mật khẩu</a>
+                                    <a className="anLGcx" href="/buyer/reset">Quên mật khẩu</a>
                                   </div>
                                   <div className='signin-sms'>
-                                  <a class="anLGcx" href="/buyer/login/otp?next=https%3A%2F%2Fshopee.vn%2F%3Faf_click_lookback%3D7d%26af_reengagement_window%3D7d%26af_siteid%3Dan_17360760045%26af_sub_siteid%3DTrung-GGads-13722--%26af_viewthrough_lookback%3D1d%26c%3D-%26is_retargeting%3Dtrue%26pid%3Daffiliates%26utm_campaign%3D-%26utm_content%3DTrung-GGads-13722--%26utm_medium%3Daffiliates%26utm_source%3Dan_17360760045%26utm_term%3D7ob97x44yqaw%26gclid%3DCjwKCAjwo_KXBhAaEiwA2RZ8hGhICDupmYP1HuL_skCp1Uv6BC4VUuXTwaHadsVnaSXmfeTM4ZndoRoCEOcQAvD_BwE">Đăng nhập với SMS</a>
+                                  <a className="anLGcx" href="/buyer/login/otp?next=https%3A%2F%2Fshopee.vn%2F%3Faf_click_lookback%3D7d%26af_reengagement_window%3D7d%26af_siteid%3Dan_17360760045%26af_sub_siteid%3DTrung-GGads-13722--%26af_viewthrough_lookback%3D1d%26c%3D-%26is_retargeting%3Dtrue%26pid%3Daffiliates%26utm_campaign%3D-%26utm_content%3DTrung-GGads-13722--%26utm_medium%3Daffiliates%26utm_source%3Dan_17360760045%26utm_term%3D7ob97x44yqaw%26gclid%3DCjwKCAjwo_KXBhAaEiwA2RZ8hGhICDupmYP1HuL_skCp1Uv6BC4VUuXTwaHadsVnaSXmfeTM4ZndoRoCEOcQAvD_BwE">Đăng nhập với SMS</a>
                                   </div>
                               </div>
 
-                              <div class="duong-ke">
-                                   <div class="ke-hr"></div>
-                                   <span class="hoac">HOẶC</span>
-                                   <div class="ke-hr"></div>
+                              <div className="duong-ke">
+                                   <div className="ke-hr"></div>
+                                   <span className="hoac">HOẶC</span>
+                                   <div className="ke-hr"></div>
                               </div>
 
-                              <div class="signin-icon">
+                              <div className="signin-icon">
                                    <button className='facebook'>
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/2048px-Facebook_f_logo_%282019%29.svg.png" alt="" />
                                         <span>Facebook</span>

@@ -285,11 +285,9 @@ function Cart() {
               <Col span={10}>
                 <div className="cart-footer2">
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span> <span className='cart-price'>
-                    {total.toLocaleString()}
+                    {total}
                     đ</span>
-                  <Button type="primary" onClick={createOrder}>
-                    Mua hàng
-                  </Button>
+                  <Button type="primary" onClick={createOrder}>Mua hàng</Button>
                 </div>
               </Col>
             </Row>
