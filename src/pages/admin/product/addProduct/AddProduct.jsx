@@ -6,7 +6,7 @@ import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import '../addProduct/addProduct.css'
 const { Search } = Input;
-const listOrder = 'Chưa chọn nghàn hàng'
+const listOrder = 'Chưa chọn nghành hàng'
 const suffix = (
   <AudioOutlined
     style={{
@@ -106,7 +106,7 @@ function AddProduct() {
           Đã chọn :   <p> {listOrder}</p>
         </div>
         <div className='btn-next'>
-          <button>Tiếp theo</button>
+          <Link to='/admin/product/detail/create'><button>Tiếp theo</button></Link>
         </div>
       </div>
     </div>
