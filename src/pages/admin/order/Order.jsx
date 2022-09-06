@@ -8,6 +8,19 @@ import order from '../../../static/Truong/order.json'
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+const { RangePicker } = DatePicker;
+const { Search } = Input;
+const suffix = (
+  <AudioOutlined
+    style={{
+      fontSize: 16,
+      color: '#1890ff',
+    }}
+  />
+);
+
+const onSearch = (value) => console.log(value);
+
 function Order() {
   const [selectValue , setSelectValue] = useState([])
 
@@ -26,19 +39,6 @@ function Order() {
     for (let i = 0; i < order.length; i++) {
       count += 1;
     }
-    
-    const { RangePicker } = DatePicker;
-    const { Search } = Input;
-    const suffix = (
-      <AudioOutlined
-        style={{
-          fontSize: 16,
-          color: '#1890ff',
-        }}
-      />
-    );
-    
-    const onSearch = (value) => console.log(value);
     
     const columns = [
       {
@@ -74,13 +74,11 @@ function Order() {
       }
     ];
 
-    // function getSelectValue(){
+    // function getSelectValueOrder(){
     //   let select = document.getElementById('typeSeacher')
-    //   let selectValue = select.options[select.selectedIndex].text
+    //   let selectValue = select.options[select.selectedIndex].text 
     //   console.log(80 , selectValue);
     // }
- 
-    // getSelectValue()
   return (
     <div className="classOrder">
       <div className="header-order">
@@ -107,10 +105,10 @@ function Order() {
           </select>
           <div className='input-search-order'>
             <Space direction="vertical">
-              <Search placeholder='{selectValue}' onSearch={onSearch} style={{ width: 720 }}/>
+              <Search placeholder={'getSelectValueOrder()'} onSearch={onSearch} style={{ width: 720 }}/>
             </Space>
           </div>
-          <button id='btn-search-product'>Tìm Kiếm</button>
+          <button id='btn-search-product' >Tìm Kiếm</button>
           <button id='btn-setAgain'>Đặt lại</button>
       </div>
 

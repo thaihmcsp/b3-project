@@ -106,3 +106,7 @@
 .order-list div{
   padding: 20px;
 }
+
+.ant-input-group-addon button {
+  display: block;
+}
