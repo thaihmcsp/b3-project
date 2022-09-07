@@ -36,6 +36,7 @@
 
 .home_banner-left-btn,
 .home_banner-right-btn {
+  
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
