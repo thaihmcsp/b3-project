@@ -1,8 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './SignUp.css'
+import 'antd/dist/antd.css';
+import axios from 'axios';
+import { Button, Modal } from 'antd';
+import { Form, Input } from 'antd';
+import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
+     const nav = useNavigate()
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+ 
+     const onFinish = async (values) => {
+          console.log(29, values);
+          if (values.password !== values.confim) return alert ('password is not valid')
+          try {
+               let res  = await axios.post('https://shope-b3.thaihm.site/api/auth/sign-up',values)
+               console.log(12,res);
+               nav('/signin')
+          } catch (error) {
+               console.log(error);
+          }
+          console.log('Success:', values);
+        };
+      
+        const onFinishFailed = (errorInfo) => {
+          console.log('Failed:', errorInfo);
+        };
   return (
     <div>
         
@@ -27,10 +64,34 @@ function SignUp() {
                          <div className="content-center">                            
                              <div className="phone-number">
                                        
-                                        <input className="center-input" type="text" name="" id="" placeholder="Số điện thoại" value=""/>                            
+                                        <input className="center-input" type="number" name="" id="" placeholder="Số điện thoại"/>                            
                               </div>
                                                                
-                              <button className="button-next" disabled="">Tiếp theo</button>
+                              <button className="button-next" disabled="">
+                                   <>
+                                        <Button type="primary" onClick={showModal} className='button-next-signup'>ĐĂNG KÝ</Button>
+                                        <Modal footer={null} title="FORM SIGN-UP" onFinish={onFinish} onFinishFailed={onFinishFailed} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                                        <Form name="basic"labelCol={{span: 8,}}wrapperCol={{span: 16,}}initialValues = {{remember: true,}} onFinish={onFinish}onFinishFailed={onFinishFailed} autoComplete="off">
+                                                       
+                                             
+                                             <Form.Item name="email" rules={[{required: true,message: 'Please input your email!',},]}>
+                                             <Input placeholder='Email'/>
+                                             </Form.Item>
+
+                                             <Form.Item name="password" rules={[{required: true,message: 'Please input your password!',},]}>
+                                             <Input placeholder='Password'/>
+                                             </Form.Item>
+                                             
+                                             <Form.Item name="confim" rules={[{required: true,message: 'Please input your confim-password!',},]}>
+                                             <Input placeholder='Confim-Password'/>
+                                             </Form.Item>
+
+                                             <Button type="primary" htmlType="submit"> Submit</Button>
+                                             
+                                        </Form>
+                                        </Modal>
+                                   </>
+                              </button>
 
                               <div class="duong-ke">
                                    <div class="ke-hr"></div>

@@ -1,10 +1,182 @@
 import React from 'react'
 import './CreateOrder.css'
+import tableCart from '../../../static/Truong/cart.json'
+import tableProduct from '../../../static/Truong/product.json'
+import tableProductDetail from '../../../static/Truong/productDetail.json'
+import { useState, useEffect } from 'react';
+import 'antd/dist/antd.css';
+import { Col, Row, Table, Button, Popconfirm } from 'antd'
 
+
+tableCart[2].listProduct.map(
+     (value, index) => {
+        
+       let product = value.productDetailId;
+   
+       let detail = tableProductDetail.find((value2, index) => { return (product === value2._id) });
+   
+       value.productDetailId = detail;
+       let productInfo = tableProduct.find(
+         (value3, index) => {
+           return value3._id === detail.productId
+         }
+       )
+       value.productDetailId.productId = productInfo
+       return value
+     }
+   )
+   // antd table
+   
+   
+   const dataCart = [];
+   tableCart[2].listProduct.map(
+     (product, index) => {
+       dataCart.push(
+         {
+           key: index,
+           Name: <a>{product.productDetailId.productId.productName}</a>,
+           price: product.productDetailId.price,
+           listImg: <img src={product.productDetailId.listImg[0]} alt="" />,
+           stonge: product.quantity,
+           total: product.quantity * product.productDetailId.price,
+           select: false
+         }
+       )
+     }
+   )
 function CreateOrder() {
+     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [dataSource, setDataSource] = useState(dataCart);
+  const [count, setCount] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [totalQuality ,setTotalQuality] = useState(0)
+  
+  const handleDelete = (key) => {
+     const newData = dataSource.filter((item) => item.key !== key);
+     setDataSource(newData);
+   };
+ 
+ 
+ 
+   const onSelectChange = (newSelectedRowKeys) => {
+     console.log(60, 'selectedRowKeys changed: ', newSelectedRowKeys);
+     let newDataSource = [...dataSource];
+     newDataSource.map((value) => {
+       value.select = false
+     })
+     for (let i = 0; i < newSelectedRowKeys.length; i++) {
+       newDataSource[newSelectedRowKeys[i]].select = true
+     }
+ 
+ 
+ 
+     setDataSource(newDataSource)
+     setSelectedRowKeys(newSelectedRowKeys);
+     setCount(newSelectedRowKeys.length);
+   };
+ 
+ 
+   const rowSelection = {
+     selectedRowKeys,
+     onChange: onSelectChange,
+     selections: [
+       Table.SELECTION_ALL,
+       Table.SELECTION_INVERT,
+       Table.SELECTION_NONE,
+       {
+         key: 'odd',
+         text: 'Select Odd Row',
+         onSelect: (changableRowKeys) => {
+           let newSelectedRowKeys = [];
+           newSelectedRowKeys = changableRowKeys.filter((_, index) => {
+             if (index % 2 !== 0) {
+               return false;
+             }
+ 
+             return true;
+           });
+           setSelectedRowKeys(newSelectedRowKeys);
+ 
+         },
+       },
+       {
+         key: 'even',
+         text: 'Select Even Row',
+         onSelect: (changableRowKeys) => {
+           let newSelectedRowKeys = [];
+ 
+           newSelectedRowKeys = changableRowKeys.filter((_, index) => {
+             if (index % 2 !== 0) {
+               return true;
+             }
+ 
+             return false;
+           });
+           // console.log(108,newSelectedRowKeys);
+           setSelectedRowKeys(newSelectedRowKeys);
+         },
+       },
+     ],
+   };
+   const defaultColumns = [
+     {
+       title: 'Sản Phẩm',
+       dataIndex: 'Name'
+     },
+     {
+       title: 'Hình ảnh',
+       dataIndex: 'listImg'
+     },
+     {
+       title: 'Giá',
+       dataIndex: 'price'
+     },
+     {
+       title: 'Số lượng',
+       dataIndex: 'stonge'
+     },
+     {
+       title: 'Thành Tiền',
+       dataIndex: 'total'
+     },
+     {
+       title: 'Thao Tác',
+       dataIndex: 'delete',
+       render: (_, record) => {
+         // console.log(128,_, record.key);
+         return dataSource.length >= 1 ? (
+           <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.key)}>
+             <Button type='text'><i class="fa-solid fa-trash-can"></i></Button>
+           </Popconfirm>
+         ) : null
+       }
+ 
+     },
+ 
+   ];
+   
+   useEffect(
+     () => {
+       let newTotal = 0;
+       let newTotalQualyti = 0;
+       dataSource.map(
+         (value, index) => {
+           if (value.select === true) {
+             newTotal += value.total;
+             newTotalQualyti += Number(value.stonge)
+             // totalQuality1 += value.stonge
+           }
+ 
+         }
+       )
+       setTotal(newTotal)
+       setTotalQuality(newTotalQualyti)
+     }, [count]
+   );
   return (
-    <div>
-       <div className="container-create-order">
+     <div>
+     {/* <h1>CreateOrder</h1> */}
+     <div className="container-create-order">
           <div className="header-create-order">
                <div className="header-create-order-left">
                     <div className="kenh-nguoi-ban">
@@ -34,7 +206,7 @@ function CreateOrder() {
                <div className='thanh-toan'>Thanh Toán</div>
           </div>
 
-         <div className="container-content">
+         <div className="create-order-container-content">
                <div className="describe-create-order">
                     <div className="border"></div>
                     <div className="dia-chi-nhan-hang">
@@ -47,68 +219,46 @@ function CreateOrder() {
                          <div className="mac-dinh">Mặc định</div>
                          <div className="thay-doi">Thay đổi</div>
                     </div>
-               </div>
-
-               <div className="product-description">
-                    <div className="product-description-top">
-                         <div className='product-description-product'>Sản phẩm</div>
-                         <div className="product-description-flex">
-                              <div className='product-description-price'>Đơn giá</div>
-                              <div className='product-description-amount'>Số lượng</div>
-                              <div className='product-description-money'>Thành tiền</div>
-                         </div>
-                    </div>
-                    <div className="product-description-mid">
-                         <div className="product-description-mid-like"><svg xmlns="http://www.w3.org/2000/svg" width="70" height="16" fill="none"><path fill="#EE4D2D" fill-rule="evenodd" d="M0 2C0 .9.9 0 2 0h66a2 2 0 012 2v12a2 2 0 01-2 2H2a2 2 0 01-2-2V2z" clip-rule="evenodd"></path><g clip-path="url(#clip0)"><path fill="#fff" d="M8.7 13H7V8.7L5.6 6.3A828.9 828.9 0 004 4h2l2 3.3a1197.3 1197.3 0 002-3.3h1.6L8.7 8.7V13zm7.9-1.7h1.7c0 .3-.2.6-.5 1-.2.3-.5.5-1 .7l-.6.2h-.8c-.5 0-1 0-1.5-.2l-1-.8a4 4 0 01-.9-2.4c0-1 .3-1.9 1-2.6a3 3 0 012.4-1l.8.1a2.8 2.8 0 011.3.7l.4.6.3.8V10h-4.6l.2 1 .4.7.6.5.7.1c.4 0 .7 0 .9-.2l.2-.6v-.1zm0-2.3l-.1-1-.3-.3c0-.2-.1-.2-.2-.3l-.8-.2c-.3 0-.6.2-.9.5l-.3.5a4 4 0 00-.3.8h3zm-1.4-4.2l-.7.7h-1.4l1.5-2h1.1l1.5 2h-1.4l-.6-.7zm8.1 1.6H25V13h-1.7v-.5.1H23l-.7.5-.9.1-1-.1-.7-.4c-.3-.2-.4-.5-.6-.8l-.2-1.3V6.4h1.7v3.7c0 1 0 1.6.3 1.7.2.2.5.3.7.3h.4l.4-.2.3-.3.3-.5.2-1.4V6.4zM34.7 13a11.2 11.2 0 01-1.5.2 3.4 3.4 0 01-1.3-.2 2 2 0 01-.5-.3l-.3-.5-.2-.6V7.4h-1.2v-1h1.1V5h1.7v1.5h1.9v1h-2v3l.2 1.2.1.3.2.2h.3l.2.1c.2 0 .6 0 1.3-.3v1zm2.4 0h-1.7V3.5h1.7v3.4a3.7 3.7 0 01.2-.1 2.8 2.8 0 013.4 0l.4.4.2.7V13h-1.6V9.3 8.1l-.4-.6-.6-.2a1 1 0 00-.4.1 2 2 0 00-.4.2l-.3.3a3 3 0 00-.3.5l-.1.5-.1.9V13zm5.4-6.6H44V13h-1.6V6.4zm-.8-.9l1.8-2h1.8l-2.1 2h-1.5zm7.7 5.8H51v.5l-.4.5a2 2 0 01-.4.4l-.6.3-1.4.2c-.5 0-1 0-1.4-.2l-1-.7c-.3-.3-.5-.7-.6-1.2-.2-.4-.3-.9-.3-1.4 0-.5.1-1 .3-1.4a2.6 2.6 0 011.6-1.8c.4-.2.9-.3 1.4-.3.6 0 1 .1 1.5.3.4.1.7.4 1 .6l.2.5.1.5h-1.6c0-.3-.1-.5-.3-.6-.2-.2-.4-.3-.8-.3s-.8.2-1.2.6c-.3.4-.4 1-.4 2 0 .9.1 1.5.4 1.8.4.4.8.6 1.2.6h.5l.3-.2.2-.3v-.4zm4 1.7h-1.6V3.5h1.7v3.4a3.7 3.7 0 01.2-.1 2.8 2.8 0 013.4 0l.3.4.3.7V13h-1.6V9.3L56 8.1c-.1-.3-.2-.5-.4-.6l-.6-.2a1 1 0 00-.3.1 2 2 0 00-.4.2l-.3.3a3 3 0 00-.3.5l-.2.5V13z"></path></g><g clip-path="url(#clip1)"><path fill="#fff" d="M63 8.2h2.2v1.6H63V12h-1.6V9.8h-2.2V8.2h2.2V6H63v2.3z"></path></g><defs><clipPath id="clip0"><path fill="#fff" d="M0 0h55v16H0z" transform="translate(4)"></path></clipPath><clipPath id="clip1"><path fill="#fff" d="M0 0h7v16H0z" transform="translate(59)"></path></clipPath></defs></svg></div>
-                         <div className='product-description-mid-shop'>Ăn vặt HomeFood HN</div>
-                         <div className="product-description-mid-chat"><svg viewBox="0 0 16 16" className="product-description-mid-chat-icon"><g fill-rule="evenodd"><path d="M15 4a1 1 0 01.993.883L16 5v9.932a.5.5 0 01-.82.385l-2.061-1.718-8.199.001a1 1 0 01-.98-.8l-.016-.117-.108-1.284 8.058.001a2 2 0 001.976-1.692l.018-.155L14.293 4H15zm-2.48-4a1 1 0 011 1l-.003.077-.646 8.4a1 1 0 01-.997.923l-8.994-.001-2.06 1.718a.5.5 0 01-.233.108l-.087.007a.5.5 0 01-.492-.41L0 11.732V1a1 1 0 011-1h11.52zM3.646 4.246a.5.5 0 000 .708c.305.304.694.526 1.146.682A4.936 4.936 0 006.4 5.9c.464 0 1.02-.062 1.608-.264.452-.156.841-.378 1.146-.682a.5.5 0 10-.708-.708c-.185.186-.445.335-.764.444a4.004 4.004 0 01-2.564 0c-.319-.11-.579-.258-.764-.444a.5.5 0 00-.708 0z"></path></g></svg>Chat ngay</div>
-                    </div>
-                    <div className="product-description-between">
-                         <div className="product-description-between-left">
-                              <img className='product-description-between-image' src="https://cf.shopee.vn/file/8ce8a192184fc707356d9d6fa8943587_tn" alt="" />
-                              <div className="product-description-between-describe">Mực rim me chua cay ngọt đặc sản Đà Nẵng hũ 250gr</div>
-                         </div>
-                         <div className="product-description-between-right">
-                              <div className="product-description-between-right-price absolute"><span>đ</span>65.000</div>
-                              <div className='product-description-between-right-amount'>1</div>
-                              <div className="product-description-between-right-momey absolute"><span>đ</span>65.000</div>
-                         </div>
-                         
-                    </div>
-                    <div className='product-description-between-border'></div>
-                    <div className="product-description-voucher">
-                         <svg fill="none" viewBox="0 -2 23 22" className="icon-voucher-line"><g filter="url(#voucher-filter0_d)"><mask id="a" fill="#fff"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 2h18v2.32a1.5 1.5 0 000 2.75v.65a1.5 1.5 0 000 2.75v.65a1.5 1.5 0 000 2.75V16H1v-2.12a1.5 1.5 0 000-2.75v-.65a1.5 1.5 0 000-2.75v-.65a1.5 1.5 0 000-2.75V2z"></path></mask><path d="M19 2h1V1h-1v1zM1 2V1H0v1h1zm18 2.32l.4.92.6-.26v-.66h-1zm0 2.75h1v-.65l-.6-.26-.4.91zm0 .65l.4.92.6-.26v-.66h-1zm0 2.75h1v-.65l-.6-.26-.4.91zm0 .65l.4.92.6-.26v-.66h-1zm0 2.75h1v-.65l-.6-.26-.4.91zM19 16v1h1v-1h-1zM1 16H0v1h1v-1zm0-2.12l-.4-.92-.6.26v.66h1zm0-2.75H0v.65l.6.26.4-.91zm0-.65l-.4-.92-.6.26v.66h1zm0-2.75H0v.65l.6.26.4-.91zm0-.65l-.4-.92-.6.26v.66h1zm0-2.75H0v.65l.6.26.4-.91zM19 1H1v2h18V1zm1 3.32V2h-2v2.32h2zm-.9 1.38c0-.2.12-.38.3-.46l-.8-1.83a2.5 2.5 0 00-1.5 2.29h2zm.3.46a.5.5 0 01-.3-.46h-2c0 1.03.62 1.9 1.5 2.3l.8-1.84zm.6 1.56v-.65h-2v.65h2zm-.9 1.38c0-.2.12-.38.3-.46l-.8-1.83a2.5 2.5 0 00-1.5 2.29h2zm.3.46a.5.5 0 01-.3-.46h-2c0 1.03.62 1.9 1.5 2.3l.8-1.84zm.6 1.56v-.65h-2v.65h2zm-.9 1.38c0-.2.12-.38.3-.46l-.8-1.83a2.5 2.5 0 00-1.5 2.29h2zm.3.46a.5.5 0 01-.3-.46h-2c0 1.03.62 1.9 1.5 2.3l.8-1.84zM20 16v-2.13h-2V16h2zM1 17h18v-2H1v2zm-1-3.12V16h2v-2.12H0zm1.4.91a2.5 2.5 0 001.5-2.29h-2a.5.5 0 01-.3.46l.8 1.83zm1.5-2.29a2.5 2.5 0 00-1.5-2.3l-.8 1.84c.18.08.3.26.3.46h2zM0 10.48v.65h2v-.65H0zM.9 9.1a.5.5 0 01-.3.46l.8 1.83A2.5 2.5 0 002.9 9.1h-2zm-.3-.46c.18.08.3.26.3.46h2a2.5 2.5 0 00-1.5-2.3L.6 8.65zM0 7.08v.65h2v-.65H0zM.9 5.7a.5.5 0 01-.3.46l.8 1.83A2.5 2.5 0 002.9 5.7h-2zm-.3-.46c.18.08.3.26.3.46h2a2.5 2.5 0 00-1.5-2.3L.6 5.25zM0 2v2.33h2V2H0z" mask="url(#a)"></path></g><path clip-rule="evenodd" d="M6.49 14.18h.86v-1.6h-.86v1.6zM6.49 11.18h.86v-1.6h-.86v1.6zM6.49 8.18h.86v-1.6h-.86v1.6zM6.49 5.18h.86v-1.6h-.86v1.6z"></path><defs><filter id="voucher-filter0_d" x="0" y="1" width="20" height="16" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation=".5"></feGaussianBlur><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0"></feColorMatrix><feBlend in2="BackgroundImageFix" result="effect1_dropShadow"></feBlend><feBlend in="SourceGraphic" in2="effect1_dropShadow" result="shape"></feBlend></filter></defs>
-                         </svg>
-                         <div className='product-description-voucher-text'>Voucher của Shop</div>
-                         <button className='product-description-voucher-button'>Chọn Voucher</button>
-                    </div>
-
-                    <div className="product-description-bottom">
-                         <div className="product-description-bottom-note">
-                              <div className='product-description-bottom-note-massage'>Lời nhắn:</div>
-                              <input className='product-description-bottom-note-input' type="text" name="" id="" placeholder='Lưu ý cho Người bán...'/>
-                         </div>
-                         <div className="product-description-bottom-transport">                                                         
-                                   <div className="product-description-bottom-transport-row">
-                                        <div className="product-description-bottom-transport-row-ship">Đơn vị vận chuyển:</div>
-                                        <div>Nhanh</div>
-                                        <div className="product-description-bottom-transport-row-change">Thay đổi</div>
-                                        <div className="product-description-bottom-transport-row-shipping"><span>₫</span>22.200</div>
-                                   </div>
-                                   <div className="product-description-bottom-transport-time"><span>Nhận hàng vào 25 Th08 - 27 Th08</span></div>                                
-                                   <div className="product-description-bottom-transport-code"><span>(Nhanh tay vào ngay "Shopee Voucher" để săn mã Miễn phí vận chuyển nhé!)</span></div>                                                                                                 
-                         </div>
-                    </div>
-                    <div className="product-description-footer">
-                         <div className="product-description-footer-money">Tổng tiền (1 sản phẩm): <span>₫87.200</span></div>
-                    </div>
-               </div>
-
+               </div>            
          </div>
+
+         <Row justify='center'>
+        <Col span={20}>
+          <div className='create-order-list'>
+            <Table rowSelection={rowSelection} columns={defaultColumns}  dataSource={dataSource} />
+          </div>
+        </Col>
+      </Row>
+      <Row justify='center'>
+        <Col span={20}>
+          <div className='create-order-footer'>
+              <Row justify='center'>
+                <Col span={10}></Col>
+                <Col span={10}>
+                  <div className="create-order-voucher-1">
+                    <div className="create-order-title">
+                      <h1><i className="fa-solid fa-ticket"></i> <span>Shopee Voucher</span></h1>
+                    </div>
+                    
+                  </div>
+                </Col>
+              </Row>
+              
+                  <div className="create-order-right">
+                      <div className='create-order-product-mount'>Số sản phẩm được mua ({count})</div>
+                      <div className='create-order-price'>
+                            Tổng thanh toán ({totalQuality} Sản phẩm ):  <span>{total.toLocaleString()}đ</span>
+                      </div>
+                  </div>
+            </div>
+        </Col>
+      </Row>
+      <button className='create-order-button'>Đặt hàng</button>
+
+
      </div>
 
     </div>
-  
   )
 }
 
