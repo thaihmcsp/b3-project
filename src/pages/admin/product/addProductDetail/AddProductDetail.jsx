@@ -5,7 +5,7 @@ import { Input } from 'antd';
 import './AddProductDetail.css'
 import { Select } from 'antd';
 const { Option } = Select;
-function AddProduct() {
+function AddProductDetail() {
   
   // atn picture upload
   const getBase64 = (img, callback) => {
@@ -225,4 +225,4 @@ function AddProduct() {
   )
 };
 
-export default AddProduct
+export default AddProductDetail

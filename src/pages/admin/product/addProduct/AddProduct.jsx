@@ -1,10 +1,10 @@
 import React from 'react'
-// import '../addProduct/addProduct.css'
 import { Input, Space } from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-
+import '../addProduct/addProduct.css'
 const { Search } = Input;
 const listOrder = 'Chưa chọn nghành hàng'
 const suffix = (
@@ -17,6 +17,7 @@ const suffix = (
 );
 
 const onSearch = (value) => console.log(value);
+
 function AddProduct() {
 
   const onChange = (e) => {
@@ -105,11 +106,11 @@ function AddProduct() {
           Đã chọn :   <p> {listOrder}</p>
         </div>
         <div className='btn-next'>
-          <button>Tiếp theo</button>
+          <Link to='/admin/product/detail/create'><button>Tiếp theo</button></Link>
         </div>
       </div>
     </div>
   )
-};
+}
 
 export default AddProduct
