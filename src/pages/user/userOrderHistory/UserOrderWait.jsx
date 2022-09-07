@@ -1,6 +1,7 @@
 import { React, Fragment } from 'react'
 import { data } from './UserOrderHistory'
 import product from '../../../static/Truong/product.json'
+import { Link } from 'react-router-dom';
 
 function UserOrderWait() {
     let count = 0;
@@ -11,39 +12,41 @@ function UserOrderWait() {
                     if (value.status === 'success') {
                         let result = value.listProduct.map((data) => {
                             return (
-                                <Fragment>
-                                    <div className="order-product">
-                                        <div className="order-product--detail">
-                                            <div className="order-product-detail__img">
-                                                <img src={data.newData.listImg} alt="" />
-                                            </div>
-                                            <div className="order-product-detail__name">
-                                                {
-                                                    product.map((product) => {
-                                                        let name = product.listDetail.map((id) => {
-                                                            if (id === data.productDetailId) {
-                                                                return (
-                                                                    <h3>{product.productName}</h3>
-                                                                )
-                                                            }
+                                <Link to={'/user/order/' + data.productDetailId}>
+                                    <Fragment>
+                                        <div className="order-product">
+                                            <div className="order-product--detail">
+                                                <div className="order-product-detail__img">
+                                                    <img src={data.newData.listImg} alt="" />
+                                                </div>
+                                                <div className="order-product-detail__name">
+                                                    {
+                                                        product.map((product) => {
+                                                            let name = product.listDetail.map((id) => {
+                                                                if (id === data.productDetailId) {
+                                                                    return (
+                                                                        <h3>{product.productName}</h3>
+                                                                    )
+                                                                }
+                                                            })
+                                                            return name
                                                         })
-                                                        return name
-                                                    })
-                                                }
-                                                <div className="order-product-detail__category">
-                                                    <span>Phân loại hàng : {data.newData.color},{data.newData.ram},{data.newData.rom}</span>
+                                                    }
+                                                    <div className="order-product-detail__category">
+                                                        <span>Phân loại hàng : {data.newData.color},{data.newData.ram},{data.newData.rom}</span>
+                                                    </div>
+                                                    <div className="order-product-detail__quantity">
+                                                        <span>x{data.quantity}</span>
+                                                    </div>
                                                 </div>
-                                                <div className="order-product-detail__quantity">
-                                                    <span>x{data.quantity}</span>
+                                                <div className="order-product-detail__price">
+                                                    <span><sup>₫</sup>{data.newData.price.toLocaleString()}</span>
                                                 </div>
-                                            </div>
-                                            <div className="order-product-detail__price">
-                                                <span><sup>₫</sup>{data.newData.price.toLocaleString()}</span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className='line'></div>
-                                </Fragment>
+                                        <div className='line'></div>
+                                    </Fragment>
+                                </Link>
                             )
                         })
                         return (
