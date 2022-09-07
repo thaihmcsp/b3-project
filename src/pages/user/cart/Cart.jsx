@@ -233,18 +233,6 @@ function Cart() {
             <Table
               rowSelection={rowSelection}
               columns={defaultColumns}
-              // expandable={{
-              //   expandedRowRender: (record) => (
-              //     <p
-              //       style={{
-              //         margin: 0,
-              //       }}
-              //     >
-              //       {record.description}
-              //     </p>
-              //   ),
-              //   rowExpandable: (record) => record.name !== 'Not Expandable',
-              // }}
               dataSource={dataSource}
             />
           </div>

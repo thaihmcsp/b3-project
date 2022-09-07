@@ -6,7 +6,7 @@ import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 
 const { Search } = Input;
-const listOrder = 'Chưa chọn nghàn hàng'
+const listOrder = 'Chưa chọn nghành hàng'
 const suffix = (
   <AudioOutlined
     style={{
