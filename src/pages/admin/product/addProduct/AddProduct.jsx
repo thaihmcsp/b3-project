@@ -24,21 +24,21 @@ function AddProduct() {
   const listOrder = 'Chưa chọn nghành hàng'
   const [newProduct, setNewProduct] = useState([])
   let token = window.localStorage.getItem("user")
-  async function US() {
-    try {
-      let checkUS = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
-      console.log(checkUS);
-    } catch (error) {
+  // async function US() {
+  //   try {
+  //     let checkUS = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
+  //     console.log(checkUS);
+  //   } catch (error) {
 
-    }
-  }
-  let getToken = axios.get('url', { headers: { Authorization: token } })
-  console.log(27, getToken);
+  //   }
+  // }
+  // let getToken = axios.get('url', { headers: { Authorization: token } })
+  // console.log(27, getToken);
   console.log(26, token);
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
-      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values)
+      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
       console.log(30, res);
     } catch (error) {
       console.log(32, error);
@@ -106,11 +106,13 @@ function AddProduct() {
   const onClick = (e) => {
     console.log('click', e);
   };
-  useEffect(() => {
 
-    US()
+  
+  // useEffect(() => {
 
-  }, [])
+  //   US()
+
+  // }, [])
 
 
   return (
