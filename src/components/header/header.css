@@ -1,4 +1,3 @@
-
 .App {
   text-align: center;
 }
@@ -95,16 +94,18 @@
   outline: 0;
 
 }
-.header-seach-main button{
+
+.header-seach-main button {
   padding: 8px 16px;
   background-color: #fb5430;
   color: white;
   border: none;
   font-size: 20px;
-  margin-right:10px ;
+  margin-right: 10px;
   margin-bottom: 5px;
 }
-.icon-cart{
+
+.icon-cart {
   zoom: 2;
   margin: 0 10px;
   position: absolute;
@@ -112,13 +113,67 @@
   right: 100%;
   font-size: 15px;
   fill: white;
-   color: white;
-  }
-  .header-seach-cart{
-    display: flex;
-    margin: 0 10px;
-    justify-content: end;
-    position: relative;
-    color: white;
-  }
-  
+  color: white;
+}
+
+.header-seach-cart {
+  display: flex;
+  margin: 0 10px;
+  justify-content: end;
+  position: relative;
+  color: white;
+}
+
+.header-top-right-id {
+  display: flex;
+  display: none;
+}
+
+.header-top-right-icon {
+  display: flex;
+}
+
+.header-top-right-name {
+  display: flex;
+}
+
+.header-top-right-name-hover {
+
+  position: absolute;
+  top: 80%;
+  left: -80%;
+
+}
+
+.header-top-right-user {
+  position: relative;
+}
+
+.list {
+  list-style: none;
+  background-color: white;
+  width: 120%;
+  font-size: 15px;
+
+
+}
+
+.list li {
+  margin-top: 0px;
+  padding: 5px;
+}
+
+.list li:hover {
+  cursor: pointer;
+  background-color: #ccc;
+  color: #fb5430;
+}
+
+.header-top-right-user:hover .header-top-right-name-hover {
+  display: block;
+  z-index: 2;
+}
+
+.header-top-right-name-hover {
+  display: none;
+}

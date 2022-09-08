@@ -225,4 +225,4 @@ function AddProductDetail() {
   )
 };;
 
-export default AddProduct
+export default AddProductDetail
