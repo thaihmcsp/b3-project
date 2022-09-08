@@ -2,11 +2,13 @@
 /* UserMenu */
 
 .menu {
-    width: 15%;
+    /* width: 15%; */
 }
 
 .menu-admin {
     display: flex;
+    /* position: fixed; */
+    /* width: 100%; */
 }
 .menu-header {
     display: flex;

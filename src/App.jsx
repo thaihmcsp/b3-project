@@ -23,13 +23,18 @@ import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListPr
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
-import AddProduct from "./components/addProduct/AddProduct";
+
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
+import order from "./static/Truong/order.json"
+import user from "./static/Truong/user.json"
+import productDetail from "./static/Truong/productDetail.json";
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
+import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
+import AddProduct from "./pages/admin/product/addProduct/AddProduct"
 
 function App() {
   return (
@@ -56,11 +61,14 @@ function App() {
           </Route>
         </Route>
         <Route path='/admin' element={<AdminPage />}>
+
+          <Route path="/admin/profile" element={<AdminProfile/>}/>
+
             {/* trang liệt kê tất cả đơn hàng của hệ thống */}
           <Route path='/admin/order' element={<Order />} /> 
 
           {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
-          <Route path='/admin/order/:orderId' element={<Order />} /> 
+          <Route path='/admin/order/:orderId' element={<AdminOrderDetail order={order} user={user} productDetail={productDetail} product={product} />} /> 
 
             {/* trang hiển thị, thêm, sửa phân loại */}
           <Route path="/admin/category" element={<Category />} />
@@ -71,8 +79,8 @@ function App() {
             {/* tạo sản phẩm */}
           <Route path="/admin/product/create" element={<AddProduct />} />
 
-            {/* tạo biến thể của sản phẩm
-          <Route path="/admin/product/detail/create" element={<AddProductDetail />} /> */}
+            {/* tạo biến thể của sản phẩm */}
+          <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
 
             {/* liệt kê các biến thể đang có của 1 sp cụ thể */}
           <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />
@@ -84,6 +92,7 @@ function App() {
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>
+      
     </BrowserRouter>
   );
 }

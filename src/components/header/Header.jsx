@@ -2,8 +2,13 @@ import React from 'react'
 import { FacebookOutlined, InstagramOutlined, BellOutlined, QuestionCircleOutlined, SearchOutlined, UserOutlined, ShoppingCartOutlined } from "@ant-design/icons"
 import './header.css'
 import { Link, useNavigate } from "react-router-dom"
+import {instance} from "../../config/axios";
+import {useState} from "react"
+import {useEffect} from "react"
 function Header() {
   const nav = useNavigate()
+  let token = window.localStorage.getItem("user")
+  const [uNane , setUName] = useState("")
   function Login() {
     nav("/signin")
   }
@@ -16,6 +21,7 @@ function Header() {
   function LogOut() {
     nav("/")
     window.location.reload()
+    window.localStorage.removeItem("user")
   }
   function Buy() {
     nav("")
@@ -23,6 +29,45 @@ function Header() {
   function Admin() {
     nav("/admin")
   }
+  console.log(token);
+  
+   async function nameUser (){
+    if(token){
+     
+     
+                      try {
+                        let name = await instance.get("/auth/get-loged-in-user",{headers: {Authorization: token}})
+                    //  console.log(name.data.user.email);
+                        let classNone=document.querySelector(".header-top-right-id")
+                          classNone.setAttribute("id","display")
+                          setUName(name.data.user.email)
+                          console.log(classNone);
+                    } catch (error) {
+                  
+                }
+
+    }
+    if(!token)  {
+                    try {
+                            let ab =  document.querySelector(".header-top-right-user")
+                            ab.setAttribute("id","display")
+                        console.log(ab);
+                    } catch (error) {
+                      
+                    }
+        
+        }
+      
+    
+  }
+ useEffect(() => {
+   
+  nameUser()
+   
+ }, [])
+ 
+ 
+
   return (
     <div className='header'>
       <div className='header-top'>
@@ -33,7 +78,7 @@ function Header() {
           <p id='kn'>Kết Nối   </p>
           <p> <span><FacebookOutlined className='icon-fb' /></span><span><InstagramOutlined className='icon-itg' /></span>    </p>
         </div>
-        <dir className="header-top-right" >
+        <dir className="header-top-right"  >
           <div className='header-top-right-icon'>
             <p> <span><BellOutlined /></span>Thông Báo </p>
             <p><span><QuestionCircleOutlined /></span> Hỗ Trợ </p>
@@ -45,7 +90,7 @@ function Header() {
           <div className='header-top-right-user'>
             <div className='header-top-right-name'>
               <p><UserOutlined /></p>
-              <p>UserName</p>
+              <p>{uNane}</p>
             </div>
             <div className='header-top-right-name-hover'>
               <ul className='list'>
@@ -74,7 +119,7 @@ function Header() {
           </div>
         </Link>
         <div className="header-seach-main">
-          <input type="text" />
+                   <input type="text"  className='header-seach-iput'/>
           <button>
             <SearchOutlined />
           </button>

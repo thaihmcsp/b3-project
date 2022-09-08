@@ -1,11 +1,15 @@
-import React from 'react'
-import { Input, Space } from 'antd';
-// import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { DatePicker, Space , Input , Table } from 'antd';
+import { MenuOutlined , ShopOutlined} from '@ant-design/icons'
 import { AudioOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import React from 'react';
+import './order.css'
+import user from '../../../static/Truong/user.json'
+import order from '../../../static/Truong/order.json'
+import { useEffect } from 'react';
+import { useState } from 'react';
 
+const { RangePicker } = DatePicker;
 const { Search } = Input;
-const listOrder = 'Chưa chọn nghàn hàng'
 const suffix = (
   <AudioOutlined
     style={{
@@ -18,96 +22,99 @@ const suffix = (
 const onSearch = (value) => console.log(value);
 
 function Order() {
+  const [selectValue , setSelectValue] = useState([])
 
-  const onChange = (e) => {
-    console.log('Change:', e.target.value);
-  };
+    for (let i = 0; i < order.length; i++) {
+      const elementOrder = order[i];
+      for (let j = 0; j < user.length; j++) {
+        const elementUser = user[j];
+        if(elementOrder.userId === elementUser._id){
+          elementOrder.userName = elementUser.fullname
+          elementOrder.phone = elementUser.phone
+        }
+      }
+    }
+    
+    let count = 0 ;
+    for (let i = 0; i < order.length; i++) {
+      count += 1;
+    }
+    
+    const columns = [
+      {
+        title: 'userName',
+        dataIndex: 'userName',
+        key: 'userName',
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: 'total',
+        dataIndex: 'total',
+        key: 'total',
+      },
+      {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+      },
+      {
+        title: 'Phone',
+        key: 'phone',
+        dataIndex: 'phone',
+      },
+      {
+        title: 'Ngày tạo',
+        key: 'createdAt',
+        dataIndex: 'createdAt',
+      },
+      {
+        title: 'Status',
+        key: 'status',
+        dataIndex: 'status',
+      }
+    ];
 
-  function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  }
-
-  const items = [
-    getItem('Điện thoại', 'sub1', null, [
-   
-    ]),
-    getItem('Laptop', 'sub2', null, [
-
-    ]),
-    getItem('Máy tính bảng', 'sub3', null, [
-
-    ]),
-    getItem('Âm thanh', 'sub4', null, [
-
-    ]),
-    getItem('Đồng hồ', 'sub5', null, [
-
-    ]),
-    getItem('Nhà thông minh', 'sub6', null, [
-
-    ]),
-    getItem('Phụ kiện', 'sub7', null, [
-
-    ]),
-    getItem('PC - Màn hình', 'sub8', null, [
-
-    ]),
-    getItem('Tivi', 'sub9', null, [
-
-    ]),
-
-  ];
-
-  const onClick = (e) => {
-    console.log('click', e);
-  };
+    // function getSelectValueOrder(){
+    //   let select = document.querySelector('.typeSeacher').value
+    //   console.log(select);
+    // }
 
   return (
-    <div className='classOrder'>
-      <div className='order-header'>
-        <h4>Thêm 1 sản phẩm mới</h4>
-        <p>Vui lòng chọn nghành hàng phù hợp cho sản phẩm của bạn</p>
-      </div>
-      <hr />
-      <div className='search-product'>
-        <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
-      </div>
-      <div className='order-body'>
-        <div className="input-search">
-          <Search
-            placeholder="Tên nghành hàng"
-            onSearch={onSearch}
-            style={{
-              width: '30%',
-              borderRadius: 20
-            }}
-          /> <span>Chọn nghành hàng chính xác , <a className='link-order' href="/">Bấm vào đây để tìm hiểu</a></span>
+    <div className="classOrder">
+      <div className="header-order">
+        <span>Ngày đặt hàng </span>
+        <div className='date-order'>
+          <Space  direction="vertical" size={12}>
+            <RangePicker />
+          </Space>
         </div>
-        <div className="menuOrder">
-          <Menu
-            onClick={onClick}
-            style={{
-              width: 256,
-            }}
-            mode="vertical"
-            items={items}
-          />
+        {/* <div className='btn-product-delivery'>
+          <button>Xuất</button>
         </div>
+        <div className='btn-report'>
+          <button><MenuOutlined /></button>
+        </div> */}
       </div>
-      <div className='footer-order'>
-        <div className='chose-order'>
-          Đã chọn :   <p> {listOrder}</p>
-        </div>
-        <div className='btn-next'>
-          <button>Tiếp theo</button>
-        </div>
+
+      <div className="input-selector">
+          <select id="typeSeacher">
+            <option value="userName">Tên người mua </option>
+            <option value="phoneNumber">Số điện thoại</option>
+          </select>
+          <div className='input-search-order'>
+            <Space direction="vertical">
+              <Search className='ant-input-search-order' placeholder={'getSelectValueOrder()'} onSearch={onSearch} style={{ width: 720 }}/>
+            </Space>
+          </div>
+          <button id='btn-search-product' >Tìm Kiếm</button>
+          <button id='btn-setAgain'>Đặt lại</button>
       </div>
+
+      <div className='btn-delivery'> 
+        <h1>{count} Đơn Hàng</h1>
+        <div><button><span><ShopOutlined /></span><span>Giao Hàng Loạt</span></button></div>
+      </div>
+      <Table columns={columns} dataSource={order} />
     </div>
   )
 }
