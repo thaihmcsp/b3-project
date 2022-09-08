@@ -78,7 +78,8 @@ function Home({ product }) {
       <div className="home_body">
         <div className="home_banner">
           <div className="home_banner-left">
-            <button className="home_banner-left-btn" onClick={handlePrevSlider}>
+            <button className="home_banner-left-btn" 
+              onClick={handlePrevSlider}>
               <LeftOutlined />
             </button>
             <Carousel autoplay ref={(node) => (refCarousel = node)}>
