@@ -4,6 +4,7 @@ import "./Home.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { getAPI } from "../../../config/api";
 
 const contentStyle = {
   color: "#fff",
@@ -20,6 +21,8 @@ function Home({ product }) {
   const [showPagination, setShowPagination] = useState(false);
   const [showBtnSeeMore, setShowBtnSeeMore] = useState(true);
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
+  const [listProduct, setListProduct] = useState([])
+  console.log(listProduct);
   const [count, setCount] = useState(0);
 
   const tab1 = document.querySelector(".home_product-heading");
@@ -37,11 +40,16 @@ function Home({ product }) {
     });
   }
 
+  function filterPage (){
+    nav("/filter?page=1&pageSize=10")
+  }
   useEffect(() => {
     async function getData() {
       try {
+        let products = await getAPI('/product/get-all-products')
+        setListProduct(products.data.products)
         setShowDataPage(
-          product.slice(
+          products.data.products.slice(
             (objectSearch.page - 1) * objectSearch.pageSize,
             objectSearch.page * objectSearch.pageSize
           )
@@ -68,7 +76,7 @@ function Home({ product }) {
   const onShowSizeChange = (current, pageSize) => {
     let start = (current - 1) * pageSize;
     let stop = current * pageSize;
-    setShowDataPage(product.slice(start, stop));
+    setShowDataPage(listProduct.slice(start, stop));
     nav(`?page=${current}&pageSize=${pageSize}`);
     setCount((pre) => pre + 1);
   };
@@ -78,24 +86,45 @@ function Home({ product }) {
       <div className="home_body">
         <div className="home_banner">
           <div className="home_banner-left">
-            <button className="home_banner-left-btn" 
-              onClick={handlePrevSlider}>
+            <button className="home_banner-left-btn" onClick={handlePrevSlider}>
               <LeftOutlined />
             </button>
             <Carousel autoplay ref={(node) => (refCarousel = node)}>
               <div>
                 <div style={contentStyle}>
-                  <img className="home_banner-left-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDgenxY2Zxcs6xDiftqUewTuCcq3cKvJcWOw&usqp=CAU" alt="" />
+                  <img
+                    className="home_banner-left-img"
+                    src="	https://cf.shopee.vn/file/4934a289e707bf4e3f0b4ff15da34bb5_xxhdpi"
+                    alt=""
+                  />
                 </div>
               </div>
               <div>
-                <h3 style={contentStyle}>2</h3>
+                <h3 style={contentStyle}>
+                  <img
+                    className="home_banner-left-img"
+                    src="	https://cf.shopee.vn/file/da1bd3e75f73fe83efe5c3f852359c34_xxhdpi"
+                    alt=""
+                  />
+                </h3>
               </div>
               <div>
-                <h3 style={contentStyle}>3</h3>
+                <h3 style={contentStyle}>
+                  <img
+                    className="home_banner-left-img"
+                    src="		https://cf.shopee.vn/file/74f86a460aeca99ca43d6863e1f039ae_xxhdpi"
+                    alt=""
+                  />
+                </h3>
               </div>
               <div>
-                <h3 style={contentStyle}>4</h3>
+                <h3 style={contentStyle}>
+                  <img
+                    className="home_banner-left-img"
+                    src="		https://cf.shopee.vn/file/c16de52f3676f7aef4456acd862d3816_xxhdpi"
+                    alt=""
+                  />
+                </h3>
               </div>
             </Carousel>
             <button
@@ -107,20 +136,20 @@ function Home({ product }) {
           </div>
           <div className="home_banner-right">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkff_WbyYU5jxqitiN5v_L2ebMp13F7WE5Ry_mffonhA&s"
+              src="https://cf.shopee.vn/file/50ef5b6c39d141b1163eee8261c6b99b_xhdpi"
               alt="banner"
             />
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkff_WbyYU5jxqitiN5v_L2ebMp13F7WE5Ry_mffonhA&s"
+              src="https://cf.shopee.vn/file/d30cf192dab75d7df1320bff5902ed0a_xhdpi"
               alt="banner"
             />
           </div>
         </div>
         <div className="home_navbar">
-          <div className="home_navbar-item">
+          <div className="home_navbar-item" onClick={filterPage}>
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="	https://cf.shopee.vn/file/46a2a2c810622f314d78455da5e5d926_xhdpi"
                 alt=""
               />
             </div>
@@ -129,7 +158,7 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi"
                 alt=""
               />
             </div>
@@ -138,7 +167,7 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="https://cf.shopee.vn/file/a8d76bca057ba0b117dcf8e1ef068d16_xhdpi"
                 alt=""
               />
             </div>
@@ -147,7 +176,7 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="https://cf.shopee.vn/file/b15de7d7368673a82583a88333ed23e7_xhdpi"
                 alt=""
               />
             </div>
@@ -156,7 +185,7 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="https://cf.shopee.vn/file/21a4856d1fecd4eda143748661315dba_xhdpi"
                 alt=""
               />
             </div>
@@ -165,7 +194,7 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="	https://cf.shopee.vn/file/8d6d5ee795e7675fed39d31ba04c3b92_xhdpi"
                 alt=""
               />
             </div>
@@ -174,7 +203,7 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="	https://cf.shopee.vn/file/29961f92098bc9153b88332110a91c87_xhdpi"
                 alt=""
               />
             </div>
@@ -183,7 +212,7 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="	https://cf.shopee.vn/file/9df57ba80ca225e67c08a8a0d8cc7b85_xhdpi"
                 alt=""
               />
             </div>
@@ -192,20 +221,11 @@ function Home({ product }) {
           <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
+                src="	https://cf.shopee.vn/file/96385a65fa50800e096bb790fa5c1dba_xhdpi"
                 alt=""
               />
             </div>
             <p>Deal Sốc Từ 1K</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"
-                alt=""
-              />
-            </div>
-            <p>Chọn 6 Số Trúng Tiền Triệu</p>
           </div>
         </div>
       </div>
@@ -230,7 +250,7 @@ function Home({ product }) {
                 }}
               >
                 <img
-                  src="https://cf.shopee.vn/file/bc036304a0bd28830f0c2a7c105240df"
+                  src="	https://cf.shopee.vn/file/e7a16381114a34167549a2dc88ccccdb"
                   alt=""
                 />
               </div>
@@ -242,12 +262,13 @@ function Home({ product }) {
           )}
           <div className="home_product-list-product">
             {showDataPage.map((item, index) => {
+              // console.log(item.thumbnail);
               return (
                 <div
                   className="home_product-item"
                   onClick={() => changePage(item._id)}
                 >
-                  <img src={item.thumpnail} alt="" />
+                  <img src={item.thumbnail.startsWith('https') ? item.thumbnail : 'https://shope-b3.thaihm.site/' + item.thumbnail} alt="" />
                   <h2>{item.productName}</h2>
                   <div className="home_product-item-text">
                     <span>₫</span>
@@ -283,7 +304,7 @@ function Home({ product }) {
           ""
         )}
 
-        {showBtnSeeMore ? (
+        {showBtnSeeMore && listProduct.length > objectSearch.pageSize ? (
           <div className="home_product-seemore-btn">
             <button
               onClick={() => {

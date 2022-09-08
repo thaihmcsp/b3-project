@@ -23,11 +23,15 @@ import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListPr
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
+
 import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
 import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
 import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
 import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from './static/Truong/product.json'
+import order from "./static/Truong/order.json"
+import user from "./static/Truong/user.json"
+import productDetail from "./static/Truong/productDetail.json";
 import FilterProduct from "./pages/user/filterProduct/FilterProduct";
 import AdminOrderDetail from "./pages/admin/order/AdminOrderDetail";
 import AddProduct from "./pages/admin/product/addProduct/AddProduct"
@@ -64,7 +68,7 @@ function App() {
           <Route path='/admin/order' element={<Order />} /> 
 
           {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
-          <Route path='/admin/order/:orderId' element={<Order />} /> 
+          <Route path='/admin/order/:orderId' element={<AdminOrderDetail order={order} user={user} productDetail={productDetail} product={product} />} /> 
 
             {/* trang hiển thị, thêm, sửa phân loại */}
           <Route path="/admin/category" element={<Category />} />
