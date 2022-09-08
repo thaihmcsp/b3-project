@@ -4,6 +4,7 @@ import "./Home.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { getAPI } from "../../../config/api";
 
 const contentStyle = {
   color: "#fff",
@@ -20,6 +21,8 @@ function Home({ product }) {
   const [showPagination, setShowPagination] = useState(false);
   const [showBtnSeeMore, setShowBtnSeeMore] = useState(true);
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
+  const [listProduct, setListProduct] = useState([])
+  console.log(listProduct);
   const [count, setCount] = useState(0);
 
   const tab1 = document.querySelector(".home_product-heading");
@@ -43,8 +46,10 @@ function Home({ product }) {
   useEffect(() => {
     async function getData() {
       try {
+        let products = await getAPI('/product/get-all-products')
+        setListProduct(products.data.products)
         setShowDataPage(
-          product.slice(
+          products.data.products.slice(
             (objectSearch.page - 1) * objectSearch.pageSize,
             objectSearch.page * objectSearch.pageSize
           )
@@ -71,7 +76,7 @@ function Home({ product }) {
   const onShowSizeChange = (current, pageSize) => {
     let start = (current - 1) * pageSize;
     let stop = current * pageSize;
-    setShowDataPage(product.slice(start, stop));
+    setShowDataPage(listProduct.slice(start, stop));
     nav(`?page=${current}&pageSize=${pageSize}`);
     setCount((pre) => pre + 1);
   };
@@ -257,12 +262,13 @@ function Home({ product }) {
           )}
           <div className="home_product-list-product">
             {showDataPage.map((item, index) => {
+              // console.log(item.thumbnail);
               return (
                 <div
                   className="home_product-item"
                   onClick={() => changePage(item._id)}
                 >
-                  <img src={item.thumpnail} alt="" />
+                  <img src={item.thumbnail.startsWith('https') ? item.thumbnail : 'https://shope-b3.thaihm.site/' + item.thumbnail} alt="" />
                   <h2>{item.productName}</h2>
                   <div className="home_product-item-text">
                     <span>₫</span>
@@ -298,7 +304,7 @@ function Home({ product }) {
           ""
         )}
 
-        {showBtnSeeMore ? (
+        {showBtnSeeMore && listProduct.length > objectSearch.pageSize ? (
           <div className="home_product-seemore-btn">
             <button
               onClick={() => {
