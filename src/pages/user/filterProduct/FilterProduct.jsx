@@ -149,6 +149,7 @@ useEffect(() => {
   }, [location])
 
   function clickPage (page,pageSize){
+    pageSize = 12
     let dataClone = Data.slice((pageSize*(page-1)),(pageSize*page))
     
     setCloneData(dataClone)

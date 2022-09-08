@@ -29,7 +29,7 @@ function ListProduct(props) {
                     return(
                         <div className='Listproduct-product-card' key={index} >
                                 
-                                    <Card hoverable style={{width: 240}}cover={<img alt="example" src={value.thumpnail} />}>
+                                    <Card hoverable cover={<img alt="example" src={value.thumpnail}  className="card-listproduct"/>}>
                                     <Meta title={value.productName} description={value.price.toLocaleString()} />
                                     </Card>
                                  
