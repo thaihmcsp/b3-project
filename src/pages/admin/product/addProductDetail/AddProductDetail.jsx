@@ -88,7 +88,6 @@ function AddProductDetail() {
               <p className='item-p'>Hình ảnh sản phẩm</p>
             </div>
             <div className='add-zone'>
-
               {imageUrl.map((data, index) => {
                 console.log(imageUrl[index] ? true : false);
                 return (

@@ -2,7 +2,7 @@ import { DatePicker, Space , Input , Table } from 'antd';
 import { MenuOutlined , ShopOutlined} from '@ant-design/icons'
 import { AudioOutlined } from '@ant-design/icons';
 import React from 'react';
-import '../order/order.css'
+import './order.css'
 import user from '../../../static/Truong/user.json'
 import order from '../../../static/Truong/order.json'
 import { useEffect } from 'react';
@@ -75,10 +75,10 @@ function Order() {
     ];
 
     // function getSelectValueOrder(){
-    //   let select = document.getElementById('typeSeacher')
-    //   let selectValue = select.options[select.selectedIndex].text 
-    //   console.log(80 , selectValue);
+    //   let select = document.querySelector('.typeSeacher').value
+    //   console.log(select);
     // }
+
   return (
     <div className="classOrder">
       <div className="header-order">
@@ -98,14 +98,12 @@ function Order() {
 
       <div className="input-selector">
           <select id="typeSeacher">
-            <option value="order-code">Mã đơn hàng </option>
             <option value="userName">Tên người mua </option>
-            <option value="product">Sản phẩm </option>
-            <option value="bill-code">Mã vận đơn </option>
+            <option value="phoneNumber">Số điện thoại</option>
           </select>
           <div className='input-search-order'>
             <Space direction="vertical">
-              <Search placeholder={'getSelectValueOrder()'} onSearch={onSearch} style={{ width: 720 }}/>
+              <Search className='ant-input-search-order' placeholder={'getSelectValueOrder()'} onSearch={onSearch} style={{ width: 720 }}/>
             </Space>
           </div>
           <button id='btn-search-product' >Tìm Kiếm</button>

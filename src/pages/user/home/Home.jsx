@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "antd";
 import "./Home.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getAPI } from "../../../config/api";
@@ -21,10 +21,11 @@ function Home({ product }) {
   const [showPagination, setShowPagination] = useState(false);
   const [showBtnSeeMore, setShowBtnSeeMore] = useState(true);
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
-  const [listProduct, setListProduct] = useState([])
+  const [listProduct, setListProduct] = useState([]);
   console.log(listProduct);
   const [count, setCount] = useState(0);
 
+  console.log(showDataPage);
   const tab1 = document.querySelector(".home_product-heading");
   const tab2 = document.querySelector(".home_product-img");
 
@@ -40,14 +41,14 @@ function Home({ product }) {
     });
   }
 
-  function filterPage (){
-    nav("/filter?page=1&pageSize=10")
+  const filterPage = () => {
+    nav("/filter?page=1&pageSize=10");
   }
   useEffect(() => {
     async function getData() {
       try {
-        let products = await getAPI('/product/get-all-products')
-        setListProduct(products.data.products)
+        let products = await getAPI("/product/get-all-products");
+        setListProduct(products.data.products);
         setShowDataPage(
           products.data.products.slice(
             (objectSearch.page - 1) * objectSearch.pageSize,
@@ -262,17 +263,22 @@ function Home({ product }) {
           )}
           <div className="home_product-list-product">
             {showDataPage.map((item, index) => {
-              // console.log(item.thumbnail);
               return (
                 <div
                   className="home_product-item"
                   onClick={() => changePage(item._id)}
                 >
-                  <img src={item.thumbnail.startsWith('https') ? item.thumbnail : 'https://shope-b3.thaihm.site/' + item.thumbnail} alt="" />
+                  <img
+                    src={
+                      item.thumbnail.startsWith("https")
+                        ? item.thumbnail
+                        : "https://shope-b3.thaihm.site/" + item.thumbnail
+                    }
+                    alt=""
+                  />
                   <h2>{item.productName}</h2>
                   <div className="home_product-item-text">
-                    <span>₫</span>
-                    <span>{item.price.toLocaleString()}</span>
+                    <span>{item.price ? item.price.toLocaleString() + ' ' + '₫' : 'Sản phẩm hiện tại chưa có giá'}</span>
                   </div>
                   <div className="home_product-item-box">
                     Tìm sản phẩm tương tự
@@ -296,7 +302,7 @@ function Home({ product }) {
             showSizeChanger={false}
             onChange={onShowSizeChange}
             defaultCurrent={2}
-            total={product.length}
+            total={listProduct.length}
             pageSize={objectSearch.pageSize}
             style={{ margin: "20px 0" }}
           />

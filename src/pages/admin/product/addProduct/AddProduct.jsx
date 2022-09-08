@@ -1,12 +1,13 @@
-import React from 'react'
-import { Input, Space } from 'antd';
+import React, { useState } from 'react'
+import { Input, Space, Form, Button } from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import '../addProduct/addProduct.css'
+import axios from 'axios';
+import { useEffect } from 'react';
 const { Search } = Input;
-const listOrder = 'Chưa chọn nghành hàng'
 const suffix = (
   <AudioOutlined
     style={{
@@ -20,8 +21,45 @@ const onSearch = (value) => console.log(value);
 
 function AddProduct() {
 
+  const listOrder = 'Chưa chọn nghành hàng'
+  const [newProduct, setNewProduct] = useState([])
+  let token = window.localStorage.getItem("user")
+  // async function US() {
+  //   try {
+  //     let checkUS = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
+  //     console.log(checkUS);
+  //   } catch (error) {
+
+  //   }
+  // }
+  // let getToken = axios.get('url', { headers: { Authorization: token } })
+  // console.log(27, getToken);
+  console.log(26, token);
+  const onFinish = async (values) => {
+    console.log('Success:', values);
+    try {
+      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
+      console.log(30, res);
+    } catch (error) {
+      console.log(32, error);
+    }
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  // const addNewProduct = async (value) => {
+  //   try {
+  //     let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product' , value)
+  //     console.log(29 , res);
+  //   } catch (error) {
+  //     console.log(31 , error);
+  //   }
+  // }
+
   const onChange = (e) => {
-    console.log('Change:', e.target.value);
+    console.log(24, 'Change:', e.target.value);
   };
 
   function getItem(label, key, icon, children, type) {
@@ -36,7 +74,7 @@ function AddProduct() {
 
   const items = [
     getItem('Điện thoại', 'sub1', null, [
-   
+
     ]),
     getItem('Laptop', 'sub2', null, [
 
@@ -69,6 +107,14 @@ function AddProduct() {
     console.log('click', e);
   };
 
+  
+  // useEffect(() => {
+
+  //   US()
+
+  // }, [])
+
+
   return (
     <div className='classAddProduct'>
       <div className='addProduct-header'>
@@ -77,6 +123,16 @@ function AddProduct() {
       </div>
       <hr />
       <div className='search-product'>
+        <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
+          <Form.Item label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
+            <Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Thêm sản phẩm
+            </Button>
+          </Form.Item>
+        </Form>
         <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
       </div>
       <div className='addProduct-body'>

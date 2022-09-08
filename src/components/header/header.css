@@ -69,7 +69,7 @@
 
 .logoSP {
   width: 162px;
-  height: 50px;
+  height: 40px;
 
   fill: white;
   /* position: absolute;
@@ -82,27 +82,27 @@
   display: flex;
   width: 70%;
   background-color: white;
-  padding-top: 5px;
+  /* padding-top: 5px; */
 
 
 }
 
 .header-seach-main input {
   width: 100%;
-  padding: 0 10px;
+  padding: 0 5px;
   border: none;
   outline: 0;
-
+  
 }
 
 .header-seach-main button {
-  padding: 8px 16px;
+  padding: 0 15px 0 15px;
   background-color: #fb5430;
   color: white;
   border: none;
   font-size: 20px;
-  margin-right: 10px;
-  margin-bottom: 5px;
+ margin: 5px 0px;
+ margin-right: 3px;
 }
 
 .icon-cart {
@@ -126,7 +126,7 @@
 
 .header-top-right-id {
   display: flex;
-  display: none;
+  /* display: none; */
 }
 
 .header-top-right-icon {
@@ -141,12 +141,13 @@
 
   position: absolute;
   top: 80%;
-  left: -80%;
+  right: 0%;
 
 }
 
 .header-top-right-user {
   position: relative;
+  /* display: none; */
 }
 
 .list {
@@ -175,5 +176,8 @@
 }
 
 .header-top-right-name-hover {
+  display: none;
+}
+#display{
   display: none;
 }

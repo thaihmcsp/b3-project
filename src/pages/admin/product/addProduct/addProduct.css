@@ -57,3 +57,7 @@
   .chose-addProduct p {
     color: rgb(172, 172, 172);
   }
+
+  .ant-input-search-order button {
+    display: block;
+  }
