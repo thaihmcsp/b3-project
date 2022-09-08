@@ -223,6 +223,6 @@ function AddProductDetail() {
         </div>
     </div>
   )
-};
+};;
 
-export default AddProductDetail
+export default AddProduct
