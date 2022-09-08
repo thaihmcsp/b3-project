@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './SignUp.css'
-import 'antd/dist/antd.css';
 import axios from 'axios';
+import 'antd/dist/antd.css';
 import { Button, Modal } from 'antd';
 import { Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom'
