@@ -29,19 +29,36 @@ function Header() {
   function Admin() {
     nav("/admin")
   }
-  console.log(token);
-  
+  function filterLinkInput (event){
+    let search = document.querySelector(".header-seach-iput").value.trim()
+    if(search.indexOf("") ==! -1){
+      search = search.split(" ").join("")
+    }
+    if(event.charCode === 13){
+      nav(`/filter?search=${search}`)
+    }
+  }
+function filterLink (){
+  let search = document.querySelector(".header-seach-iput").value.trim()
+   
+ 
+  if(search.indexOf("") ==! -1){
+    search = search.split(" ").join("")
+  }
+ 
+ nav(`/filter?search=${search}`)
+}  
    async function nameUser (){
     if(token){
      
      
                       try {
                         let name = await instance.get("/auth/get-loged-in-user",{headers: {Authorization: token}})
-                    //  console.log(name.data.user.email);
+                    
                         let classNone=document.querySelector(".header-top-right-id")
                           classNone.setAttribute("id","display")
                           setUName(name.data.user.email)
-                          console.log(classNone);
+                          
                     } catch (error) {
                   
                 }
@@ -119,8 +136,8 @@ function Header() {
           </div>
         </Link>
         <div className="header-seach-main">
-                   <input type="text"  className='header-seach-iput'/>
-          <button>
+                   <input type="text"  className='header-seach-iput' onKeyPress={filterLinkInput}/>
+          <button onClick={filterLink}>
             <SearchOutlined />
           </button>
         </div>

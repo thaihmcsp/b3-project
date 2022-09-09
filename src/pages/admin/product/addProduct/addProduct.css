@@ -1,33 +1,74 @@
-.classaddProduct{
-  margin: 20px;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-.addProduct-header p {
-  color: rgb(138, 138, 138);
+.container{
+    padding: 18px 36px;
 }
-
-.search-product{
-  margin: 0 40px;
-  padding: 40px 20px;
+.head-p{
+    font-size: 25px;
+    font-weight: 700;
 }
-
-.input-search input {
-  width: 100% !important;
-  border-radius: 20px !important;
+.item-p{
+    font-size: 15px;
+    color: grey;
+    font-weight: 500;
+    float: right;
+    margin-right: 30px;
 }
-
-.ant-input-group-addon button {
-  display: none;
+.add-img{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 20px;
 }
-.addProduct-body {
-  margin: 0 40px;
-  padding: 40px 20px;
-  background-color: whitesmoke;
+.label{
+    width: 20%;
 }
-
-.input-search{
-  padding: 40px 20px;
+.add-zone{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
 }
+.add-img-upload-item{
+    width: 12%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.p-des-item-special{
+    font-weight: 500;
+}
+.p-des-item{
+    font-weight: 500;
+    color: grey;
+}
+.product-info{
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+.input-product-info{
+    width: 100% !important;
+    margin: 10px !important;
+}
+.product-info-double{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding-left: 30px;
+    padding-right: 10px;
+}
+.product-info-double{
+    width: 100%;
+    margin: 10px 0;
+}
+.label-double{
+    width: 30%;
+    float: right;
 
 .btn-next button{
   padding: 8px 16px;
