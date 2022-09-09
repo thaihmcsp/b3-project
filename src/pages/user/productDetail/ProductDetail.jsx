@@ -1,13 +1,13 @@
-import React from 'react'
+import React  from 'react'
 import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image } from 'antd'
 import 'antd/dist/antd.css';
-import './productDetail.css'
+import './productDetail.css';
+import axios from 'axios';
 import { Routes, Route, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import product from '../../../static/Truong/product.json'
-
-
-
+import { getAPI } from '../../../config/api';
+import { instance } from '../../../config/axios';
 // Select 
 const { Option } = Select;
 const children = [
@@ -42,6 +42,26 @@ function ProductDetail() {
     const { productId } = useParams()
     let [inputpd, setInputpd] = useState(1)
     let [like, setLike] = useState(200)
+    const [productDetailData, setProductDetailData] = useState([])
+    const [count, setCount] = useState(0);
+
+// getAPI 
+async function getAPIproductDetail(){
+    
+    try {
+        let products = await instance.get(`product/get-one-product/${productId}`)
+        setProductDetailData([products.data.product])
+    }
+    catch (error){
+        console.log(error);
+    }
+}
+useEffect(() => {
+    getAPIproductDetail()
+}, [count])
+//
+console.log(productDetailData);
+
     function like1() {
         let heart = document.querySelector('.fa-heart')
 
@@ -68,17 +88,9 @@ function ProductDetail() {
         }
     }
 
-    let productData = product.filter(
-        (value) => {
-            return (
-                value._id == productId
-            )
-        }
-    )
-
     return (
         <div className='product-detail'>
-            {productData.map(
+            {productDetailData.map(
                 (value, index) => {
                     return (
                         <div>
@@ -100,24 +112,24 @@ function ProductDetail() {
                                         <Carousel autoplay>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumpnail} alt="" />
+                                                    <img src={value.thumbnail} alt="" />
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumpnail} alt="" />
+                                                    <img src={value.thumbnail} alt="" />
 
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumpnail} alt="" />
+                                                    <img src={value.thumbnail} alt="" />
 
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumpnail} alt="" />
+                                                    <img src={value.thumbnail} alt="" />
 
                                                 </div>
                                             </div>
@@ -125,20 +137,20 @@ function ProductDetail() {
                                         </Carousel>
                                         <div className="product-detail-listimg">
                                             <Image
-                                                width={68}
-                                                src={value.thumpnail}
+                                                width={66}
+                                                src={value.thumbnail}
                                             />
                                             <Image
-                                                width={68}
-                                                src={value.thumpnail}
+                                                width={66}
+                                                src={value.thumbnail}
                                             />
                                             <Image
-                                                width={68}
-                                                src={value.thumpnail}
+                                                width={66}
+                                                src={value.thumbnail}
                                             />
                                             <Image
-                                                width={68}
-                                                src={value.thumpnail}
+                                                width={66}
+                                                src={value.thumbnail}
                                             />
                                         </div>
                                     </div>
