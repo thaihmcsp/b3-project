@@ -4,7 +4,7 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/ico
 import { Link } from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import '../addProduct/addProduct.css'
+import '../addProduct/AddProduct.css'
 const { Search } = Input;
 const listOrder = 'Chưa chọn nghành hàng'
 const suffix = (
