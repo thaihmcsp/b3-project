@@ -1,11 +1,9 @@
+
 /* a {
   color: black !important;
 } */
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d456a3932ec25df8fd5ebdf441087c82293ba362
+
 /* a {
     color: black !important;
   } */
@@ -124,8 +122,6 @@
   margin-left: calc(20% + 1.25rem);
 }
 
-<<<<<<< HEAD
-=======
 
   
   
@@ -242,10 +238,7 @@
       margin-bottom: 3.75rem;
       margin-left: calc(20% + 1.25rem);
   }
-  
->>>>>>> 60a986d4e7613d1cd12b6d7fd66a6193d4979b72
-=======
->>>>>>> d456a3932ec25df8fd5ebdf441087c82293ba362
+
 
 
   .user-menu .menu-list ul li a:hover {
@@ -342,4 +335,35 @@
   object-fit: cover;
   margin: 1.25rem 0;
   border-radius: 50%;
+}
+
+.user-profile .body-right {
+  text-align: center;
+  width: 17.5rem;
+  border-left: 0.0625rem solid #efefef;
+}
+
+.user-profile .body-left {
+  padding-right: 3.125rem;
+  width: 70%;
+}
+
+.user-profile .body-left .ant-row {
+  margin-bottom: 1.875rem
+}
+
+.user-profile .body-left .ant-col-6 {
+  padding-right: 30px;
+  text-align: right;
+}
+
+.user-profile .profile-body .body-left tr {
+  height: 30px;
+  margin-bottom: 1.875rem;
+}
+
+
+.user-profile .profile-body .ant-btn-primary {
+  margin-bottom: 3.75rem;
+  margin-left: calc(20% + 1.25rem);
 }

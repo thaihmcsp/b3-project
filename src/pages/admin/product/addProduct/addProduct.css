@@ -92,3 +92,6 @@
     width: 60%;
 }
 
+  .ant-input-search-order button {
+    display: block;
+  }
