@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import { Button, Modal } from 'antd';
 import { Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 function SignUp() {
      const nav = useNavigate()
@@ -64,7 +65,7 @@ function SignUp() {
                          <div className="content-center">                            
                              <div className="phone-number">
                                        
-                                        <input className="center-input" type="number" name="" id="" placeholder="Số điện thoại"/>                            
+                                        <input className="center-input" type="text" name="" id="" placeholder="Email"/>                            
                               </div>
                                                                
                               <button className="button-next" disabled="">
@@ -79,11 +80,11 @@ function SignUp() {
                                              </Form.Item>
 
                                              <Form.Item name="password" rules={[{required: true,message: 'Please input your password!',},]}>
-                                             <Input placeholder='Password'/>
+                                             <Input.Password placeholder='Password'iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
                                              </Form.Item>
                                              
                                              <Form.Item name="confim" rules={[{required: true,message: 'Please input your confim-password!',},]}>
-                                             <Input placeholder='Confim-Password'/>
+                                             <Input.Password placeholder='Confim-Password'iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
                                              </Form.Item>
 
                                              <Button type="primary" htmlType="submit"> Submit</Button>

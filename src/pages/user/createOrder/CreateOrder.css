@@ -108,7 +108,7 @@
 }
 .personal-information-address{
     margin-left: 30px;
-    color: #c4bebecc
+    color: #aaa;
 }
 .mac-dinh{
     padding: 2px 5px;
@@ -119,6 +119,9 @@
    font-size: 10px;
    text-transform: capitalize;
    flex-shrink: 0;
+   display: flex;
+   align-items: center;
+   
 }
 .thay-doi{
     color: #4080ee;
@@ -158,6 +161,9 @@
     outline: none;
     border: 0;
     margin-right: 100px;
+}
+.personal-information .name{
+    margin-right: 20px;
 }
 
 

@@ -5,6 +5,9 @@ import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import 'antd/dist/antd.css';
 import { useNavigate } from 'react-router-dom';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+
+
 
 function SignIn() {
      const nav = useNavigate()
@@ -49,14 +52,16 @@ function SignIn() {
                          <Form  name="basic"labelCol={{span: 8,}}wrapperCol={{span: 16,}}initialValues = {{remember: true,}} onFinish={onFinish}onFinishFailed={onFinishFailed} autoComplete="off">                                                
                                         <div>
                                              <Form.Item name="email" rules={[{required: true,message: 'Please input your email!',},]}>
-                                             <Input placeholder='Email' className='content-center-input'/>
+                                             <Input placeholder='Email'/>
                                              </Form.Item>
                                         </div>
                                         <div style={{width:'100%'}}>
                                              <Form.Item  name="password" rules={[{required: true,message: 'Please input your password!',},]}>
-                                             <Input placeholder='Password'  className='content-center-input'/>
-                                             </Form.Item>
+                                             <Input.Password placeholder='Password'  className='content-center-input' iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
+                                             
+                                             </Form.Item>                                           
                                         </div>
+                                        
                                         <Button type="primary" htmlType="submit" className="button-signin">Đăng Nhập</Button>
                               
                                    </Form>                           

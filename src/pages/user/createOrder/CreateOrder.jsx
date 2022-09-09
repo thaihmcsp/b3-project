@@ -47,11 +47,12 @@ tableCart[2].listProduct.map(
      }
    )
 function CreateOrder() {
-     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(dataCart);
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [totalQuality ,setTotalQuality] = useState(0)
+  const [delivery,setDelivery] = useState({})
   
   const handleDelete = (key) => {
      const newData = dataSource.filter((item) => item.key !== key);
@@ -190,9 +191,13 @@ function CreateOrder() {
   };
  
      const onFinish = async (values) => {
-    
+      
           try {
-               
+            let name = document.querySelector('#name')
+            let phone = document.querySelector('#phone')
+            let address = document.querySelector('#address')
+            setDelivery(values);
+            handleCancel()
           } catch (error) {
                console.log(error);
           }
@@ -202,6 +207,7 @@ function CreateOrder() {
         const onFinishFailed = (errorInfo) => {
           console.log('Failed:', errorInfo);
         };
+       
   return (
      <div>
      {/* <h1>CreateOrder</h1> */}
@@ -243,8 +249,8 @@ function CreateOrder() {
                          <div>Địa chỉ nhận hàng</div>
                     </div>
                     <div className="personal-information">
-                         <div className="personal-information-name"> <input type="text" name="" id="" value='đặng văn ba an'/> <input type="text" name="" id="" value='(+84) 969486230' /></div>
-                         <div className="personal-information-address"><input type="text" name="" id="" value='Nhà Văn Hóa, Xóm 7 Đốc Tín, Xóm 7, Xã Đốc Tín, Huyện Mỹ Đức, Hà Nội'/></div>
+                         <div className="personal-information-name"> <span className='name'>{delivery.name ? delivery.name : "Vui lòng điền thông tin!"}</span> {delivery.phone ? delivery.phone : ''}</div>
+                         <div className="personal-information-address">{delivery.address ? delivery.address: ''}</div>
                          <div className="mac-dinh">Mặc định</div>
                          <div className="thay-doi">
                          <>
@@ -254,15 +260,15 @@ function CreateOrder() {
                                                        
                                              
                                              <Form.Item name="name" rules={[{required: true,message: 'Please input your name!',},]}>
-                                             <Input placeholder='Name'/>
+                                             <Input placeholder='Họ và Tên' id='name'/>
                                              </Form.Item>
 
-                                             <Form.Item name="phone-number" rules={[{required: true,message: 'Please input your phone number!',},]}>
-                                             <Input placeholder='Phone-number'/>
+                                             <Form.Item name="phone" rules={[{required: true,message: 'Please input your phone number!',},]}>
+                                             <Input placeholder='Số điện thoại' id='phone'/>
                                              </Form.Item>
 
                                              <Form.Item name="address" rules={[{required: true,message: 'Please input your address!',},]}>
-                                             <Input placeholder='Address'/>
+                                             <Input placeholder='Địa chỉ nhận hàng' id='address'/>
                                              </Form.Item>
                                                                                           
                                              <Button type="primary" htmlType="submit"> Submit</Button>
