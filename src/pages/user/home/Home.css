@@ -199,7 +199,7 @@
   padding: 20px 0;
 }
 
-.home_product-item {
+.home_product-item-link {
   position: relative;
   background-color: #fff;
   width: 19%;
@@ -209,11 +209,11 @@
   border: 1px solid transparent;
 }
 
-.home_product-item:hover .home_product-item-box {
+.home_product-item-link:hover .home_product-item-box {
   visibility: visible;
 }
 
-.home_product-item:hover {
+.home_product-item-link:hover {
   padding-bottom: 9px;
   display: block;
   border-color: #ee4d2d;

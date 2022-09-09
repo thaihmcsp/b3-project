@@ -43,7 +43,7 @@ function Home({ product }) {
 
   const filterPage = () => {
     nav("/filter?page=1&pageSize=10");
-  }
+  };
   useEffect(() => {
     async function getData() {
       try {
@@ -264,34 +264,40 @@ function Home({ product }) {
           <div className="home_product-list-product">
             {showDataPage.map((item, index) => {
               return (
-                <div
-                  className="home_product-item"
-                  onClick={() => changePage(item._id)}
-                >
-                  <img
-                    src={
-                      item.thumbnail.startsWith("https")
-                        ? item.thumbnail
-                        : "https://shope-b3.thaihm.site/" + item.thumbnail
-                    }
-                    alt=""
-                  />
-                  <h2>{item.productName}</h2>
-                  <div className="home_product-item-text">
-                    <span>{item.price ? item.price.toLocaleString() + ' ' + '₫' : 'Sản phẩm hiện tại chưa có giá'}</span>
+                <Link to={"/product-detail/" + item._id} className="home_product-item-link">
+                  <div
+                    className="home_product-item"
+                    onClick={() => changePage(item._id)}
+                  >
+                    <img
+                      src={
+                        item.thumbnail.startsWith("https")
+                          ? item.thumbnail
+                          : "https://shope-b3.thaihm.site/" + item.thumbnail
+                      }
+                      alt=""
+                    />
+                    <h2>{item.productName}</h2>
+                    <div className="home_product-item-text">
+                      <span>
+                        {item.price
+                          ? item.price.toLocaleString() + " " + "₫"
+                          : "Sản phẩm hiện tại chưa có giá"}
+                      </span>
+                    </div>
+                    <div className="home_product-item-box">
+                      Tìm sản phẩm tương tự
+                    </div>
+                    <div className="home_product-item-favorite">
+                      <CheckOutlined />
+                      <span>Yêu thích</span>
+                    </div>
+                    <div className="home_product-item-sale">
+                      <p className="home_product-item-sale-percent">43%</p>
+                      <p className="home_product-item-sale-label">GIẢM</p>
+                    </div>
                   </div>
-                  <div className="home_product-item-box">
-                    Tìm sản phẩm tương tự
-                  </div>
-                  <div className="home_product-item-favorite">
-                    <CheckOutlined />
-                    <span>Yêu thích</span>
-                  </div>
-                  <div className="home_product-item-sale">
-                    <p className="home_product-item-sale-percent">43%</p>
-                    <p className="home_product-item-sale-label">GIẢM</p>
-                  </div>
-                </div>
+                </Link>
               );
             })}
           </div>
