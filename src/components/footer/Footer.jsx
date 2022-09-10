@@ -205,7 +205,7 @@ function Footer() {
                         </ul>
                     </div>
                     <div className="ChamSocKhachHang">
-                        <div className="name"><span>TẢI ỨNG DỤNG SHOPPE NGAY THÔI</span></div>
+                        <div className="name"><span>TẢI ỨNG DỤNG SHOPPE </span></div>
                         <a href="" className='updateApp'>
                                 <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/d91264e165ed6facc6178994d5afae79.png" alt="download_qr_code"/>
                             <div className="apps">

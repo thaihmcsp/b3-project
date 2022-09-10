@@ -6,6 +6,7 @@ import axios from 'axios';
 import 'antd/dist/antd.css';
 import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { postAPI } from '../../../config/api'
 
 
 
@@ -15,7 +16,7 @@ function SignIn() {
      console.log(12,token);
      const onFinish = async (values) => {
           try {
-              let res = await axios.post('https://shope-b3.thaihm.site/api/auth/sign-in',values)
+              let res = await postAPI('/auth/sign-in',values)
               window.localStorage.setItem('user', res.data.token)
               console.log(14,res);
               nav('/')

@@ -7,6 +7,7 @@ import { Button, Modal } from 'antd';
 import { Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { postAPI } from '../../../config/api'
 
 function SignUp() {
      const nav = useNavigate()
@@ -29,7 +30,7 @@ function SignUp() {
           console.log(29, values);
           if (values.password !== values.confim) return alert ('password is not valid')
           try {
-               let res  = await axios.post('https://shope-b3.thaihm.site/api/auth/sign-up',values)
+               let res  = await postAPI('/auth/sign-up',values)
                console.log(12,res);
                nav('/signin')
           } catch (error) {
@@ -63,10 +64,10 @@ function SignUp() {
                          <div className="content-dang-ky">Đăng ký</div>
           
                          <div className="content-center">                            
-                             <div className="phone-number">
+                             {/* <div className="phone-number">
                                        
                                         <input className="center-input" type="text" name="" id="" placeholder="Email"/>                            
-                              </div>
+                              </div> */}
                                                                
                               <button className="button-next" disabled="">
                                    <>

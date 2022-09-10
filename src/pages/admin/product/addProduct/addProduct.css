@@ -70,35 +70,25 @@
     width: 30%;
     float: right;
 
-.btn-next button{
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  outline: none;
-  background: #ee4d2d;
-  color: white;
-  font-size: medium;
-  opacity: 0.5;
+}
+.add-zone-double{
+    margin-left: 5px;
+    width: 70%;
+    margin-right: 10px ;
+}
+.ant-select{
+    width: 100%;
+}
+.price{
+    display: flex;
+    flex-direction: row;
+    margin: 40px 0;
+}
+.price-p{
+    width: 18%;
+    float: right;
+}
+.price input{
+    width: 60%;
 }
 
-.footer-addProduct {
-  margin: 20px 0;
-  margin-left: 50px;
-
-}
-
-.link-addProduct{
-  color: rgb(51, 51, 187) !important ;
-  text-decoration: underline;
-}
-
-.chose-addProduct {
-  display: flex;
-}
-.chose-addProduct p {
-  color: rgb(172, 172, 172);
-}
-
-.ant-input-search-order button {
-  display: block;
-}
