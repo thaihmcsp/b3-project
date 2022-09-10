@@ -107,7 +107,7 @@ function AddProduct() {
     console.log('click', e);
   };
 
-  
+
   // useEffect(() => {
 
   //   US()
@@ -121,49 +121,51 @@ function AddProduct() {
         <h4>Thêm 1 sản phẩm mới</h4>
         <p>Vui lòng chọn nghành hàng phù hợp cho sản phẩm của bạn</p>
       </div>
-      <hr />
+
       <div className='search-product'>
         <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
           <Form.Item label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
-            <Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
+            <Input id='search-product-input' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
           </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              Thêm sản phẩm
-            </Button>
-          </Form.Item>
+          <div className='addProduct-body'>
+            <div className="input-search">
+              <Search
+                placeholder="Tên nghành hàng"
+                onSearch={onSearch}
+                style={{
+                  width: '30%',
+                  borderRadius: 20
+                }}
+              /> <span>Chọn nghành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
+            </div>
+            <div className="menuAddProduct">
+              <Menu
+                onClick={onClick}
+                style={{
+                  width: 256,
+                }}
+                mode="vertical"
+                items={items}
+              />
+            </div>
+          </div>
+
+          <div className='footer-addProduct'>
+            <div className='chose-addProduct'>
+              Đã chọn :   <p> {listOrder}</p>
+            </div>
+
+            <Form.Item wrapperCol={{ offset: 8, span: 14 }}>
+              <Button id='btn-addProduct' type="primary" htmlType="submit">
+                Thêm sản phẩm
+              </Button>
+            </Form.Item>
+
+            <div className='btn-next'>
+              <Link to='/admin/product/detail/create'><button>Tiếp theo</button></Link>
+            </div>
+          </div>
         </Form>
-        <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
-      </div>
-      <div className='addProduct-body'>
-        <div className="input-search">
-          <Search
-            placeholder="Tên nghành hàng"
-            onSearch={onSearch}
-            style={{
-              width: '30%',
-              borderRadius: 20
-            }}
-          /> <span>Chọn nghành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
-        </div>
-        <div className="menuAddProduct">
-          <Menu
-            onClick={onClick}
-            style={{
-              width: 256,
-            }}
-            mode="vertical"
-            items={items}
-          />
-        </div>
-      </div>
-      <div className='footer-addProduct'>
-        <div className='chose-addProduct'>
-          Đã chọn :   <p> {listOrder}</p>
-        </div>
-        <div className='btn-next'>
-          <Link to='/admin/product/detail/create'><button>Tiếp theo</button></Link>
-        </div>
       </div>
     </div>
   )
