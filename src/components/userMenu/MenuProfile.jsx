@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { EditOutlined, UserOutlined, FileDoneOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import axios from 'axios';
 
 
 
@@ -29,7 +30,8 @@ const items = [
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 
 function MenuProfile() {
-
+    const [data, setData] = useState({})
+    const token = window.localStorage.getItem('user')
     const [openKeys, setOpenKeys] = useState(['sub1']);
 
     const onOpenChange = (keys) => {
@@ -42,14 +44,28 @@ function MenuProfile() {
         }
     };
 
+    const getData = async () => {
+        try {
+            let res = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', {headers:{ Authorization: token }})
+            console.log(50,res.data.user);
+            setData(res.data.user)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
+
     return (
         <div className='menu'>
             <div className="menu-header">
                 <div className="header-left">
-                    <img src="https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg" alt="" />
+                    <img src={data.avatar ? data.avatar : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
                 </div>
                 <div className="header-right">
-                    <h5>QuyHuu</h5>
+                    <h5>{data.email ? data.email: "Đang tải"}</h5>
                     <p><EditOutlined /> Sửa hồ sơ</p>
                 </div>
             </div>
