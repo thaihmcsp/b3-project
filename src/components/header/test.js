@@ -1,5 +1,8 @@
- let data = [ "tivi" , "tu lanh" ," laptop","dien thoai" ]
+ let data = [ "tivi" , "tu lanh" ," laptop","dien thoai"," ti vi" ]
 let a = data.filter(function(value){
-    return value.search("ti"/global)
+    return value.match(/Tivi/i) 
 })
-console.log(a);
+console.log(data[4].trim().indexOf(" "));
+a = data[1].split(" ")
+
+console.log(a.join(""));

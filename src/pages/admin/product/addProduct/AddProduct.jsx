@@ -106,7 +106,7 @@ function AddProduct() {
         <h4>Thêm 1 sản phẩm mới</h4>
         <p>Vui lòng chọn nghành hàng phù hợp cho sản phẩm của bạn</p>
       </div>
-
+      <hr />
       <div className='search-product'>
         <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
           <Form.Item className='inp-search-addProduct' label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >

@@ -23,15 +23,23 @@
     justify-content: space-between;
     padding: 5px;
 }
-
+.ChamSocKhachHang {
+    width: 20%;
+}
+.ChamSocKhachHang .name{
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 .ChamSocKhachHang ul {
     margin: 0px;
+}
+.ChamSocKhachHang ul li a{
+    color: rgba(0,0,0,.65);
 }
 
 .chSocKhachHangMain ul li {
     list-style: none;
     font-size: 12px;
-
 }
 
 .ChamSocKhachHang ul li a:hover {
@@ -46,12 +54,15 @@
 .img img {
     width: 40px;
     height: 40px;
+    margin-top: 5px;
 }
 
 .image {
     display: flex;
     flex-wrap: wrap;
+
 }
+
 
 .image li {
     width: 33.33%;
@@ -106,6 +117,7 @@
     border-top: 1px solid black;
     justify-content: space-between;
     font-size: 14px;
+    color:rgba(0,0,0,.54);
 }
 
 .baoLuuVaquocGia .baoLuu {
@@ -123,13 +135,15 @@
 }
 
 .qg-kv a {
-    border-right: 0.5px solid black;
+    border-right: 0.5px solid#ccc;
+    padding-right: 5px;
+    color:rgba(0,0,0,.54);
 }
 
 .bottom {
     width: 100%;
-
-
+    background: #f5f5f5;
+    padding-top: 50px;
 }
 
 .bottom-container {
@@ -143,5 +157,35 @@
 
 .chinhSachHoanTien {
     padding: 0px 25px;
-    border-right: 1px solid black;
+
+}
+.bottom-container span{
+    color: rgba(0,0,0,.54);
+    border-right: 1px solid rgba(0,0,0,.54);
+    padding-right: 30px;
+}
+.footer-bottom-logo{
+    text-align: center;
+
+}
+.footer-bottom-logo  .asd img {
+    width: 7.5rem;
+    height: 2.8125rem;
+    margin-right: 40px;
+    margin-top: 50px;
+}
+.footer-bottom-logo  .asdfg img {
+    width: 3rem;
+    height: 3rem;
+    margin-top: 50px;
+}
+.footer-bottom-address{
+    text-align: center;
+    color: rgba(0,0,0,.70);
+    margin-bottom: 50px;
+    margin-top: 20px;
+
+}
+.footer-bottom-address .company{
+    margin-bottom: 20px;
 }
