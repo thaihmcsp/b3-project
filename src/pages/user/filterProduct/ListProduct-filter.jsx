@@ -17,36 +17,19 @@ function ListProduct() {
     async function getData (){
       try {
             let cut = cutLink.get("search")
-            // if(cut.indexOf(" ")){
-            //   afterCut = cut
-            // }
+            
           let data = await instance.get(`/product/find-products-by-name?productName=${cut}`)
           
-          // let fil = data.data.products.filter(function(value){
-          //   console.log(data.data.products);
-          //   return value.productName.match(`${cut}`)
-          // })
-        
           setDataFake(data.data.products);
       } catch (error) {
         
       }
     }
-    // function filterDataLocation (){
-    //   let cut = cutLink.get("search")
-    //   let fil = dataFake.filter(function(value){
-    //     return value.productName.match(cut) 
-    //   })
-    //   console.log(fil);
-    // }
 
     useEffect(() => {
-  
-  
+
       getData()
-      
-      
-      
+
       }, [location])
       function clickPage (page,pageSize){
         pageSize = 12
@@ -80,9 +63,9 @@ function ListProduct() {
             
     </div>
     
-                                    <div>
-                                    <Pagination defaultCurrent={1} total={dataFake.length} onChange={clickPage} />;
-                                    </div>
+    <div>
+               <Pagination defaultCurrent={1} total={dataFake.length} onChange={clickPage} />;
+     </div>
     </>
   )
 }

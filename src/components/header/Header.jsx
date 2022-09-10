@@ -2,13 +2,14 @@ import React from 'react'
 import { FacebookOutlined, InstagramOutlined, BellOutlined, QuestionCircleOutlined, SearchOutlined, UserOutlined, ShoppingCartOutlined } from "@ant-design/icons"
 import './header.css'
 import { Link, useNavigate } from "react-router-dom"
-import {instance} from "../../config/axios";
-import {useState} from "react"
-import {useEffect} from "react"
+import { instance } from "../../config/axios";
+import { useState } from "react"
+import { useEffect } from "react"
 function Header() {
   const nav = useNavigate()
   let token = window.localStorage.getItem("user")
-  const [uNane , setUName] = useState("")
+  const [uNane, setUName] = useState("")
+  let [checkAdmin, setCheckAdmin] = useState("")
   function Login() {
     nav("/signin")
   }
@@ -27,63 +28,73 @@ function Header() {
     nav("")
   }
   function Admin() {
-    nav("/admin")
+    if (checkAdmin === "user") {
+      alert("Hãy đăng nhập tài khoản Admin")
+    }
+    if (checkAdmin === "admin") {
+      nav("/admin")
+
+    }
+
   }
-  function filterLinkInput (event){
+  function filterLinkInput(event) {
     let search = document.querySelector(".header-seach-iput").value.trim()
-    if(search.indexOf("") ==! -1){
+    if (search.indexOf("") == ! -1) {
       search = search.split(" ").join("")
     }
-    if(event.charCode === 13){
+    if (event.charCode === 13) {
       nav(`/filter?search=${search}`)
     }
   }
-function filterLink (){
-  let search = document.querySelector(".header-seach-iput").value.trim()
-   
- 
-  if(search.indexOf("") ==! -1){
-    search = search.split(" ").join("")
+  function filterLink() {
+    let search = document.querySelector(".header-seach-iput").value.trim()
+
+
+    if (search.indexOf("") == ! -1) {
+      search = search.split(" ").join("")
+    }
+
+    nav(`/filter?search=${search}`)
   }
- 
- nav(`/filter?search=${search}`)
-}  
-   async function nameUser (){
-    if(token){
-     
-     
-                      try {
-                        let name = await instance.get("/auth/get-loged-in-user",{headers: {Authorization: token}})
-                    
-                        let classNone=document.querySelector(".header-top-right-id")
-                          classNone.setAttribute("id","display")
-                          setUName(name.data.user.email)
-                          
-                    } catch (error) {
-                  
-                }
+  function MyProduct() {
+    nav("/user/order")
+  }
+  async function nameUser() {
+    if (token) {
+
+
+      try {
+        let name = await instance.get("/auth/get-loged-in-user", { headers: { Authorization: token } })
+
+        let classNone = document.querySelector(".header-top-right-id")
+        classNone.setAttribute("id", "display")
+        setUName(name.data.user.email)
+        setCheckAdmin(name.data.user.role)
+      } catch (error) {
+
+      }
 
     }
-    if(!token)  {
-                    try {
-                            let ab =  document.querySelector(".header-top-right-user")
-                            ab.setAttribute("id","display")
-                        console.log(ab);
-                    } catch (error) {
-                      
-                    }
-        
-        }
-      
-    
+    if (!token) {
+      try {
+        let ab = document.querySelector(".header-top-right-user")
+        ab.setAttribute("id", "display")
+        console.log(ab);
+      } catch (error) {
+
+      }
+
+    }
+
+
   }
- useEffect(() => {
-   
-  nameUser()
-   
- }, [])
- 
- 
+  useEffect(() => {
+
+    nameUser()
+
+  }, [])
+
+
 
   return (
     <div className='header'>
@@ -112,7 +123,7 @@ function filterLink (){
             <div className='header-top-right-name-hover'>
               <ul className='list'>
                 <li onClick={MyID}>Tài Khoản Của Tôi</li>
-                <li >Đơn Mua</li>
+                <li onClick={MyProduct}>Đơn Mua</li>
                 <li onClick={LogOut}>Đăng Xuất</li>
               </ul>
             </div>
@@ -136,7 +147,7 @@ function filterLink (){
           </div>
         </Link>
         <div className="header-seach-main">
-                   <input type="text"  className='header-seach-iput' onKeyPress={filterLinkInput}/>
+          <input type="text" className='header-seach-iput' onKeyPress={filterLinkInput} />
           <button onClick={filterLink}>
             <SearchOutlined />
           </button>
