@@ -110,7 +110,7 @@ function AddProduct() {
       <div className='search-product'>
         <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
           <Form.Item className='inp-search-addProduct' label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
-            <Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
+            <Input className='input-addProductName' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
           </Form.Item>
           <div className='addProduct-body'>
             <div className="input-search">
