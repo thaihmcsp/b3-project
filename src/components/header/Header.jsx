@@ -9,6 +9,7 @@ function Header() {
   const nav = useNavigate()
   let token = window.localStorage.getItem("user")
   const [uNane , setUName] = useState("")
+  let [checkAdmin,setCheckAdmin] = useState("")
   function Login() {
     nav("/signin")
   }
@@ -27,7 +28,14 @@ function Header() {
     nav("")
   }
   function Admin() {
-    nav("/admin")
+    if(checkAdmin === "user"){
+      alert("Hãy đăng nhập tài khoản Admin")
+    }
+    if(checkAdmin === "admin"){
+      nav("/admin")
+
+    }
+
   }
   function filterLinkInput (event){
     let search = document.querySelector(".header-seach-iput").value.trim()
@@ -58,7 +66,7 @@ function filterLink (){
                         let classNone=document.querySelector(".header-top-right-id")
                           classNone.setAttribute("id","display")
                           setUName(name.data.user.email)
-                          
+                          setCheckAdmin(name.data.user.role)
                     } catch (error) {
                   
                 }
