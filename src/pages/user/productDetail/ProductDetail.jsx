@@ -112,24 +112,24 @@ console.log(productDetailData);
                                         <Carousel autoplay>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumbnail} alt="" />
+                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumbnail} alt="" />
+                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`}  alt="" />
 
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumbnail} alt="" />
+                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`}  alt="" />
 
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={value.thumbnail} alt="" />
+                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`}  alt="" />
 
                                                 </div>
                                             </div>
@@ -138,19 +138,19 @@ console.log(productDetailData);
                                         <div className="product-detail-listimg">
                                             <Image
                                                 width={66}
-                                                src={value.thumbnail}
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
                                             />
                                             <Image
                                                 width={66}
-                                                src={value.thumbnail}
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
                                             />
                                             <Image
                                                 width={66}
-                                                src={value.thumbnail}
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
                                             />
                                             <Image
                                                 width={66}
-                                                src={value.thumbnail}
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
                                             />
                                         </div>
                                     </div>
