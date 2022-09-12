@@ -34,7 +34,7 @@ function AddProduct() {
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
-      let res = await instance.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
+      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
       console.log(30, res);
     } catch (error) {
       console.log(32, error);
@@ -56,9 +56,8 @@ function AddProduct() {
     getIdProduct()
 
   }, [count])
-  console.log(59 , idProduct);
-  console.log(60 , idProduct[idProduct.length - 1]._id);
-  let idNewProduct = idProduct[idProduct.length - 1]._id
+  // console.log(59 , idProduct);
+  // let idNewProduct = idProduct[idProduct.length - 1]._id
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -167,7 +166,7 @@ function AddProduct() {
             </Form.Item>
 
             <div className='btn-next'>
-              <Link to={`/admin/product/${idNewProduct}/detail/create`}><button>Tiếp theo</button></Link>
+              <Link to={`/admin/product//detail/create`}><button>Tiếp theo</button></Link>
             </div>
           </div>
         </Form>
