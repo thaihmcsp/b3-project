@@ -27,21 +27,36 @@ function SignUp() {
   };
  
      const onFinish = async (values) => {
-          console.log(29, values);
-          if (values.password !== values.confim) return alert ('password is not valid')
+   
+          const email = document.querySelector('#email').value;
+          const userName = email.slice(0, email.indexOf('@'));
+          console.log(userName,35);
           try {
-               let res  = await postAPI('/auth/sign-up',values)
-               console.log(12,res);
-               nav('/signin')
+               const mailFormat = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+               const password = document.querySelector('#password').value;
+              if (values.password !== values.confim){
+                    return alert ('Mật khẩu không khớp nhau !')
+               } 
+               else if (!mailFormat.test(email)) {
+                    return alert("Email không hợp lệ !");
+               }else if (password.length < 6){
+                    return alert('Mật khẩu ít nhất phải 6 ký tự !')
+               }
+               else{
+                    let res  = await postAPI('/auth/sign-up', values, userName )
+                    console.log(47,res);
+                    nav('/signin')
+               }
+               
           } catch (error) {
                console.log(error);
           }
-          console.log('Success:', values);
         };
       
         const onFinishFailed = (errorInfo) => {
           console.log('Failed:', errorInfo);
         };
+        
   return (
     <div>
         
@@ -77,15 +92,15 @@ function SignUp() {
                                                        
                                              
                                              <Form.Item name="email" rules={[{required: true,message: 'Please input your email!',},]}>
-                                             <Input placeholder='Email'/>
+                                             <Input id='email' placeholder='Email'/>
                                              </Form.Item>
 
                                              <Form.Item name="password" rules={[{required: true,message: 'Please input your password!',},]}>
-                                             <Input.Password placeholder='Password'iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
+                                             <Input.Password id='password' placeholder='Password'iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
                                              </Form.Item>
                                              
                                              <Form.Item name="confim" rules={[{required: true,message: 'Please input your confim-password!',},]}>
-                                             <Input.Password placeholder='Confim-Password'iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
+                                             <Input.Password id='confim' placeholder='Confim-Password'iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
                                              </Form.Item>
 
                                              <Button type="primary" htmlType="submit"> Submit</Button>
