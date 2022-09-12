@@ -21,7 +21,7 @@ const onSearch = (value) => console.log(value);
 
 function AddProduct() {
 
-  const listOrder = 'Chưa chọn nghành hàng'
+  const listOrder = 'Chưa chọn ngành hàng'
   const [newProduct, setNewProduct] = useState([])
 
   let token = window.localStorage.getItem("user")
@@ -115,13 +115,13 @@ function AddProduct() {
           <div className='addProduct-body'>
             <div className="input-search">
               <Search
-                placeholder="Tên nghành hàng"
+                placeholder="Tên ngành hàng"
                 onSearch={onSearch}
                 style={{
                   width: '30%',
                   borderRadius: 20
                 }}
-              /> <span>Chọn nghành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
+              /> <span>Chọn ngành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
             </div>
             <div className="menuAddProduct">
               <Menu
