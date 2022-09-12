@@ -174,4 +174,8 @@
     }
     .content-center-input{
         margin-bottom: 0 !important;
+       
+      }
+      .ant-input{
+        margin-bottom: 0;
       }

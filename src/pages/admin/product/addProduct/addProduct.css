@@ -37,7 +37,6 @@
     background: #ee4d2d;
     color: white;
     font-size: medium;
-    opacity: 0.5;
   }
 
   .footer-addProduct {
@@ -60,4 +59,35 @@
 
   .ant-input-search-order button {
     display: block;
+  }
+
+  #btn-addProduct {
+    position: relative;
+    right: 300px;
+    padding: 20px;
+    padding-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background: #ee4d2d;
+    color: white;
+    font-size: medium;
+  }
+
+  #btn-addProduct span {
+    position: relative;
+    bottom: 13px;
+  }
+
+  .inp-search-addProduct{
+    position: relative;
+    right: 200px;
+  }
+
+  /* .ant-input-affix-wrapper{
+    width: 800px;
+  } */
+
+  .input-addProductName {
+    width: 800px;
   }

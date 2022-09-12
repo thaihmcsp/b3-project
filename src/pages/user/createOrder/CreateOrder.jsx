@@ -6,6 +6,8 @@ import tableProductDetail from '../../../static/Truong/productDetail.json'
 import { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { Col, Row, Table, Button, Popconfirm } from 'antd'
+import { Modal } from 'antd';
+import { Form, Input } from 'antd';
 
 
 tableCart[2].listProduct.map(
@@ -45,11 +47,12 @@ tableCart[2].listProduct.map(
      }
    )
 function CreateOrder() {
-     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(dataCart);
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [totalQuality ,setTotalQuality] = useState(0)
+  const [delivery,setDelivery] = useState({})
   
   const handleDelete = (key) => {
      const newData = dataSource.filter((item) => item.key !== key);
@@ -155,8 +158,8 @@ function CreateOrder() {
  
    ];
    
-   useEffect(
-     () => {
+   useEffect( () => {
+    
        let newTotal = 0;
        let newTotalQualyti = 0;
        dataSource.map(
@@ -173,6 +176,38 @@ function CreateOrder() {
        setTotalQuality(newTotalQualyti)
      }, [count]
    );
+   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+ 
+     const onFinish = async (values) => {
+      
+          try {
+            let name = document.querySelector('#name')
+            let phone = document.querySelector('#phone')
+            let address = document.querySelector('#address')
+            setDelivery(values);
+            handleCancel()
+          } catch (error) {
+               console.log(error);
+          }
+          console.log('Success:', values);
+        };
+      
+        const onFinishFailed = (errorInfo) => {
+          console.log('Failed:', errorInfo);
+        };
+       
   return (
      <div>
      {/* <h1>CreateOrder</h1> */}
@@ -214,10 +249,34 @@ function CreateOrder() {
                          <div>Địa chỉ nhận hàng</div>
                     </div>
                     <div className="personal-information">
-                         <div className="personal-information-name">đặng văn ba an (+84) 969486230</div>
-                         <div className="personal-information-address">Nhà Văn Hóa, Xóm 7 Đốc Tín, Xóm 7, Xã Đốc Tín, Huyện Mỹ Đức, Hà Nội</div>
+                         <div className="personal-information-name"> <span className='name'>{delivery.name ? delivery.name : "Vui lòng điền thông tin!"}</span> {delivery.phone ? delivery.phone : ''}</div>
+                         <div className="personal-information-address">{delivery.address ? delivery.address: ''}</div>
                          <div className="mac-dinh">Mặc định</div>
-                         <div className="thay-doi">Thay đổi</div>
+                         <div className="thay-doi">
+                         <>
+                                        <Button type="primary" onClick={showModal}>Thay đổi</Button>
+                                        <Modal footer={null} title="FORM Address" onFinish={onFinish} onFinishFailed={onFinishFailed} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                                        <Form name="basic"labelCol={{span: 8,}}wrapperCol={{span: 16,}}initialValues = {{remember: true,}} onFinish={onFinish}onFinishFailed={onFinishFailed} autoComplete="off">
+                                                       
+                                             
+                                             <Form.Item name="name" rules={[{required: true,message: 'Please input your name!',},]}>
+                                             <Input placeholder='Họ và Tên' id='name'/>
+                                             </Form.Item>
+
+                                             <Form.Item name="phone" rules={[{required: true,message: 'Please input your phone number!',},]}>
+                                             <Input placeholder='Số điện thoại' id='phone'/>
+                                             </Form.Item>
+
+                                             <Form.Item name="address" rules={[{required: true,message: 'Please input your address!',},]}>
+                                             <Input placeholder='Địa chỉ nhận hàng' id='address'/>
+                                             </Form.Item>
+                                                                                          
+                                             <Button type="primary" htmlType="submit"> Submit</Button>
+                                             
+                                        </Form>
+                                        </Modal>
+                                   </>
+                         </div>
                     </div>
                </div>            
          </div>
