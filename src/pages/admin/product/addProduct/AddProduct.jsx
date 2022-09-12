@@ -23,18 +23,10 @@ function AddProduct() {
 
   const listOrder = 'Chưa chọn nghành hàng'
   const [newProduct, setNewProduct] = useState([])
-  let token = window.localStorage.getItem("user")
-  // async function US() {
-  //   try {
-  //     let checkUS = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
-  //     console.log(checkUS);
-  //   } catch (error) {
 
-  //   }
-  // }
-  // let getToken = axios.get('url', { headers: { Authorization: token } })
-  // console.log(27, getToken);
+  let token = window.localStorage.getItem("user")
   console.log(26, token);
+
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
@@ -48,15 +40,6 @@ function AddProduct() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  // const addNewProduct = async (value) => {
-  //   try {
-  //     let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product' , value)
-  //     console.log(29 , res);
-  //   } catch (error) {
-  //     console.log(31 , error);
-  //   }
-  // }
 
   const onChange = (e) => {
     console.log(24, 'Change:', e.target.value);
@@ -74,7 +57,7 @@ function AddProduct() {
 
   const items = [
     getItem('Điện thoại', 'sub1', null, [
-
+      getItem(null, null, null, [getItem('Apple', 'Apple'), getItem('SamSung', '2')], 'group')
     ]),
     getItem('Laptop', 'sub2', null, [
 
@@ -103,11 +86,13 @@ function AddProduct() {
 
   ];
 
-  const onClick = (e) => {
-    console.log('click', e);
+  const onClick = (value) => {
+    console.log(88 , 'click', value.key);
+    listOrder = value.key
+    return listOrder
   };
 
-
+  console.log(listOrder);
   // useEffect(() => {
 
   //   US()
@@ -121,11 +106,11 @@ function AddProduct() {
         <h4>Thêm 1 sản phẩm mới</h4>
         <p>Vui lòng chọn nghành hàng phù hợp cho sản phẩm của bạn</p>
       </div>
-
+      <hr />
       <div className='search-product'>
         <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
-          <Form.Item label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
-            <Input id='search-product-input' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
+          <Form.Item className='inp-search-addProduct' label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
+            <Input className='input-addProductName' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
           </Form.Item>
           <div className='addProduct-body'>
             <div className="input-search">

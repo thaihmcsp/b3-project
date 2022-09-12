@@ -2,38 +2,34 @@ import React from "react";
 import { FiFilter } from "react-icons/fi";
 import { AiOutlineDown } from "react-icons/ai";
 import "./Menufilter.css"
-
-function FilterMenu(props) {
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo"]
+function FilterMenu() {
+  let [filterBox ,setFilterBox] = useState([])
   
-  function Click (){
-   let x = document.querySelector(".Samsung").value;
-  //  console.log(document.querySelector(".Samsung").checked);
-   document.querySelector(".Samsung").checked ? props.setCondition(x) : props.setCondition("s")
+  let nav = useNavigate()
+
+function changeBox (vbox){
+  let check = document.querySelector(`.${vbox}`).value
+  let cheKbox = document.querySelector(`.${vbox}`).checked
+   let l = ""
+   let del = [...filterBox].findIndex(function(value){
+    return value === vbox
+  })
+  console.log(del);
+  if(!cheKbox){
+
+  console.log("bo tick");
+}
+else{
    
-  }
-  function ClickRedmi (){
-    let x = document.querySelector(".Redmi").value;
-  //  console.log(document.querySelector(".Samsung").checked);
-   document.querySelector(".Redmi").checked ? props.setCondition(x) : props.setCondition("r")
-  }
-  function ClickHP (){
-    let x = document.querySelector(".hp").value;
-  //  console.log(document.querySelector(".Samsung").checked);
-   document.querySelector(".hp").checked ? props.setCondition(x) : props.setCondition("h")
-  }
- 
-    function ClickAP (){
-      let x = document.querySelector(".Apple").value;
-  //  console.log(document.querySelector(".Samsung").checked);
-   document.querySelector(".Apple").checked ? props.setCondition(x) : props.setCondition("a")
-    }
-    function ClickOP (){
-      let x = document.querySelector(".Oppo").value;
-  //  console.log(document.querySelector(".Samsung").checked);
-   document.querySelector(".Oppo").checked ? props.setCondition(x) : props.setCondition("o")
-    }
+  console.log("tick");
+}
 
 
+
+}
   return (
     <div className="filter-menu">
       <div className="filter-menu-header">
@@ -76,42 +72,26 @@ function FilterMenu(props) {
 
       {/* ==============THEO THƯƠNG HIỆU================= */}
       <div className="filter-menu-list">
-        <p>Theo Thương Hiệu</p>
+      <p>Theo Thương Hiệu</p>
+      {
+        dataCheck.map((value,index)=>{
+              return(
 
-        <div className="filter-item">
-          <input type="checkbox"  value={"Samsung"} className="Samsung" onChange={Click} />
-          {/* <button >click</button> */}
-          <div>
-            <span>Sam Sung</span>
-          </div>
-        </div>
+                <div className="filter-item" key={index}>
+                <input type="checkbox"  value={value}  className={value} onChange={()=>{changeBox(value)}}/>
+                {/* <button >click</button> */}
+                <div>
+                  <span>{value}</span>
+                </div>
+              </div>
 
-        <div className="filter-item">
-          <input type="checkbox" value={"Redmi"} className="Redmi" onChange={ClickRedmi} />
-          <div>
-            <span>Redmi</span>
-          </div>
-        </div>
-
-        <div className="filter-item">
-          <input type="checkbox"   value={"Hp"} className="hp" onChange={ClickHP}/>
-          <div>
-            <span>HP</span>
-          </div>
-        </div>
-
-        <div className="filter-item">
-          <input type="checkbox"   value={"Apple"} className="Apple" onChange={ClickAP}/>
-          <div>
-            <span>Apple</span>
-          </div>
-        </div>
-        <div className="filter-item">
-          <input type="checkbox"   value={"Oppo"} className="Oppo" onChange={ClickOP}/>
-          <div>
-            <span>Oppo</span>
-          </div>
-        </div>
+              )
+                 
+          
+                
+        })
+        
+      }
       </div>
       <div className="line"></div>
       {/* ==============THEO THƯƠNG HIỆU (DONE)================= */}
