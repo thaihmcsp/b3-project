@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getAPI } from "../../../config/api";
 import "./AdminOrderDetail.css";
 
 function AdminOrderDetail({ order, user, productDetail, product }) {
@@ -7,7 +8,7 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
     const [orderDetail, setOrderDetail] = useState([]);
     const [userOrder, setUserOrder] = useState();
     const [orderProduct, setOrderProduct] = useState([])
-    console.log(search);
+    console.log(search.orderId);
     const sale = 13000;
     let sum = 0, b = 0
     const getOrder = order.filter((item) => item._id === search.orderId);
@@ -32,8 +33,10 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
             setUserOrder(getUser);
             setOrderDetail(getProductDetail);
             setOrderProduct(getProduct)
+            let orderUser = await getAPI("/order/get-one-order/631d48b831b9eaf72cd915ea")
+            console.log(37, orderUser);
         } catch (error) {
-        console.log(error);
+            console.log(error);
         }
     };
 
