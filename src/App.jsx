@@ -80,7 +80,7 @@ function App() {
           <Route path="/admin/product/create" element={<AddProduct />} />
 
             {/* tạo biến thể của sản phẩm */}
-          <Route path="/admin/product/detail/create" element={<AddProductDetail />} />
+          <Route path="/admin/product/:productId/detail/create" element={<AddProductDetail />} />
 
             {/* liệt kê các biến thể đang có của 1 sp cụ thể */}
           <Route path="/admin/product/:productId/detail" element={<AdminListProductDetail />} />

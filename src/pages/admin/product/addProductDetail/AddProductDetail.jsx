@@ -4,10 +4,33 @@ import React, { useState } from 'react';
 import { Input } from 'antd';
 import './AddProductDetail.css'
 import { Select } from 'antd';
+import { getAPI, postAPI } from '../../../../config/api';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 const { Option } = Select;
+
+
 function AddProductDetail() {
+  const { productId } = useParams()
+
+  let token = window.localStorage.getItem('user')
+  console.log(token);
   
-  // atn picture upload
+  const addSucess = async (values) => {
+    console.log('Success:', values);
+    try {
+      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+  
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -35,9 +58,7 @@ function AddProductDetail() {
     const handleChange = (info, index) => {
       console.log(index);
       if (info.file.status === 'uploading') {
-        // setLoading(true);
         getBase64(info.file.originFileObj, (url) => {
-          // setLoading(false);
           let data = [...imageUrl]
           data[index] = url
           setImageUrl(data);
@@ -46,7 +67,6 @@ function AddProductDetail() {
       }
   
       if (info.file.status === 'done') {
-        // Get this url from response in real world.
         getBase64(info.file.originFileObj, (url) => {
           setLoading(false);
           setImageUrl(url);
@@ -61,7 +81,6 @@ function AddProductDetail() {
             <div
               style={{
                 marginTop: 8,
-                
               }}
             >
             </div>
@@ -81,7 +100,7 @@ function AddProductDetail() {
     };
   return (
     <div>
-        <div className='container'>
+        <div className='container' addSucess={addSucess} addFailed={addFailed} >
           <p className='head-p'>Thông tin cơ bản</p>
           <div className='add-img'>
             <div className='label'>
@@ -124,48 +143,13 @@ function AddProductDetail() {
               })}
             </div>
           </div>
-          <div className='product-info-double'>
-          </div>
-          <div className='product-info-double'>
-          <div className='product-info-double'>
-            <div className='label-double'>
-              <p className='item-p'>Tên thương hiệu</p>
-            </div>
-            <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-            >
-              <Option value="jack">Samsung</Option>
-              <Option value="lucy">Apple</Option>
-              <Option value="tom">Xiaomi</Option>
-              <Option value="tom">Huawei</Option>
-            </Select>
-            </div>
-          </div>
-          <div className='product-info-double'>
-            <div className='label-double'>
+          <div className='product-info-single'>
+            <div className='label-single'>
               <p className='item-p'>Màu sắc</p>
             </div>
-            <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
+            <div className='add-zone-single'>
+            <Input className='color-input' placeholder="Nhập vào" />
             </div>
-          </div>
           </div>
           <div className='product-info-double'>
           <div className='product-info-double'>
@@ -173,18 +157,7 @@ function AddProductDetail() {
               <p className='item-p'>RAM</p>
             </div>
             <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
+            <Input className='RAM-input' placeholder="Nhập vào" />
             </div>
           </div>
           <div className='product-info-double'>
@@ -192,25 +165,14 @@ function AddProductDetail() {
               <p className='item-p'>ROM</p>
             </div>
             <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
+            <Input className='ROM-input' placeholder="Nhập vào" />
             </div>
           </div>
           </div>
           <p className='head-p'>Thông tin bán hàng</p>
           <div className='price'>
             <div className='price-p'>
-              <p className='item-p '>Giá</p>
+              <p className='item-p'>Giá</p>
             </div>
             <Input placeholder="Nhập vào" />
           </div>
@@ -221,6 +183,7 @@ function AddProductDetail() {
             <Input placeholder="Nhập vào"/>
           </div>
         </div>
+        <div><button className='btn-add'>Thêm sản phẩm</button></div>
     </div>
   )
 };;
