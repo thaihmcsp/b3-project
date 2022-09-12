@@ -7,7 +7,7 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
     const [orderDetail, setOrderDetail] = useState([]);
     const [userOrder, setUserOrder] = useState();
     const [orderProduct, setOrderProduct] = useState([])
-
+    console.log(search);
     const sale = 13000;
     let sum = 0, b = 0
     const getOrder = order.filter((item) => item._id === search.orderId);
