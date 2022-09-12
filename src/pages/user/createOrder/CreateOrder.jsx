@@ -159,7 +159,6 @@ function CreateOrder() {
    ];
    
    useEffect( () => {
-    
        let newTotal = 0;
        let newTotalQualyti = 0;
        dataSource.map(

@@ -7,18 +7,50 @@ import 'antd/dist/antd.css';
 import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { postAPI } from '../../../config/api'
+import { getAPI } from '../../../config/api'
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../../redux/reducers/userReducer'
 
-
+function setCookie(cname, cvalue, exdays) {
+     const d = new Date();
+     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+     let expires = "expires="+ d.toUTCString();
+     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+   }
+ 
+   function getCookie(cname) {
+     let name = cname + "=";
+     let decodedCookie = decodeURIComponent(document.cookie);
+     let ca = decodedCookie.split(';');
+     for(let i = 0; i <ca.length; i++) {
+       let c = ca[i];
+       while (c.charAt(0) == ' ') {
+         c = c.substring(1);
+       }
+       if (c.indexOf(name) == 0) {
+         return c.substring(name.length, c.length);
+       }
+     }
+     return "";
+ }
+ 
 
 function SignIn() {
+     const user = useSelector(state => state.user)
+     console.log(user,440)
+     const dispatch = useDispatch();
      const nav = useNavigate()
-     let token = window.localStorage.getItem('user')
-     console.log(12,token);
+     
      const onFinish = async (values) => {
           try {
               let res = await postAPI('/auth/sign-in',values)
-              window.localStorage.setItem('user', res.data.token)
               console.log(14,res);
+               setCookie('shope-b3', res.data.token, 30);
+               const resp = await getAPI('/auth/get-loged-in-user');
+               console.log(resp);
+                const action = userLogin(resp.data);
+                console.log(53, action);
+               dispatch(action)
               nav('/')
           } catch (error) {
                console.log(error);
