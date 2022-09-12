@@ -110,7 +110,6 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
                                 {getOrder.map(item1 => {
                                     return item1.listProduct.map(value1 => {
                                         const check1 = value1.productDetailId === value[0]._id
-                                        // check1 ? sum = value[0].price * value1.quantity : sum = sum + 0
                                         if (check1) {
                                             sum = value[0].price * value1.quantity
                                             b += value[0].price * value1.quantity
