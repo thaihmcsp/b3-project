@@ -1,37 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAPI, patchAPI } from "../../../config/api";
 import "./AdminOrderDetail.css";
 
-function AdminOrderDetail({ order, user, productDetail, product }) {
+function AdminOrderDetail() {
+    const [orderDetail, setOrderDetail] = useState();
+    const [count, setCount] = useState(0)
+    console.log(orderDetail);
     const search = useParams();
-    const [orderDetail, setOrderDetail] = useState([]);
-    const [userOrder, setUserOrder] = useState();
-    const [orderProduct, setOrderProduct] = useState([])
-
+    const nav = useNavigate();
+    console.log(search.orderId);
     const sale = 13000;
-    let sum = 0, b = 0
-    const getOrder = order.filter((item) => item._id === search.orderId);
-    const getUser = user.filter((item) => {
-        return item._id === getOrder[0].userId;
-    });
-    const getProductDetail = getOrder.map((item) => {
-        return item.listProduct.map((value) => {
-            return productDetail.filter((product) => {
-                return value.productDetailId === product._id;
-            });
-        });
-    });
-    const getProduct = getProductDetail[0].map(item => {
-        return product.filter(value => {
-            return value.listDetail.includes(item[0]._id)
-        })
-    })
+    let sum = 0,
+        b = 0;
 
     const getData = async () => {
         try {
-            setUserOrder(getUser);
-            setOrderDetail(getProductDetail);
-            setOrderProduct(getProduct)
+        let orderUser = await getAPI("/order/get-one-order/" + search.orderId);
+        console.log(orderUser);
+        setOrderDetail(orderUser.data.order);
         } catch (error) {
         console.log(error);
         }
@@ -39,114 +26,154 @@ function AdminOrderDetail({ order, user, productDetail, product }) {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [count]);
+
+    const changePage = () => {
+        nav("/admin/order");
+    };
+
+    const handleChangeStatus = async (e) => {
+        try {
+            console.log(e.target.value);
+            await patchAPI("/order/change-order-status/" + search.orderId, {'status': e.target.value});
+            setCount(pre => pre + 1)
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div
-            style={{ padding: "32px ", backgroundColor: "#f5f5f5", height: "100%" }}
+        style={{ padding: "32px ", backgroundColor: "#f5f5f5", height: "100%" }}
         >
-            <div className="admin_order-info-user">
-                <div className="order_info-user-item">
-                    <h3 className="info_user-item-heading">ĐỊA CHỈ NGƯỜI NHẬN</h3>
-                    {userOrder
-                        ? userOrder.map((item) => {
-                            return (
-                            <div className="info_user-item-user">
-                                
-                                <h2>{item.fullname}</h2>
-                                <p className="info-item-user-address">
-                                {getOrder[0].address}
-                                </p>
-                                <p className="info-item-user-phone">
-                                Điện thoại: {getOrder[0].phone}
-                                </p>
-                            </div>
-                            );
-                        })
-                        : ""}
+        <div className="admin_order-info-user">
+            <div className="order_info-user-item">
+            <h3 className="info_user-item-heading">ĐỊA CHỈ NGƯỜI NHẬN</h3>
+            {orderDetail ? (
+                <div className="info_user-item-user">
+                <h2>Tên người nhận: Lại Huy Trường</h2>
+                <p className="info-item-user-address">
+                    Địa chỉ: {orderDetail.address}
+                </p>
+                <p className="info-item-user-phone">
+                    Điện thoại: {orderDetail.phone}
+                </p>
+                <div>
+                    <span>Trạng thái: </span>
+                    {orderDetail.status === "canceled" ? (
+                    <span>canceled</span>
+                    ) : orderDetail.status === "done" ? (
+                    <span>done</span>
+                    ) : (
+                    <select
+                        value={orderDetail.status}
+                        onChange={handleChangeStatus}
+                        className="info-item-user-status"
+                    >
+                        <option value="canceled">canceled</option>
+                        <option value="pending">pending</option>
+                        <option value="delivery">delivery</option>
+                        <option value="done">done</option>
+                    </select>
+                    )}
                 </div>
-                <div className="order_info-user-item">
-                    <h3 className="info_user-item-heading">HÌNH THỨC GIAO HÀNG</h3>
-                    <div className="info_user-item-delivery">
-                        <p>Giao tiết kiệm</p>
-                        <p>Giao vào thứ 5, 02/09</p>
-                        <p>Được giao bởi Shoppee ( giao từ Hà Nội )</p>
-                            <p>Phí vận chuyển: { sale.toLocaleString()} ₫</p>
-                    </div>
                 </div>
-                <div className="order_info-user-item">
-                    <h3 className="info_user-item-heading">HÌNH THỨC THANH TOÁN</h3>
-                    <div className="info_user-item-pay">
-                        <p>Thanh toán tiền mặt khi nhận hàng</p>
-                    </div>
-                </div>
+            ) : (
+                ""
+            )}
             </div>
-            <div className="admin_order-info-product">
-                <div className="order-info-product-heading">
-                    <p>Sản phẩm</p>
-                    <p>Giá</p>
-                    <p>Số lượng</p>
-                    <p>Giảm giá</p>
-                    <p>Tạm tính</p>
-                </div>
-                <div className="order-info-product-body">
-                    {orderDetail ? orderDetail[0]?.map(value => {
-                        return (
-                            <div className="order-info-product-body-container">
-                                {orderProduct.map(item => {
-                                    const check = item[0].listDetail.includes(value[0]._id)
-                                    return (
-                                        check ? <div className="info_product-left">
-                                            <img src={value[0].listImg[0]} alt="" />
-                                            <div>
-                                                <h2>{item[0].productName}</h2>
-                                                <p>Ram: {value[0].ram}</p>
-                                                <button>Mua lại</button>
-                                            </div>
-                                            </div>
-                                        : ""
-                                    )
-                                })}
-                                {getOrder.map(item1 => {
-                                    return item1.listProduct.map(value1 => {
-                                        const check1 = value1.productDetailId === value[0]._id
-                                        // check1 ? sum = value[0].price * value1.quantity : sum = sum + 0
-                                        if (check1) {
-                                            sum = value[0].price * value1.quantity
-                                            b += value[0].price * value1.quantity
-                                        } else {
-                                            sum = sum
-                                            b = b
-                                        }
-                                        return (
-                                            check1 ? <div className="info_product-right">
-                                                <p>{value[0].price.toLocaleString()} ₫</p>
-                                                <p>{value1.quantity}</p>
-                                                <p>0 ₫</p>
-                                                <p>{ sum.toLocaleString()} ₫</p>
-                                            </div> : ""
-                                        )
-                                    })
-                                })}
-                            </div>
-                        )
-                    }) : ""}
-                </div>  
-                <div className="order-info-product-footer">
-                    <div>
-                        <p>Tạm tính</p>
-                        <span>{(b).toLocaleString()} ₫</span>   
-                    </div>
-                    <div>
-                        <p>Phí vận chuyển</p>
-                        <span>{sale.toLocaleString()} ₫</span>
-                    </div>
-                    <div>
-                        <p>Tổng cộng</p>
-                        <span>{(b + sale).toLocaleString()} ₫</span>
-                    </div>
-                </div>
+            <div className="order_info-user-item">
+            <h3 className="info_user-item-heading">HÌNH THỨC GIAO HÀNG</h3>
+            <div className="info_user-item-delivery">
+                <p>Giao tiết kiệm</p>
+                <p>Giao vào thứ 5, 02/09</p>
+                <p>Được giao bởi Shoppee ( giao từ Hà Nội )</p>
+                <p>Phí vận chuyển: {sale.toLocaleString()} ₫</p>
             </div>
+            </div>
+            <div className="order_info-user-item">
+            <h3 className="info_user-item-heading">HÌNH THỨC THANH TOÁN</h3>
+            <div className="info_user-item-pay">
+                <p>Thanh toán tiền mặt khi nhận hàng</p>
+            </div>
+            </div>
+        </div>
+        <div className="admin_order-info-product">
+            <div className="order-info-product-heading">
+            <p>Sản phẩm</p>
+            <p>Giá</p>
+            <p>Số lượng</p>
+            <p>Giảm giá</p>
+            <p>Tạm tính</p>
+            </div>
+            <div className="order-info-product-body">
+            {orderDetail
+                ? orderDetail.listProduct.map((item) => {
+                    if (item.productDetailId !== null) {
+                    sum = item.productDetailId.price * item.quantity;
+                    b += sum;
+                    }
+                    return (
+                    <div className="order-info-product-body-container">
+                        {item.productDetailId !== null ? (
+                        <div className="info_product-left">
+                            <img
+                            src={
+                                item.productDetailId.productId.thumbnail.startsWith(
+                                "https"
+                                )
+                                ? item.productDetailId.productId.thumbnail
+                                : "https://shope-b3.thaihm.site/" +
+                                    item.productDetailId.productId.thumbnail
+                            }
+                            alt=""
+                            />
+                            <div>
+                            <h2>{item.productDetailId.productId.productName}</h2>
+                            <p>Ram: {item.productDetailId.ram}</p>
+                            </div>
+                        </div>
+                        ) : (
+                        ""
+                        )}
+                        {item.productDetailId !== null ? (
+                        <div className="info_product-right">
+                            <p>{item.productDetailId.price.toLocaleString()} ₫</p>
+                            <p>{item.quantity}</p>
+                            <p>0 ₫</p>
+                            <p>
+                            {(
+                                item.productDetailId.price * item.quantity
+                            ).toLocaleString()}{" "}
+                            ₫
+                            </p>
+                        </div>
+                        ) : (
+                        ""
+                        )}
+                    </div>
+                    );
+                })
+                : ""}
+            </div>
+            <div className="order-info-product-footer">
+            <div>
+                <p>Tạm tính</p>
+                <span>{b.toLocaleString()} ₫</span>
+            </div>
+            <div>
+                <p>Phí vận chuyển</p>
+                <span>{sale.toLocaleString()} ₫</span>
+            </div>
+            <div>
+                <p>Tổng cộng</p>
+                <span>{(b + sale).toLocaleString()} ₫</span>
+            </div>
+            <div className="admin_order-btn-save">
+                <button onClick={changePage}>Save</button>
+            </div>
+            </div>
+        </div>
         </div>
     );
 }

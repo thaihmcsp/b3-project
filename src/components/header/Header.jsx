@@ -8,7 +8,7 @@ import { useEffect } from "react"
 function Header() {
   const nav = useNavigate()
   let token = window.localStorage.getItem("user")
-  const [uNane, setUName] = useState("")
+  const [uName, setUName] = useState("")
   let [checkAdmin, setCheckAdmin] = useState("")
   function Login() {
     nav("/signin")
@@ -65,7 +65,7 @@ function Header() {
 
       try {
         let name = await instance.get("/auth/get-loged-in-user", { headers: { Authorization: token } })
-
+        console.log(name.data.user.email,68);
         let classNone = document.querySelector(".header-top-right-id")
         classNone.setAttribute("id", "display")
         setUName(name.data.user.email)
@@ -118,7 +118,7 @@ function Header() {
           <div className='header-top-right-user'>
             <div className='header-top-right-name'>
               <p><UserOutlined /></p>
-              <p>{uNane}</p>
+              <p>{uName}</p>
             </div>
             <div className='header-top-right-name-hover'>
               <ul className='list'>
