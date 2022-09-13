@@ -36,12 +36,13 @@ function AddProduct() {
       console.log(30, res);
     } catch (error) {
       console.log(32, error);
+      alert('Mặt hành này đã tồn tại')
     }
   };
 
   const getIdProduct = async (value) => {
     try {
-      let resId = await getAPI('/product/get-all-products')
+      let resId = await getAPI('product/get-all-products')
       console.log(44, resId);
       console.log(resId.data.products);
       setIdProduct(resId.data.products)
