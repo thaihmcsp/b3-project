@@ -29,9 +29,6 @@ function UserProfile() {
             let res = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
             linkk = res.data.user.avatar
             setData(res.data.user)
-            console.log(res.data.user);
-            console.log(32, data);
-            console.log(31, linkk);
         } catch (error) {
             console.log(error);
         }
@@ -59,16 +56,14 @@ function UserProfile() {
     // Form-edit
 
     const onFinish = async (values) => {
-        // console.log('Success:', values);
         try {
             let res = await axios.patch('https://shope-b3.thaihm.site/api/user/update-info', values, { headers: { Authorization: token } })
             setCount(count + 1)
             console.log(res);
+            alert(res.data.message)
         } catch (error) {
             console.log(error);
         }
-        // const upDate = async () => {
-        // }
     };
 
     const onFinishFailed = (errorInfo) => {
