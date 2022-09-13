@@ -37,6 +37,9 @@ function Home({ product }) {
     });
   }
 
+  function filterPage (){
+    nav("/filter?page=1&pageSize=10")
+  }
   useEffect(() => {
     async function getData() {
       try {
@@ -78,7 +81,8 @@ function Home({ product }) {
       <div className="home_body">
         <div className="home_banner">
           <div className="home_banner-left">
-            <button className="home_banner-left-btn" onClick={handlePrevSlider}>
+            <button className="home_banner-left-btn" 
+              onClick={handlePrevSlider}>
               <LeftOutlined />
             </button>
             <Carousel autoplay ref={(node) => (refCarousel = node)}>
@@ -116,7 +120,7 @@ function Home({ product }) {
           </div>
         </div>
         <div className="home_navbar">
-          <div className="home_navbar-item">
+          <div className="home_navbar-item" onClick={filterPage}>
             <div className="home_navbar-item-img">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0sO1CA1idzbC6A3C12mgu27xkV6GwABMbQ&usqp=CAU"

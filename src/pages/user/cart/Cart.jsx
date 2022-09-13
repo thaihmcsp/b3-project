@@ -13,6 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 tableCart[1].listProduct.map(
   (value, index) => {
+
     let product1 = value.productDetailId;
     //Lấy product detail id của bảng cart
     let detail = tableProductDetail.find((value2, index) => { return (product1 == value2._id) });
@@ -232,18 +233,6 @@ function Cart() {
             <Table
               rowSelection={rowSelection}
               columns={defaultColumns}
-              // expandable={{
-              //   expandedRowRender: (record) => (
-              //     <p
-              //       style={{
-              //         margin: 0,
-              //       }}
-              //     >
-              //       {record.description}
-              //     </p>
-              //   ),
-              //   rowExpandable: (record) => record.name !== 'Not Expandable',
-              // }}
               dataSource={dataSource}
             />
           </div>
@@ -286,9 +275,7 @@ function Cart() {
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span> <span className='cart-price'>
                     {total}
                     đ</span>
-                  <Button type="primary" onClick={createOrder}>
-                    Mua hàng
-                  </Button>
+                  <Button type="primary" onClick={createOrder}>Mua hàng</Button>
                 </div>
               </Col>
             </Row>

@@ -1,18 +1,34 @@
 import React, { Fragment } from 'react'
 import productDetail from '../../../static/Truong/productDetail.json'
-import order from '../../../static/Truong/order.json'
-import product from '../../../static/Truong/product.json'
 import { data } from '../userOrderHistory/UserOrderHistory'
 import './OrderDetail.css'
 import { LeftOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom'
-import { Divider, List, Typography } from 'antd';
-
+import { useEffect } from 'react';
+import { instance } from '../../../config/axios'
+import { useState } from 'react'
 
 
 
 function OrderDetail() {
   const { orderId } = useParams()
+  let token = window.localStorage.getItem('user');
+  const [orderAPI, setOrderAPI] = useState([]);
+
+  const getOrder = async () => {
+    try {
+      let res = await instance.get('/order/get-all-order', { headers: { Authorization: token } })
+      console.log(14, res);
+      setOrderAPI(res)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getOrder();
+  }, [])
+
 
 
   return (
@@ -131,6 +147,18 @@ function OrderDetail() {
 
         <div className="order-detail__product-content">
           <div className="order-product--detail">
+
+            {/* {
+              orderAPI.data.orders.map((orderItem) => {
+                console.log(152, orderItem);
+                orderItem.listProduct((orderProduct) => {
+
+                })
+              })
+            } */}
+
+
+
             {productDetail.map((detail) => {
               if (orderId === detail._id) {
 

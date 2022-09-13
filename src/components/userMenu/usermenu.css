@@ -1,8 +1,4 @@
 /* a {
-  color: black !important;
-} */
-
-/* a {
     color: black !important;
   } */
 
@@ -122,14 +118,14 @@
 
 
 
-.user-menu .menu-list ul li a:hover {
-  color: #ee4d2d;
-}
+  .user-menu .menu-list ul li a:hover {
+    color: #ee4d2d;
+  }
 
-.user-menu .ant-menu-inline .ant-menu-item::after {
-  border-right: 3px solid #ee4d2d !important;
-  /* color: #ee4d2d !important; */
-}
+  .user-menu  .ant-menu-inline .ant-menu-item::after {
+    border-right: 3px solid #ee4d2d !important;
+    /* color: #ee4d2d !important; */
+  }
 
 .change-menu .change-body {
   margin-top: 30px;
