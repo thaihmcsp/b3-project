@@ -70,6 +70,8 @@ function ProductDetail() {
             let addToCart = await patchAPI(`/cart/add-to-cart`,{'productDetailId':productDetailID,"quantity":inputpd})
             if(addToCart.status == 200){
                 alert('Thêm vào giỏ hàng thành công !')
+            }else {
+                alert('Lỗi !')
             }
         }
         catch (error){
