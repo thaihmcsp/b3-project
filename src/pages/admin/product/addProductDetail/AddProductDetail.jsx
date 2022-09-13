@@ -1,13 +1,31 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import React, { useState } from 'react';
-import { Input } from 'antd';
+import { Input, Form } from 'antd';
 import './AddProductDetail.css'
 import { Select } from 'antd';
-const { Option } = Select;
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 function AddProductDetail() {
-  
-  // atn picture upload
+  const { productId } = useParams()
+  const navigate = useNavigate()
+  let token = window.localStorage.getItem('user')
+  console.log(token);
+  const onFinish = async (values) => {
+    console.log('Success:', values);
+    try {
+      let res = await axios.post(`https://shope-b3.thaihm.site/api/productDetail/create-product-detail/product/${productId}`, values, { headers: { Authorization: token } })
+      console.log(res);
+      navigate('/admin/product')
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -35,9 +53,7 @@ function AddProductDetail() {
     const handleChange = (info, index) => {
       console.log(index);
       if (info.file.status === 'uploading') {
-        // setLoading(true);
         getBase64(info.file.originFileObj, (url) => {
-          // setLoading(false);
           let data = [...imageUrl]
           data[index] = url
           setImageUrl(data);
@@ -46,7 +62,6 @@ function AddProductDetail() {
       }
   
       if (info.file.status === 'done') {
-        // Get this url from response in real world.
         getBase64(info.file.originFileObj, (url) => {
           setLoading(false);
           setImageUrl(url);
@@ -61,7 +76,6 @@ function AddProductDetail() {
             <div
               style={{
                 marginTop: 8,
-                
               }}
             >
             </div>
@@ -69,19 +83,13 @@ function AddProductDetail() {
         )
       )
     };
-
-
-    // atn input
-    const onChange = (value) => {
-      console.log(`selected ${value}`);
-    };
-    
-    const onSearch = (value) => {
-      console.log('search:', value);
-    };
   return (
+    <Form
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
     <div>
-        <div className='container'>
+        <div className='container' >
           <p className='head-p'>Thông tin cơ bản</p>
           <div className='add-img'>
             <div className='label'>
@@ -124,104 +132,84 @@ function AddProductDetail() {
               })}
             </div>
           </div>
-          <div className='product-info-double'>
-          </div>
-          <div className='product-info-double'>
-          <div className='product-info-double'>
-            <div className='label-double'>
-              <p className='item-p'>Tên thương hiệu</p>
-            </div>
-            <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+          <div className='product-info'>
+          <div className='product-info-item'>
+            <Form.Item
+              label="Màu sắc"
+              name="color"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền màu sắc',
+                },
+              ]}
             >
-              <Option value="jack">Samsung</Option>
-              <Option value="lucy">Apple</Option>
-              <Option value="tom">Xiaomi</Option>
-              <Option value="tom">Huawei</Option>
-            </Select>
-            </div>
+              <Input />
+            </Form.Item>
           </div>
-          <div className='product-info-double'>
-            <div className='label-double'>
-              <p className='item-p'>Màu sắc</p>
-            </div>
-            <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+          
+          <div className='product-info-item'>
+          <Form.Item
+            label="RAM"
+            name="ram"
+            rules={[
+              {
+                required: true,
+                message: 'Điền thông số RAM',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          </div>
+          <div className='product-info-item'>
+            <Form.Item
+              label="ROM"
+              name="rom"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền thông số ROM',
+                },
+              ]}
             >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
-            </div>
-          </div>
-          </div>
-          <div className='product-info-double'>
-          <div className='product-info-double'>
-            <div className='label-double'>
-              <p className='item-p'>RAM</p>
-            </div>
-            <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
-            </div>
-          </div>
-          <div className='product-info-double'>
-            <div className='label-double'>
-              <p className='item-p'>ROM</p>
-            </div>
-            <div className='add-zone-double'>
-            <Select
-              showSearch
-              placeholder="Vui lòng chọn"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
-            </div>
+              <Input />
+            </Form.Item>
           </div>
           </div>
           <p className='head-p'>Thông tin bán hàng</p>
-          <div className='price'>
-            <div className='price-p'>
-              <p className='item-p '>Giá</p>
+          <div className='sell-info'>
+          <Form.Item
+              label="Giá sản phẩm"
+              name="price"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền giá',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             </div>
-            <Input placeholder="Nhập vào" />
-          </div>
-          <div className='price'>
-            <div className='price-p'>
-              <p className='item-p '>Tồn kho</p>
+            <div className='sell-info'>
+            <Form.Item
+              label="Số lượng sản phẩm"
+              name="storage"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền số lượng',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             </div>
-            <Input placeholder="Nhập vào"/>
-          </div>
         </div>
+        <div><button className='btn-add'>Thêm sản phẩm</button></div>
     </div>
+    </Form>
   )
 };;
 

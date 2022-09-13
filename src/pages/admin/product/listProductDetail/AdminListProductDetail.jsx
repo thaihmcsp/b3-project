@@ -108,10 +108,6 @@ function AdminListProductDetail() {
             }
           </div>
         </div>
-
-
-
-
       </div>
     </div>
   )

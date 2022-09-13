@@ -7,6 +7,8 @@ import { Menu } from 'antd';
 import '../addProduct/addProduct.css'
 import axios from 'axios';
 import { useEffect } from 'react';
+import { instance } from '../../../../config/axios';
+
 const { Search } = Input;
 const suffix = (
   <AudioOutlined
@@ -21,8 +23,10 @@ const onSearch = (value) => console.log(value);
 
 function AddProduct() {
 
-  const listOrder = 'Chưa chọn nghành hàng'
-  const [newProduct, setNewProduct] = useState([])
+  const listOrder = 'Chưa chọn ngành hàng'
+  const [idProduct, setIdProduct] = useState([])
+  const [count, setCount] = useState(0)
+
 
   let token = window.localStorage.getItem("user")
   console.log(26, token);
@@ -37,6 +41,26 @@ function AddProduct() {
     }
   };
 
+  const getIdProduct = async (value) => {
+    try {
+      let resId = await axios.get('https://shope-b3.thaihm.site/api/product/get-all-products', { headers: { Authorization: token } })
+      console.log(44, resId);
+      console.log(resId.data.products);
+      setIdProduct(resId.data.products)
+    } catch (error) {
+      console.log(46, error);
+    }
+  }
+
+  console.log(59, idProduct);
+  let idNewProduct = idProduct[idProduct.length - 1]?._id
+
+  useEffect(() => {
+
+    getIdProduct()
+
+  }, [count])
+  
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -87,41 +111,38 @@ function AddProduct() {
   ];
 
   const onClick = (value) => {
-    console.log(88 , 'click', value.key);
+    console.log(88, 'click', value.key);
     listOrder = value.key
     return listOrder
   };
 
   console.log(listOrder);
-  // useEffect(() => {
 
-  //   US()
 
-  // }, [])
 
 
   return (
     <div className='classAddProduct'>
       <div className='addProduct-header'>
         <h4>Thêm 1 sản phẩm mới</h4>
-        <p>Vui lòng chọn nghành hàng phù hợp cho sản phẩm của bạn</p>
+        <p>Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn</p>
       </div>
       <hr />
       <div className='search-product'>
         <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
           <Form.Item className='inp-search-addProduct' label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
-            <Input className='input-addProductName' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
+            <Input className='input-addProductName' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
           </Form.Item>
           <div className='addProduct-body'>
             <div className="input-search">
               <Search
-                placeholder="Tên nghành hàng"
+                placeholder="Tên ngành hàng"
                 onSearch={onSearch}
                 style={{
                   width: '30%',
                   borderRadius: 20
                 }}
-              /> <span>Chọn nghành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
+              /> <span>Chọn ngành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
             </div>
             <div className="menuAddProduct">
               <Menu
@@ -147,7 +168,7 @@ function AddProduct() {
             </Form.Item>
 
             <div className='btn-next'>
-              <Link to='/admin/product/detail/create'><button>Tiếp theo</button></Link>
+              <Link to={`/admin/product/${idNewProduct}/detail/create`}><button>Tiếp theo</button></Link>
             </div>
           </div>
         </Form>
