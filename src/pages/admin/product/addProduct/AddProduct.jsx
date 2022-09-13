@@ -8,6 +8,7 @@ import '../addProduct/addProduct.css'
 import axios from 'axios';
 import { useEffect } from 'react';
 import { instance } from '../../../../config/axios';
+import { getAPI, postAPI } from '../../../../config/api';
 
 const { Search } = Input;
 const suffix = (
@@ -34,16 +35,17 @@ function AddProduct() {
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
-      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
+      let res = await postAPI('product/create-product', values,)
       console.log(30, res);
     } catch (error) {
       console.log(32, error);
+      alert('Mặt hành này đã tồn tại')
     }
   };
 
   const getIdProduct = async (value) => {
     try {
-      let resId = await axios.get('https://shope-b3.thaihm.site/api/product/get-all-products', { headers: { Authorization: token } })
+      let resId = await getAPI('product/get-all-products')
       console.log(44, resId);
       console.log(resId.data.products);
       setIdProduct(resId.data.products)
@@ -51,8 +53,10 @@ function AddProduct() {
       console.log(46, error);
     }
   }
+
   console.log(59, idProduct);
-  let idNewProduct = idProduct[idProduct.length]?._id
+  let idNewProduct = idProduct[idProduct.length - 1]?._id
+
   useEffect(() => {
 
     getIdProduct()
