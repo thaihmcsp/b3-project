@@ -47,6 +47,8 @@ function ProductDetail() {
     const [productDetailCheck, setProductDetailCheck] = useState([])
     const [count, setCount] = useState(0);
     // getAPI 
+
+    console.log(count,51);
     async function getAPIproductDetail() {
 
         try {
@@ -74,19 +76,34 @@ function ProductDetail() {
     function setPrice1(value) {
         let color = value.target.value
         setpdColor(color)
+        getPrice(color, pdRam, pdRom )
+        
     }
     function setPrice2(value) {
         let ram = value.target.value
         setpdRam(ram)
+        getPrice(pdColor, ram, pdRom)
     }
     function setPrice3(value) {
         let rom = value.target.value
         setpdRom(rom)
+        getPrice(pdColor, pdRam, rom)
     }
 
-   
 
-
+    function getPrice(pdColor, pdRam, pdRom){
+        if (pdColor, pdRam, pdRom) {
+            console.log(pdColor,pdRam,pdRom ,120);
+            let arrPrice = productDetailCheck.find(
+                (value) => {
+                    return value.color == pdColor && value.ram == pdRam && value.rom == pdRom
+                }
+            )
+    
+            console.log(arrPrice.price,127)
+            setProductDetailPrice(arrPrice.price)
+        }
+    }
     //  Chức năng tương tác
 
     function like1() {
@@ -116,15 +133,7 @@ function ProductDetail() {
     }
 
     //
-    if (pdColor, pdRam, pdRom) {
-        let arrPrice = productDetailCheck.find(
-            (value) => {
-                return value.color == pdColor && value.ram == pdRam && value.rom == pdRom
-            }
-        )
-
-        console.log(arrPrice.price)
-    }
+    
 
 //
     // useEffect
