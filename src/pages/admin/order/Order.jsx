@@ -26,10 +26,14 @@ const onSearch = (value) => console.log(value);
 
 function Order() {
   const [getOrder , setGetOrder] = useState([])
+  const [getUser , setGetUser] = useState([])
   const getOrders = async (value) => {
     try {
       let res = await getAPI('/order/get-all-order')
       console.log(33 , res);
+      let order = res.data.orders
+      console.log(34 , order);
+      setGetOrder(order)
     } catch (error) {
       console.log(35 , error);
     }
@@ -39,25 +43,27 @@ function Order() {
   const getUsers = async (value) => {
     try {
       let resUser = await getAPI('/auth/get-loged-in-user')
+      let users = resUser.data.user
+      console.log(47 , users);
       console.log(43 , resUser);
+      setGetUser(users)
     } catch (errorUser) {
       console.log(45 , errorUser);
     }
   }
   
 
-  for (let i = 0; i < order.length; i++) {
-    const elementOrder = order[i];
-    for (let j = 0; j < user.length; j++) {
-      const elementUser = user[j];
-      if (elementOrder.userId === elementUser._id) {
-        elementOrder.userName = elementUser.fullname
+  for (let i = 0; i < getOrder.length; i++) {
+    const elementOrder = getOrder[i];
+    for (let j = 0; j < getUser.length; j++) {
+      const elementUser = getUser[j];
+      if (elementOrder._id === elementUser._id) {
         elementOrder.phone = elementUser.phone
       }
     }
   }
 
- console.log(61 , order);
+ console.log(61 , getOrder);
   let count = 0;
   for (let i = 0; i < order.length; i++) {
     count += 1;
@@ -69,7 +75,7 @@ function Order() {
       dataIndex: '_id',
       key: '_id',
       render: (text) =>
-      <Link to={`/admin/order//admin/order/${text}`}>
+      <Link to={`/admin/order/${text}`}>
         <a>{text}</a>
       </Link>,
     },
@@ -97,7 +103,7 @@ function Order() {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: (statusOrder) => <select name={statusOrder} id="" style={{border: 'none'}}>
+      render: (status) => <select name={status} id="" style={{border: 'none'}}>
         <option value="pending">pending</option>
         <option value="cancel">cancel</option>
       </select>
@@ -161,7 +167,7 @@ function Order() {
         <h1>{count} Đơn Hàng</h1>
         <div><button><span><ShopOutlined /></span><span>Giao Hàng Loạt</span></button></div>
       </div>
-      <Table columns={columns} dataSource={order} />
+      <Table columns={columns} dataSource={getOrder} />
     </div>
   )
 }

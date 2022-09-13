@@ -26,8 +26,6 @@ function AddProduct() {
 
   const listOrder = 'Chưa chọn ngành hàng'
 
-  const [count, setCount] = useState(0)
-
   const nav = useNavigate()
 
   const onFinish = async (values) => {
