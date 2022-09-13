@@ -14,10 +14,14 @@
     background-color: #F5F5F5;
 }
 .product-detail-left {
+    height: 500px;
     padding: 10px;
 }
+.product-detail-left .slick-list{
+    height: 400px;
+}
 .product-detail-listimg{
-    margin-top: 20px;
+    margin-top: 25px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -113,8 +117,6 @@
 
 .product-detail-carousel-card img {
     width: 100%;
-    height: 400px;
-
 }
 
 .prodtuct-detail-address {

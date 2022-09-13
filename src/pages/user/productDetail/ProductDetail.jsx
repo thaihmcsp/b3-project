@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Routes, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import product from '../../../static/Truong/product.json'
-import { getAPI } from '../../../config/api';
+import { getAPI, patchAPI } from '../../../config/api';
 import { instance } from '../../../config/axios';
 // Select 
 const { Option } = Select;
@@ -45,15 +45,16 @@ function ProductDetail() {
     let [like, setLike] = useState(200)
     const [productDetailData, setProductDetailData] = useState([])
     const [productDetailCheck, setProductDetailCheck] = useState([])
+    const [productDetailID, setProductDetailID] = useState()
+
     const [count, setCount] = useState(0);
     // getAPI 
 
-    console.log(count,51);
+    // console.log(count,51);
     async function getAPIproductDetail() {
 
         try {
-            let products = await instance.get(`product/get-one-product/${productId}`);
-            // console.log(62, products);
+            let products = await getAPI(`product/get-one-product/${productId}`)
             setProductDetailPrice(products.data.product.price)
             setProductDetailData([products.data.product])
             setProductDetailCheck(products.data.product.listDtail)
@@ -63,6 +64,19 @@ function ProductDetail() {
             console.log(error);
         }
     }
+
+    async function addToCart(){
+        try {
+            let addToCart = await patchAPI(`/cart/add-to-cart`,{'productDetailId':productDetailID,"quantity":inputpd})
+            if(addToCart.status == 200){
+                alert('Thêm vào giỏ hàng thành công !')
+            }
+        }
+        catch (error){
+            console.log(error);
+        }
+    }
+
     // set product price
     const [productDetailPrice, setProductDetailPrice] = useState(0)
 
@@ -99,6 +113,7 @@ function ProductDetail() {
                     return value.color == pdColor && value.ram == pdRam && value.rom == pdRom
                 }
             )
+            setProductDetailID(arrPrice._id)
             setProductDetailPrice(arrPrice.price)
         }
     }
@@ -164,7 +179,7 @@ function ProductDetail() {
                             </Row>
                             <Row justify='center' >
 
-                                <Col span={6}>
+                                <Col span={5}>
                                     <div className="product-detail-left">
                                         <Carousel autoplay>
                                             <div>
@@ -212,7 +227,7 @@ function ProductDetail() {
                                         </div>
                                     </div>
                                 </Col>
-                                <Col span={10}>
+                                <Col span={11}>
                                     <div className="product-detail-right">
                                         <div className="product-detail-title">
                                             <h2> {value.productName}</h2>
@@ -391,7 +406,7 @@ function ProductDetail() {
                                 </Col>
                                 <Col span={10}>
                                     <div className='product-detail-add'>
-                                        <Button danger className='pd-add-gh'> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
+                                        <Button danger className='pd-add-gh' onClick={addToCart}> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
                                         <Button type='primary' danger className='pd-add-mh'>Mua Ngay</Button>
                                     </div>
                                 </Col>
