@@ -5,11 +5,14 @@
 }
 
 .product-detail {
+
     margin-top: 115px;
     padding: 10px;
     margin-bottom: 45px;
 }
-
+.prodtuct-detail-body{
+    background-color: #F5F5F5;
+}
 .product-detail-left {
     padding: 10px;
 }
