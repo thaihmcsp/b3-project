@@ -51,14 +51,13 @@ function AddProduct() {
       console.log(46, error);
     }
   }
+  console.log(59, idProduct);
+  let idNewProduct = idProduct[idProduct.length]?._id
   useEffect(() => {
 
     getIdProduct()
 
   }, [count])
-  console.log(59, idProduct);
-  let idNewProduct = idProduct[idProduct.length - 1]?._id
-
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };

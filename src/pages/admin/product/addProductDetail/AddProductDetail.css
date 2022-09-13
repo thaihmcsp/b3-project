@@ -107,11 +107,14 @@
 }
 #storage,
 #price{
-    width: 60vw;
+    width: 58vw;
     border: 1px solid black;
     outline: none;
     margin-bottom: 1rem;
     border-radius: 0.25rem;
     padding: 4px 10px;
     float: right;
+}
+.sell-info{
+    margin-left: 50px;
 }
