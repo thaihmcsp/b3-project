@@ -8,7 +8,6 @@ import dataDetail from '../../../../static/Truong/productDetail.json'
 
 
 function AdminListProductDetail() {
-
   const { productId } = useParams()
   let productDT = {}
 
