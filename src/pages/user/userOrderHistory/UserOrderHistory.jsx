@@ -7,9 +7,11 @@ import './UserOrderHistory.css'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { instance } from '../../../config/axios';
 import { useEffect } from 'react';
+import { getAPI, patchAPI, postAPI } from '../../../config/api';
 
 
 // console.log(10, product);
+
 
 
 const items = [
@@ -71,7 +73,7 @@ function UserOrderHistory() {
 
   const getUser = async () => {
     try {
-      let res = await instance.get('/auth/get-loged-in-user', { headers: { Authorization: token } })
+      let res = await getAPI('/auth/get-loged-in-user', { headers: { Authorization: token } })
       user = res.data.user._id;
       getOrderInfor();
     } catch (error) {
@@ -81,7 +83,7 @@ function UserOrderHistory() {
 
   const getOrderInfor = async () => {
     try {
-      let res = await instance.get('/order/get-order-by-userId/user/' + user, { headers: { Authorization: token } })
+      let res = await getAPI('/order/get-order-by-userId/user/' + user, { headers: { Authorization: token } })
       // console.log(17, res);
       setListOrder(res.data.order);
     } catch (error) {
@@ -92,7 +94,7 @@ function UserOrderHistory() {
   const cancelOrder = async (orderId) => {
     if (window.confirm('Do you want to cancel the order ?') === true) {
       try {
-        let res = await instance.patch('/order/change-order-status/' + orderId, { headers: { Authorization: token } });
+        let res = await patchAPI('/order/change-order-status/' + orderId, { headers: { Authorization: token } });
         // console.log(42, res);
       } catch (error) {
         console.log(error);
