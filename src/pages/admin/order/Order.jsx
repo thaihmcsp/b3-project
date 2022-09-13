@@ -34,7 +34,7 @@ function Order() {
       console.log(35 , error);
     }
   }
-  getOrders()
+  
 
   const getUsers = async (value) => {
     try {
@@ -44,7 +44,7 @@ function Order() {
       console.log(45 , errorUser);
     }
   }
-  getUsers()
+  
 
   for (let i = 0; i < order.length; i++) {
     const elementOrder = order[i];
@@ -118,6 +118,13 @@ function Order() {
   //   let select = document.querySelector('.typeSeacher').value
   //   console.log(select);
   // }
+
+  useEffect(() => {
+
+    getOrders()
+    getUsers()
+
+  }, [])
 
   return (
     <div className="classOrder">
