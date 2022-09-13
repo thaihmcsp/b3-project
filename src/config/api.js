@@ -18,7 +18,6 @@ function getCookie(cname) {
 
 export const getAPI = function(url){
     let cookie = getCookie('shope-b3')
-    console.log('Cookie: ', cookie)
     return instance.get(url, {headers: {Authorization: cookie} })
 }
 export const postAPI = function(url, data){
