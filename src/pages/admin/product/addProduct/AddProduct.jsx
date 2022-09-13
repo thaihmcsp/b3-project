@@ -25,8 +25,8 @@ function AddProduct() {
 
   const listOrder = 'Chưa chọn ngành hàng'
   const [idProduct, setIdProduct] = useState([])
-  const [count , setCount] = useState(0)
-  
+  const [count, setCount] = useState(0)
+
 
   let token = window.localStorage.getItem("user")
   console.log(26, token);
@@ -43,12 +43,12 @@ function AddProduct() {
 
   const getIdProduct = async (value) => {
     try {
-      let resId = await axios.get('https://shope-b3.thaihm.site/api/product/get-all-products' , { headers: { Authorization: token }})
-      console.log(44 , resId);
+      let resId = await axios.get('https://shope-b3.thaihm.site/api/product/get-all-products', { headers: { Authorization: token } })
+      console.log(44, resId);
       console.log(resId.data.products);
       setIdProduct(resId.data.products)
     } catch (error) {
-      console.log(46 , error);
+      console.log(46, error);
     }
   }
   useEffect(() => {
@@ -56,8 +56,8 @@ function AddProduct() {
     getIdProduct()
 
   }, [count])
-  // console.log(59 , idProduct);
-  // let idNewProduct = idProduct[idProduct.length - 1]._id
+  console.log(59, idProduct);
+  let idNewProduct = idProduct[idProduct.length - 1]?._id
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -109,7 +109,7 @@ function AddProduct() {
   ];
 
   const onClick = (value) => {
-    console.log(88 , 'click', value.key);
+    console.log(88, 'click', value.key);
     listOrder = value.key
     return listOrder
   };
@@ -129,7 +129,7 @@ function AddProduct() {
       <div className='search-product'>
         <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
           <Form.Item className='inp-search-addProduct' label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
-            <Input className='input-addProductName' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
+            <Input className='input-addProductName' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
           </Form.Item>
           <div className='addProduct-body'>
             <div className="input-search">
@@ -166,7 +166,7 @@ function AddProduct() {
             </Form.Item>
 
             <div className='btn-next'>
-              <Link to={`/admin/product//detail/create`}><button>Tiếp theo</button></Link>
+              <Link to={`/admin/product/${idNewProduct}/detail/create`}><button>Tiếp theo</button></Link>
             </div>
           </div>
         </Form>
