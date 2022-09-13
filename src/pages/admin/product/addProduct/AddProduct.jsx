@@ -159,15 +159,13 @@ function AddProduct() {
               Đã chọn :   <p> {listOrder}</p>
             </div>
 
+            <Link to={`/admin/product/${idNewProduct}/detail/create`}>
             <Form.Item wrapperCol={{ offset: 8, span: 14 }}>
               <Button id='btn-addProduct' type="primary" htmlType="submit">
-                Thêm sản phẩm
+                Tiếp theo
               </Button>
             </Form.Item>
-
-            <div className='btn-next'>
-              <Link to={`/admin/product/${idNewProduct}/detail/create`}><button>Tiếp theo</button></Link>
-            </div>
+            </Link>
           </div>
         </Form>
       </div>
