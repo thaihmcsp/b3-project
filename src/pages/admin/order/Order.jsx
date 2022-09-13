@@ -70,7 +70,7 @@ function Order() {
       dataIndex: '_id',
       key: '_id',
       render: (text) =>
-      <Link to={'/admin/order//admin/order/'+ text}>
+      <Link to={`/admin/order//admin/order/${text}`}>
         <a>{text}</a>
       </Link>,
     },
