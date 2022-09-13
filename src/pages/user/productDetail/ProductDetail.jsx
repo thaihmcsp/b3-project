@@ -1,10 +1,10 @@
-import React  from 'react'
+import React from 'react'
 import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image } from 'antd'
 import 'antd/dist/antd.css';
 import './productDetail.css';
 import axios from 'axios';
 import { Routes, Route, useParams } from 'react-router-dom';
-import { useState ,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import product from '../../../static/Truong/product.json'
 import { getAPI } from '../../../config/api';
 import { instance } from '../../../config/axios';
@@ -18,6 +18,7 @@ const children = [
     <Option key={5}>{'Free ship'}</Option>,
 
 ];
+
 
 const handleChange = (value) => {
     console.log(`Selected: ${value}`);
@@ -43,24 +44,50 @@ function ProductDetail() {
     let [inputpd, setInputpd] = useState(1)
     let [like, setLike] = useState(200)
     const [productDetailData, setProductDetailData] = useState([])
+    const [productDetailCheck, setProductDetailCheck] = useState([])
     const [count, setCount] = useState(0);
+    // getAPI 
+    async function getAPIproductDetail() {
 
-// getAPI 
-async function getAPIproductDetail(){
-    
-    try {
-        let products = await instance.get(`product/get-one-product/${productId}`)
-        setProductDetailData([products.data.product])
+        try {
+            let products = await instance.get(`product/get-one-product/${productId}`);
+            // console.log(62, products);
+            setProductDetailPrice(products.data.product.price)
+            setProductDetailData([products.data.product])
+            setProductDetailCheck(products.data.product.listDtail)
+            
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
-    catch (error){
-        console.log(error);
+    // set product price
+    const [productDetailPrice, setProductDetailPrice] = useState(0)
+
+
+    // get value option
+    const [pdColor, setpdColor] = useState();
+    const [pdRam, setpdRam] = useState();
+    const [pdRom, setpdRom] = useState();
+
+    // set price
+    function setPrice1(value) {
+        let color = value.target.value
+        setpdColor(color)
     }
-}
-useEffect(() => {
-    getAPIproductDetail()
-}, [count])
-//
-console.log(productDetailData);
+    function setPrice2(value) {
+        let ram = value.target.value
+        setpdRam(ram)
+    }
+    function setPrice3(value) {
+        let rom = value.target.value
+        setpdRom(rom)
+    }
+
+   
+
+
+    //  Chức năng tương tác
 
     function like1() {
         let heart = document.querySelector('.fa-heart')
@@ -88,12 +115,35 @@ console.log(productDetailData);
         }
     }
 
+    //
+    if (pdColor, pdRam, pdRom) {
+        let arrPrice = productDetailCheck.find(
+            (value) => {
+                return value.color == pdColor && value.ram == pdRam && value.rom == pdRom
+            }
+        )
+
+        console.log(arrPrice.price)
+    }
+
+//
+    // useEffect
+    useEffect(() => {
+        getAPIproductDetail()
+        // setProductDetailPrice(productDetailData[0].price);
+
+    }, [count])
+
+
+
+
     return (
         <div className='product-detail'>
             {productDetailData.map(
                 (value, index) => {
+
                     return (
-                        <div>
+                        <div className='product-detail-body'>
                             <Row justify='center'>
                                 <Col span={16}>
                                     <PageHeader
@@ -117,19 +167,19 @@ console.log(productDetailData);
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`}  alt="" />
+                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
 
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`}  alt="" />
+                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
 
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`}  alt="" />
+                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
 
                                                 </div>
                                             </div>
@@ -138,19 +188,19 @@ console.log(productDetailData);
                                         <div className="product-detail-listimg">
                                             <Image
                                                 width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
                                             />
                                             <Image
                                                 width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
                                             />
                                             <Image
                                                 width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
                                             />
                                             <Image
                                                 width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`} 
+                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
                                             />
                                         </div>
                                     </div>
@@ -181,48 +231,95 @@ console.log(productDetailData);
                                         </div>
                                         <div className="product-detail-price">
                                             <Descriptions bordered>
-                                                <Descriptions.Item label={value.price}>
+                                                <Descriptions.Item label={productDetailPrice}>
                                                 </Descriptions.Item>
                                             </Descriptions>
                                         </div>
-                                        <div className="product-detail-sale">
-                                            <Descriptions bordered>
-                                                <Descriptions.Item label='Mã giảm giá :'>
-                                                    <Select
-                                                        mode="multiple"
-                                                        placeholder="Chọn hoặc nhập mã"
-                                                        defaultValue={['Giảm 10%']}
-                                                        onChange={handleChange}
-                                                        style={{
-                                                            width: '100%',
-                                                        }}
-                                                    >
-                                                        {children}
-                                                    </Select>
-                                                </Descriptions.Item>
-                                            </Descriptions>
-                                        </div>
+                                        {/* <div className="product-detail-sale">
+                                                                <Descriptions bordered>
+                                                                    <Descriptions.Item label='Mã giảm giá :'>
+                                                                        <Select
+                                                                            mode="multiple"
+                                                                            placeholder="Chọn hoặc nhập mã"
+                                                                            defaultValue={['Giảm 10%']}
+                                                                            onChange={handleChange}
+                                                                            style={{
+                                                                                width: '100%',
+                                                                            }}
+                                                                        >
+                                                                            {children}
+                                                                        </Select>
+                                                                    </Descriptions.Item>
+                                                                </Descriptions>
+                                                            </div> */}
                                         <div className="prodtuct-detail-color">
                                             <Descriptions>
                                                 <Descriptions.Item label='Màu Sắc'>
-                                                    <Radio.Group defaultValue="a" buttonStyle="solid">
-                                                        <Radio.Button value="a">Đỏ</Radio.Button>
-                                                        <Radio.Button value="b">Xanh</Radio.Button>
-                                                        <Radio.Button value="c">Trắng</Radio.Button>
-                                                        <Radio.Button value="d">Xanh lá</Radio.Button>
+                                                    <Radio.Group defaultValue="a" buttonStyle="solid" onChange={setPrice1}>
+                                                        {productDetailCheck.filter(
+                                                            (value, index, arr) => {
+                                                                return value.status === 'enable'
+                                                            }
+                                                        ).filter(
+                                                            (value2, index, array) => {
+                                                                return index === array.findIndex((value3) => value3.color === value2.color)
+                                                            }
+                                                        ).map(
+                                                            (val, index) => {
+                                                                return (
+                                                                    <Radio.Button value={val.color}>{val.color}</Radio.Button>
+                                                                )
+                                                            }
+                                                        )}
                                                     </Radio.Group>
                                                 </Descriptions.Item>
                                             </Descriptions>
                                         </div>
                                         <div className="prodtuct-detail-stroge">
                                             <Descriptions>
-                                                <Descriptions.Item label='Dung lượng'>
-                                                    <Radio.Group defaultValue="a" buttonStyle="solid">
-                                                        <Radio.Button value="32">32Gb</Radio.Button>
-                                                        <Radio.Button value="64">64Gb</Radio.Button>
-                                                        <Radio.Button value="a">128Gb</Radio.Button>
-                                                        <Radio.Button value="b">256GB</Radio.Button>
-                                                        <Radio.Button value="C">512GB</Radio.Button>
+                                                <Descriptions.Item label='RAM'>
+                                                    <Radio.Group defaultValue="a" buttonStyle="solid" onChange={setPrice2}>
+
+                                                        {productDetailCheck.filter(
+                                                            (value, index, arr) => {
+                                                                return value.status === 'enable'
+                                                            }
+                                                        ).filter(
+                                                            (value2, index, array) => {
+                                                                return index === array.findIndex((value3) => value3.ram === value2.ram)
+                                                            }
+                                                        ).map(
+                                                            (val, index) => {
+                                                                return (
+                                                                    <Radio.Button value={val.ram}>{val.ram}</Radio.Button>
+                                                                )
+                                                            }
+                                                        )}
+
+                                                    </Radio.Group>
+                                                </Descriptions.Item>
+                                            </Descriptions>
+                                        </div>
+                                        <div className="prodtuct-detail-stroge">
+                                            <Descriptions>
+                                                <Descriptions.Item label='ROM'>
+                                                    <Radio.Group defaultValue="a" buttonStyle="solid" onChange={setPrice3}>
+                                                        {productDetailCheck.filter(
+                                                            (value, index, arr) => {
+                                                                return value.status === 'enable'
+                                                            }
+                                                        ).filter(
+                                                            (value2, index, array) => {
+                                                                return index === array.findIndex((value3) => value3.rom === value2.rom)
+                                                            }
+                                                        ).map(
+                                                            (val, index) => {
+                                                                return (
+                                                                    <Radio.Button value={val.rom}>{val.rom}</Radio.Button>
+                                                                )
+                                                            }
+                                                        )}
+
                                                     </Radio.Group>
                                                 </Descriptions.Item>
                                             </Descriptions>
@@ -235,25 +332,25 @@ console.log(productDetailData);
 
                                             </Descriptions>
                                         </div>
-                                        <div className="prodtuct-detail-address">
-                                            <Descriptions>
-                                                <Descriptions.Item label='Phi vận chuyển'>
-                                                    <Select
-                                                        defaultValue="0"
-                                                        style={{
-                                                            width: 100,
-                                                        }}
-                                                        onChange={handleChange}
-                                                    >
-
-                                                        <Option value="0">Miễn Phí</Option>
-                                                        <Option value="15000">15000đ</Option>
-                                                        <Option value="25000">25000đ</Option>
-
-                                                    </Select>
-                                                </Descriptions.Item>
-                                            </Descriptions>
-                                        </div>
+                                        {/* <div className="prodtuct-detail-address">
+                                                                <Descriptions>
+                                                                    <Descriptions.Item label='Phi vận chuyển'>
+                                                                        <Select
+                                                                            defaultValue="0"
+                                                                            style={{
+                                                                                width: 100,
+                                                                            }}
+                                                                            onChange={handleChange}
+                                                                        >
+                    
+                                                                            <Option value="0">Miễn Phí</Option>
+                                                                            <Option value="15000">15000đ</Option>
+                                                                            <Option value="25000">25000đ</Option>
+                    
+                                                                        </Select>
+                                                                    </Descriptions.Item>
+                                                                </Descriptions>
+                                                            </div> */}
                                         <div className="product-detail-quantity">
                                             <Descriptions>
                                                 <Descriptions.Item label='Số lượng'>
