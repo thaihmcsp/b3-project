@@ -11,7 +11,6 @@ function AddProductDetail() {
   const { productId } = useParams()
   const navigate = useNavigate()
   let token = window.localStorage.getItem('user')
-  console.log(token);
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
