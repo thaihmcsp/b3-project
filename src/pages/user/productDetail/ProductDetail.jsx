@@ -93,14 +93,12 @@ function ProductDetail() {
 
     function getPrice(pdColor, pdRam, pdRom){
         if (pdColor, pdRam, pdRom) {
-            console.log(pdColor,pdRam,pdRom ,120);
+
             let arrPrice = productDetailCheck.find(
                 (value) => {
                     return value.color == pdColor && value.ram == pdRam && value.rom == pdRom
                 }
             )
-    
-            console.log(arrPrice.price,127)
             setProductDetailPrice(arrPrice.price)
         }
     }
