@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate , Link } from 'react-router-dom'
 import axios from 'axios';
+import { getAPI } from '../../../config/api';
 
 const { RangePicker } = DatePicker;
 const { Search } = Input;
@@ -24,12 +25,10 @@ const suffix = (
 const onSearch = (value) => console.log(value);
 
 function Order() {
-  const [selectValue, setSelectValue] = useState([])
-
-  let token = window.localStorage.getItem("user")
+  const [getOrder , setGetOrder] = useState([])
   const getOrders = async (value) => {
     try {
-      let res = await axios.get('https://shope-b3.thaihm.site/api/order/get-all-order' , { headers: { Authorization: token } })
+      let res = await getAPI('/order/get-all-order')
       console.log(33 , res);
     } catch (error) {
       console.log(35 , error);
@@ -39,7 +38,7 @@ function Order() {
 
   const getUsers = async (value) => {
     try {
-      let resUser = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user' , { headers: { Authorization: token } })
+      let resUser = await getAPI('/auth/get-loged-in-user')
       console.log(43 , resUser);
     } catch (errorUser) {
       console.log(45 , errorUser);
