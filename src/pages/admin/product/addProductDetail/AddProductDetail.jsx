@@ -4,23 +4,18 @@ import React, { useState } from 'react';
 import { Input, Form } from 'antd';
 import './AddProductDetail.css'
 import { Select } from 'antd';
-import { getAPI, postAPI } from '../../../../config/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-const { Option } = Select;
-
 
 function AddProductDetail() {
   const { productId } = useParams()
   const navigate = useNavigate()
   let token = window.localStorage.getItem('user')
   console.log(token);
-
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
-      let res = await axios.post('https://shope-b3.thaihm.site/api//productDetail/create-product-detail/product/6316fc9050c079af62dd615d', values, { headers: { Authorization: token } })
+      let res = await axios.post(`https://shope-b3.thaihm.site/api/productDetail/create-product-detail/product/${productId}`, values, { headers: { Authorization: token } })
       console.log(res);
       navigate('/admin/product')
     } catch (error) {
