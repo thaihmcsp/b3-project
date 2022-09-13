@@ -125,7 +125,7 @@ function AddProduct() {
     <div className='classAddProduct'>
       <div className='addProduct-header'>
         <h4>Thêm 1 sản phẩm mới</h4>
-        <p>Vui lòng chọn nghành hàng phù hợp cho sản phẩm của bạn</p>
+        <p>Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn</p>
       </div>
       <hr />
       <div className='search-product'>

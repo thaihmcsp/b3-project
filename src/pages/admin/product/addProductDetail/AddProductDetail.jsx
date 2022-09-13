@@ -1,36 +1,31 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import React, { useState } from 'react';
-import { Input } from 'antd';
+import { Input, Form } from 'antd';
 import './AddProductDetail.css'
 import { Select } from 'antd';
-import { getAPI, postAPI } from '../../../../config/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const { Option } = Select;
-
-
 function AddProductDetail() {
   const { productId } = useParams()
-
+  const navigate = useNavigate()
   let token = window.localStorage.getItem('user')
   console.log(token);
-  
-  const addSucess = async (values) => {
+  const onFinish = async (values) => {
     console.log('Success:', values);
     try {
-      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
+      let res = await axios.post(`https://shope-b3.thaihm.site/api/productDetail/create-product-detail/product/${productId}`, values, { headers: { Authorization: token } })
       console.log(res);
+      navigate('/admin/product')
     } catch (error) {
       console.log(error);
     }
   };
-
-  const addFailed = (errorInfo) => {
+  const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  
+
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -88,19 +83,13 @@ function AddProductDetail() {
         )
       )
     };
-
-
-    // atn input
-    const onChange = (value) => {
-      console.log(`selected ${value}`);
-    };
-    
-    const onSearch = (value) => {
-      console.log('search:', value);
-    };
   return (
+    <Form
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
     <div>
-        <div className='container' addSucess={addSucess} addFailed={addFailed} >
+        <div className='container' >
           <p className='head-p'>Thông tin cơ bản</p>
           <div className='add-img'>
             <div className='label'>
@@ -143,48 +132,84 @@ function AddProductDetail() {
               })}
             </div>
           </div>
-          <div className='product-info-single'>
-            <div className='label-single'>
-              <p className='item-p'>Màu sắc</p>
-            </div>
-            <div className='add-zone-single'>
-            <Input className='color-input' placeholder="Nhập vào" />
-            </div>
+          <div className='product-info'>
+          <div className='product-info-item'>
+            <Form.Item
+              label="Màu sắc"
+              name="color"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền màu sắc',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
           </div>
-          <div className='product-info-double'>
-          <div className='product-info-double'>
-            <div className='label-double'>
-              <p className='item-p'>RAM</p>
-            </div>
-            <div className='add-zone-double'>
-            <Input className='RAM-input' placeholder="Nhập vào" />
-            </div>
+          
+          <div className='product-info-item'>
+          <Form.Item
+            label="RAM"
+            name="ram"
+            rules={[
+              {
+                required: true,
+                message: 'Điền thông số RAM',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
           </div>
-          <div className='product-info-double'>
-            <div className='label-double'>
-              <p className='item-p'>ROM</p>
-            </div>
-            <div className='add-zone-double'>
-            <Input className='ROM-input' placeholder="Nhập vào" />
-            </div>
+          <div className='product-info-item'>
+            <Form.Item
+              label="ROM"
+              name="rom"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền thông số ROM',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
           </div>
           </div>
           <p className='head-p'>Thông tin bán hàng</p>
-          <div className='price'>
-            <div className='price-p'>
-              <p className='item-p'>Giá</p>
+          <div className='sell-info'>
+          <Form.Item
+              label="Giá sản phẩm"
+              name="price"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền giá',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             </div>
-            <Input placeholder="Nhập vào" />
-          </div>
-          <div className='price'>
-            <div className='price-p'>
-              <p className='item-p '>Tồn kho</p>
+            <div className='sell-info'>
+            <Form.Item
+              label="Số lượng sản phẩm"
+              name="storage"
+              rules={[
+                {
+                  required: true,
+                  message: 'Điền số lượng',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             </div>
-            <Input placeholder="Nhập vào"/>
-          </div>
         </div>
         <div><button className='btn-add'>Thêm sản phẩm</button></div>
     </div>
+    </Form>
   )
 };;
 
