@@ -8,6 +8,7 @@ import '../addProduct/addProduct.css'
 import axios from 'axios';
 import { useEffect } from 'react';
 import { instance } from '../../../../config/axios';
+import { getAPI, postAPI } from '../../../../config/api';
 
 const { Search } = Input;
 const suffix = (
@@ -28,13 +29,10 @@ function AddProduct() {
   const [count, setCount] = useState(0)
 
 
-  let token = window.localStorage.getItem("user")
-  console.log(26, token);
-
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
-      let res = await axios.post('https://shope-b3.thaihm.site/api/product/create-product', values, { headers: { Authorization: token } })
+      let res = await postAPI('/product/create-product', values)
       console.log(30, res);
     } catch (error) {
       console.log(32, error);
@@ -43,7 +41,7 @@ function AddProduct() {
 
   const getIdProduct = async (value) => {
     try {
-      let resId = await axios.get('https://shope-b3.thaihm.site/api/product/get-all-products', { headers: { Authorization: token } })
+      let resId = await getAPI('/product/get-all-products')
       console.log(44, resId);
       console.log(resId.data.products);
       setIdProduct(resId.data.products)
@@ -60,7 +58,7 @@ function AddProduct() {
     getIdProduct()
 
   }, [count])
-  
+
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };

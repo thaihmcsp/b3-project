@@ -6,6 +6,7 @@ import './AddProductDetail.css'
 import { Select } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { postAPI } from '../../../../config/api';
 
 function AddProductDetail() {
   const { productId } = useParams()
@@ -15,7 +16,7 @@ function AddProductDetail() {
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
-      let res = await axios.post(`https://shope-b3.thaihm.site/api/productDetail/create-product-detail/product/${productId}`, values, { headers: { Authorization: token } })
+      let res = await postAPI(`/productDetail/create-product-detail/product/${productId}`, values, { headers: { Authorization: token } })
       console.log(res);
       navigate('/admin/product')
     } catch (error) {

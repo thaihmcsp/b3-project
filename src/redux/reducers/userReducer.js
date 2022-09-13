@@ -1,14 +1,14 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
 let string = window.localStorage.getItem('user-shope')
-console.log(4,string)
+
 
 let init = [] 
 if(!string) {
     init = []
 }else{
     init = JSON.parse(string);
-    console.log(init,11);
+   
 }
 
 function getCookie(cname) {
