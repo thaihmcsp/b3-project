@@ -20,7 +20,7 @@ function changeBox (vbox){
    let l = ""
    let linkCheck = ""
    let  brandSearch = brand.get("brand")
-   console.log(brandSearch);
+  
    if(!cheKbox){
     setValueCheckbox([...valueCheckbox])
      let del = brandSearch.split(" ").findIndex((value)=>{return value === check})
