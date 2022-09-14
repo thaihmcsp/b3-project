@@ -21,10 +21,13 @@ function AdminListProductDetail() {
 
   const getData = async () => {
     try {
-      let res = await axios.get('https://shope-b3.thaihm.site/api/productDetail/get-all-detail/product/63183fcd147f94d7b0e687cb')
+      let res = await axios.get('https://shope-b3.thaihm.site/api/productDetail/get-all-detail/product/' + productId)
       console.log(33, res.data.productDetails);
       let url = res.data.productDetails[0].listImg[0]
-      if (!url.startsWith('http')) {
+      if (!url) {
+        url = 'https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/a8/16/d6/a816d667-a1af-83c3-97ba-0152eb8fd205/AppIcon-1x_U007emarketing-0-5-0-0-85-220.png/1200x600wa.png'
+      }
+      if (!url.startsWith('https')) {
         url = domain + url
       }
       setUrl(url)
@@ -54,7 +57,7 @@ function AdminListProductDetail() {
 
   const onFinish = async (values) => {
     try {
-      let res = await postAPI('productDetail/create-product-detail/product/63183fcd147f94d7b0e687cb', values)
+      let res = await postAPI('productDetail/create-product-detail/product/' + productId, values)
       setcount(count + 1)
     } catch (error) {
       console.log(error);
