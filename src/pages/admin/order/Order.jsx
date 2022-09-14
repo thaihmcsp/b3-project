@@ -31,34 +31,39 @@ function Order() {
     try {
       let res = await getAPI('/order/get-all-order')
       console.log(33 , res);
-      let order = res.data.orders
-      console.log(34 , order);
-      setGetOrder(order)
+
+      let orders = res.data.orders
+
+      let users = orders.map(function(value){
+        let listUsers = []
+        listUsers.push(value.userId) 
+        return listUsers
+      })
+      setGetUser(users)
+      setGetOrder(orders)
     } catch (error) {
       console.log(35 , error);
     }
   }
-  
+  console.log(48 , getUser);
+  console.log(42 , getOrder);
 
-  const getUsers = async (value) => {
-    try {
-      let resUser = await getAPI('/auth/get-loged-in-user')
-      let users = resUser.data.user
-      console.log(47 , users);
-      console.log(43 , resUser);
-      setGetUser(users)
-    } catch (errorUser) {
-      console.log(45 , errorUser);
-    }
+  for (let i = 0; i < getUser.length; i++) {
+    const element = getUser[i];
+    console.log(element[0]);
   }
-  
 
   for (let i = 0; i < getOrder.length; i++) {
     const elementOrder = getOrder[i];
     for (let j = 0; j < getUser.length; j++) {
-      const elementUser = getUser[j];
-      if (elementOrder._id === elementUser._id) {
+      const elementUser = getUser[j][0];
+      if (elementOrder.userId._id === elementUser._id) {
         elementOrder.phone = elementUser.phone
+        if (elementUser.username == true) {
+          elementOrder.userName = elementUser.username
+        }else{
+          elementOrder.userName = elementUser.email
+        }
       }
     }
   }
@@ -71,11 +76,11 @@ function Order() {
 
   const columns = [
     {
-      title: 'IdOrder',
-      dataIndex: '_id',
-      key: '_id',
+      title: 'User Name',
+      dataIndex: 'userName',
+      key: 'userName',
       render: (text) =>
-      <Link to={`/admin/order/${text}`}>
+      <Link to={`/admin/order/${getOrderId(text)}`}>
         <a>{text}</a>
       </Link>,
     },
@@ -110,16 +115,16 @@ function Order() {
     }
   ];
 
-  // function getOrderId (userNameOrder) {
-  //   let orderId = '' 
-  //   for (let i = 0; i < order.length; i++) {
-  //     const element = order[i];
-  //     if(element.userName = userNameOrder){
-  //       orderId = element._id
-  //     }
-  //   }
-  //   return orderId
-  // }
+  function getOrderId (userNameOrder) {
+    let orderId = '' 
+    for (let i = 0; i < getOrder.length; i++) {
+      const element = getOrder[i];
+      if(element.userName = userNameOrder){
+        orderId = element._id
+      }
+    }
+    return orderId
+  }
   // function getSelectValueOrder(){
   //   let select = document.querySelector('.typeSeacher').value
   //   console.log(select);
@@ -128,7 +133,7 @@ function Order() {
   useEffect(() => {
 
     getOrders()
-    getUsers()
+    // getUsers()
 
   }, [])
 
