@@ -1,6 +1,10 @@
 import React from 'react'
 import { FormOutlined, ShoppingOutlined, ProfileOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import './AdminMenu.css'
+import { Link } from 'react-router-dom';
+
+
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -13,24 +17,12 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-    getItem('Quản lí đơn hàng', 'sub1', <FormOutlined />, [
-        getItem('Tất cả đơn hàng', 'g1', null),
-        getItem('Đơn hủy', 'g2', null),
-        getItem('Trả hàng/Hoàn tiền', 'g3', null),
-    ]),
     getItem('Quản lí sản phẩm', 'sub2', <ShoppingOutlined />, [
-        getItem('Tất Cả Sản Phẩm', '5'),
-        getItem('Sản Phẩm Vi Phạm', '6'),
+        getItem(<Link to={'/admin/product'}>Tất Cả Sản Phẩm</Link>, '5'),
+        getItem(<Link to={'/admin/product/create'}>Thêm sản phẩm</Link>, '6'),
     ]),
-    getItem('Chăm sóc khách hàng', 'sub3', <ProfileOutlined />, [
-        getItem('Trợ lí chat', '7'),
-        getItem('Hỏi - Đáp', '8'),
-    ]),
-    getItem('Quản lí hồ sơ', 'sub4', <SettingOutlined />, [
-        getItem('Trang cá nhân', '9'),
-        getItem('Đổi mật khẩu', '10'),
-        getItem('Đánh giá', '11'),
-        getItem('Tất cả mã giảm giá', '12'),
+    getItem('Quản lí hồ sơ', 'sub3', <SettingOutlined />, [
+        getItem(<Link to={'/admin/profile'}>Trang cá nhân</Link>, '7'),
     ]),
 ];
 
@@ -39,20 +31,18 @@ function AdminMenu() {
 
     return (
         <div className='menu-admin'>
-            <div className="menu-admin-left">
                 <Menu
                     style={{
-                        width: '100%',
+                        width: '20%',
+                        position: "fixed",
+                        left:'0'
                     }}
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1', 'sub2', 'sub3', 'sub4']}
                     mode="inline"
                     items={items}
                 />
-            </div>
-            <div className="menu-admin-right">
 
-            </div>
         </div>
 
 

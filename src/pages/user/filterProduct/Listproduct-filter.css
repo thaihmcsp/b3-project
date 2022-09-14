@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.Listproduct-product{
+    display: flex;
+    flex-wrap: wrap;
+    /*   */
+    flex-direction: row;
+   
+    
+
+}
+.Listproduct-product-card{
+    margin-top: 15px;
+    width: 24%;
+    height: 250px;
+    margin-bottom: 40px;
+    margin-right: 10px;
+   
+}
+
+.card-listproduct{
+    object-fit: fill;
+    width: 100%;
+    height: 200px;
+}

@@ -1,7 +1,10 @@
 import React from 'react'
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Upload, Col, Row, Modal, Checkbox, Form, Input } from 'antd';
+import { Button, Upload, Col, Row, Modal, Checkbox, Form, Input, DatePicker, Space, Select } from 'antd';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
+const { Option } = Select;
 
 const props = {
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -15,9 +18,28 @@ const props = {
 
 function UserProfile() {
 
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [count, setCount] = useState(0)
+    const token = window.localStorage.getItem('user')
+    const [data, setData] = useState({})
+    let linkk = ''
+
+    const getData = async () => {
+        try {
+            let res = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
+            linkk = res.data.user.avatar
+            setData(res.data.user)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getData()
+    }, [count])
+
     // Btn-open-modal
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -33,12 +55,27 @@ function UserProfile() {
 
     // Form-edit
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const onFinish = async (values) => {
+        try {
+            let res = await axios.patch('https://shope-b3.thaihm.site/api/user/update-info', values, { headers: { Authorization: token } })
+            setCount(count + 1)
+            console.log(res);
+            alert(res.data.message)
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+    };
+
+    const onChange2 = (date, dateString) => {
+        console.log(date, dateString);
+    };
+
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
     };
 
     return (
@@ -51,45 +88,7 @@ function UserProfile() {
                 <div className="body-left">
                     <Row>
                         <Col span={6} >Tên Đăng Nhập</Col>
-                        <Col span={18}>Quyhuu</Col>
-                    </Row>
-
-                    <Row>
-                        <Col span={6} >Tên</Col>
-                        <Col span={18}>Duong Huu Quy</Col>
-                    </Row>
-
-                    <Row>
-                        <Col span={6} >Email</Col>
-                        <Col span={18}>haha@gmail.com</Col>
-                    </Row>
-
-
-                    <Row>
-                        <Col span={6} >Số Điện Thoại</Col>
-                        <Col span={18}>0122222222</Col>
-                    </Row>
-
-
-                    <Row>
-                        <Col span={6} >Tên Shop</Col>
-                        <Col span={18}>Quyhuu</Col>
-                    </Row>
-
-                    <Row>
-                        <Col span={6} >Giới tính</Col>
-                        <Col span={18}>
-                            <input type="radio" name="" id="" checked />Nam
-                            <input type="radio" name="" id="" />Nữ
-                            <input type="radio" name="" id="" />Khác
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col span={6} >Ngày sinh</Col>
-                        <Col span={18}>
-                            <input type="date" name="" id="" />
-                        </Col>
+                        <Col span={18}>{data.email ? data.email : "Đang cập nhật"}</Col>
                     </Row>
 
                     <Row>
@@ -112,12 +111,12 @@ function UserProfile() {
                                 </Form.Item>
 
                                 <Form.Item
-                                    label="Name"
-                                    name="name"
+                                    label="Full Name"
+                                    name="fullname"
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Please input your name!',
+                                            message: 'Please input your Full Name!',
                                         },
                                     ]}
                                 >
@@ -137,6 +136,33 @@ function UserProfile() {
                                     <Input />
                                 </Form.Item>
 
+                                <Form.Item
+                                    label="Sex"
+                                    name="sex"
+                                >
+                                    <Select
+                                        style={{
+                                            width: 120,
+                                        }}
+                                        onChange={handleChange}
+                                    >
+                                        <Option value="Male">Male</Option>
+                                        <Option value="Female">Female</Option>
+                                    </Select>
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Date of birth"
+                                    name="dateOfBirth"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please input your Date of birth',
+                                        },
+                                    ]}
+                                >
+                                    <DatePicker onChange={onChange2} />
+                                </Form.Item>
 
                                 <Form.Item
                                     wrapperCol={{
@@ -156,7 +182,7 @@ function UserProfile() {
                 </div>
 
                 <div className="body-right">
-                    <img src="https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg" alt="" />
+                    <img src={data.avatar ? data.avatar : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
 
                     <div>
                         <Upload {...props}>

@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import './usermenu.css'
 import { Button, Checkbox, Form, Input } from 'antd';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function ChangeMenu() {
-    const onFinish = (values) => {
+    const [count, setCount] = useState(0)
+    const token = window.localStorage.getItem('user')
+    const nav = useNavigate()
+
+    const onFinish = async (values) => {
         console.log('Success:', values);
+        try {
+            let res = await axios.patch('https://shope-b3.thaihm.site/api/user/change-password', values, { headers: { Authorization: token } })
+            console.log(res.data.message);
+            alert(`${res.data.message}  Bạn sẽ được chuyển đến trang đăng nhập ngay bây giờ!`)
+            nav('/signIn')
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -34,11 +49,11 @@ function ChangeMenu() {
                 >
                     <Form.Item
                         label="Old Password"
-                        name="username"
+                        name="oldPass"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your username!',
+                                message: 'Please input your Old Password!',
                             },
                         ]}
                     >
@@ -47,7 +62,7 @@ function ChangeMenu() {
 
                     <Form.Item
                         label="New Password"
-                        name="newPassword"
+                        name="newPass"
                         rules={[
                             {
                                 required: true,

@@ -1,10 +1,16 @@
 [
     {
-        "_id": "c1",
+        "_id": "o1",
         "userId": "u1",
         "listProduct": [
-            { "productDetailId": "pd24", "quantity": 2 },
-            { "productDetailId": "pd30", "quantity": 1 }
+            {
+                "productDetailId": "pd24",
+                "quantity": 2
+            },
+            {
+                "productDetailId": "pd30",
+                "quantity": 1
+            }
         ],
         "total": 34970000,
         "status": "pending",
@@ -13,11 +19,17 @@
         "createdAt": "2022/06/22"
     },
     {
-        "_id": "c2",
+        "_id": "o2",
         "userId": "u2",
         "listProduct": [
-            { "productDetailId": "pd15", "quantity": 3 },
-            { "productDetailId": "pd30", "quantity": 1 }
+            {
+                "productDetailId": "pd15",
+                "quantity": 3
+            },
+            {
+                "productDetailId": "pd30",
+                "quantity": 1
+            }
         ],
         "total": 52960000,
         "status": "pending",
@@ -26,11 +38,17 @@
         "createdAt": "2022/07/17"
     },
     {
-        "_id": "c3",
+        "_id": "o3",
         "userId": "u3",
         "listProduct": [
-            { "productDetailId": "pd11", "quantity": 1 },
-            { "productDetailId": "pd8", "quantity": 2 }
+            {
+                "productDetailId": "pd11",
+                "quantity": 1
+            },
+            {
+                "productDetailId": "pd8",
+                "quantity": 2
+            }
         ],
         "total": 54000000,
         "status": "pending",
@@ -39,11 +57,17 @@
         "createdAt": "2022/07/15"
     },
     {
-        "_id": "c4",
+        "_id": "o4",
         "userId": "u4",
         "listProduct": [
-            { "productDetailId": "pd20", "quantity": 2 },
-            { "productDetailId": "pd1", "quantity": 1 }
+            {
+                "productDetailId": "pd20",
+                "quantity": 2
+            },
+            {
+                "productDetailId": "pd1",
+                "quantity": 1
+            }
         ],
         "total": 43780000,
         "status": "pending",
@@ -52,11 +76,17 @@
         "createdAt": "2022/04/15"
     },
     {
-        "_id": "c5",
+        "_id": "o5",
         "userId": "u5",
         "listProduct": [
-            { "productDetailId": "pd2", "quantity": 1 },
-            { "productDetailId": "pd40", "quantity": 2 }
+            {
+                "productDetailId": "pd2",
+                "quantity": 1
+            },
+            {
+                "productDetailId": "pd40",
+                "quantity": 2
+            }
         ],
         "total": 29980000,
         "status": "pending",

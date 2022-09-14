@@ -1,11 +1,18 @@
-import React from 'react'
-import { Input, Space } from 'antd';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { DatePicker, Space, Input, Table } from 'antd';
+import { MenuOutlined, ShopOutlined } from '@ant-design/icons'
 import { AudioOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import React from 'react';
+import './order.css'
+import user from '../../../static/Truong/user.json'
+import order from '../../../static/Truong/order.json'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useNavigate , Link } from 'react-router-dom'
+import axios from 'axios';
+import { getAPI } from '../../../config/api';
 
+const { RangePicker } = DatePicker;
 const { Search } = Input;
-
 const suffix = (
   <AudioOutlined
     style={{
@@ -18,90 +25,143 @@ const suffix = (
 const onSearch = (value) => console.log(value);
 
 function Order() {
+  const [getOrder , setGetOrder] = useState([])
+  const getOrders = async (value) => {
+    try {
+      let res = await getAPI('/order/get-all-order')
+      console.log(33 , res);
+    } catch (error) {
+      console.log(35 , error);
+    }
+  }
+  
 
-  const onChange = (e) => {
-    console.log('Change:', e.target.value);
-  };
+  const getUsers = async (value) => {
+    try {
+      let resUser = await getAPI('/auth/get-loged-in-user')
+      console.log(43 , resUser);
+    } catch (errorUser) {
+      console.log(45 , errorUser);
+    }
+  }
+  
 
-  function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
+  for (let i = 0; i < order.length; i++) {
+    const elementOrder = order[i];
+    for (let j = 0; j < user.length; j++) {
+      const elementUser = user[j];
+      if (elementOrder.userId === elementUser._id) {
+        elementOrder.userName = elementUser.fullname
+        elementOrder.phone = elementUser.phone
+      }
+    }
   }
 
-  const items = [
-    getItem('Điện thoại', 'sub1', null, [
-      getItem('Item 1', null, null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
-      getItem('Item 2', null, null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
-    ]),
-    getItem('Laptop', 'sub2', null, [
+ console.log(61 , order);
+  let count = 0;
+  for (let i = 0; i < order.length; i++) {
+    count += 1;
+  }
 
-    ]),
-    getItem('Máy tính bảng', 'sub3', null, [
-
-    ]),
-    getItem('Âm thanh', 'sub4', null, [
-
-    ]),
-    getItem('Đồng hồ', 'sub5', null, [
-
-    ]),
-    getItem('Nhà thông minh', 'sub6', null, [
-
-    ]),
-    getItem('Phụ kiện', 'sub7', null, [
-
-    ]),
-    getItem('PC - Màn hình', 'sub8', null, [
-
-    ]),
-    getItem('Tivi', 'sub9', null, [
-
-    ]),
-
+  const columns = [
+    {
+      title: 'IdOrder',
+      dataIndex: '_id',
+      key: '_id',
+      render: (text) =>
+      <Link to={`/admin/order//admin/order/${text}`}>
+        <a>{text}</a>
+      </Link>,
+    },
+    {
+      title: 'total',
+      dataIndex: 'total',
+      key: 'total',
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Phone',
+      key: 'phone',
+      dataIndex: 'phone',
+    },
+    {
+      title: 'Ngày tạo',
+      key: 'createdAt',
+      dataIndex: 'createdAt',
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (statusOrder) => <select name={statusOrder} id="" style={{border: 'none'}}>
+        <option value="pending">pending</option>
+        <option value="cancel">cancel</option>
+      </select>
+    }
   ];
 
-  const onClick = (e) => {
-    console.log('click', e);
-  };
+  // function getOrderId (userNameOrder) {
+  //   let orderId = '' 
+  //   for (let i = 0; i < order.length; i++) {
+  //     const element = order[i];
+  //     if(element.userName = userNameOrder){
+  //       orderId = element._id
+  //     }
+  //   }
+  //   return orderId
+  // }
+  // function getSelectValueOrder(){
+  //   let select = document.querySelector('.typeSeacher').value
+  //   console.log(select);
+  // }
+
+  useEffect(() => {
+
+    getOrders()
+    getUsers()
+
+  }, [])
 
   return (
-    <div className='classOrder'>
-      <div className='order-header'>
-        <h4>Thêm 1 sản phẩm mới</h4>
-        <p>Vui lòng chọn nghành hàng phù hợp cho sản phẩm của bạn</p>
-      </div>
-      <hr />
-      <div className='search-product'>
-        <span>Tên sản phẩm : </span><Input showCount maxLength={120} onChange={onChange} placeholder='Nhập vào'/>
-      </div>
-      <div className='order-body'>
-        <div className="input-search">
-          <Search
-            placeholder="Tên nghành hàng"
-            onSearch={onSearch}
-            style={{
-              width: '30%',
-              borderRadius: 20
-            }}
-          /> <span>Chọn nghành hàng chính xác , <a href="">Bấm vào đây để tìm hiểu</a></span>
+    <div className="classOrder">
+      <div className="header-order">
+        <span>Ngày đặt hàng </span>
+        <div className='date-order'>
+          <Space direction="vertical" size={12}>
+            <RangePicker />
+          </Space>
         </div>
-        <div className="menuOrder">
-          <Menu
-            onClick={onClick}
-            style={{
-              width: 256,
-            }}
-            mode="vertical"
-            items={items}
-          />
+        {/* <div className='btn-product-delivery'>
+          <button>Xuất</button>
         </div>
+        <div className='btn-report'>
+          <button><MenuOutlined /></button>
+        </div> */}
+      </div>
 
+      <div className="input-selector">
+        <select id="typeSeacher">
+          <option value="userName">Tên người mua </option>
+          <option value="phoneNumber">Số điện thoại</option>
+        </select>
+        <div className='input-search-order'>
+          <Space direction="vertical">
+            <Search className='ant-input-search-order' placeholder={'getSelectValueOrder()'} onSearch={onSearch} style={{ width: 720 }} />
+          </Space>
+        </div>
+        <button id='btn-search-product' >Tìm Kiếm</button>
+        <button id='btn-setAgain'>Đặt lại</button>
       </div>
+
+      <div className='btn-delivery'>
+        <h1>{count} Đơn Hàng</h1>
+        <div><button><span><ShopOutlined /></span><span>Giao Hàng Loạt</span></button></div>
+      </div>
+      <Table columns={columns} dataSource={order} />
     </div>
   )
 }

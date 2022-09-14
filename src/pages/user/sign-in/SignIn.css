@@ -4,17 +4,17 @@
      box-sizing: border-box;
 }
 
-     .shopee-svg-icon{
+     .signin-shopee-svg-icon{
      width: 11.875rem;
      height: 42px;
      fill: #ee4d2d;
-     margin-top: -10px;
+     margin-top: -5px;
      }
      .header-signin{
        margin-top: 10px;
      }
-     .help{
-         color: #ee4d2d;
+     .signin-help{
+         color: #ee4d2d !important;
          font-size: .875rem;
          margin-right: 15px;
          cursor: pointer;
@@ -64,22 +64,7 @@
        padding: 0 1.875rem 1.875rem;
        overflow: hidden;
      }
-     .phone-number {
-       box-sizing: border-box;
-       width: 100%;
-       height: 2.5rem;
-       overflow: hidden;
-       border: 1px solid rgba(0,0,0,.14);
-       border-radius: 2px;
-       box-shadow: inset 0 2px 0 rgb(0 0 0 / 2%);
      
-     }
-     .center-input-username {
-       padding: 0.75rem;
-       outline: none;
-       border: 0;
-       width: 100%;
-     }
      .password {
           box-sizing: border-box;
           width: 100%;
@@ -88,10 +73,10 @@
           border: 1px solid rgba(0,0,0,.14);
           border-radius: 2px;
           box-shadow: inset 0 2px 0 rgb(0 0 0 / 2%);
-        margin-top: 20px;
+          margin-top: 20px;
         }
         .center-input-password {
-          padding: 0.75rem;
+          padding: 8px;
           outline: none;
           border: 0;
           width: 100%;
@@ -99,9 +84,8 @@
         
      .button-signin{
          color: #fff;
-         background-color: #ee4d2d;
-         opacity: .7;
-         /* cursor: not-allowed; */
+         background-color: #ee4d2d !important;
+         border-color: #ee4d2d !important;
          width: 100%;
          height: 2.5rem;
          min-width: 8.75rem;
@@ -113,8 +97,9 @@
          justify-content: center;
          align-items: center;
          text-transform: uppercase;
-         margin: 30px 0;
+         margin-bottom: 30px;
          letter-spacing: 2px;
+         height: 40px !important;
      }
      .forgot{
           display: flex;
@@ -143,15 +128,15 @@
          text-transform: uppercase;
          font-size: .75rem;
      }
-     .icon img{
+     .signin-icon img{
        width: 30px;
      }
-     .icon{
-       display: flex;
+     .signin-icon{
+       display: flex !important;
        justify-content: space-between;
        margin-top: 20px;
      }
-     .icon button{
+     .signin-icon button{
        display: flex;
        justify-content: center;
        align-items: center;
@@ -161,13 +146,13 @@
        outline: none;
        border: 1px solid rgba(0,0,0,.26);
      }
-     .icon span{
+     .signin-icon span{
        margin-left: 10px;
      }
-     .icon .facebook{
+     .signin-icon .facebook{
        margin-right: 10px;
      }
-     .icon .apple{
+     .signin-icon .apple{
           margin-left: 10px;
      }
      .cuoi-trang{
@@ -180,7 +165,17 @@
        color: rgba(0,0,0,.26);
      }
      .dang-ky a{
-     color: #ee4d2d;
+     color: #ee4d2d !important;
      margin-left: 5px;
      text-decoration: none;
      }
+     .ant-col-16{
+       max-width: 100% !important;
+    }
+    .content-center-input{
+        margin-bottom: 0 !important;
+       
+      }
+      .ant-input{
+        margin-bottom: 0;
+      }
