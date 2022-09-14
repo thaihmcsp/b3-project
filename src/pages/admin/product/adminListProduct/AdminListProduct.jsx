@@ -32,7 +32,14 @@ function AdminListProduct() {
         console.log(error);
     }
 }
-
+  for (let i = 0; i < 100; i++) {
+    originData.push({
+      key: i.toString(),
+      name: `Edrward ${i}`,
+      age: 32,
+      address: `London Park no. ${i}`,
+    });
+  }
   const navigate = useNavigate();
   const EditableCell = ({
     editing,
@@ -68,6 +75,7 @@ function AdminListProduct() {
       </td>
     );
   };
+  
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState('');
@@ -131,6 +139,25 @@ function AdminListProduct() {
         dataIndex: `quantityProperty`,
     },
     {
+      title: 'Xem sảm phẩm',
+      dataIndex: `operation`,
+      render: (record) => {
+        return (
+          <Typography.Link 
+          disabled={editingKey !== ''} 
+          onRow={(record,index) => {
+            return {
+              onClick: event => {
+                navigate(`/admin/product/${uData[index].id}/detail` )
+              },
+            }
+          }}>
+          Details
+          </Typography.Link>
+        )
+        } 
+    },
+    {
       title: 'Sửa thông tin',
       dataIndex: 'operation',
       render: (_, record) => {
@@ -190,13 +217,7 @@ return (
         onChange: cancel,
       }}
       columns={mergedColumns}
-      onRow={(record,index) => {
-        return {
-          onClick: event => {
-            navigate(`/admin/product/${uData[index].id}/detail` )
-          },
-        }
-      }}
+      
         dataSource={uData}
     />
     </Form>
