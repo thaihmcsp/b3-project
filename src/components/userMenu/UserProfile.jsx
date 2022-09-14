@@ -29,6 +29,7 @@ function UserProfile() {
             let res = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
             linkk = res.data.user.avatar
             setData(res.data.user)
+            console.log(res);
         } catch (error) {
             console.log(error);
         }
@@ -65,6 +66,7 @@ function UserProfile() {
             console.log(error);
         }
     };
+    console.log(32, data);
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
