@@ -1,30 +1,38 @@
 import {Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import React, { useState } from 'react';
-import product from '../../../../static/Truong/product.json'
 import './AdminListProduct.css'
 import { useNavigate} from "react-router-dom";
+import { getAPI } from '../../../../config/api';
+import { useEffect} from 'react';
 const originData = [];
-let quantity=0
-  for (let index = 0; index < product.length; index++) {
-    const element = product[index];
-    quantity=element.listDetail.length
-  }
-let Data =[]
-product.map(
-    (value)=>{
-        Data.push(
-            {
-                productName: value.productName,
-                thumpnail:<img  src= {value.thumpnail} alt=''/>,
-                brand:value.brand,
-                quantityProperty:quantity,
-                type:value.categoryId=='ct1'?'Máy tính':'Điện thoại',
-                id:value._id
-            }
-        )
-    }
-)
+
 function AdminListProduct() {
+  const [uData, setUdata] = useState([])
+  async  function getAPIproduct() {
+    try {
+        let products = await getAPI(`product/get-all-products`);
+        let newList = []
+        products.data.products.map(
+          (value)=>{
+            newList.push(
+                  {
+                      productName: value.productName,
+                      // thumpnail:<img  src= {value.thumpnail} alt=''/>,
+                      brand: value.brand,
+                      // quantityProperty:quantity,
+                      // type:value.categoryId=='ct1'?'Máy tính':'Điện thoại',
+                      id: value._id
+                  }
+              )
+          }
+        )
+        setUdata(newList)
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
   const navigate = useNavigate();
   const EditableCell = ({
     editing,
@@ -163,6 +171,12 @@ function AdminListProduct() {
         }),
       };
     });
+    
+    useEffect(() => {
+      getAPIproduct() 
+      
+    },[])
+    console.log(uData);
 return (
     <Form form={form} component={false}>
     <Table
@@ -179,11 +193,11 @@ return (
       onRow={(record,index) => {
         return {
           onClick: event => {
-            navigate(`/admin/product/${Data[index].id}/detail` )
+            navigate(`/admin/product/${uData[index].id}/detail` )
           },
         }
       }}
-        dataSource={Data}
+        dataSource={uData}
     />
     </Form>
 )

@@ -8,7 +8,6 @@ import { getAPI, patchAPI, postAPI } from '../../../../config/api';
 
 
 function AdminListProductDetail() {
-
   const { productId } = useParams()
   const [Data, setData] = useState([])
   const [count, setcount] = useState(0)
