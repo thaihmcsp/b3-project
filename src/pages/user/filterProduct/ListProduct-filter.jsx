@@ -15,14 +15,27 @@ function ListProduct() {
     const cutLink = new URLSearchParams(location.search)
    
     async function getData (){
+      // let brandCut = []
       try {
             let cut = cutLink.get("search")
-            
+          let   brandCut = cutLink.get("brand")
           let data = await instance.get(`/product/find-products-by-name?productName=${cut}`)
-          
-          setDataFake(data.data.products);
+          let data1 = data.data.products
+          if(!brandCut){
+            setDataFake(data.data.products);
+          }
+          else if(brandCut){
+            let arrBrand = brandCut.split(" ")
+              for(let i=0; i < arrBrand.length;i++ ){
+                  let data2 = data1.filter((value)=>{
+                  return value.brand === arrBrand[i]
+                })
+                console.log(data2); 
+              } 
+              
+          }
       } catch (error) {
-        
+        console.log(error);
       }
     }
 
