@@ -59,7 +59,7 @@ function Order() {
       const elementUser = getUser[j][0];
       if (elementOrder.userId._id === elementUser._id) {
         elementOrder.phone = elementUser.phone
-        if (elementUser.username == true) {
+        if (elementUser.username === true) {
           elementOrder.userName = elementUser.username
         }else{
           elementOrder.userName = elementUser.email
@@ -70,7 +70,7 @@ function Order() {
 
  console.log(61 , getOrder);
   let count = 0;
-  for (let i = 0; i < order.length; i++) {
+  for (let i = 0; i < getOrder.length; i++) {
     count += 1;
   }
 
@@ -133,7 +133,6 @@ function Order() {
   useEffect(() => {
 
     getOrders()
-    // getUsers()
 
   }, [])
 
