@@ -10,9 +10,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getAPI, patchAPI } from '../../../config/api';
 
-
-
-
 // // antd table
 function Cart() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -29,22 +26,23 @@ function Cart() {
       let dataCart = [];
       arrDataCart.data.cart.listProduct.map(
         (value, index) => {
-          if(value.productDetailId){
-           dataCart.push(
-             {
-               key: index,
-               Name:<a>{value.productDetailId.productId.productName}</a>,
-               price: value.productDetailId.price,
-               listImg:<img src={`https://shope-b3.thaihm.site/${value.productDetailId.productId.thumbnail}`}></img>,
-               stonge: value.quantity,
-               total: value.quantity * value.productDetailId.price,
-               select:false
-             }
-           )
+          if (value.productDetailId) {
+            dataCart.push(
+              {
+                productId: value.productDetailId._id,
+                key: index,
+                Name: <a>{value.productDetailId.productId.productName}</a>,
+                price: value.productDetailId.price,
+                listImg: <img src={`https://shope-b3.thaihm.site/${value.productDetailId.productId.thumbnail}`}></img>,
+                stonge: value.quantity,
+                total: value.quantity * value.productDetailId.price,
+                select: false
+              }
+            )
           }
         }
       )
-     
+
       setDataSource(dataCart);
     }
     catch (error) {
@@ -52,16 +50,37 @@ function Cart() {
     }
 
   }
+// remote product
+  async function remoteCart(id) {
+    try {
+      await patchAPI('/cart/remove-from-cart', { "productDetailId": id })
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+// set quanlity
+  async function setQuanlity(id,quanlity) {
+    try {
+      await patchAPI('/cart/update-cart-quantity', { "productDetailId": id ,"quantity": quanlity})
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
   // data Cart
- 
-    
+
+
 
   const [dataSource, setDataSource] = useState([]);
   // Table
 
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
+    console.log(81,newData[key]);
+    remoteCart(newData[key].productId);
     setDataSource(newData);
+   
   };
 
   function createOrder() {
@@ -142,7 +161,16 @@ function Cart() {
     },
     {
       title: 'Số lượng',
-      dataIndex: 'stonge'
+      dataIndex: 'stonge',
+      render: (text) => {
+        return (
+          <div className='cart-quanlity'>
+            <Button type="primary" >-</Button>
+              <input placeholder="" value={text} className={`cart-quanlity-input`}/>
+            <Button type="primary" >+</Button>
+          </div>
+        )
+      },
     },
     {
       title: 'Thành Tiền',
@@ -186,7 +214,7 @@ function Cart() {
     () => {
       let newTotal = 0;
       let newTotalQualyti = 0;
-      
+
       dataSource.map(
         (value, index) => {
           if (value.select == true) {
@@ -203,7 +231,7 @@ function Cart() {
     }, [count]
   );
 
-  console.log(244,dataSource);
+  console.log(244, dataSource);
   return (
     <div className='cart-container'>
       <Row justify='center'>
