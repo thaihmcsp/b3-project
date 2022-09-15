@@ -26,17 +26,17 @@ tableCart[2].listProduct.map((value, index) => {
 // antd table
 
 const dataCart = [];
-tableCart[2].listProduct.map((product, index) => {
-  dataCart.push({
-    key: index,
-    Name: <a>{product.productDetailId.productId.productName}</a>,
-    price: product.productDetailId.price,
-    listImg: <img src={product.productDetailId.listImg[0]} alt="" />,
-    stonge: product.quantity,
-    total: product.quantity * product.productDetailId.price,
-    select: false,
-  });
-});
+// tableCart[2].listProduct.map((product, index) => {
+//   dataCart.push({
+//     key: index,
+//     Name: <a>{product.productDetailId.productId.productName}</a>,
+//     price: product.productDetailId.price,
+//     listImg: <img src={product.productDetailId.listImg[0]} alt="" />,
+//     stonge: product.quantity,
+//     total: product.quantity * product.productDetailId.price,
+//     select: false,
+//   });
+// });
 
 function CreateOrder() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -102,7 +102,7 @@ function CreateOrder() {
 
             return false;
           });
-          // console.log(108,newSelectedRowKeys);
+
           setSelectedRowKeys(newSelectedRowKeys);
         },
       },
@@ -174,7 +174,7 @@ function CreateOrder() {
       console.log(listProduct, 176);
 
       const NEWDATA = listProduct.map((item) => {
-        return dataCart.push({
+        dataCart.push({
           productDetailId: {
             _id: item.productId._id,
             productId: item.productId,
