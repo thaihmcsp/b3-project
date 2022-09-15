@@ -16,12 +16,12 @@ function AdminListProduct() {
           (value)=>{
             newList.push(
                   {
-                      productName: value.productName,
-                      thumpnail:<img  src= {value.thumpnail} alt=''/>,
-                      brand: value.brand,
-                      // quantityProperty:quantity,
-                      // type:value.categoryId=='ct1'?'Máy tính':'Điện thoại',
-                      id: value._id
+                    productName: value.productName,
+                    // thumpnail:<img  src= {value.thumpnail} alt=''/>,
+                    brand: value.brand,
+                    // quantityProperty:quantity,
+                    // type:value.categoryId=='ct1'?'Máy tính':'Điện thoại',
+                    id: value._id
                   }
               )
           }
