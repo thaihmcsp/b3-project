@@ -7,7 +7,7 @@ import user from '../../../static/Truong/user.json'
 import order from '../../../static/Truong/order.json'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useNavigate , Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 import { getAPI } from '../../../config/api';
 
@@ -25,54 +25,84 @@ const suffix = (
 const onSearch = (value) => console.log(value);
 
 function Order() {
-  const [getOrder , setGetOrder] = useState([])
-  const [getUser , setGetUser] = useState([])
+  const [getOrder, setGetOrder] = useState([])
+  const [getUser, setGetUser] = useState([])
   const getOrders = async (value) => {
     try {
       let res = await getAPI('/order/get-all-order')
-      console.log(33 , res);
+      console.log(33, res);
 
       let orders = res.data.orders
 
-      let users = orders.map(function(value){
-        let listUsers = []
-        listUsers.push(value.userId) 
-        return listUsers
-      })
+      let users = []
+      for (let i = 0; i < orders.length; i++) {
+        const element = orders[i];
+        users.push(element.userId)
+      }
+
       setGetUser(users)
       setGetOrder(orders)
     } catch (error) {
-      console.log(35 , error);
+      console.log(35, error);
     }
   }
-  console.log(48 , getUser);
-  console.log(42 , getOrder);
 
-  for (let i = 0; i < getUser.length; i++) {
-    const element = getUser[i];
-    console.log(element[0]);
-  }
-
+console.log(48 , getUser);
   for (let i = 0; i < getOrder.length; i++) {
     const elementOrder = getOrder[i];
     for (let j = 0; j < getUser.length; j++) {
-      const elementUser = getUser[j][0];
+      const elementUser = getUser[j];
+      console.log(55 ,elementOrder.userId._id);
+      console.log(56 , elementUser._id);
       if (elementOrder.userId._id === elementUser._id) {
+        elementOrder.userName = elementUser.username
         elementOrder.phone = elementUser.phone
-        if (elementUser.username === true) {
-          elementOrder.userName = elementUser.username
-        }else{
-          elementOrder.userName = elementUser.email
-        }
       }
     }
   }
 
- console.log(61 , getOrder);
+  let product = getOrder.map(function(value){
+    return value.listProduct
+  })
+
+  let listProductDetail = product.map(function(valueProduct){
+    for (let i = 0; i < valueProduct.length; i++) {
+      const element = valueProduct[i];
+      if (element.productDetailId) {
+        return element.productDetailId
+      }
+    }
+  })
+
+  let listDetail = []
+  for (let i = 0; i < listProductDetail.length; i++) {
+    const element = listProductDetail[i];
+    if (element !== undefined) {
+      listDetail.push(element)
+    }
+  }
+
+  for (let i = 0; i < getOrder.length; i++) {
+    const elementOrder = getOrder[i];
+    for (let j = 0; j < elementOrder.listProduct.length; j++) {
+      const element = elementOrder.listProduct[j];
+      for (let k = 0; k < listDetail.length; k++) {
+        const elementListDetail = listDetail[k];
+       if (element.productDetailId !== null) {
+        if (element.productDetailId._id === elementListDetail._id) {
+          elementOrder.price = elementListDetail.price
+        }
+       }
+      }
+    }
+  }
+
   let count = 0;
   for (let i = 0; i < getOrder.length; i++) {
     count += 1;
   }
+
+  console.log(112, getOrder);
 
   const columns = [
     {
@@ -80,14 +110,14 @@ function Order() {
       dataIndex: 'userName',
       key: 'userName',
       render: (text) =>
-      <Link to={`/admin/order/${getOrderId(text)}`}>
-        <a>{text}</a>
-      </Link>,
+        <Link to={`/admin/order/${getOrderId(text)}`}>
+          <a>{text}</a>
+        </Link>,
     },
     {
       title: 'total',
-      dataIndex: 'total',
-      key: 'total',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
       title: 'Address',
@@ -108,27 +138,19 @@ function Order() {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: (status) => <select name={status} id="" style={{border: 'none'}}>
-        <option value="pending">pending</option>
-        <option value="cancel">cancel</option>
-      </select>
     }
   ];
 
-  function getOrderId (userNameOrder) {
-    let orderId = '' 
+  function getOrderId(userNameOrder) {
+    let orderId = ''
     for (let i = 0; i < getOrder.length; i++) {
       const element = getOrder[i];
-      if(element.userName = userNameOrder){
+      if (element.userName = userNameOrder) {
         orderId = element._id
       }
     }
     return orderId
   }
-  // function getSelectValueOrder(){
-  //   let select = document.querySelector('.typeSeacher').value
-  //   console.log(select);
-  // }
 
   useEffect(() => {
 
@@ -145,12 +167,7 @@ function Order() {
             <RangePicker />
           </Space>
         </div>
-        {/* <div className='btn-product-delivery'>
-          <button>Xuất</button>
-        </div>
-        <div className='btn-report'>
-          <button><MenuOutlined /></button>
-        </div> */}
+
       </div>
 
       <div className="input-selector">
