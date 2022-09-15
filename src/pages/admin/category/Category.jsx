@@ -3,126 +3,44 @@ import { VscQuestion } from "react-icons/vsc";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImDropbox } from "react-icons/im";
 import { IoIosMenu } from "react-icons/io";
-import { CgArrowsV } from "react-icons/cg";
-import { AiOutlineCloseSquare } from "react-icons/ai";
-
-import data from "../../../static/Truong/productDetail.json";
+import { Modal } from 'antd';
 import "./Category.css";
+import { getAPI, postAPI } from "../../../config/api";
 
 function Category() {
   let [num, setNum] = useState(0);
   const [active, setActive] = useState(1);
-  const [openModal, setOpenModal] = useState(false);
   const [items, setItems] = useState([]); //[]
-  const [index, setIndex] = useState(undefined);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(16, isModalOpen);
 
   useEffect(() => {
-    if (!window.localStorage.getItem("data")) {
-      setItems(data);
-    } else {
-      setItems(JSON.parse(window.localStorage.getItem("data")));
+    const getData = async () => {
+      try {
+        let data = await getAPI("/category/get-all-categories")
+        setItems(data.data.categories);
+      } catch (error) {
+        console.log(error);
+      }
     }
+    getData()
   }, [num]);
 
   const headerClick = (index) => {
     setActive(index);
-  };
-
-  const getIndex = (index) => {
-    let addBtn = document.querySelector(".add-button");
-    let updateBtn = document.querySelector(".update-button");
-    let cancelBtn = document.querySelector(".cancel-button");
-    let LinkImg = document.querySelector(".admin-category-imageLink");
-    addBtn.style.display = "none";
-    updateBtn.style.display = "block";
-    cancelBtn.style.display = "block";
-    LinkImg.style.display = "none";
-    setIndex(index);
-    showModal();
-  };
+  }; 
 
   const showModal = () => {
-    setOpenModal(true);
+    setIsModalOpen(true);
   };
 
-  const hideModal = () => {
-    setOpenModal(false);
+  const handleOk = (e) => {
+    // postAPI("/category/create-category", {categoryName: })
+    setIsModalOpen(false);
   };
 
-  const cancel = () => {
-    hideModal();
-  };
-
-  const add = () => {
-    let addBtn = document.querySelector(".add-button");
-    let updateBtn = document.querySelector(".update-button");
-    let cancelBtn = document.querySelector(".cancel-button");
-    let LinkImg = document.querySelector(".admin-category-imageLink");
-    addBtn.style.display = "block";
-    updateBtn.style.display = "none";
-    cancelBtn.style.display = "block";
-    LinkImg.style.display = "block";
-    showModal();
-  };
-
-  const addProduct = () => {
-    let color = document.querySelector("#color").value;
-    let ram = document.querySelector("#ram").value;
-    let rom = document.querySelector("#rom").value;
-    let storage = document.querySelector("#storage").value;
-    let link = document.querySelector("#image").value;
-
-    if (
-      !color.trim() ||
-      !ram.trim() ||
-      !rom.trim() ||
-      !storage.trim() ||
-      !link.trim()
-    ) {
-      alert("Hãy nhập đủ thông tin");
-    } else {
-      let clone = [
-        ...items,
-        {
-          color,
-          ram,
-          rom,
-          storage,
-          listImg: [link],
-          productId:
-            "p" + (Number(items[items.length - 1].productId.slice(1)) + 1),
-          _id: "pd" + (Number(items[items.length - 1]._id.slice(2)) + 1),
-        },
-      ];
-      window.localStorage.setItem("data", JSON.stringify(clone));
-      setNum((num += 1));
-      hideModal();
-    }
-  };
-
-  const update = (index) => {
-    let color = document.querySelector("#color").value;
-    let ram = document.querySelector("#ram").value;
-    let rom = document.querySelector("#rom").value;
-    let storage = document.querySelector("#storage").value;
-    if (!color.trim() || !ram.trim() || !rom.trim() || !storage.trim()) {
-      alert("Hãy nhập đủ thông tin");
-    } else {
-      let clone = [...items];
-      clone[index] = {
-        listImg: [items[index].listImg[0]],
-        color,
-        ram,
-        rom,
-        storage,
-        productId: clone[index].productId,
-        _id: clone[index]._id,
-      };
-      window.localStorage.setItem("data", JSON.stringify(clone));
-      setNum((num += 1));
-
-      hideModal();
-    }
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -156,9 +74,9 @@ function Category() {
           </div>
 
           <div className="admin-category-header-right-addProduct">
-            <button onClick={add}>
+            <button onClick={showModal}>
               <AiOutlinePlus />
-              Thêm 1 sản phẩm mới
+              Thêm 1 biến thể mới
             </button>
           </div>
 
@@ -204,121 +122,34 @@ function Category() {
       {/* BODY */}
       <div className="admin-category-body">
         {/* BODY FIRST */}
-        <div className="admin-category-body-product-info">
-          <div className="admin-category-body-product-info-first">
-            <div className="admin-category-body-product-info-checkbox">
-              <input type="checkbox" />
-            </div>
-
-            <div>
-              <p className="admin-category-body-product-info-p">Tên sản phẩm</p>
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-second">
-            <p className="admin-category-body-product-info-p">SKU phân loại</p>
-          </div>
-
-          <div className="admin-category-body-product-info-third">
-            <p className="admin-category-body-product-info-p">Phân loại hàng</p>
-          </div>
-
-          <div className="admin-category-body-product-info-fourth">
-            <div>
-              <p className="admin-category-body-product-info-p">Giá</p>
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <CgArrowsV className="admin-category-body-product-info-div-arrowIcon-other" />
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-fifth">
-            <div>
-              <p className="admin-category-body-product-info-p">Kho hàng</p>
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <VscQuestion className="admin-category-body-product-info-div-questionIcon" />
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <CgArrowsV className="admin-category-body-product-info-div-arrowIcon" />
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-sixth">
-            <div>
-              <p className="admin-category-body-product-info-p">Doanh số</p>
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <CgArrowsV className="admin-category-body-product-info-div-arrowIcon-other" />
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-seventh">
-            <p className="admin-category-body-product-info-p">Hoạt động</p>
-          </div>
+        <div className="admin-category-body-heading">
+          <div>Ảnh phân loại</div>
+          <div>Tên phân loại</div>
+          <div>Tồn kho</div>
+          <div>Thao tác</div>
         </div>
         {/* BODY FIRST DONE */}
 
         {/* BODY SECOND */}
         <div className="admin-category-body-listItems">
           {items.map((item, index) => {
-            console.log(270, item.productId);
             return (
-              <div
-                style={{
-                  display: "flex",
-                  marginBottom: "1rem",
-                  borderBottom: "1px solid grey",
-                }}
-                key={item._id}
-              >
-                <div
-                  style={{
-                    width: "35%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <img style={{ width: "50%" }} src={item.listImg[0]} alt="" />
+              <div className="admin-category-body-item" key={item._id}>
+                <div className="admin-category-item-img">
+                  <img src={"https://shope-b3.thaihm.site/" + item.thumbnail} alt="" />
                 </div>
 
-                <div
-                  style={{
-                    width: "30%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  {/* <h1>ID sản phẩm: {item.productId} </h1> */}
-                  <p>Màu: {item.color}</p>
-                  <p>RAM: {item.ram}</p>
-                  <p>ROM: {item.rom}</p>
+                <div className="admin-category-item-name">
+                  <p>{item.categoryName}</p>
                 </div>
 
-                <div
-                  style={{
-                    width: "20%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <p>Tồn kho: {item.storage}</p>
+                <div className="admin-category-item-store">
+                  {/* <p>Tồn kho: {item.storage}</p> */}
                 </div>
 
-                <div style={{ width: "15%", position: "relative" }}>
-                  <button
-                    onClick={() => {
-                      getIndex(index);
-                    }}
-                    className="admin-category-body-listItems-updateBtn"
-                  >
-                    Sửa
-                  </button>
+                <div className="admin-category-item-handle">
+                  <button className="admin-category-item-handle-update">Sửa</button>
+                  <button className="admin-category-item-handle-delete">Xóa</button>
                 </div>
               </div>
             );
@@ -329,91 +160,12 @@ function Category() {
       {/* BODY DONE */}
 
       {/* MODAL */}
-      <div
-        className={`admin-category-modalContainer ${
-          openModal ? "openModal" : ""
-        }`}
-      >
-        <div className="admin-category-modal">
-          <div className="admin-category-modal-header">
-            <h1 style={{ fontSize: "2rem" }}>Thông tin sản phẩm</h1>
-            <AiOutlineCloseSquare
-              onClick={cancel}
-              style={{
-                cursor: "pointer",
-                position: "absolute",
-                right: "0",
-                top: "0",
-                fontSize: "1.3rem",
-              }}
-            />
-          </div>
-
-          <div className="admin-category-modal-body">
-            <div style={{ marginRight: "1rem" }}>
-              <div>
-                Màu: <input id="color" type="text" placeholder="Màu..." />
-              </div>
-              <div>
-                RAM: <input id="ram" type="text" placeholder="RAM..." />
-              </div>
-              <div className="admin-category-imageLink">
-                Link ảnh:{" "}
-                <input id="image" type="text" placeholder="Link ảnh..." />
-              </div>
-            </div>
-
-            <div>
-              <div>
-                ROM: <input id="rom" type="text" placeholder="ROM..." />
-              </div>
-              <div>
-                Tồn Kho:{" "}
-                <input id="storage" type="text" placeholder="Tồn kho..." />
-              </div>
-            </div>
-          </div>
-
-          <div className="admin-category-modal-footer">
-            <button
-              className="cancel-button"
-              style={{
-                padding: "4px 10px",
-                border: "none",
-                marginRight: "0.5rem",
-                cursor: "pointer",
-              }}
-              onClick={cancel}
-            >
-              Hủy
-            </button>
-            <button
-              className="update-button"
-              style={{
-                padding: "4px 10px",
-                border: "none",
-                cursor: "pointer",
-                marginRight: "0.5rem",
-              }}
-              onClick={() => {
-                update(index);
-              }}
-            >
-              Sửa
-            </button>
-            <button
-              className="add-button"
-              style={{ padding: "4px 10px", border: "none", cursor: "pointer" }}
-              onClick={addProduct}
-            >
-              Thêm
-            </button>
-          </div>
-        </div>
-      </div>
+      <Modal title="Thêm phân loại" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <input type="text" id="admin_category-modal-name" placeholder="Tên biến thể" />
+        <input type="text" id="admin_category-modal-img" placeholder="Ảnh biến thể" />
+      </Modal>
       {/* MODAL DONE */}
     </div>
   );
 }
-
 export default Category;
