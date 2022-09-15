@@ -4,6 +4,7 @@ import { Button, Upload, Col, Row, Modal, Checkbox, Form, Input, DatePicker, Spa
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { getAPI, patchAPI } from '../../config/api';
 const { Option } = Select;
 
 const props = {
@@ -26,7 +27,7 @@ function UserProfile() {
 
     const getData = async () => {
         try {
-            let res = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', { headers: { Authorization: token } })
+            let res = await getAPI('auth/get-loged-in-user')
             linkk = res.data.user.avatar
             setData(res.data.user)
             console.log(res);
@@ -58,7 +59,7 @@ function UserProfile() {
 
     const onFinish = async (values) => {
         try {
-            let res = await axios.patch('https://shope-b3.thaihm.site/api/user/update-info', values, { headers: { Authorization: token } })
+            let res = await patchAPI('user/update-info', values)
             setCount(count + 1)
             console.log(res);
             alert(res.data.message)
