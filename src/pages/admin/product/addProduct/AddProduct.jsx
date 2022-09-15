@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Input, Space, Form, Button } from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import '../addProduct/addProduct.css'
@@ -25,40 +25,22 @@ const onSearch = (value) => console.log(value);
 function AddProduct() {
 
   const listOrder = 'Chưa chọn ngành hàng'
-  const [idProduct, setIdProduct] = useState([])
-  const [count, setCount] = useState(0)
 
+  const nav = useNavigate()
 
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
       let res = await postAPI('/product/create-product', values)
+      let idNewProduct = res.data.product._id
+
       console.log(30, res);
+      nav(`/admin/product/${idNewProduct}/detail/create`)
     } catch (error) {
       console.log(32, error);
-      alert('Mặt hành này đã tồn tại')
+      alert('Sản phẩm đã tồn tại')
     }
   };
-
-  const getIdProduct = async (value) => {
-    try {
-      let resId = await getAPI('product/get-all-products')
-      console.log(44, resId);
-      console.log(resId.data.products);
-      setIdProduct(resId.data.products)
-    } catch (error) {
-      console.log(46, error);
-    }
-  }
-
-  console.log(59, idProduct);
-  let idNewProduct = idProduct[idProduct.length - 1]?._id
-
-  useEffect(() => {
-
-    getIdProduct()
-
-  }, [count])
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -160,13 +142,13 @@ function AddProduct() {
               Đã chọn :   <p> {listOrder}</p>
             </div>
 
-            <Link to={`/admin/product/${idNewProduct}/detail/create`}>
+            
             <Form.Item wrapperCol={{ offset: 8, span: 14 }}>
               <Button id='btn-addProduct' type="primary" htmlType="submit">
                 Tiếp theo
               </Button>
             </Form.Item>
-            </Link>
+            
           </div>
         </Form>
       </div>

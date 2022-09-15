@@ -68,7 +68,7 @@ function App() {
           <Route path='/admin/order' element={<Order />} /> 
 
           {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
-          <Route path='/admin/order//admin/order/:orderId' element={<AdminOrderDetail order={order} user={user} productDetail={productDetail} product={product} />} /> 
+          <Route path='/admin/order/:orderId' element={<AdminOrderDetail order={order} user={user} productDetail={productDetail} product={product} />} /> 
 
             {/* trang hiển thị, thêm, sửa phân loại */}
           <Route path="/admin/category" element={<Category />} />
