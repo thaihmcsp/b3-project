@@ -55,7 +55,7 @@ console.log(48 , getUser);
       console.log(55 ,elementOrder.userId._id);
       console.log(56 , elementUser._id);
       if (elementOrder.userId._id === elementUser._id) {
-        elementOrder.userName = elementUser.username
+        elementOrder.userName = elementUser.email
         elementOrder.phone = elementUser.phone
       }
     }
@@ -145,7 +145,7 @@ console.log(48 , getUser);
     let orderId = ''
     for (let i = 0; i < getOrder.length; i++) {
       const element = getOrder[i];
-      if (element.userName = userNameOrder) {
+      if (element.userName == userNameOrder) {
         orderId = element._id
       }
     }
