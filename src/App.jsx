@@ -23,11 +23,6 @@ import AdminListProduct from "./pages/admin/product/adminListProduct/AdminListPr
 import AddProductDetail from "./pages/admin/product/addProductDetail/AddProductDetail";
 import AdminProfile from "./pages/admin/profile/AdminProfile";
 import AdminListProductDetail from "./pages/admin/product/listProductDetail/AdminListProductDetail";
-
-import UserOrderPending from "./pages/user/userOrderHistory/UserOrderPending";
-import UserOrderAll from "./pages/user/userOrderHistory/UserOrderAll";
-import UserOrderWait from "./pages/user/userOrderHistory/UserOrderWait";
-import UserOrderCancel from "./pages/user/userOrderHistory/UserOrderCancel";
 import product from "./static/Truong/product.json";
 import order from "./static/Truong/order.json";
 import user from "./static/Truong/user.json";
@@ -56,26 +51,7 @@ function App() {
             <Route
               path="/user/order"
               element={<UserOrderHistory></UserOrderHistory>}
-            >
-              {/* THEM */}
-              <Route
-                path="/user/order/pending"
-                element={<UserOrderPending></UserOrderPending>}
-              ></Route>
-              <Route
-                path="/user/order/"
-                element={<UserOrderAll></UserOrderAll>}
-              ></Route>
-              <Route
-                path="/user/order/wait"
-                element={<UserOrderWait></UserOrderWait>}
-              ></Route>
-              <Route
-                path="/user/order/cancel"
-                element={<UserOrderCancel></UserOrderCancel>}
-              ></Route>
-              {/*  */}
-            </Route>
+            ></Route>
           </Route>
         </Route>
         <Route path="/admin" element={<AdminPage />}>
@@ -86,7 +62,7 @@ function App() {
 
           {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
           <Route
-            path="/admin/order/:orderId"
+            path="/admin/order//admin/order/:orderId"
             element={
               <AdminOrderDetail
                 order={order}
