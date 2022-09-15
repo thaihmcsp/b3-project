@@ -62,30 +62,18 @@ function AddProduct() {
 
   const items = [
     getItem('Điện thoại', 'sub1', null, [
-      getItem(null, null, null, [getItem('Apple', 'Apple'), getItem('SamSung', '2')], 'group')
+      getItem(null , null , null , 
+        [getItem('Apple' , '1'),
+        getItem('SamSung' , '2'),
+        getItem('Xiaomi' , '3'),
+        getItem('OPPO' , '4'),
+        getItem('Nokia' , '6'),
+        getItem('ASUS' , '8'),] , 'group'),
     ]),
     getItem('Laptop', 'sub2', null, [
 
     ]),
     getItem('Máy tính bảng', 'sub3', null, [
-
-    ]),
-    getItem('Âm thanh', 'sub4', null, [
-
-    ]),
-    getItem('Đồng hồ', 'sub5', null, [
-
-    ]),
-    getItem('Nhà thông minh', 'sub6', null, [
-
-    ]),
-    getItem('Phụ kiện', 'sub7', null, [
-
-    ]),
-    getItem('PC - Màn hình', 'sub8', null, [
-
-    ]),
-    getItem('Tivi', 'sub9', null, [
 
     ]),
 
