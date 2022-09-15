@@ -16,7 +16,8 @@ function Cart() {
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [totalQuality, setTotalQuality] = useState(0);
-  const [listProductDetail, setListProductDetail] = useState([])
+  const [listProductDetail, setListProductDetail] = useState([]);
+  const [reload, setReload] = useState(true);
   const nav = useNavigate()
   // get API
   async function getAPIcart() {
@@ -52,8 +53,10 @@ function Cart() {
   }
 // remote product
   async function remoteCart(id) {
+    console.log(55, id);
     try {
       await patchAPI('/cart/remove-from-cart', { "productDetailId": id })
+      setReload(!reload);
     }
     catch (error) {
       console.log(error);
@@ -75,11 +78,12 @@ function Cart() {
   const [dataSource, setDataSource] = useState([]);
   // Table
 
-  const handleDelete = (key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    console.log(81,newData[key]);
-    remoteCart(newData[key].productId);
-    setDataSource(newData);
+  const handleDelete = (id) => {
+    const newData = dataSource.filter((item) => item.productId !== id);
+
+    // console.log(80, newData);
+    // console.log(id);
+    remoteCart(id);
    
   };
 
@@ -182,7 +186,7 @@ function Cart() {
       render: (_, record) => {
         // console.log(128,_, record.key);
         return dataSource.length >= 1 ? (
-          <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.key)}>
+          <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.productId)}>
             <Button type='text'><i class="fa-solid fa-trash-can"></i></Button>
           </Popconfirm>
         ) : null
@@ -228,7 +232,7 @@ function Cart() {
       setTotal(newTotal)
       setTotalQuality(newTotalQualyti)
       getAPIcart()
-    }, [count]
+    }, [count, reload]
   );
 
   console.log(244, dataSource);
