@@ -4,7 +4,7 @@ import './AdminListProduct.css'
 import { useNavigate} from "react-router-dom";
 import { getAPI } from '../../../../config/api';
 import { useEffect} from 'react';
-const originData = [];
+
 
 function AdminListProduct() {
   const [uData, setUdata] = useState([])
@@ -32,14 +32,7 @@ function AdminListProduct() {
         console.log(error);
     }
 }
-  for (let i = 0; i < 100; i++) {
-    originData.push({
-      key: i.toString(),
-      name: `Edrward ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`,
-    });
-  }
+
   const navigate = useNavigate();
   const EditableCell = ({
     editing,
@@ -63,7 +56,7 @@ function AdminListProduct() {
             rules={[
               {
                 required: true,
-                message: `Please Input ${title}!`,
+                message: `Vui lòng điền ${title}!`,
               },
             ]}
           >
@@ -77,7 +70,6 @@ function AdminListProduct() {
   };
   
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record) => record.id === editingKey;
   const edit = (record, e) => {
@@ -89,7 +81,7 @@ function AdminListProduct() {
     });
     setEditingKey(record.id);
   };
-
+  
   const cancel = () => {
     setEditingKey('');
   };
@@ -97,23 +89,23 @@ function AdminListProduct() {
   const save = async (key) => {
     try {
       const row = await form.validateFields();
-      const newData = [...data];
+      const newData = [...uData];
       const index = newData.findIndex((item) => key === item.id);
-
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        setData(newData);
+        setUdata(newData);
         setEditingKey('');
       } else {
         newData.push(row);
-        setData(newData);
+        setUdata(newData);
         setEditingKey('');
       }
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
   };
+  
   const columns = [
     {
         title: 'Ảnh mô tả sản phẩm',
@@ -122,7 +114,7 @@ function AdminListProduct() {
     {
         title: 'Tên sản phẩm',
         dataIndex: 'productName',
-        width: '40%',
+        width: '30%',
         editable: true,
     },
     {
@@ -141,18 +133,15 @@ function AdminListProduct() {
     {
       title: 'Xem sảm phẩm',
       dataIndex: `operation`,
-      render: (record) => {
+      render: (record,index) => {
+        const viewDetail =()=>{
+          navigate(`/admin/product/${index.id}/detail` )
+        }
         return (
-          <Typography.Link 
-          disabled={editingKey !== ''} 
-          onRow={(record,index) => {
-            return {
-              onClick: event => {
-                navigate(`/admin/product/${uData[index].id}/detail` )
-              },
-            }
-          }}>
-          Details
+          <Typography.Link
+          onClick={() => {viewDetail()}}
+          >
+          Xem chi tiết
           </Typography.Link>
         )
         } 
@@ -178,7 +167,7 @@ function AdminListProduct() {
           </span>
         ) : (
           <Typography.Link disabled={editingKey !== ''} onClick={(e) => edit(record, e)}>
-            Edit
+            Sửa
           </Typography.Link>
         );
       },
@@ -203,7 +192,6 @@ function AdminListProduct() {
       getAPIproduct() 
       
     },[])
-    console.log(uData);
 return (
     <Form form={form} component={false}>
     <Table
@@ -217,8 +205,7 @@ return (
         onChange: cancel,
       }}
       columns={mergedColumns}
-      
-        dataSource={uData}
+      dataSource={uData}
     />
     </Form>
 )
