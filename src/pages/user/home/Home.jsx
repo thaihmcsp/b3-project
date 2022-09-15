@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "antd";
 import "./Home.css";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getAPI } from "../../../config/api";
@@ -15,17 +15,15 @@ const contentStyle = {
   borderRadius: "4px",
 };
 
-function Home({ product }) {
+function Home() {
   const nav = useNavigate();
   const [showDataPage, setShowDataPage] = useState([]);
   const [showPagination, setShowPagination] = useState(false);
   const [showBtnSeeMore, setShowBtnSeeMore] = useState(true);
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
   const [listProduct, setListProduct] = useState([]);
-  console.log(listProduct);
   const [count, setCount] = useState(0);
 
-  console.log(showDataPage);
   const tab1 = document.querySelector(".home_product-heading");
   const tab2 = document.querySelector(".home_product-img");
 
@@ -55,6 +53,11 @@ function Home({ product }) {
             objectSearch.page * objectSearch.pageSize
           )
         );
+        if (search.search) {
+          setShowPagination(true)
+          setShowBtnSeeMore(false)
+          setShowHeaderProduct(false)
+        }
       } catch (error) {
         console.log(error);
       }

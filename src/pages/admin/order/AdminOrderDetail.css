@@ -26,6 +26,10 @@
     font-size: 16px;
 }
 
+.info-item-user-status {
+    outline: none;
+}
+
 .info_user-item-user p{
     margin-bottom: 8px;
 }
@@ -78,25 +82,11 @@
     width: 140px;
     height: 100px;
     display: block;
-    margin-right: 8px;
+    margin-right: 16px;
 }
 
 .info_product-left div h2 {
     font-size: 20px;
-}
-
-.info_product-left div button {
-    border: 1px solid blue;
-    color: blue;
-    outline: none;
-    background-color: transparent;
-    cursor: pointer;
-    border-radius: 3px;
-    padding: 4px 12px;
-}
-
-.info_product-left div button:hover {
-    background-color: #ccc;
 }
 
 .info_product-right p {
@@ -134,4 +124,23 @@
     width: calc(50% / 4);
     text-align: right;
     font-size: 16px;
+}
+
+.admin_order-btn-save {
+    justify-content: flex-end;
+    padding-right: 12px;
+}
+
+.admin_order-btn-save button {
+    border: 1px solid blue;
+    color: blue;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 8px 16px;
+}
+
+.admin_order-btn-save button:hover {
+    background-color: #ccc;
 }

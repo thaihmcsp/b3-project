@@ -3,31 +3,47 @@ import { FiFilter } from "react-icons/fi";
 import { AiOutlineDown } from "react-icons/ai";
 import "./Menufilter.css"
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo"]
 function FilterMenu() {
   let [filterBox ,setFilterBox] = useState([])
-  
+  let [valueCheckbox,setValueCheckbox] = useState([])
   let nav = useNavigate()
-
+  let location = useLocation()
+  console.log(location.search);
+  let brand = new URLSearchParams(location.search)
+  
 function changeBox (vbox){
   let check = document.querySelector(`.${vbox}`).value
   let cheKbox = document.querySelector(`.${vbox}`).checked
    let l = ""
-   let del = [...filterBox].findIndex(function(value){
-    return value === vbox
-  })
-  console.log(del);
-  if(!cheKbox){
-
-  console.log("bo tick");
-}
-else{
-   
-  console.log("tick");
-}
-
-
+   let linkCheck = ""
+   let  brandSearch = brand.get("brand")
+  
+   if(!cheKbox){
+    setValueCheckbox([...valueCheckbox])
+     let del = brandSearch.split(" ").findIndex((value)=>{return value === check})
+     let cut = brandSearch.split(" ").splice(del,1)
+     console.log(brandSearch.split(" ").splice(del,1));
+     console.log(valueCheckbox);
+     console.log(brandSearch.split(" "));
+     linkCheck=location.search
+     //  console.log(brandSearch.split(" "));
+    }
+    else{
+      setValueCheckbox([...valueCheckbox,check])
+      l = [...valueCheckbox,check].join(" ")
+      if(!brandSearch){
+        linkCheck =location.search +`&brand=${l}`
+      }
+      else if (brandSearch){
+        linkCheck = location.search+` ${check}`
+      }
+      
+    }
+    
+nav(linkCheck)
 
 }
   return (
