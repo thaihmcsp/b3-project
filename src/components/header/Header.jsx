@@ -99,7 +99,9 @@ function Header() {
 
         let classNone = document.querySelector(".header-top-right-id")
         classNone.setAttribute("id", "display")
-        setUName(data.user.email)
+        let name = data.user.email.split("@")
+       
+        setUName(name[0])
         setCheckAdmin(data.user.role)
       } 
 
