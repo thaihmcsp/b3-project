@@ -13,42 +13,59 @@ function ListProduct() {
     const [dataFake,setDataFake] = useState([])
     const location = useLocation()
     const cutLink = new URLSearchParams(location.search)
-   
+   const [dataClone,setDataClone]= useState([])
+  const [brandz,setBrandz] = useState([])
+  let page = cutLink.get("page")
     async function getData (){
       // let brandCut = []
       try {
             let cut = cutLink.get("search")
-          let   brandCut = cutLink.get("brand")
-          let data = await instance.get(`/product/find-products-by-name?productName=${cut}`)
-          let data1 = data.data.products
-          if(!brandCut){
-            setDataFake(data.data.products);
-          }
-          else if(brandCut){
-            let arrBrand = brandCut.split(" ")
-              for(let i=0; i < arrBrand.length;i++ ){
-                  let data2 = data1.filter((value)=>{
-                  return value.brand === arrBrand[i]
-                })
-                console.log(data2); 
-              } 
-              
-          }
+            let brandlink = cutLink.get("brand")
+            let data = await instance.get(`/product/find-products-by-name?productName=${cut}`)
+            // let dataAll = await instance.get(`/product/get-all-products`)
+            // setDataClone(data.data.products)
+            // console.log(dataAll);
+            let dataMini = data.data.products
+            // let z = []
+            if(!brandlink){
+              setDataClone(data.data.products.slice((12*(page-1)),(12*page)))
+              // console.log(data.data.products.slice((12*(page-1)),(12*page)));
+              setDataFake(data.data.products)
+            }
+            else if(brandlink){
+                   setBrandz(brandlink.toUpperCase().split(" "))
+                          console.log(brandlink.toUpperCase().split(" "));
+                    for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
+                        console.log(brandlink.toUpperCase().split(" ")[i]);
+                    let  z = dataMini.filter(function(value){
+                        if(value.brand){
+                          return value.brand.toUpperCase() === brandlink.toUpperCase().split(" ")[i]
+                          // console.log(value.brand.toUpperCase());
+                          // console.log(brandz[i]);
+                        }
+                      })
+                     
+                      setDataClone([...dataClone,z]);
+                    }
+                  }
+                  
+         
       } catch (error) {
         console.log(error);
       }
     }
-
+    
     useEffect(() => {
 
       getData()
 
       }, [location])
-      function clickPage (page,pageSize){
-        pageSize = 12
-        let dataClone = Data.slice((pageSize*(page-1)),(pageSize*page))
-        
-        setDataFake(dataClone)
+      function clickPage (page){
+        let pageSize = 12
+      //  let dataCl = dataClone
+       let clone = dataClone.slice((pageSize*(page-1)),(pageSize*page))
+        console.log(clone);
+        setDataClone(clone)
         
       }
    
@@ -56,7 +73,7 @@ function ListProduct() {
     <>
     <div className='Listproduct-product'>
             {
-                dataFake.map(function(value,index){
+                dataClone.map(function(value,index){
                   
                     return(
                         <div className='Listproduct-product-card' key={index} >
