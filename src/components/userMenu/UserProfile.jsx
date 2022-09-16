@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { getAPI, patchAPI } from '../../config/api';
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 const props = {
@@ -52,6 +53,7 @@ function UserProfile() {
     const [imageUrl, setImageUrl] = useState();
     const [formImg, setFormImg] = useState(new FormData())
     const key = 'updatable';
+    const nav = useNavigate()
     let linkk = ''
     const domain = 'https://shope-b3.thaihm.site/'
 
@@ -73,8 +75,8 @@ function UserProfile() {
     };
 
 
-    const error = () => {
-        message.error('Thất bại');
+    const errorMess = () => {
+        message.error('Thất bại ! Hãy xem lại kết nối hoặc chọn lại ảnh');
     };
 
     const getData = async () => {
@@ -166,7 +168,7 @@ function UserProfile() {
             success()
         } catch (error) {
             console.log(error);
-            error()
+            errorMess()
         }
     };
 
