@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo"]
 function FilterMenu() {
   let [filterBox ,setFilterBox] = useState([])
-  
+  let [valueCheckbox,setValueCheckbox] = useState([])
   let nav = useNavigate()
  let local = useLocation()
  let link = new URLSearchParams(local.search)

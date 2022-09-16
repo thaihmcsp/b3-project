@@ -47,12 +47,9 @@ function SignIn() {
   const onFinish = async (values) => {
     try {
       let res = await postAPI("/auth/sign-in", values);
-      console.log(14, res);
       setCookie("shope-b3", res.data.token, 30);
       const resp = await getAPI("/auth/get-loged-in-user");
-      console.log(resp);
       const action = userLogin(resp.data);
-      console.log(53, action);
       dispatch(action);
       nav("/");
     } catch (error) {

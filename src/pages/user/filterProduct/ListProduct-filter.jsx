@@ -17,6 +17,7 @@ function ListProduct() {
   const [brandz,setBrandz] = useState([])
   let page = cutLink.get("page")
     async function getData (){
+      // let brandCut = []
       try {
             let cut = cutLink.get("search")
             let brandlink = cutLink.get("brand")

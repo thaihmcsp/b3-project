@@ -56,3 +56,8 @@
     background-color: #FB5430;
     border: none;
   }
+  .cart-quanlity input{
+      width: 35px;
+      text-align: center;
+      margin: 0 3px;
+  }

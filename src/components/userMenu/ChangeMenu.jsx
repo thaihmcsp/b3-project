@@ -3,6 +3,7 @@ import './usermenu.css'
 import { Button, Checkbox, Form, Input } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { patchAPI } from '../../config/api';
 
 function ChangeMenu() {
     const [count, setCount] = useState(0)
@@ -12,7 +13,7 @@ function ChangeMenu() {
     const onFinish = async (values) => {
         console.log('Success:', values);
         try {
-            let res = await axios.patch('https://shope-b3.thaihm.site/api/user/change-password', values, { headers: { Authorization: token } })
+            let res = await patchAPI('user/change-password', values)
             console.log(res.data.message);
             alert(`${res.data.message}  Bạn sẽ được chuyển đến trang đăng nhập ngay bây giờ!`)
             nav('/signIn')

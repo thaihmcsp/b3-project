@@ -16,7 +16,7 @@ import { getAPI, patchAPI, postAPI } from '../../../config/api';
 
 const items = [
   {
-    label: <Link to={'/user/order?type=1'}>Tất cả</Link>,
+    label: <Link to={'/user/order'}>Tất cả</Link>,
     key: 'all',
     icon: null,
   },
@@ -59,8 +59,8 @@ productDetail.map((product) => {
 
 function UserOrderHistory() {
   const [current, setCurrent] = useState('all');
+  const [number, setNumber] = useState(0);
 
-  let token = window.localStorage.getItem('user');
   const [listOrder, setListOrder] = useState([]);
   let user;
   const search = useLocation();
@@ -73,7 +73,7 @@ function UserOrderHistory() {
 
   const getUser = async () => {
     try {
-      let res = await getAPI('/auth/get-loged-in-user', { headers: { Authorization: token } })
+      let res = await getAPI('/auth/get-loged-in-user')
       user = res.data.user._id;
       getOrderInfor();
     } catch (error) {
@@ -83,7 +83,7 @@ function UserOrderHistory() {
 
   const getOrderInfor = async () => {
     try {
-      let res = await getAPI('/order/get-order-by-userId/user/' + user, { headers: { Authorization: token } })
+      let res = await getAPI('/order/get-order-by-userId/user/' + user)
       // console.log(17, res);
       setListOrder(res.data.order);
     } catch (error) {
@@ -92,27 +92,27 @@ function UserOrderHistory() {
   }
 
   const cancelOrder = async (orderId) => {
+    let values = { status: 'canceled' }
     if (window.confirm('Do you want to cancel the order ?') === true) {
       try {
-        let res = await patchAPI('/order/change-order-status/' + orderId, { headers: { Authorization: token } });
-        // console.log(42, res);
+        let res = await patchAPI('/order/change-order-status/' + orderId, values);
+        setNumber(number + 1);
       } catch (error) {
         console.log(error);
       }
     }
   }
 
-
   useEffect(() => {
     getUser();
-  }, [])
+  }, [number])
 
 
   const onClick = (e) => {
     // console.log('click ', e);
     setCurrent(e.key);
   };
-  // console.log(67, data);
+
 
   let count = 0;
 
@@ -129,13 +129,16 @@ function UserOrderHistory() {
 
       <div>
 
+
+
         {listOrder.map((orderItem) => {
           let totalPrice = 0;
           let status;
           let btn;
           let text;
 
-          if (objType.type == 1) {
+
+          if (!objType.type) {
             let totalPrice = 0;
             let status;
             let btn;
@@ -184,11 +187,13 @@ function UserOrderHistory() {
                   orderItem.listProduct.map((data) => {
                     return (
                       <Fragment>
-                        <Link to={'/user/order/' + data.productDetailId}>
+                        <Link to={'/user/order/' + orderItem._id}>
                           <div className="order-product">
                             <div className="order-product--detail">
                               <div className="order-product__img">
-                                <img src="" alt="" />
+                                {/* {data.productDetailId?.productId.thumbnail.startsWith('https') ? data.productDetailId?.productId.thumbnail : 'https' + data.productDetailId?.productId.thumbnail} */}
+
+                                <img src={data.productDetailId?.listImg[0] ? data.productDetailId?.listImg[0] : data.productDetailId?.productId.thumbnail} alt="" />
                               </div>
                               <div className="order-product__name">
                                 <h3>{data.productDetailId?.productId.productName}</h3>
@@ -263,7 +268,7 @@ function UserOrderHistory() {
                     orderItem.listProduct.map((data) => {
                       return (
                         <Fragment>
-                          <Link to={'/user/order/' + data.productDetailId}>
+                          <Link to={'/user/order/' + orderItem._id}>
                             <div className="order-product">
                               <div className="order-product--detail">
                                 <div className="order-product__img">
@@ -291,7 +296,6 @@ function UserOrderHistory() {
                     })
                   }
                 </div>
-
 
                 <div className="order-product--total">
                   <div className="total-price">
@@ -357,7 +361,7 @@ function UserOrderHistory() {
                     orderItem.listProduct.map((data) => {
                       return (
                         <Fragment>
-                          <Link to={'/user/order/' + data.productDetailId}>
+                          <Link to={'/user/order/' + orderItem._id}>
                             <div className="order-product">
                               <div className="order-product--detail">
                                 <div className="order-product__img">
@@ -449,7 +453,7 @@ function UserOrderHistory() {
                     orderItem.listProduct.map((data) => {
                       return (
                         <Fragment>
-                          <Link to={'/user/order/' + data.productDetailId}>
+                          <Link to={'/user/order/' + orderItem._id}>
                             <div className="order-product">
                               <div className="order-product--detail">
                                 <div className="order-product__img">
@@ -592,7 +596,6 @@ function UserOrderHistory() {
               </div>
             } else {
               count++;
-              console.log(603, count);
               if (count === listOrder.length) {
                 return (
                   <Fragment>

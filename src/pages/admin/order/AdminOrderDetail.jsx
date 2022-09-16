@@ -6,10 +6,8 @@ import "./AdminOrderDetail.css";
 function AdminOrderDetail() {
     const [orderDetail, setOrderDetail] = useState();
     const [count, setCount] = useState(0)
-    console.log(orderDetail);
     const search = useParams();
     const nav = useNavigate();
-    console.log(search.orderId);
     const sale = 13000;
     let sum = 0,
         b = 0;
@@ -17,7 +15,6 @@ function AdminOrderDetail() {
     const getData = async () => {
         try {
         let orderUser = await getAPI("/order/get-one-order/" + search.orderId);
-        console.log(orderUser);
         setOrderDetail(orderUser.data.order);
         } catch (error) {
         console.log(error);
@@ -34,7 +31,6 @@ function AdminOrderDetail() {
 
     const handleChangeStatus = async (e) => {
         try {
-            console.log(e.target.value);
             await patchAPI("/order/change-order-status/" + search.orderId, {'status': e.target.value});
             setCount(pre => pre + 1)
         } catch (error) {
