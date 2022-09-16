@@ -4,29 +4,46 @@ import { AiOutlineDown } from "react-icons/ai";
 import "./Menufilter.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo"]
 function FilterMenu() {
   let [filterBox ,setFilterBox] = useState([])
   
   let nav = useNavigate()
-
+ let local = useLocation()
+ let link = new URLSearchParams(local.search)
+ let brand = link.get("brand")
+ let search = link.get("search")
 function changeBox (vbox){
   let check = document.querySelector(`.${vbox}`).value
   let cheKbox = document.querySelector(`.${vbox}`).checked
    let l = ""
-   let del = [...filterBox].findIndex(function(value){
-    return value === vbox
-  })
-  console.log(del);
+   
+  
   if(!cheKbox){
-
-  console.log("bo tick");
+    //  
+    let arrBrand = brand.split(" ")
+    let del = arrBrand.findIndex(function(value){
+      return value === check
+    })
+    arrBrand.splice(del,1)
+    console.log(arrBrand);
+    if(!arrBrand){
+      console.log("zxcs");
+    }
+    l = `?search=${search}&brand=${arrBrand.join(" ")}&page=1`
 }
 else{
-   
+  if(!brand){
+
+    l = local.search + `&brand=${check}`
+  }
+  else if(brand){
+    l = local.search+` ${check}`
+  }
   console.log("tick");
 }
-
+nav(l)
 
 
 }

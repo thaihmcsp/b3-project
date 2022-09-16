@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../redux/reducers/userReducer";
 
 function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
+  const d = new Date(); 
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   let expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
