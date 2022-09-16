@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './usermenu.css'
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input , message , Space } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { patchAPI } from '../../config/api';
@@ -10,15 +10,24 @@ function ChangeMenu() {
     const token = window.localStorage.getItem('user')
     const nav = useNavigate()
 
+    const success = () => {
+        message.success('Đổi mật khẩu thành công ! bạn sẽ được chuyển đến trang đăng nhập ngay bây giờ !');
+    };
+
+    const error = () => {
+        message.error('This is an error message');
+    };
+
     const onFinish = async (values) => {
         console.log('Success:', values);
         try {
             let res = await patchAPI('user/change-password', values)
             console.log(res.data.message);
-            alert(`${res.data.message}  Bạn sẽ được chuyển đến trang đăng nhập ngay bây giờ!`)
+            success()
             nav('/signIn')
         } catch (error) {
             console.log(error);
+            error()
         }
     };
 
