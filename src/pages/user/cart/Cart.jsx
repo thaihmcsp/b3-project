@@ -1,11 +1,8 @@
 import React from 'react'
 import 'antd/dist/antd.css';
-import tableCart from '../../../static/Truong/cart.json'
-import tableProductDetail from "../../../static/Truong/productDetail.json"
-import tableProduct from '../../../static/Truong/product.json'
 import { useState, useEffect } from 'react';
 import './cart.css'
-import { Col, Row, Radio, Table, Divider, Button, Popconfirm, Select } from 'antd'
+import { Col, Row, Table, Button, Popconfirm, Select } from 'antd'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getAPI, patchAPI } from '../../../config/api';
@@ -52,8 +49,7 @@ function Cart() {
 
   }
 // remote product
-  async function remoteCart(id) {
-    console.log(55, id);
+  async function remoteCartAPI(id) {
     try {
       await patchAPI('/cart/remove-from-cart', { "productDetailId": id })
       setReload(!reload);
@@ -63,7 +59,7 @@ function Cart() {
     }
   }
 // set quanlity
-  async function setQuanlity(id,quanlity) {
+  async function setQuanlityAPI(id,quanlity) {
     try {
       await patchAPI('/cart/update-cart-quantity', { "productDetailId": id ,"quantity": quanlity})
       setReload(!reload);
@@ -72,17 +68,23 @@ function Cart() {
       console.log(error);
     }
   }
-
+//
+async function selectAPI(id,check){
+  try {
+    await patchAPI('/cart/update-cart-select',{"productDetailId": id,"select": check})
+    setReload(!reload);
+  }
+  catch (error){
+    console.log(error);
+  }
+}
   // data Cart
-
-
-
   const [dataSource, setDataSource] = useState([]);
   // Table
 
   const handleDelete = (id) => {
     const newData = dataSource.filter((item) => item.productId !== id);
-    remoteCart(id);
+    remoteCartAPI(id);
    
   };
 
@@ -92,15 +94,19 @@ function Cart() {
 
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log(60, 'selectedRowKeys changed: ', newSelectedRowKeys, selectedRowKeys);
+    console.log(103, 'selectedRowKeys changed: ', newSelectedRowKeys, selectedRowKeys);
     let newDataSource = [...dataSource];
     newDataSource.map((value) => {
-      value.select = false
+      value.select = false;
     })
     for (let i = 0; i < newSelectedRowKeys.length; i++) {
-      console.log();
       newDataSource[newSelectedRowKeys[i] - 1].select = true
     }
+     newDataSource.map(
+      (val,index)=>{
+        selectAPI(val.productId,val.select)
+      }
+     )
     setDataSource(newDataSource)
     setSelectedRowKeys(newSelectedRowKeys);
     setCount(newSelectedRowKeys.length);
@@ -143,7 +149,7 @@ function Cart() {
 
             return false;
           });
-          // console.log(108,newSelectedRowKeys);
+          // console.log(152,newSelectedRowKeys);
           setSelectedRowKeys(newSelectedRowKeys);
         },
       },
@@ -171,13 +177,13 @@ function Cart() {
           <div className='cart-quanlity'>
             <Button type="primary" onClick={
               ()=>{
-                setQuanlity(record.productId ,--text)
+                setQuanlityAPI(record.productId ,--text)
               }
             }>-</Button>
               <input placeholder="" value={text} />
             <Button type="primary" onClick={
               ()=>{
-                setQuanlity(record.productId,++text)
+                setQuanlityAPI(record.productId,++text)
               }
             }>+</Button>
           </div>
@@ -238,12 +244,12 @@ function Cart() {
       )
       setTotal(newTotal)
       setTotalQuality(newTotalQualyti)
-      setQuanlity()
+      setQuanlityAPI()
       getAPIcart()
     }, [count, reload]
   );
 
-  console.log(244, dataSource);
+  // console.log(254, dataSource);
   return (
     <div className='cart-container'>
       <Row justify='center'>
