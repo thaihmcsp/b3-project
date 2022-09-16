@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Input, Space, Form, Button } from 'antd';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+// import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import { message, Upload } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import '../addProduct/addProduct.css'
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -20,20 +22,47 @@ const suffix = (
   />
 );
 
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+
+  return isJpgOrPng && isLt2M;
+};
+
 const onSearch = (value) => console.log(value);
 
 function AddProduct() {
+
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+  const [dataFile , setDataFile] = useState(new FormData())
 
   const listOrder = 'Chưa chọn ngành hàng'
 
   const nav = useNavigate()
 
   const onFinish = async (values) => {
-    console.log('Success:', values);
+    
     try {
-      let res = await postAPI('/product/create-product', values)
+      dataFile.append('productName' , values)
+      let res = await postAPI('/product/create-product', dataFile)
       let idNewProduct = res.data.product._id
-
+      console.log('Success:', dataFile);
       console.log(30, res);
       nav(`/admin/product/${idNewProduct}/detail/create`)
     } catch (error) {
@@ -62,13 +91,13 @@ function AddProduct() {
 
   const items = [
     getItem('Điện thoại', 'sub1', null, [
-      getItem(null , null , null , 
-        [getItem('Apple' , '1'),
-        getItem('SamSung' , '2'),
-        getItem('Xiaomi' , '3'),
-        getItem('OPPO' , '4'),
-        getItem('Nokia' , '6'),
-        getItem('ASUS' , '8'),] , 'group'),
+      getItem(null, null, null,
+        [getItem('Apple', '1'),
+        getItem('SamSung', '2'),
+        getItem('Xiaomi', '3'),
+        getItem('OPPO', '4'),
+        getItem('Nokia', '6'),
+        getItem('ASUS', '8'),], 'group'),
     ]),
     getItem('Laptop', 'sub2', null, [
 
@@ -88,6 +117,30 @@ function AddProduct() {
   console.log(listOrder);
 
 
+  const handleChange = (info) => {
+    console.log(118 , info);
+    const formData = new FormData()
+    setDataFile(formData)
+    formData.append('thumb' , info.file.originFileObj)
+
+    getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+    });
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
 
 
   return (
@@ -130,13 +183,37 @@ function AddProduct() {
               Đã chọn :   <p> {listOrder}</p>
             </div>
 
-            
+            <div className="upload-img">
+              <h4>Thêm ảnh cho sản phẩm</h4>
+              <div className='input-upload-img'>
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  beforeUpload={beforeUpload}
+                  onChange={handleChange}
+                >
+                  {imageUrl ? (
+                    <img
+                      src={imageUrl}
+                      alt="avatar"
+                      style={{
+                        width: '100%',
+                      }}
+                    />
+                  ) : (
+                    uploadButton
+                  )}
+                </Upload>
+              </div>
+            </div>
             <Form.Item wrapperCol={{ offset: 8, span: 14 }}>
               <Button id='btn-addProduct' type="primary" htmlType="submit">
                 Tiếp theo
               </Button>
             </Form.Item>
-            
+
           </div>
         </Form>
       </div>
