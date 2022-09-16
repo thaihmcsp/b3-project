@@ -61,6 +61,9 @@ function Cart() {
 // set quanlity
   async function setQuanlityAPI(id,quanlity) {
     try {
+      if(quanlity<=1){
+        quanlity=1
+      }
       await patchAPI('/cart/update-cart-quantity', { "productDetailId": id ,"quantity": quanlity})
       setReload(!reload);
     }
@@ -173,9 +176,6 @@ async function selectAPI(id,check){
       title: 'Số lượng',
       dataIndex: 'stonge',
       render: (text,record) => {
-        if(text<=1){
-          text =1
-        }
         return (
           <div className='cart-quanlity'>
             <Button type="primary" onClick={
