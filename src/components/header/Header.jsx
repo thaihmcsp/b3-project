@@ -5,11 +5,17 @@ import { Link, useNavigate } from "react-router-dom"
 import { instance } from "../../config/axios";
 import { useState } from "react"
 import { useEffect } from "react"
+import  {Provider ,useDispatch  } from "react-redux"
+import {userLogin} from "../../redux/reducers/userReducer"
+import {useSelector} from "react-redux"
 function Header() {
   const nav = useNavigate()
-  let token = window.localStorage.getItem("user")
+  const dispatch = useDispatch();
+ 
+  
   const [uName, setUName] = useState("")
   let [checkAdmin, setCheckAdmin] = useState("")
+ 
   function Login() {
     nav("/signin")
   }
@@ -20,10 +26,33 @@ function Header() {
     nav("/user")
   }
   function LogOut() {
+    
     nav("/")
     window.location.reload()
-    window.localStorage.removeItem("user")
+   localStorage.removeItem("user-shope")
+    
+    var cookies = document.cookie.split(";");
+    console.log( cookies);
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      console.log(eqPos);
+      console.log(cookie.substr(0, eqPos));
   }
+  }
+//   function LogOut(req, res){
+    
+//     req.session.destroy(function(){
+//         req.session = null;
+ 
+//         res.clearCookie('shope-b3', { path: '/' });
+        
+ 
+//     });
+//     console.log(req,res);
+// }
   function Buy() {
     nav("")
   }
@@ -43,7 +72,7 @@ function Header() {
       search = search.split(" ").join("")
     }
     if (event.charCode === 13) {
-      nav(`/filter?search=${search}`)
+      nav(`/filter?search=${search}&page=1`)
     }
   }
   function filterLink() {
@@ -54,40 +83,34 @@ function Header() {
       search = search.split(" ").join("")
     }
 
-    nav(`/filter?search=${search}`)
+    nav(`/filter?search=${search}&page=1`)
   }
   function MyProduct() {
     nav("/user/order")
   }
-  async function nameUser() {
-    if (token) {
+  
+  let data = useSelector( function(state){
+    return state
+   })
+   
+   function nameUser() {
 
+    if (data.user.email) {
 
-      try {
-        let name = await instance.get("/auth/get-loged-in-user", { headers: { Authorization: token } })
-        console.log(name.data.user.email,68);
         let classNone = document.querySelector(".header-top-right-id")
         classNone.setAttribute("id", "display")
-        setUName(name.data.user.email)
-        setCheckAdmin(name.data.user.role)
-      } catch (error) {
+        setUName(data.user.email)
+        setCheckAdmin(data.user.role)
+      } 
 
-      }
-
-    }
-    if (!token) {
-      try {
+    if (!data.user.email) {
+     
         let ab = document.querySelector(".header-top-right-user")
         ab.setAttribute("id", "display")
-        console.log(ab);
-      } catch (error) {
-
-      }
-
+        
+      } 
     }
 
-
-  }
   useEffect(() => {
 
     nameUser()

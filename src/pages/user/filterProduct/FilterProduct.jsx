@@ -16,13 +16,6 @@ function FilterProduct() {
   
   const [urlValue,setUrlValue] = useState([])
   const [dataPage,setDataPage]=useState()
- 
-  let link=''
-  
-   
-  
-  
- 
 
  
   return (
