@@ -16,7 +16,8 @@ function Cart() {
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [totalQuality, setTotalQuality] = useState(0);
-  const [listProductDetail, setListProductDetail] = useState([])
+  const [listProductDetail, setListProductDetail] = useState([]);
+  const [reload, setReload] = useState(true);
   const nav = useNavigate()
   // get API
   async function getAPIcart() {
@@ -52,8 +53,10 @@ function Cart() {
   }
 // remote product
   async function remoteCart(id) {
+    console.log(55, id);
     try {
       await patchAPI('/cart/remove-from-cart', { "productDetailId": id })
+      setReload(!reload);
     }
     catch (error) {
       console.log(error);
@@ -63,11 +66,13 @@ function Cart() {
   async function setQuanlity(id,quanlity) {
     try {
       await patchAPI('/cart/update-cart-quantity', { "productDetailId": id ,"quantity": quanlity})
+      setReload(!reload);
     }
     catch (error) {
       console.log(error);
     }
   }
+
   // data Cart
 
 
@@ -75,11 +80,9 @@ function Cart() {
   const [dataSource, setDataSource] = useState([]);
   // Table
 
-  const handleDelete = (key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    console.log(81,newData[key]);
-    remoteCart(newData[key].productId);
-    setDataSource(newData);
+  const handleDelete = (id) => {
+    const newData = dataSource.filter((item) => item.productId !== id);
+    remoteCart(id);
    
   };
 
@@ -162,12 +165,21 @@ function Cart() {
     {
       title: 'Số lượng',
       dataIndex: 'stonge',
-      render: (text) => {
+      render: (text,record) => {
+        
         return (
           <div className='cart-quanlity'>
-            <Button type="primary" >-</Button>
-              <input placeholder="" value={text} className={`cart-quanlity-input`}/>
-            <Button type="primary" >+</Button>
+            <Button type="primary" onClick={
+              ()=>{
+                setQuanlity(record.productId ,--text)
+              }
+            }>-</Button>
+              <input placeholder="" value={text} />
+            <Button type="primary" onClick={
+              ()=>{
+                setQuanlity(record.productId,++text)
+              }
+            }>+</Button>
           </div>
         )
       },
@@ -180,9 +192,8 @@ function Cart() {
       title: 'Thao Tác',
       dataIndex: 'delete',
       render: (_, record) => {
-        // console.log(128,_, record.key);
         return dataSource.length >= 1 ? (
-          <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.key)}>
+          <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.productId)}>
             <Button type='text'><i class="fa-solid fa-trash-can"></i></Button>
           </Popconfirm>
         ) : null
@@ -227,8 +238,9 @@ function Cart() {
       )
       setTotal(newTotal)
       setTotalQuality(newTotalQualyti)
+      setQuanlity()
       getAPIcart()
-    }, [count]
+    }, [count, reload]
   );
 
   console.log(244, dataSource);
