@@ -107,6 +107,7 @@ async function selectAPI(id,check){
         selectAPI(val.productId,val.select)
       }
      )
+     console.log(110 , newDataSource);
     setDataSource(newDataSource)
     setSelectedRowKeys(newSelectedRowKeys);
     setCount(newSelectedRowKeys.length);
@@ -172,7 +173,9 @@ async function selectAPI(id,check){
       title: 'Số lượng',
       dataIndex: 'stonge',
       render: (text,record) => {
-        
+        if(text<=1){
+          text =1
+        }
         return (
           <div className='cart-quanlity'>
             <Button type="primary" onClick={
@@ -248,8 +251,6 @@ async function selectAPI(id,check){
       getAPIcart()
     }, [count, reload]
   );
-
-  // console.log(254, dataSource);
   return (
     <div className='cart-container'>
       <Row justify='center'>
