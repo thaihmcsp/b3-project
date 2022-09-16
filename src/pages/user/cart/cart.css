@@ -56,6 +56,9 @@
     background-color: #FB5430;
     border: none;
   }
+  .cart-quanlity button{
+    padding: 0 10px;
+  }
   .cart-quanlity input{
       width: 35px;
       text-align: center;
