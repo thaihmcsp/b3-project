@@ -24,7 +24,6 @@ function Home() {
   const [listProduct, setListProduct] = useState([]);
   const [count, setCount] = useState(0);
   const [pageCurrent, setPageCurrent] = useState(0)
-  console.log(pageCurrent);
 
   const tab1 = document.querySelector(".home_product-heading");
   const tab2 = document.querySelector(".home_product-img");
@@ -46,6 +45,7 @@ function Home() {
   const filterPage = () => {
     nav("/filter?page=1&pageSize=10");
   };
+
   useEffect(() => {
     async function getData() {
       try {
