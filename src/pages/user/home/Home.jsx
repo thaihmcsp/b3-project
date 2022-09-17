@@ -43,9 +43,6 @@ function Home() {
     });
   }
 
-  const filterPage = () => {
-    nav("/filter?page=1&pageSize=10");
-  };
   useEffect(() => {
     async function getData() {
       try {
@@ -155,7 +152,7 @@ function Home() {
           </div>
         </div>
         <div className="home_navbar">
-          <div className="home_navbar-item" onClick={filterPage}>
+          <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
                 src="	https://cf.shopee.vn/file/46a2a2c810622f314d78455da5e5d926_xhdpi"
