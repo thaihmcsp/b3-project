@@ -2,7 +2,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import React, { useState } from 'react';
 import { Input } from 'antd';
-import './addProduct.css'
+import './AddProduct.css'
 import { Select } from 'antd';
 const { Option } = Select;
 function AddProduct() {
