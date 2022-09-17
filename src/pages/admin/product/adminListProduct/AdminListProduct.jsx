@@ -2,7 +2,7 @@ import {Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import React, { useState } from 'react';
 import './AdminListProduct.css'
 import { useNavigate} from "react-router-dom";
-import { getAPI } from '../../../../config/api';
+import { getAPI, postAPI } from '../../../../config/api';
 import { useEffect} from 'react';
 
 
@@ -88,7 +88,9 @@ function AdminListProduct() {
 
   const save = async (key) => {
     try {
+      console.log(key);
       const row = await form.validateFields();
+      let res =  await postAPI(`product/get-all-products`)
       const newData = [...uData];
       const index = newData.findIndex((item) => key === item.id);
       if (index > -1) {
