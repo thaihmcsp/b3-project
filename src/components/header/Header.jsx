@@ -126,7 +126,7 @@ function Header() {
       <div className='header-top'>
         <div className='header-top-left'>
           <p onClick={Admin}>Kênh Người Bán </p>
-          <p>Trở Thành Người Bán </p>
+         
           <p>Tải Ứng Dụng </p>
           <p id='kn'>Kết Nối   </p>
           <p> <span><FacebookOutlined className='icon-fb' /></span><span><InstagramOutlined className='icon-itg' /></span>    </p>
@@ -178,7 +178,7 @@ function Header() {
           </button>
         </div>
         <div className="header-seach-cart">
-          <Link to={'/cart'}><ShoppingCartOutlined className="icon-cart" /></Link>
+          <Link to={'/cart'}> <div className="icon-cart"> <ShoppingCartOutlined  /></div> </Link>
         </div>
       </div>
     </div>
