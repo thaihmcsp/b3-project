@@ -22,7 +22,7 @@ function Cart() {
   // get API
   async function getAPIcart() {
     try {
-      let arrDataCart = await getAPI('cart/get-loged-in-cart');
+      let arrDataCart = await getAPI("cart/get-loged-in-cart");
       setListProductDetail(arrDataCart.data.cart.listProduct);
       let dataCart = [];
       let selectList = []
@@ -67,21 +67,18 @@ function Cart() {
       setTotalQuality(newTotalQualyti)
       setSelectedRowKeys(selectList);
       setDataSource(dataCart);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-
   }
 
   console.log(56, selectedRowKeys);
   // remote product
   async function remoteCartAPI(id) {
     try {
-      await patchAPI('/cart/remove-from-cart', { "productDetailId": id })
+      await patchAPI("/cart/remove-from-cart", { productDetailId: id });
       setReload(!reload);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -108,6 +105,7 @@ function Cart() {
     }
   }
   // data Cart
+
   const [dataSource, setDataSource] = useState([]);
   // Table
 
@@ -118,7 +116,7 @@ function Cart() {
   };
 
   function createOrder() {
-    nav('/create-order')
+    nav("/create-order");
   }
 
 
@@ -163,7 +161,6 @@ function Cart() {
     setCount(newSelectedRowKeys.length);
   };
 
-
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
@@ -172,8 +169,8 @@ function Cart() {
       Table.SELECTION_INVERT,
       Table.SELECTION_NONE,
       {
-        key: 'odd',
-        text: 'Select Odd Row',
+        key: "odd",
+        text: "Select Odd Row",
         onSelect: (changableRowKeys) => {
           let newSelectedRowKeys = [];
           newSelectedRowKeys = changableRowKeys.filter((_, index) => {
@@ -184,12 +181,11 @@ function Cart() {
             return true;
           });
           setSelectedRowKeys(newSelectedRowKeys);
-
         },
       },
       {
-        key: 'even',
-        text: 'Select Even Row',
+        key: "even",
+        text: "Select Even Row",
         onSelect: (changableRowKeys) => {
           let newSelectedRowKeys = [];
 
@@ -208,16 +204,16 @@ function Cart() {
   };
   const defaultColumns = [
     {
-      title: 'Sản Phẩm',
-      dataIndex: 'Name'
+      title: "Sản Phẩm",
+      dataIndex: "Name",
     },
     {
-      title: '',
-      dataIndex: 'listImg'
+      title: "",
+      dataIndex: "listImg",
     },
     {
-      title: 'Giá',
-      dataIndex: 'price'
+      title: "Giá",
+      dataIndex: "price",
     },
     {
       title: 'Số lượng',
@@ -239,43 +235,44 @@ function Cart() {
               }
             }>+</Button>
           </div>
-        )
+        );
       },
     },
     {
-      title: 'Thành Tiền',
-      dataIndex: 'total'
+      title: "Thành Tiền",
+      dataIndex: "total",
     },
     {
-      title: 'Thao Tác',
-      dataIndex: 'delete',
+      title: "Thao Tác",
+      dataIndex: "delete",
       render: (_, record) => {
         return dataSource.length >= 1 ? (
-          <Popconfirm title="Bạn chắc chắn muốn xóa không ?" onConfirm={() => handleDelete(record.productId)}>
-            <Button type='text'><i class="fa-solid fa-trash-can"></i></Button>
+          <Popconfirm
+            title="Bạn chắc chắn muốn xóa không ?"
+            onConfirm={() => handleDelete(record.productId)}
+          >
+            <Button type="text">
+              <i class="fa-solid fa-trash-can"></i>
+            </Button>
           </Popconfirm>
-        ) : null
-      }
-
+        ) : null;
+      },
     },
-
   ];
   // selecttion
 
-  // Select 
+  // Select
   const { Option } = Select;
   const children = [
-    <Option key={1}> {'Giảm 10%'}</Option>,
-    <Option key={2}> {'Giảm 15%'}</Option>,
-    <Option key={3}>{'Giảm 25%'}</Option>,
-    <Option key={4}>{'Giảm 50%'}</Option>,
-    <Option key={5}>{'Free ship'}</Option>,
-
+    <Option key={1}> {"Giảm 10%"}</Option>,
+    <Option key={2}> {"Giảm 15%"}</Option>,
+    <Option key={3}>{"Giảm 25%"}</Option>,
+    <Option key={4}>{"Giảm 50%"}</Option>,
+    <Option key={5}>{"Free ship"}</Option>,
   ];
 
   const handleChange = (value) => {
     console.log(`Selected: ${value}`);
-
   };
 
   // table antd
@@ -288,10 +285,10 @@ function Cart() {
   );
   console.log(216, dataSource);
   return (
-    <div className='cart-container'>
-      <Row justify='center'>
+    <div className="cart-container">
+      <Row justify="center">
         <Col span={20}>
-          <div className='cart-list'>
+          <div className="cart-list">
             <Table
               rowSelection={rowSelection}
               columns={defaultColumns}
@@ -300,24 +297,27 @@ function Cart() {
           </div>
         </Col>
       </Row>
-      <Row justify='center'>
+      <Row justify="center">
         <Col span={20}>
-          <div className='cart-footer'>
-            <Row justify='center'>
+          <div className="cart-footer">
+            <Row justify="center">
               <Col span={10}></Col>
               <Col span={10}>
                 <div className="cart-voucher-1">
                   <div className="cart-title">
-                    <h2><i className="fa-solid fa-ticket"></i> <span>Shopee Voucher</span></h2>
+                    <h2>
+                      <i className="fa-solid fa-ticket"></i>{" "}
+                      <span>Shopee Voucher</span>
+                    </h2>
                   </div>
                   <div className="cart-voucher">
                     <Select
                       mode="multiple"
                       placeholder="Chọn hoặc nhập mã"
-                      defaultValue={['Free ship']}
+                      defaultValue={["Free ship"]}
                       onChange={handleChange}
                       style={{
-                        width: '100%',
+                        width: "100%",
                       }}
                     >
                       {children}
@@ -326,18 +326,20 @@ function Cart() {
                 </div>
               </Col>
             </Row>
-            <Row justify='center'>
+            <Row justify="center">
               <Col span={10}>
                 <div className="cart-footer">
-                  <span>Chọn tất cả ({count})</span> <span> Xóa </span> <span> Bỏ sản phẩm không hoạt động</span>
+                  <span>Chọn tất cả ({count})</span> <span> Xóa </span>{" "}
+                  <span> Bỏ sản phẩm không hoạt động</span>
                 </div>
               </Col>
               <Col span={10}>
                 <div className="cart-footer2">
-                  <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span> <span className='cart-price'>
-                    {total}
-                    đ</span>
-                  <Button type="primary" onClick={createOrder}>Mua hàng</Button>
+                  <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span>{" "}
+                  <span className="cart-price">{total}đ</span>
+                  <Button type="primary" onClick={createOrder}>
+                    Mua hàng
+                  </Button>
                 </div>
               </Col>
             </Row>
@@ -345,7 +347,7 @@ function Cart() {
         </Col>
       </Row>
     </div>
-  )
+  );
 }
 
-export default Cart
+export default Cart;
