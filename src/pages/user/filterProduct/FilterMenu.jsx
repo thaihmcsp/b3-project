@@ -4,29 +4,52 @@ import { AiOutlineDown } from "react-icons/ai";
 import "./Menufilter.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo"]
+import { useLocation } from "react-router-dom";
+const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo","Asus"]
 function FilterMenu() {
   let [filterBox ,setFilterBox] = useState([])
-  
+  let [valueCheckbox,setValueCheckbox] = useState([])
   let nav = useNavigate()
-
+ let local = useLocation()
+ let link = new URLSearchParams(local.search)
+ let brand = link.get("brand")
+ let search = link.get("search")
 function changeBox (vbox){
   let check = document.querySelector(`.${vbox}`).value
   let cheKbox = document.querySelector(`.${vbox}`).checked
    let l = ""
-   let del = [...filterBox].findIndex(function(value){
-    return value === vbox
-  })
-  console.log(del);
+   
+  
   if(!cheKbox){
+    //  
+    let arrBrand = brand.split(" ")
+    let del = arrBrand.findIndex(function(value){
+      return value === check
+    })
+    arrBrand.splice(del,1)
+    console.log(arrBrand);
+    if(arrBrand.length === 0){
+      l = `?search=${search}&page=1`
+    }
+    if(arrBrand.length > 0){
 
-  console.log("bo tick");
+      l = `?search=${search}&page=1&brand=${arrBrand.join(" ")}`
+    }
+   
 }
 else{
-   
-  console.log("tick");
+  if(!brand){
+    let z= local.search.split("&")
+    
+    l = z[0]+`&page=1`+`&brand=${check}`
+  }
+  else if(brand){
+    l = local.search+` ${check}`
+  }
+  
 }
 
+nav(l)
 
 
 }

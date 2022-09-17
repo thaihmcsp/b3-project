@@ -31,7 +31,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: init,
     reducers: {
-        userLogin: function(state, action) {
+        userLogin: function (state, action) {
             window.localStorage.setItem('user-shope', JSON.stringify(action.payload.user))
             return action.payload.user;
         },
