@@ -5,7 +5,7 @@ import "antd/dist/antd.css";
 import { Col, Row, Table, Button, Popconfirm } from "antd";
 import { Modal } from "antd";
 import { Form, Input } from "antd";
-import { getAPI, postAPI } from "../../../config/api";
+import { getAPI, patchAPI, postAPI } from "../../../config/api";
 
 function CreateOrder() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -15,6 +15,7 @@ function CreateOrder() {
   const [totalQuality, setTotalQuality] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [delivery, setDelivery] = useState({});
+  const [selected, setSelected] = useState();
 
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
@@ -36,47 +37,47 @@ function CreateOrder() {
     setCount(newSelectedRowKeys.length);
   };
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-    selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-      {
-        key: "odd",
-        text: "Select Odd Row",
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return false;
-            }
+  // const rowSelection = {
+  //   selectedRowKeys,
+  //   onChange: onSelectChange,
+  //   selections: [
+  //     Table.SELECTION_ALL,
+  //     Table.SELECTION_INVERT,
+  //     Table.SELECTION_NONE,
+  //     {
+  //       key: "odd",
+  //       text: "Select Odd Row",
+  //       onSelect: (changableRowKeys) => {
+  //         let newSelectedRowKeys = [];
+  //         newSelectedRowKeys = changableRowKeys.filter((_, index) => {
+  //           if (index % 2 !== 0) {
+  //             return false;
+  //           }
 
-            return true;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-      {
-        key: "even",
-        text: "Select Even Row",
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
+  //           return true;
+  //         });
+  //         setSelectedRowKeys(newSelectedRowKeys);
+  //       },
+  //     },
+  //     {
+  //       key: "even",
+  //       text: "Select Even Row",
+  //       onSelect: (changableRowKeys) => {
+  //         let newSelectedRowKeys = [];
 
-          newSelectedRowKeys = changableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return true;
-            }
+  //         newSelectedRowKeys = changableRowKeys.filter((_, index) => {
+  //           if (index % 2 !== 0) {
+  //             return true;
+  //           }
 
-            return false;
-          });
+  //           return false;
+  //         });
 
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-    ],
-  };
+  //         setSelectedRowKeys(newSelectedRowKeys);
+  //       },
+  //     },
+  //   ],
+  // };
   const defaultColumns = [
     {
       title: "Tên Sản Phẩm",
@@ -102,37 +103,35 @@ function CreateOrder() {
 
   useEffect(() => {
     addToCart();
+    getAddress();
   }, [count]);
 
   async function addToCart() {
     try {
       const cart = await getAPI("/cart/get-loged-in-cart");
-
+      console.log(cart);
       let dataCart = [];
       const newArray = cart.data.cart.listProduct.map(function (value, index) {
-        if (value.productDetailId) {
-          if (value.select === true) {
-            console.log(value.select);
-            dataCart.push({
-              productId: value.productDetailId._id,
-              key: index,
-              Name: <a>{value.productDetailId.productId.productName}</a>,
-              price: value.productDetailId.price,
-              listImg: (
-                <img
-                  src={
-                    value.productDetailId.productId.thumbnail.startsWith("http")
-                      ? value.productDetailId.productId.thumbnail
-                      : "https://shope-b3.thaihm.site/" +
-                        value.productDetailId.productId.thumbnail
-                  }
-                />
-              ),
-              stonge: value.quantity,
-              total: value.quantity * value.productDetailId.price,
-              select: value.select,
-            });
-          }
+        if (value.select === true) {
+          dataCart.push({
+            productId: value.productDetailId._id,
+            key: index,
+            Name: <a>{value.productDetailId.productId.productName}</a>,
+            price: value.productDetailId.price,
+            listImg: (
+              <img
+                src={
+                  value.productDetailId.productId.thumbnail.startsWith("https")
+                    ? value.productDetailId.productId.thumbnail
+                    : "https://shope-b3.thaihm.site/" +
+                      value.productDetailId.productId.thumbnail
+                }
+              />
+            ),
+            stonge: value.quantity,
+            total: value.quantity * value.productDetailId.price,
+            select: selected,
+          });
         }
       });
 
@@ -141,13 +140,30 @@ function CreateOrder() {
       console.log(error);
     }
   }
+  async function getAddress() {
+    try {
+      const name = document.querySelector("name");
+      const phone = document.querySelector("phone");
+      const address = document.querySelector("address");
+      const object = {
+        name: delivery.name,
+        phone: delivery.phone,
+        address: delivery.address,
+      };
+      setDelivery(object);
+      console.log(154, delivery);
+      console.log(object);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   let newTotal = 0;
   let newTotalQualyti = 0;
   dataSource.map((value, index) => {
     newTotal += value.total;
     newTotalQualyti += Number(value.stonge);
   });
-  console.log(newTotalQualyti, 148);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -171,7 +187,6 @@ function CreateOrder() {
     } catch (error) {
       console.log(error);
     }
-    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -359,7 +374,7 @@ function CreateOrder() {
           <Col span={20}>
             <div className="create-order-list">
               <Table
-                rowSelection={rowSelection}
+                // rowSelection={rowSelection}
                 columns={defaultColumns}
                 dataSource={dataSource}
               />
@@ -395,7 +410,9 @@ function CreateOrder() {
             </div>
           </Col>
         </Row>
-        <button className="create-order-button">Đặt hàng</button>
+        <button className="create-order-button" onClick={getAddress}>
+          Đặt hàng
+        </button>
       </div>
     </div>
   );
