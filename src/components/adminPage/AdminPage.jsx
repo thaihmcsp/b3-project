@@ -4,6 +4,8 @@ import AdminMenu from '../adminMenu/AdminMenu'
 import './AdminPage.css'
 
 function AdminPage() {
+  let data = window.localStorage.getItem('user-shope')
+  let newData = JSON.parse(data)
   return (
     <div className='AdminPage'>
       <div className="adminPage-header">
@@ -15,8 +17,8 @@ function AdminPage() {
         </div>
         <div className="adminPage-header-right">
           <div className="header-right-profile">
-            <img src="https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg" alt="" />
-            <p>quyhuu</p>
+            <img src={newData.avatar ? newData.avatar : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
+            <p>{newData.email ? newData.email : "Đang cập nhật"}</p>
           </div>
         </div>
       </div>

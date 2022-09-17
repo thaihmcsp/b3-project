@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import axios from 'axios';
+import { getAPI } from '../../config/api';
 
 
 
@@ -46,7 +47,7 @@ function MenuProfile() {
 
     const getData = async () => {
         try {
-            let res = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', {headers:{ Authorization: token }})
+            let res = await getAPI('auth/get-loged-in-user')
             console.log(50,res.data.user);
             setData(res.data.user)
         } catch (error) {
