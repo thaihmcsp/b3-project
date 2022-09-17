@@ -23,14 +23,18 @@ function Home() {
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
   const [listProduct, setListProduct] = useState([]);
   const [count, setCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(0)
+  console.log(pageCurrent);
 
   const tab1 = document.querySelector(".home_product-heading");
   const tab2 = document.querySelector(".home_product-img");
 
   const search = useLocation();
   let objectSearch = { page: 1, pageSize: 10 };
+  let page = 0
   if (search.search) {
     const querry = search.search.slice(1).split("&");
+    page = querry[0].split("=")[1]
     querry.map((item) => {
       const key = item.split("=")[0];
       const value = item.split("=")[1];
@@ -57,6 +61,7 @@ function Home() {
           setShowPagination(true)
           setShowBtnSeeMore(false)
           setShowHeaderProduct(false)
+          setPageCurrent(page)
         }
       } catch (error) {
         console.log(error);
@@ -310,7 +315,7 @@ function Home() {
           <Pagination
             showSizeChanger={false}
             onChange={onShowSizeChange}
-            defaultCurrent={2}
+            defaultCurrent={pageCurrent <= 1 ? 2 : pageCurrent}
             total={listProduct.length}
             pageSize={objectSearch.pageSize}
             style={{ margin: "20px 0" }}
