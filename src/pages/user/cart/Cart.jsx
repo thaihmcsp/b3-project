@@ -15,8 +15,7 @@ function Cart() {
   const [totalQuality, setTotalQuality] = useState(0);
   const [listProductDetail, setListProductDetail] = useState([]);
   const [reload, setReload] = useState(true);
-  const [reload2, setReload2] = useState(true);
-  const [reload3, setReload3] = useState(true);
+  const [counting, setCounting] = useState(0)
 
 
   const nav = useNavigate()
@@ -26,25 +25,47 @@ function Cart() {
       let arrDataCart = await getAPI('cart/get-loged-in-cart');
       setListProductDetail(arrDataCart.data.cart.listProduct);
       let dataCart = [];
+      let selectList = []
       arrDataCart.data.cart.listProduct.map(
         (value, index) => {
           if (value.productDetailId) {
             dataCart.push(
               {
                 productId: value.productDetailId._id,
-                key: index,
+                key: value.productDetailId._id,
                 Name: <a>{value.productDetailId.productId.productName}</a>,
                 price: value.productDetailId.price,
                 listImg: <img src={`https://shope-b3.thaihm.site/${value.productDetailId.productId.thumbnail}`}></img>,
                 stonge: value.quantity,
                 total: value.quantity * value.productDetailId.price,
-                select: false
+                select: value.select
               }
             )
+          }
+
+          if(value.productDetailId && value.select === true){
+            selectList.push(value.productDetailId._id)
           }
         }
       )
 
+      let newTotal = 0;
+      let newTotalQualyti = 0;
+
+      dataCart.map(
+        (value, index) => {
+          if (value.select == true) {
+            newTotal += value.total;
+            newTotalQualyti += Number(value.stonge)
+            // totalQuality1 += value.stonge
+          }
+
+        }
+      )
+      console.log(65 ,newTotal);
+      setTotal(newTotal)
+      setTotalQuality(newTotalQualyti)
+      setSelectedRowKeys(selectList);
       setDataSource(dataCart);
     }
     catch (error) {
@@ -52,7 +73,9 @@ function Cart() {
     }
 
   }
-// remote product
+
+  console.log(56, selectedRowKeys);
+  // remote product
   async function remoteCartAPI(id) {
     try {
       await patchAPI('/cart/remove-from-cart', { "productDetailId": id })
@@ -62,29 +85,28 @@ function Cart() {
       console.log(error);
     }
   }
-// set quanlity
-  async function setQuanlityAPI(id,quanlity) {
+  // set quanlity
+  async function setQuanlityAPI(id, quanlity) {
     try {
-      if(quanlity<=1){
-        quanlity=1
+      if (quanlity <= 1) {
+        quanlity = 1
       }
-      await patchAPI('/cart/update-cart-quantity', { "productDetailId": id ,"quantity": quanlity})
-      setReload2(!reload2);
+      await patchAPI('/cart/update-cart-quantity', { "productDetailId": id, "quantity": quanlity })
     }
     catch (error) {
       console.log(error);
     }
   }
-//
-async function selectAPI(id,check){
-  try {
-    await patchAPI('/cart/update-cart-select',{"productDetailId": id,"select": check})
-    setReload3(!reload3);
+  //
+  async function selectAPI(id, check) {
+    try {
+      let data = await patchAPI('/cart/update-cart-select', { "productDetailId": id, "select": check });
+      console.log(81, data);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
-  catch (error){
-    console.log(error);
-  }
-}
   // data Cart
   const [dataSource, setDataSource] = useState([]);
   // Table
@@ -92,7 +114,7 @@ async function selectAPI(id,check){
   const handleDelete = (id) => {
     const newData = dataSource.filter((item) => item.productId !== id);
     remoteCartAPI(id);
-   
+
   };
 
   function createOrder() {
@@ -100,22 +122,43 @@ async function selectAPI(id,check){
   }
 
 
-  const onSelectChange = (newSelectedRowKeys) => {
+  const onSelectChange = async (newSelectedRowKeys) => {
     console.log(103, 'selectedRowKeys changed: ', newSelectedRowKeys, selectedRowKeys);
-    let newDataSource = [...dataSource];
-    newDataSource.map((value) => {
-      value.select = false;
-    })
-    for (let i = 0; i < newSelectedRowKeys.length; i++) {
-      newDataSource[newSelectedRowKeys[i] - 1].select = true
+
+    let isAdd = false;
+    let id;
+    if(newSelectedRowKeys.length > selectedRowKeys.length){
+      isAdd = true;
+      id = newSelectedRowKeys[newSelectedRowKeys.length - 1];
+    }else{
+      id = selectedRowKeys.find((item) => {
+        return !newSelectedRowKeys.includes(item);
+      });
     }
-     newDataSource.map(
-      (val,index)=>{
-        selectAPI(val.productId,val.select)
-      }
-     )
-     console.log(110 , newDataSource);
-    setDataSource(newDataSource)
+    // let selectItem = dataSource.find((value) => {
+    //   console.log(value);
+    //   return value.productId === newSelectedRowKeys[0]
+    // })
+    
+    // let current = selectItem.select;
+    // // let id = selectItem.productId;
+    
+    let newDataSource = [...dataSource];
+    // console.log(113, index, isCheck, newDataSource[index].productId);
+    await selectAPI(id, isAdd);
+
+    // newDataSource.map((value) => {
+    //   value.select = false;
+    // })
+  
+    // newDataSource.map(
+    //   (val, index) => { return 
+    //     // setCounting(counting + 1)
+
+    //   }
+    // )
+    // console.log(110, newDataSource);
+    // setDataSource(newDataSource)
     setSelectedRowKeys(newSelectedRowKeys);
     setCount(newSelectedRowKeys.length);
   };
@@ -179,18 +222,20 @@ async function selectAPI(id,check){
     {
       title: 'Số lượng',
       dataIndex: 'stonge',
-      render: (text,record) => {
+      render: (text, record) => {
         return (
           <div className='cart-quanlity'>
             <Button type="primary" onClick={
-              ()=>{
-                setQuanlityAPI(record.productId ,--text)
+              async () => {
+                await setQuanlityAPI(record.productId, --text)
+                setCounting(counting - 1)
               }
             }>-</Button>
-              <input placeholder="" value={text} />
+            <input placeholder="" value={text} />
             <Button type="primary" onClick={
-              ()=>{
-                setQuanlityAPI(record.productId,++text)
+              async () => {
+                await setQuanlityAPI(record.productId, ++text);
+                setCounting(counting + 1)
               }
             }>+</Button>
           </div>
@@ -236,25 +281,12 @@ async function selectAPI(id,check){
   // table antd
   useEffect(
     () => {
-      let newTotal = 0;
-      let newTotalQualyti = 0;
-
-      dataSource.map(
-        (value, index) => {
-          if (value.select == true) {
-            newTotal += value.total;
-            newTotalQualyti += Number(value.stonge)
-            // totalQuality1 += value.stonge
-          }
-
-        }
-      )
-      setTotal(newTotal)
-      setTotalQuality(newTotalQualyti)
+      
       setQuanlityAPI()
       getAPIcart()
-    }, [count, reload ,reload2,reload3]
+    }, [count, reload, counting]
   );
+  console.log(216, dataSource);
   return (
     <div className='cart-container'>
       <Row justify='center'>
