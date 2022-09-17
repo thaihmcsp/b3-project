@@ -3,47 +3,54 @@ import { FiFilter } from "react-icons/fi";
 import { AiOutlineDown } from "react-icons/ai";
 import "./Menufilter.css"
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo"]
+const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo","Asus"]
 function FilterMenu() {
   let [filterBox ,setFilterBox] = useState([])
   let [valueCheckbox,setValueCheckbox] = useState([])
   let nav = useNavigate()
-  let location = useLocation()
-  console.log(location.search);
-  let brand = new URLSearchParams(location.search)
-  
+ let local = useLocation()
+ let link = new URLSearchParams(local.search)
+ let brand = link.get("brand")
+ let search = link.get("search")
 function changeBox (vbox){
   let check = document.querySelector(`.${vbox}`).value
   let cheKbox = document.querySelector(`.${vbox}`).checked
    let l = ""
-   let linkCheck = ""
-   let  brandSearch = brand.get("brand")
+   
   
-   if(!cheKbox){
-    setValueCheckbox([...valueCheckbox])
-     let del = brandSearch.split(" ").findIndex((value)=>{return value === check})
-     let cut = brandSearch.split(" ").splice(del,1)
-     console.log(brandSearch.split(" ").splice(del,1));
-     console.log(valueCheckbox);
-     console.log(brandSearch.split(" "));
-     linkCheck=location.search
-     //  console.log(brandSearch.split(" "));
+  if(!cheKbox){
+    //  
+    let arrBrand = brand.split(" ")
+    let del = arrBrand.findIndex(function(value){
+      return value === check
+    })
+    arrBrand.splice(del,1)
+    console.log(arrBrand);
+    if(arrBrand.length === 0){
+      l = `?search=${search}&page=1`
     }
-    else{
-      setValueCheckbox([...valueCheckbox,check])
-      l = [...valueCheckbox,check].join(" ")
-      if(!brandSearch){
-        linkCheck =location.search +`&brand=${l}`
-      }
-      else if (brandSearch){
-        linkCheck = location.search+` ${check}`
-      }
-      
+    if(arrBrand.length > 0){
+
+      l = `?search=${search}&page=1&brand=${arrBrand.join(" ")}`
     }
+   
+}
+else{
+  if(!brand){
+    let z= local.search.split("&")
     
-nav(linkCheck)
+    l = z[0]+`&page=1`+`&brand=${check}`
+  }
+  else if(brand){
+    l = local.search+` ${check}`
+  }
+  
+}
+
+nav(l)
+
 
 }
   return (

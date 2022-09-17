@@ -163,8 +163,7 @@
   margin-right: 8px;
 }
 
-.admin-category-item-handle-update,
-.admin-category-item-handle-delete {
+.admin-category-item-handle-update {
   padding: 8px 16px;
   border: none;
   outline: none;
@@ -180,8 +179,7 @@
   color: black;
 }
 
-#admin_category-modal-name, 
-#admin_category-modal-img {
+#admin_category-modal-name {
   width: 100%;
   padding: 4px 8px;
   margin-bottom: 8px;
