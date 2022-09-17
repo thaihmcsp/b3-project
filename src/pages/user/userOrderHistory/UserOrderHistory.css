@@ -324,3 +324,26 @@
     line-height: 1.4;
     color: rgba(0, 0, 0, 0.8);
 }
+
+.ant-steps {
+    padding: 40px 0;
+}
+
+/* .order-history .ant-skeleton-paragraph li, */
+.order-history .ant-skeleton-title,
+.order-history .ant-skeleton-paragraph li:nth-child(1),
+.order-history .ant-skeleton-paragraph li:nth-child(2) {
+    border-radius: 10px
+}
+
+.order-history .ant-skeleton-title {
+    height: 50px !important;
+}
+
+.order-history .ant-skeleton-paragraph li:nth-child(1) {
+    height: 80px !important;
+}
+
+.order-history .ant-skeleton-paragraph li:nth-child(2) {
+    height: 60px !important;
+}

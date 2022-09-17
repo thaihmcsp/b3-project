@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "antd";
 import "./Home.css";
-import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getAPI } from "../../../config/api";
@@ -41,10 +41,6 @@ function Home() {
       return objectSearch;
     });
   }
-
-  const filterPage = () => {
-    nav("/filter?page=1&pageSize=10");
-  };
 
   useEffect(() => {
     async function getData() {
@@ -155,7 +151,7 @@ function Home() {
           </div>
         </div>
         <div className="home_navbar">
-          <div className="home_navbar-item" onClick={filterPage}>
+          <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
                 src="	https://cf.shopee.vn/file/46a2a2c810622f314d78455da5e5d926_xhdpi"
