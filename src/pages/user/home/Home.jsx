@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "antd";
 import "./Home.css";
-import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getAPI } from "../../../config/api";
@@ -23,14 +23,17 @@ function Home() {
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
   const [listProduct, setListProduct] = useState([]);
   const [count, setCount] = useState(0);
+  const [pageCurrent, setPageCurrent] = useState(0)
 
   const tab1 = document.querySelector(".home_product-heading");
   const tab2 = document.querySelector(".home_product-img");
 
   const search = useLocation();
   let objectSearch = { page: 1, pageSize: 10 };
+  let page = 0
   if (search.search) {
     const querry = search.search.slice(1).split("&");
+    page = querry[0].split("=")[1]
     querry.map((item) => {
       const key = item.split("=")[0];
       const value = item.split("=")[1];
@@ -39,9 +42,6 @@ function Home() {
     });
   }
 
-  const filterPage = () => {
-    nav("/filter?page=1&pageSize=10");
-  };
   useEffect(() => {
     async function getData() {
       try {
@@ -57,6 +57,7 @@ function Home() {
           setShowPagination(true)
           setShowBtnSeeMore(false)
           setShowHeaderProduct(false)
+          setPageCurrent(page)
         }
       } catch (error) {
         console.log(error);
@@ -150,7 +151,7 @@ function Home() {
           </div>
         </div>
         <div className="home_navbar">
-          <div className="home_navbar-item" onClick={filterPage}>
+          <div className="home_navbar-item">
             <div className="home_navbar-item-img">
               <img
                 src="	https://cf.shopee.vn/file/46a2a2c810622f314d78455da5e5d926_xhdpi"
@@ -310,7 +311,7 @@ function Home() {
           <Pagination
             showSizeChanger={false}
             onChange={onShowSizeChange}
-            defaultCurrent={2}
+            defaultCurrent={pageCurrent <= 1 ? 2 : pageCurrent}
             total={listProduct.length}
             pageSize={objectSearch.pageSize}
             style={{ margin: "20px 0" }}
