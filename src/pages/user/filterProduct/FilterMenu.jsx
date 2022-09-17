@@ -5,7 +5,7 @@ import "./Menufilter.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo"]
+const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo","Asus"]
 function FilterMenu() {
   let [filterBox ,setFilterBox] = useState([])
   let [valueCheckbox,setValueCheckbox] = useState([])
@@ -28,21 +28,27 @@ function changeBox (vbox){
     })
     arrBrand.splice(del,1)
     console.log(arrBrand);
-    if(!arrBrand){
-      console.log("zxcs");
+    if(arrBrand.length === 0){
+      l = `?search=${search}&page=1`
     }
-    l = `?search=${search}&brand=${arrBrand.join(" ")}&page=1`
+    if(arrBrand.length > 0){
+
+      l = `?search=${search}&page=1&brand=${arrBrand.join(" ")}`
+    }
+   
 }
 else{
   if(!brand){
-
-    l = local.search + `&brand=${check}`
+    let z= local.search.split("&")
+    
+    l = z[0]+`&page=1`+`&brand=${check}`
   }
   else if(brand){
     l = local.search+` ${check}`
   }
-  console.log("tick");
+  
 }
+
 nav(l)
 
 

@@ -3,45 +3,135 @@ import { VscQuestion } from "react-icons/vsc";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImDropbox } from "react-icons/im";
 import { IoIosMenu } from "react-icons/io";
-import { Modal } from 'antd';
+import { Modal } from "antd";
 import "./Category.css";
-import { getAPI, postAPI } from "../../../config/api";
+import { getAPI, patchAPI, postAPI } from "../../../config/api";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { message, Upload } from "antd";
+
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+
+  return isJpgOrPng && isLt2M;
+};
 
 function Category() {
   let [num, setNum] = useState(0);
   const [active, setActive] = useState(1);
   const [items, setItems] = useState([]); //[]
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(16, isModalOpen);
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false)
+  const [nameCategory, setNameCategory] = useState("");
+  const [nameUpdateCategory, setNameUpdateCategory] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+  const [dataUpload, setDataUpload] = useState(new FormData())
+  const [dataUpdateUpload, setDataUpdateUpload] = useState(new FormData())
+  const [idUpdate, setIdUpdate] = useState("")
 
   useEffect(() => {
     const getData = async () => {
       try {
-        let data = await getAPI("/category/get-all-categories")
+        let data = await getAPI("/category/get-all-categories");
         setItems(data.data.categories);
       } catch (error) {
         console.log(error);
       }
-    }
-    getData()
+    };
+    getData();
   }, [num]);
 
   const headerClick = (index) => {
     setActive(index);
-  }; 
+  };
 
   const showModal = () => {
+    setNameCategory("")
+    setDataUpload(new FormData())
     setIsModalOpen(true);
   };
 
-  const handleOk = (e) => {
-    // postAPI("/category/create-category", {categoryName: })
-    setIsModalOpen(false);
+  const handleOk = async (e) => {
+    if (nameCategory) {
+      dataUpload.append("categoryName", nameCategory)
+      await postAPI("/category/create-category", dataUpload)
+      setNum((pre) => pre + 1);
+      setIsModalOpen(false);
+    }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const handleChange = (info) => {
+    const formData = new FormData()
+    formData.append("thumb", info.file.originFileObj)
+    setDataUpload(formData)
+    getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+    });
+  };
+
+  const showModalUpdate = (id) => {
+    setNameUpdateCategory("")
+    setDataUpdateUpload(new FormData())
+    setIdUpdate(id)
+    setIsModalUpdateOpen(true)
+  }
+
+  const handleUpdateOk = async () => {
+    if (nameUpdateCategory) {
+      dataUpdateUpload.append("categoryName", nameUpdateCategory)
+      await patchAPI("/category/update-category/" + idUpdate, dataUpdateUpload)
+      setNum((pre) => pre + 1);
+      setIsModalUpdateOpen(false);
+    }
+  }
+
+  const handleCancelUpdate = () => {
+    setIsModalUpdateOpen(false);
+  }
+
+  const handleChangeUpdate = (info) => {
+    const formData = new FormData()
+    formData.append("thumb", info.file.originFileObj)
+    setDataUpdateUpload(formData)
+    getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+    });
+  }
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
 
   return (
     <div className="admin-category-container">
@@ -136,7 +226,10 @@ function Category() {
             return (
               <div className="admin-category-body-item" key={item._id}>
                 <div className="admin-category-item-img">
-                  <img src={"https://shope-b3.thaihm.site/" + item.thumbnail} alt="" />
+                  <img
+                    src={"https://shope-b3.thaihm.site/" + item.thumbnail}
+                    alt=""
+                  />
                 </div>
 
                 <div className="admin-category-item-name">
@@ -148,8 +241,9 @@ function Category() {
                 </div>
 
                 <div className="admin-category-item-handle">
-                  <button className="admin-category-item-handle-update">Sửa</button>
-                  <button className="admin-category-item-handle-delete">Xóa</button>
+                  <button className="admin-category-item-handle-update" onClick={() => showModalUpdate(item._id)}>
+                    Sửa
+                  </button>
                 </div>
               </div>
             );
@@ -159,12 +253,78 @@ function Category() {
       </div>
       {/* BODY DONE */}
 
-      {/* MODAL */}
-      <Modal title="Thêm phân loại" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <input type="text" id="admin_category-modal-name" placeholder="Tên biến thể" />
-        <input type="text" id="admin_category-modal-img" placeholder="Ảnh biến thể" />
+      {/* MODAL ADD */}
+      <Modal
+        title="Thêm phân loại"
+        visible={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <input
+          type="text"
+          id="admin_category-modal-name"
+          value={nameCategory}
+          placeholder="Tên phân loại"
+          onChange={(e) => setNameCategory(e.target.value)}
+        />
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+          onChange={handleChange}
+        >
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="avatar"
+              style={{
+                width: "100%",
+              }}
+            />
+          ) : (
+            uploadButton
+          )}
+        </Upload>
       </Modal>
-      {/* MODAL DONE */}
+      {/* MODAL ADD DONE */}
+      {/* MODAL UPDATE */}
+      <Modal
+        title="Sửa phân loại"
+        visible={isModalUpdateOpen}
+        onOk={handleUpdateOk}
+        onCancel={handleCancelUpdate}
+      >
+        <input
+          type="text"
+          id="admin_category-modal-name"
+          value={nameUpdateCategory}
+          placeholder="Tên phân loại"
+          onChange={(e) => setNameUpdateCategory(e.target.value)}
+        />
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+          onChange={handleChangeUpdate}
+        >
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="avatar"
+              style={{
+                width: "100%",
+              }}
+            />
+          ) : (
+            uploadButton
+          )}
+        </Upload>
+      </Modal>
+      {/* MODAL UPDATE DONE */}
     </div>
   );
 }

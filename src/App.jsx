@@ -62,7 +62,7 @@ function App() {
 
           {/* trang hiển thị chi tiết đơn hàng cho admin theo dõi */}
           <Route
-            path="/admin/order//admin/order/:orderId"
+            path="/admin/order/:orderId"
             element={
               <AdminOrderDetail
                 order={order}
