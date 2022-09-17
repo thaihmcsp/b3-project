@@ -15,6 +15,10 @@ function Cart() {
   const [totalQuality, setTotalQuality] = useState(0);
   const [listProductDetail, setListProductDetail] = useState([]);
   const [reload, setReload] = useState(true);
+  const [reload2, setReload2] = useState(true);
+  const [reload3, setReload3] = useState(true);
+
+
   const nav = useNavigate()
   // get API
   async function getAPIcart() {
@@ -65,7 +69,7 @@ function Cart() {
         quanlity=1
       }
       await patchAPI('/cart/update-cart-quantity', { "productDetailId": id ,"quantity": quanlity})
-      setReload(!reload);
+      setReload2(!reload2);
     }
     catch (error) {
       console.log(error);
@@ -75,7 +79,7 @@ function Cart() {
 async function selectAPI(id,check){
   try {
     await patchAPI('/cart/update-cart-select',{"productDetailId": id,"select": check})
-    setReload(!reload);
+    setReload3(!reload3);
   }
   catch (error){
     console.log(error);
@@ -249,7 +253,7 @@ async function selectAPI(id,check){
       setTotalQuality(newTotalQualyti)
       setQuanlityAPI()
       getAPIcart()
-    }, [count, reload]
+    }, [count, reload ,reload2,reload3]
   );
   return (
     <div className='cart-container'>
