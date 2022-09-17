@@ -44,7 +44,7 @@ function ListProduct() {
                           for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
                               if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() ){
                                 push.push(value) 
-                                console.log(push,47);
+                                
                                 setDataClone(push.slice((12*(page-1)),(12*page)));
                                 setDataFake(push)
                               }
