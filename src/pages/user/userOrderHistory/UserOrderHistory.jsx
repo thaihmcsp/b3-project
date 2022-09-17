@@ -47,12 +47,12 @@ function UserOrderHistory() {
   const objType = {}
 
   let count = 0;
-  let noOrder = <Fragment>
+  let noOrder =
     <div class="no-product">
       <div class="no-product__content "></div>
       <div class="no-product__text">Chưa có đơn hàng</div>
     </div>
-  </Fragment>
+
 
   if (search.search) {
     let query = search.search.slice(1).split('=');
@@ -101,8 +101,6 @@ function UserOrderHistory() {
     setCurrent(e.key);
   };
 
-
-
   return (
     <div className='order-history'>
       <div className="order-history--item">
@@ -117,11 +115,10 @@ function UserOrderHistory() {
       <div>
 
         {
-          !loading ? listOrder.map((orderItem) => {
+          !loading ? (!listOrder ? (listOrder.map((orderItem) => {
             let status;
             let btn;
             let text;
-
             if (!objType.type) {
               let status;
               let btn;
@@ -214,7 +211,8 @@ function UserOrderHistory() {
                 }
               }
             }
-          }) : <Skeleton active={true} title={{ width: '80%' }} paragraph={{ rows: 2, width: '100%' }}></Skeleton>
+          })) : noOrder)
+            : <Skeleton active={true} title={{ width: '80%' }} paragraph={{ rows: 2, width: '100%' }}></Skeleton>
 
         }
       </div>
