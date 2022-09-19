@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "antd";
 import "./Home.css";
-import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getAPI } from "../../../config/api";
