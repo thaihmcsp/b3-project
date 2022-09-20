@@ -8,14 +8,21 @@ import { useEffect } from "react"
 import  {Provider ,useDispatch  } from "react-redux"
 import {userLogin} from "../../redux/reducers/userReducer"
 import {useSelector} from "react-redux"
+import {getAPI} from "../../config/api"
+
 function Header() {
   const nav = useNavigate()
   const dispatch = useDispatch();
- 
-  
+  const [count,setCount]= useState(0)
+  const[info,setInfo] = useState({})
   const [uName, setUName] = useState("")
   let [checkAdmin, setCheckAdmin] = useState("")
- 
+  let data = useSelector( function(state){
+    return state
+  })
+
+console.log(data,24);
+  const[cloneData,setCloneData]=useState(data)
   function Login() {
     nav("/signin")
   }
@@ -32,27 +39,32 @@ function Header() {
    localStorage.removeItem("user-shope")
     
     var cookies = document.cookie.split(";");
-    console.log( cookies);
+    
     for (var i = 0; i < cookies.length; i++) {
       var cookie = cookies[i];
       var eqPos = cookie.indexOf("=");
       var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-      console.log(eqPos);
+     
       console.log(cookie.substr(0, eqPos));
   }
   }
-//   function LogOut(req, res){
-    
-//     req.session.destroy(function(){
-//         req.session = null;
- 
-//         res.clearCookie('shope-b3', { path: '/' });
-        
- 
-//     });
-//     console.log(req,res);
-// }
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   function Buy() {
     nav("")
   }
@@ -89,35 +101,56 @@ function Header() {
     nav("/user/order")
   }
   
-  let data = useSelector( function(state){
-    return state
-   })
+  
+ 
+   async function CheckUser (){
+     try {
+        let tokenLocal = getCookie("shope-b3")
+        let check = await instance.get("auth/get-loged-in-user",{headers:{Authorization:tokenLocal}});
+        console.log(109, check);
    
+      } catch (error) {
+        console.log(116, error);
+        // console.log(data.user);
+        // setCount(count+1)
+        let action = userLogin({});
+        dispatch(action);
+          data.user = {}
+          setCloneData(data.user)
+        // alert("tai khoan dang nhap noi khac ")
+
+      }
+    }
    function nameUser() {
-
-    if (data.user.email) {
-
+      let dataUs = JSON.parse(window.localStorage.getItem("user-shope"));
+      console.log(126, dataUs);
+    console.log(Object.keys(dataUs).length);
+    
+    if (Object.keys(dataUs).length !== 0) {
+        console.log(130);
         let classNone = document.querySelector(".header-top-right-id")
         classNone.setAttribute("id", "display")
-        let name = data.user.email.split("@")
-       
+        let name = dataUs.email.split("@")
+      
         setUName(name[0])
-        setCheckAdmin(data.user.role)
+        setCheckAdmin(dataUs.role)
       } 
-
-    if (!data.user.email) {
-     
-        let ab = document.querySelector(".header-top-right-user")
-        ab.setAttribute("id", "display")
-        
-      } 
+  else if(Object.keys(dataUs).length === 0){
+    console.log(140);
+      let ab = document.querySelector(".header-top-right-user")
+      ab.setAttribute("id", "display")
+      let classNone = document.querySelector(".header-top-right-id")
+      classNone.setAttribute("id", "") 
+      setUName('')
     }
-
+    }
+    // CheckUser ()
+    
   useEffect(() => {
 
+    CheckUser ()
     nameUser()
-
-  }, [])
+  }, [uName])
 
 
 
