@@ -1,23 +1,11 @@
-import React from "react";
-import "antd/dist/antd.css";
-import tableCart from "../../../static/Truong/cart.json";
-import tableProductDetail from "../../../static/Truong/productDetail.json";
-import tableProduct from "../../../static/Truong/product.json";
-import { useState, useEffect } from "react";
-import "./cart.css";
-import {
-  Col,
-  Row,
-  Radio,
-  Table,
-  Divider,
-  Button,
-  Popconfirm,
-  Select,
-} from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { getAPI, patchAPI } from "../../../config/api";
+import React from 'react'
+import 'antd/dist/antd.css';
+import { useState, useEffect } from 'react';
+import './cart.css'
+import { Col, Row, Table, Button, Popconfirm, Select } from 'antd'
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { getAPI, patchAPI } from '../../../config/api';
 
 // // antd table
 function Cart() {
@@ -27,41 +15,64 @@ function Cart() {
   const [totalQuality, setTotalQuality] = useState(0);
   const [listProductDetail, setListProductDetail] = useState([]);
   const [reload, setReload] = useState(true);
-  const nav = useNavigate();
+  const [counting, setCounting] = useState(0)
+
+
+  const nav = useNavigate()
   // get API
   async function getAPIcart() {
     try {
       let arrDataCart = await getAPI("cart/get-loged-in-cart");
       setListProductDetail(arrDataCart.data.cart.listProduct);
       let dataCart = [];
-      arrDataCart.data.cart.listProduct.map((value, index) => {
-        if (value.productDetailId) {
-          dataCart.push({
-            productId: value.productDetailId._id,
-            key: index,
-            Name: <a>{value.productDetailId.productId.productName}</a>,
-            price: value.productDetailId.price,
-            listImg: (
-              <img
-                src={`https://shope-b3.thaihm.site/${value.productDetailId.productId.thumbnail}`}
-              ></img>
-            ),
-            stonge: value.quantity,
-            total: value.quantity * value.productDetailId.price,
-            select: false,
-          });
-        }
-      });
+      let selectList = []
+      arrDataCart.data.cart.listProduct.map(
+        (value, index) => {
+          if (value.productDetailId) {
+            dataCart.push(
+              {
+                productId: value.productDetailId._id,
+                key: value.productDetailId._id,
+                Name: <a>{value.productDetailId.productId.productName}</a>,
+                price: value.productDetailId.price,
+                listImg: <img src={`https://shope-b3.thaihm.site/${value.productDetailId.productId.thumbnail}`}></img>,
+                stonge: value.quantity,
+                total: value.quantity * value.productDetailId.price,
+                select: value.select
+              }
+            )
+          }
 
+          if (value.productDetailId && value.select === true) {
+            selectList.push(value.productDetailId._id)
+          }
+        }
+      )
+
+      let newTotal = 0;
+      let newTotalQualyti = 0;
+
+      dataCart.map(
+        (value, index) => {
+          if (value.select == true) {
+            newTotal += value.total;
+            newTotalQualyti += Number(value.stonge)
+          }
+
+        }
+      )
+      setTotal(newTotal)
+      setTotalQuality(newTotalQualyti)
+      setSelectedRowKeys(selectList);
       setDataSource(dataCart);
     } catch (error) {
       console.log(error);
     }
   }
 
+  // console.log(56, selectedRowKeys);
   // remote product
-  async function remoteCart(id) {
-    console.log(55, id);
+  async function remoteCartAPI(id) {
     try {
       await patchAPI("/cart/remove-from-cart", { productDetailId: id });
       setReload(!reload);
@@ -70,18 +81,27 @@ function Cart() {
     }
   }
   // set quanlity
-  async function setQuanlity(id, quanlity) {
+  async function setQuanlityAPI(id, quanlity) {
     try {
-      await patchAPI("/cart/update-cart-quantity", {
-        productDetailId: id,
-        quantity: quanlity,
-      });
-      setReload(!reload);
-    } catch (error) {
+      if (quanlity <= 1) {
+        quanlity = 1
+      }
+      await patchAPI('/cart/update-cart-quantity', { "productDetailId": id, "quantity": quanlity })
+    }
+    catch (error) {
       console.log(error);
     }
   }
-
+  //
+  async function selectAPI(id, check) {
+    try {
+      let data = await patchAPI('/cart/update-cart-select', { "productDetailId": id, "select": check });
+      console.log(81, data);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
   // data Cart
 
   const [dataSource, setDataSource] = useState([]);
@@ -89,29 +109,47 @@ function Cart() {
 
   const handleDelete = (id) => {
     const newData = dataSource.filter((item) => item.productId !== id);
-    remoteCart(id);
+    remoteCartAPI(id);
+
   };
 
   function createOrder() {
     nav("/create-order");
   }
 
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log(
-      60,
-      "selectedRowKeys changed: ",
-      newSelectedRowKeys,
-      selectedRowKeys
-    );
-    let newDataSource = [...dataSource];
-    newDataSource.map((value) => {
-      value.select = false;
-    });
-    for (let i = 0; i < newSelectedRowKeys.length; i++) {
-      console.log();
-      newDataSource[newSelectedRowKeys[i] - 1].select = true;
+function onSelectAll1(selected, selectedRows, changeRows){
+  console.log(122 ,selected ,'selectrows', selectedRows ,'change' , changeRows);
+  if(selected == true){
+    selectedRows.map(
+      (value)=>{
+        selectAPI(value.productId ,true)
+      }
+    )
+  }else {
+    console.log(129, selected, selectedRows , changeRows); 
+    changeRows.map(
+      (value)=>{
+        selectAPI(value.productId ,false)
+      }
+    )
+  }
+}
+  const onSelectChange = async (newSelectedRowKeys) => {
+    console.log(103, 'selectedRowKeys changed: ', newSelectedRowKeys, selectedRowKeys);
+
+    let isAdd = false;
+    let id;
+    if (newSelectedRowKeys.length > selectedRowKeys.length) {
+      isAdd = true;
+      id = newSelectedRowKeys[newSelectedRowKeys.length - 1];
+    } else {
+      id = selectedRowKeys.find((item) => {
+        return !newSelectedRowKeys.includes(item);
+      });
     }
-    setDataSource(newDataSource);
+
+    let newDataSource = [...dataSource];
+    await selectAPI(id, isAdd);
     setSelectedRowKeys(newSelectedRowKeys);
     setCount(newSelectedRowKeys.length);
   };
@@ -119,6 +157,7 @@ function Cart() {
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
+    onSelectAll:onSelectAll1,
     selections: [
       Table.SELECTION_ALL,
       Table.SELECTION_INVERT,
@@ -151,7 +190,7 @@ function Cart() {
 
             return false;
           });
-          // console.log(152,newSelectedRowKeys);
+
           setSelectedRowKeys(newSelectedRowKeys);
         },
       },
@@ -171,28 +210,24 @@ function Cart() {
       dataIndex: "price",
     },
     {
-      title: "Số lượng",
-      dataIndex: "stonge",
+      title: 'Số lượng',
+      dataIndex: 'stonge',
       render: (text, record) => {
         return (
-          <div className="cart-quanlity">
-            <Button
-              type="primary"
-              onClick={() => {
-                setQuanlity(record.productId, --text);
-              }}
-            >
-              -
-            </Button>
+          <div className='cart-quanlity'>
+            <Button type="primary" onClick={
+              async () => {
+                await setQuanlityAPI(record.productId, --text)
+                setCounting(counting - 1)
+              }
+            }>-</Button>
             <input placeholder="" value={text} />
-            <Button
-              type="primary"
-              onClick={() => {
-                setQuanlity(record.productId, ++text);
-              }}
-            >
-              +
-            </Button>
+            <Button type="primary" onClick={
+              async () => {
+                await setQuanlityAPI(record.productId, ++text);
+                setCounting(counting + 1)
+              }
+            }>+</Button>
           </div>
         );
       },
@@ -235,23 +270,14 @@ function Cart() {
   };
 
   // table antd
-  useEffect(() => {
-    let newTotal = 0;
-    let newTotalQualyti = 0;
+  useEffect(
+    () => {
 
-    dataSource.map((value, index) => {
-      if (value.select == true) {
-        newTotal += value.total;
-        newTotalQualyti += Number(value.stonge);
-        // totalQuality1 += value.stonge
-      }
-    });
-    setTotal(newTotal);
-    setTotalQuality(newTotalQualyti);
-    setQuanlity();
-    getAPIcart();
-  }, [count, reload]);
-
+      setQuanlityAPI()
+      getAPIcart()
+    }, [count, reload, counting]
+  );
+  // console.log(216, dataSource);
   return (
     <div className="cart-container">
       <Row justify="center">

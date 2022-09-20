@@ -49,14 +49,15 @@ function SignIn() {
       let res = await postAPI("/auth/sign-in", values);
       setCookie("shope-b3", res.data.token, 30);
       const resp = await getAPI("/auth/get-loged-in-user");
-      const action = userLogin(resp.data);
+      console.log(resp.data);
+      const action = userLogin(resp.data.user);
       dispatch(action);
       nav("/");
+      
     } catch (error) {
       console.log(error);
       alert(error.response.data.message);
     }
-    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {

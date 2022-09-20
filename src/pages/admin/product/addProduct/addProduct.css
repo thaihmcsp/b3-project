@@ -50,12 +50,14 @@
   text-decoration: underline;
 }
 
-.chose-addProduct {
-  display: flex;
-}
-.chose-addProduct p {
-  color: rgb(172, 172, 172);
-}
+  .chose-addProduct {
+    display: flex;
+  }
+  .chose-addProduct p {
+    color: #ee4d2d;
+    font-size: 15px;
+    font-weight: 700;
+  }
 
 .ant-input-search-order button {
   display: block;
@@ -84,11 +86,13 @@
   right: 200px;
 }
 
-/* .ant-input-affix-wrapper{
-  width: 800px;
-} */
+  .input-addProductName {
+    width: 800px;
 
-.input-addProductName {
-  width: 800px;
-} 
+  } 
+
+  .inp-addBranch .ant-col-8 {
+    flex: 0 0 10%;
+    max-width: 10%;
+  }
 

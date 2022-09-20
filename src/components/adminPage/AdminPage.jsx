@@ -6,6 +6,10 @@ import './AdminPage.css'
 function AdminPage() {
   let data = window.localStorage.getItem('user-shope')
   let newData = JSON.parse(data)
+  const domain = 'https://shope-b3.thaihm.site/'
+  if(!newData.avatar.startsWith('https')) {
+    newData.avatar = domain + newData.avatar
+  }
   return (
     <div className='AdminPage'>
       <div className="adminPage-header">
