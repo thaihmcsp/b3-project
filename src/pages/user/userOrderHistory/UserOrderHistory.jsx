@@ -54,7 +54,6 @@ function UserOrderHistory() {
       <div class="no-product__text">Chưa có đơn hàng</div>
     </div>
 
-
   if (search.search) {
     let query = search.search.slice(1).split('=');
     objType[query[0]] = query[1];
@@ -72,7 +71,8 @@ function UserOrderHistory() {
 
   const getOrderInfor = async () => {
     try {
-      let res = await getAPI('/order/get-order-by-userId/user/' + user)
+      let res = await getAPI('/order/get-order-by-userId/user/' + user);
+      console.log(76, res);
       setListOrder(res.data.order);
     } catch (error) {
       console.log(error);
@@ -117,7 +117,7 @@ function UserOrderHistory() {
 
         {
           !loading ?
-            (listOrder ? (listOrder.map((orderItem) => {
+            (listOrder.length ? (listOrder.map((orderItem) => {
               let status;
               let btn;
               let text;
