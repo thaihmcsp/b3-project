@@ -50,6 +50,7 @@ function UserOrderHistory() {
   let noOrder =
     <div class="no-product">
       <div class="no-product__content "></div>
+      {console.log('fffff')}
       <div class="no-product__text">Chưa có đơn hàng</div>
     </div>
 
@@ -115,109 +116,109 @@ function UserOrderHistory() {
       <div>
 
         {
-          !loading ? (!listOrder ? (listOrder.map((orderItem) => {
-            let status;
-            let btn;
-            let text;
-            if (!objType.type) {
+          !loading ?
+            (listOrder ? (listOrder.map((orderItem) => {
               let status;
               let btn;
               let text;
-              if (orderItem.status === 'pending') {
-                status = 'Đang chờ xác nhận';
-                btn = <Fragment ><button className='btn-took-product' onClick={() => { cancelOrder(orderItem._id) }}>Hủy đơn hàng</button> <button className='btn-secondary'>Liên hệ người bán</button></Fragment>
-                text = <span>Đơn hàng của bạn sẽ được shop xác nhận nhanh chóng. Vui lòng đợi nha !</span>
-              } else if (orderItem.status === 'done') {
-                status = 'Đã giao hàng thành công';
-                btn = <Fragment><button className='btn-took-product'>Đánh giá</button>
-                  <button className='btn-secondary'>Yêu cầu trả hàng/hoàn tiền</button>
-                  <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link></Fragment>
-                text = <span>Nếu hài lòng với sản phẩm đã nhận, hãy chọn "Đã nhận được hàng". Nếu không hài lòng, hãy chọn "Trả hàng/Hoàn tiền" trước <a href=""></a>
-                  nhé!</span>
-              } else if (orderItem.status === 'canceled') {
-                status = 'Đã hủy';
-                btn = <Fragment> <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link> <button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
-                text = <span>Bạn đã hủy đơn hàng này !</span>
-              } else if (orderItem.status === 'delivering') {
-                status = 'Đang giao hàng';
-                btn = <Fragment><button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
-                text = <span>Hàng của bạn đang được giao vui lòng để ý điện thoại để nhận hàng nhé !!</span>
+              if (!objType.type) {
+                let status;
+                let btn;
+                let text;
+                if (orderItem.status === 'pending') {
+                  status = 'Đang chờ xác nhận';
+                  btn = <Fragment ><button className='btn-took-product' onClick={() => { cancelOrder(orderItem._id) }}>Hủy đơn hàng</button> <button className='btn-secondary'>Liên hệ người bán</button></Fragment>
+                  text = <span>Đơn hàng của bạn sẽ được shop xác nhận nhanh chóng. Vui lòng đợi nha !</span>
+                } else if (orderItem.status === 'done') {
+                  status = 'Đã giao hàng thành công';
+                  btn = <Fragment><button className='btn-took-product'>Đánh giá</button>
+                    <button className='btn-secondary'>Yêu cầu trả hàng/hoàn tiền</button>
+                    <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link></Fragment>
+                  text = <span>Nếu hài lòng với sản phẩm đã nhận, hãy chọn "Đã nhận được hàng". Nếu không hài lòng, hãy chọn "Trả hàng/Hoàn tiền" trước <a href=""></a>
+                    nhé!</span>
+                } else if (orderItem.status === 'canceled') {
+                  status = 'Đã hủy';
+                  btn = <Fragment> <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link> <button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
+                  text = <span>Bạn đã hủy đơn hàng này !</span>
+                } else if (orderItem.status === 'delivering') {
+                  status = 'Đang giao hàng';
+                  btn = <Fragment><button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
+                  text = <span>Hàng của bạn đang được giao vui lòng để ý điện thoại để nhận hàng nhé !!</span>
+                }
+                return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text}></UserOrderItem>
               }
-              return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text}></UserOrderItem>
-            }
 
 
 
 
-            if (objType.type == 2) {
-              if (orderItem.status === 'pending') {
-                status = 'Đang chờ xác nhận';
-                btn = <Fragment ><button className='btn-took-product' onClick={() => { cancelOrder(orderItem._id) }}>Hủy đơn hàng</button> <button className='btn-secondary'>Liên hệ người bán</button></Fragment>
-                text = <span>Đơn hàng của bạn sẽ được shop xác nhận nhanh chóng. Vui lòng đợi nha !</span>
-                return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
-              } else {
-                count++;
-                if (count === listOrder.length) {
-                  return noOrder
+              if (objType.type == 2) {
+                if (orderItem.status === 'pending') {
+                  status = 'Đang chờ xác nhận';
+                  btn = <Fragment ><button className='btn-took-product' onClick={() => { cancelOrder(orderItem._id) }}>Hủy đơn hàng</button> <button className='btn-secondary'>Liên hệ người bán</button></Fragment>
+                  text = <span>Đơn hàng của bạn sẽ được shop xác nhận nhanh chóng. Vui lòng đợi nha !</span>
+                  return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
+                } else {
+                  count++;
+                  if (count === listOrder.length) {
+                    return noOrder
+                  }
                 }
               }
-            }
 
 
-            if (objType.type == 4) {
-              if (orderItem.status === 'done') {
-                status = 'Đã giao hàng thành công';
-                btn = <Fragment><button className='btn-took-product'>Đánh giá</button>
-                  <button className='btn-secondary'>Yêu cầu trả hàng/hoàn tiền</button>
-                  <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link></Fragment>
-                text = <span>Nếu hài lòng với sản phẩm đã nhận, hãy chọn "Đã nhận được hàng". Nếu không hài lòng, hãy chọn "Trả hàng/Hoàn tiền" trước <a href=""></a>
-                  nhé!</span>
-                return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
-              } else {
-                count++;
-                if (count === listOrder.length) {
-                  return noOrder
+              if (objType.type == 4) {
+                if (orderItem.status === 'done') {
+                  status = 'Đã giao hàng thành công';
+                  btn = <Fragment><button className='btn-took-product'>Đánh giá</button>
+                    <button className='btn-secondary'>Yêu cầu trả hàng/hoàn tiền</button>
+                    <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link></Fragment>
+                  text = <span>Nếu hài lòng với sản phẩm đã nhận, hãy chọn "Đã nhận được hàng". Nếu không hài lòng, hãy chọn "Trả hàng/Hoàn tiền" trước <a href=""></a>
+                    nhé!</span>
+                  return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
+                } else {
+                  count++;
+                  if (count === listOrder.length) {
+                    return noOrder
+                  }
                 }
               }
-            }
 
 
-            if (objType.type == 5) {
-              if (orderItem.status === 'canceled') {
-                status = 'Đã hủy';
-                btn = <Fragment> <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link> <button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
-                text = <span>Bạn đã hủy đơn hàng này !</span>
-                return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
-              } else {
-                count++;
-                if (count === listOrder.length) {
-                  return noOrder
-                }
+              if (objType.type == 5) {
+                if (orderItem.status === 'canceled') {
+                  status = 'Đã hủy';
+                  btn = <Fragment> <Link to={'/cart'}><button className='btn-took-product'>Mua lại</button></Link> <button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
+                  text = <span>Bạn đã hủy đơn hàng này !</span>
+                  return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
+                } else {
+                  count++;
+                  if (count === listOrder.length) {
+                    return noOrder
+                  }
 
-              }
-            }
-
-
-            if (objType.type == 3) {
-              if (orderItem.status === 'delivering') {
-                status = 'Đang giao hàng';
-                btn = <Fragment><button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
-                text = <span>Hàng của bạn đang được giao vui lòng để ý điện thoại để nhận hàng nhé !!</span>
-                return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
-              } else {
-                count++;
-                if (count === listOrder.length) {
-                  return noOrder
                 }
               }
-            }
-          })) : noOrder)
+
+
+              if (objType.type == 3) {
+                if (orderItem.status === 'delivering') {
+                  status = 'Đang giao hàng';
+                  btn = <Fragment><button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
+                  text = <span>Hàng của bạn đang được giao vui lòng để ý điện thoại để nhận hàng nhé !!</span>
+                  return <UserOrderItem orderItem={orderItem} status={status} btn={btn} text={text} ></UserOrderItem>
+                } else {
+                  count++;
+                  if (count === listOrder.length) {
+                    return noOrder
+                  }
+                }
+              }
+            })) : noOrder)
             : <Skeleton active={true} title={{ width: '80%' }} paragraph={{ rows: 2, width: '100%' }}></Skeleton>
-
         }
       </div>
     </div >
   )
 }
 
-export default UserOrderHistory
+export default UserOrderHistory 
