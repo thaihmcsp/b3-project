@@ -6,7 +6,17 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { getAPI, patchAPI } from '../../config/api';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+import { userLogin } from '../../redux/reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
+
 const { Option } = Select;
+
+
+// Set default value BirthDay
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY/MM/DD';
+
 
 const props = {
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -49,14 +59,18 @@ function UserProfile() {
     const [count, setCount] = useState(0)
     const token = window.localStorage.getItem('user')
     const [data, setData] = useState({})
+    const [birthDay,setBirthDay] = useState('')
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
     const [formImg, setFormImg] = useState(new FormData())
     const key = 'updatable';
     const nav = useNavigate()
+    const dispatch = useDispatch()
     let linkk = ''
+
     const domain = 'https://shope-b3.thaihm.site/'
 
+    
 
     const success = () => {
         message.loading({
@@ -94,11 +108,14 @@ function UserProfile() {
 
             setImageUrl(linkk)
             setData(res.data.user)
+            setBirthDay((res.data.user.dateOfBirth.split('T'))[0].split('-').join('/'))
         } catch (error) {
             console.log(error);
         }
     }
 
+    console.log(data);
+    console.log(123,birthDay);
 
     useEffect(() => {
         getData()
@@ -164,6 +181,9 @@ function UserProfile() {
         try {
             const res = await patchAPI('/user/change-avatar', formImg)
             console.log(res);
+            const ress = await getAPI('/auth/get-loged-in-user')
+            const action = userLogin(ress.data)
+            dispatch(action)
             setCount(count + 1)
             success()
         } catch (error) {
@@ -171,6 +191,9 @@ function UserProfile() {
             errorMess()
         }
     };
+
+    
+
 
     return (
         <div className='user-profile'>
@@ -182,7 +205,46 @@ function UserProfile() {
                 <div className="body-left">
                     <Row>
                         <Col span={6} >Tên Đăng Nhập</Col>
-                        <Col span={18}>{data.email ? data.email : "Đang cập nhật"}</Col>
+                        {/* <Col span={18}>{data.email ? data.email : "Đang cập nhật"}</Col> */}
+                        <Col span={18}><Input value={data.email ? data.email : "Đang cập nhật"} /></Col>
+                    </Row>
+
+                    <Row>
+                        <Col span={6}>Username:</Col>
+                        <Col span={18}><Input value={data.username ? data.username : "Đang cập nhật"} /></Col>
+                    </Row>
+
+                    <Row>
+                        <Col span={6}>Fullname:</Col>
+                        <Col span={18}><Input value={data.fullname ? data.fullname : "Đang cập nhật"} /></Col>
+                    </Row>
+
+                    <Row>
+                        <Col span={6}>Phone:</Col>
+                        <Col span={18}><Input value={data.phone ? data.phone : "Đang cập nhật"} /></Col>
+                    </Row>
+
+                    <Row>
+                        <Col span={6}>Sex:</Col>
+                        <Col span={18}>
+                            <Select
+                                style={{
+                                    width: 120,
+                                }}
+                                defaultValue={data.sex == "Male" ? "Male" : "Female"}
+                                onChange={handleChange}
+                            >
+                                <Option value="Male">Male</Option>
+                                <Option value="Female">Female</Option>
+                            </Select>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col span={6}>Birth Day:</Col>
+                        <Col span={18} >
+                            <DatePicker onChange={onChange2} defaultValue={moment(birthDay, dateFormat)} format={dateFormat} />
+                        </Col>
                     </Row>
 
                     <Row>
@@ -291,7 +353,6 @@ function UserProfile() {
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                // defaultFileList={[...fileList]}
                                 beforeUpload={beforeUpload}
                                 onChange={handleChange2}
                             >
