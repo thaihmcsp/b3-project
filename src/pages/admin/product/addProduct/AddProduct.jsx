@@ -54,7 +54,9 @@ function AddProduct() {
   const [branch, setBranch] = useState('')
   const [categoryName, setCategoryName] = useState('')
   const [idProduct, setIdProduct] = useState([])
+  const [listCategory, setListCategory] = useState([])
   const [dataFile, setDataFile] = useState(new FormData())
+
 
   const nav = useNavigate()
 
@@ -78,10 +80,10 @@ function AddProduct() {
 
   const getCategory = async (value) => {
     try {
-      let res =await getAPI('/category/get-all-categories')
-      console.log(78 , res.data);
+      let res = await getAPI('/category/get-all-categories')
+      setListCategory(res.data.categories);
     } catch (error) {
-      console.log(80 , error);
+      console.log(80, error);
     }
   }
 
@@ -106,8 +108,8 @@ function AddProduct() {
     setBranch(branchName)
   }
 
-  const onChangeValue = (value , text) => {
-    console.log(104 , value);
+  const onChangeValue = (value, text) => {
+    console.log(104, value);
     console.log(text.children);
     const categoryName = text.children
     setCategoryName(categoryName)
@@ -222,7 +224,7 @@ function AddProduct() {
   useEffect(() => {
     getCategory()
   }, [])
-  
+
   return (
     <div className='classAddProduct'>
 
@@ -243,10 +245,11 @@ function AddProduct() {
 
             <Form.Item label="Tên ngành hàng : " className='addCategory-addProduct' name='categoryId'>
               <Select onChange={onChangeValue}>
-                <Select.Option value="63227fdadb8fd735e64e3e50">Điện thoại</Select.Option>
-                <Select.Option value="63227feddb8fd735e64e3e53">Máy tính bảng</Select.Option>
-                <Select.Option value="6322ddb078a5a51c786fc168">Bàn phím</Select.Option>
-                <Select.Option value="6322dfa178a5a51c786fc1de">Mouse</Select.Option>
+                {listCategory.map(function(value){
+                  return(
+                    <Select.Option value={value._id}>{value.categoryName}</Select.Option>
+                  )
+                })}
               </Select>
             </Form.Item>
 
