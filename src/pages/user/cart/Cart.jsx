@@ -43,7 +43,7 @@ function Cart() {
             )
           }
 
-          if(value.productDetailId && value.select === true){
+          if (value.productDetailId && value.select === true) {
             selectList.push(value.productDetailId._id)
           }
         }
@@ -57,12 +57,11 @@ function Cart() {
           if (value.select == true) {
             newTotal += value.total;
             newTotalQualyti += Number(value.stonge)
-            // totalQuality1 += value.stonge
           }
 
         }
       )
-      console.log(65 ,newTotal);
+      console.log(65, newTotal);
       setTotal(newTotal)
       setTotalQuality(newTotalQualyti)
       setSelectedRowKeys(selectList);
@@ -125,38 +124,17 @@ function Cart() {
 
     let isAdd = false;
     let id;
-    if(newSelectedRowKeys.length > selectedRowKeys.length){
+    if (newSelectedRowKeys.length > selectedRowKeys.length) {
       isAdd = true;
       id = newSelectedRowKeys[newSelectedRowKeys.length - 1];
-    }else{
+    } else {
       id = selectedRowKeys.find((item) => {
         return !newSelectedRowKeys.includes(item);
       });
     }
-    // let selectItem = dataSource.find((value) => {
-    //   console.log(value);
-    //   return value.productId === newSelectedRowKeys[0]
-    // })
-    
-    // let current = selectItem.select;
-    // // let id = selectItem.productId;
-    
+
     let newDataSource = [...dataSource];
-    // console.log(113, index, isCheck, newDataSource[index].productId);
     await selectAPI(id, isAdd);
-
-    // newDataSource.map((value) => {
-    //   value.select = false;
-    // })
-  
-    // newDataSource.map(
-    //   (val, index) => { return 
-    //     // setCounting(counting + 1)
-
-    //   }
-    // )
-    // console.log(110, newDataSource);
-    // setDataSource(newDataSource)
     setSelectedRowKeys(newSelectedRowKeys);
     setCount(newSelectedRowKeys.length);
   };
@@ -196,7 +174,7 @@ function Cart() {
 
             return false;
           });
-          // console.log(152,newSelectedRowKeys);
+
           setSelectedRowKeys(newSelectedRowKeys);
         },
       },
@@ -278,7 +256,7 @@ function Cart() {
   // table antd
   useEffect(
     () => {
-      
+
       setQuanlityAPI()
       getAPIcart()
     }, [count, reload, counting]
