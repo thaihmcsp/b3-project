@@ -4,17 +4,52 @@ import React, { useState } from 'react';
 import { Input, Form } from 'antd';
 import './AddProductDetail.css'
 import { useParams, useNavigate } from 'react-router-dom';
-import { postAPI } from '../../../../config/api';
+import { patchAPI, postAPI } from '../../../../config/api';
 
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+
+  return isJpgOrPng && isLt2M;
+};
 function AddProductDetail() {
   const { productId } = useParams()
+  const [imgFile, setImgFile] = useState(new FormData()) ;
   const navigate = useNavigate()
+  const onFinishIMG = async (values) => {
+    console.log('Success:', values);
+    try {
+      let res = await postAPI(`/product/update-product-info/${productId}`, values)
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
       let res = await postAPI(`/productDetail/create-product-detail/product/${productId}`, values)
-      console.log(res);
-      navigate('/admin/product')
+      console.log(46, res);
+      for (const pair of imgFile.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+      let data = await patchAPI(`/productDetail/add-product-detail-thumbs/${res.data.productDetail._id}`, imgFile)
+      console.log(48, data);
+      // navigate('/admin/product')
     } catch (error) {
       console.log(error);
     }
@@ -22,33 +57,22 @@ function AddProductDetail() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-  
-    const isLt2M = file.size / 1024 / 1024 < 2;
-  
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-  
-    return isJpgOrPng && isLt2M;
-  };
-  
+  const handleOk = async (e) =>{
+    // const res = await postAPI('/productDetail/add-product-detail-thumbs/:productId', imgFile)
+    // console.log(res);
+  }
     const [loading, setLoading] = useState([false,false,false,false,false,false,false,false,false]);
     const [imageUrl, setImageUrl] = useState(['','','','','','','','','']);
+    
     const name = ['* Ảnh bìa', 'Hình ảnh 1','Hình ảnh 2','Hình ảnh 3', 'Hình ảnh 4', 'Hình ảnh 5', 'Hình ảnh 6', 'Hình ảnh 7', 'Hình ảnh 8']
     const handleChange = (info, index) => {
-      console.log(index);
+      const formData = new FormData()
+      console.log(info.file.originFileObj);
+      // formData.append('thumps', info.file.originFileObj )
+      // setImgFile(formData)
+      imgFile.append('thumbs', info.file.originFileObj )
+      setImgFile(imgFile)
+      console.log(53, info);
       if (info.file.status === 'uploading') {
         getBase64(info.file.originFileObj, (url) => {
           let data = [...imageUrl]
@@ -84,6 +108,8 @@ function AddProductDetail() {
     <Form
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
+      onFinishIMG={onFinishIMG}
+      handleOk={handleOk}
     >
     <div>
         <div className='container' >
@@ -99,12 +125,12 @@ function AddProductDetail() {
                 return (
                   <div className='add-img-upload-item'>
                     <div>
+                    <Form.Item>
                     <Upload
                       name="avatar"
                       listType="picture-card"
                       className="avatar-uploader"
                       showUploadList={false}
-                      // action="https://www.mocky.io/v2/5cc8false9d300000980a055e76"
                       beforeUpload={beforeUpload}
                       onChange={(file) => {handleChange(file, index)}}
                     >
@@ -122,6 +148,7 @@ function AddProductDetail() {
                         uploadButton(index)
                       )}
                     </Upload>
+                    </Form.Item>
                     </div>
                     <p className='p-des-item-special'>{name[index]}</p>
                   </div>
