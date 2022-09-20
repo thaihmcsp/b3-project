@@ -21,7 +21,7 @@ function Header() {
     return state
   })
 
-
+console.log(data,24);
   const[cloneData,setCloneData]=useState(data)
   function Login() {
     nav("/signin")
@@ -33,10 +33,12 @@ function Header() {
     nav("/user")
   }
   function LogOut() {
-    
+    let action = userLogin({});
+        dispatch(action);
     nav("/")
+
     window.location.reload()
-   localStorage.removeItem("user-shope")
+  
     
     var cookies = document.cookie.split(";");
     
@@ -104,28 +106,31 @@ function Header() {
   
  
    async function CheckUser (){
+     let tokenLocal = getCookie("shope-b3")
+     if(tokenLocal){
      try {
-        let tokenLocal = getCookie("shope-b3")
         let check = await instance.get("auth/get-loged-in-user",{headers:{Authorization:tokenLocal}});
-        
+       
    
       } catch (error) {
-        
+        // console.log(data.user);
+        // setCount(count+1)
         let action = userLogin({});
         dispatch(action);
-          data.user = {}
-          setCloneData(data.user)
-        
+        data.user = {}
+        setCloneData(data.user)
+        // alert("tai khoan dang nhap noi khac ")
+      
 
       }
     }
+    }
    function nameUser() {
       let dataUs = JSON.parse(window.localStorage.getItem("user-shope"));
-      console.log(126, dataUs);
-    console.log(Object.keys(dataUs).length);
+    
     
     if (Object.keys(dataUs).length !== 0) {
-       
+        
         let classNone = document.querySelector(".header-top-right-id")
         classNone.setAttribute("id", "display")
         let name = dataUs.email.split("@")
@@ -138,7 +143,8 @@ function Header() {
       let ab = document.querySelector(".header-top-right-user")
       ab.setAttribute("id", "display")
       let classNone = document.querySelector(".header-top-right-id")
-      classNone.setAttribute("id", "") 
+      classNone.setAttribute("id", "")
+     
       setUName('')
     }
     }
