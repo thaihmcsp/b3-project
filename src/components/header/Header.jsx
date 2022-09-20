@@ -21,7 +21,7 @@ function Header() {
     return state
   })
 
-console.log(data,24);
+
   const[cloneData,setCloneData]=useState(data)
   function Login() {
     nav("/signin")
@@ -107,17 +107,15 @@ console.log(data,24);
      try {
         let tokenLocal = getCookie("shope-b3")
         let check = await instance.get("auth/get-loged-in-user",{headers:{Authorization:tokenLocal}});
-        console.log(109, check);
+        
    
       } catch (error) {
-        console.log(116, error);
-        // console.log(data.user);
-        // setCount(count+1)
+        
         let action = userLogin({});
         dispatch(action);
           data.user = {}
           setCloneData(data.user)
-        // alert("tai khoan dang nhap noi khac ")
+        
 
       }
     }
@@ -127,7 +125,7 @@ console.log(data,24);
     console.log(Object.keys(dataUs).length);
     
     if (Object.keys(dataUs).length !== 0) {
-        console.log(130);
+       
         let classNone = document.querySelector(".header-top-right-id")
         classNone.setAttribute("id", "display")
         let name = dataUs.email.split("@")
@@ -136,7 +134,7 @@ console.log(data,24);
         setCheckAdmin(dataUs.role)
       } 
   else if(Object.keys(dataUs).length === 0){
-    console.log(140);
+   
       let ab = document.querySelector(".header-top-right-user")
       ab.setAttribute("id", "display")
       let classNone = document.querySelector(".header-top-right-id")
