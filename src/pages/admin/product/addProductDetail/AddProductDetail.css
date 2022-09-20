@@ -103,5 +103,18 @@
     margin-right: 20px;
 }
 .ant-input{
-    width: 80%;
+    /* width: 80%; */
+}
+#storage,
+#price{
+    width: 58vw;
+    border: 1px solid black;
+    outline: none;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    padding: 4px 10px;
+    float: right;
+}
+.sell-info{
+    margin-left: 50px;
 }

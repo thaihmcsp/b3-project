@@ -1,30 +1,38 @@
 import {Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import React, { useState } from 'react';
-import product from '../../../../static/Truong/product.json'
 import './AdminListProduct.css'
 import { useNavigate} from "react-router-dom";
-const originData = [];
-let quantity=0
-  for (let index = 0; index < product.length; index++) {
-    const element = product[index];
-    quantity=element.listDetail.length
-  }
-let Data =[]
-product.map(
-    (value)=>{
-        Data.push(
-            {
-                productName: value.productName,
-                thumpnail:<img  src= {value.thumpnail} alt=''/>,
-                brand:value.brand,
-                quantityProperty:quantity,
-                type:value.categoryId=='ct1'?'Máy tính':'Điện thoại',
-                id:value._id
-            }
-        )
-    }
-)
+import { getAPI } from '../../../../config/api';
+import { useEffect} from 'react';
+
+
 function AdminListProduct() {
+  const [uData, setUdata] = useState([])
+  async  function getAPIproduct() {
+    try {
+        let products = await getAPI(`product/get-all-products`);
+        let newList = []
+        products.data.products.map(
+          (value)=>{
+            newList.push(
+                  {
+                    productName: value.productName,
+                    // thumpnail:<img  src= {value.thumpnail} alt=''/>,
+                    brand: value.brand,
+                    // quantityProperty:quantity,
+                    // type:value.categoryId=='ct1'?'Máy tính':'Điện thoại',
+                    id: value._id
+                  }
+              )
+          }
+        )
+        setUdata(newList)
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
   const navigate = useNavigate();
   const EditableCell = ({
     editing,
@@ -48,7 +56,7 @@ function AdminListProduct() {
             rules={[
               {
                 required: true,
-                message: `Please Input ${title}!`,
+                message: `Vui lòng điền ${title}!`,
               },
             ]}
           >
@@ -60,8 +68,8 @@ function AdminListProduct() {
       </td>
     );
   };
+  
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record) => record.id === editingKey;
   const edit = (record, e) => {
@@ -73,7 +81,7 @@ function AdminListProduct() {
     });
     setEditingKey(record.id);
   };
-
+  
   const cancel = () => {
     setEditingKey('');
   };
@@ -81,23 +89,23 @@ function AdminListProduct() {
   const save = async (key) => {
     try {
       const row = await form.validateFields();
-      const newData = [...data];
+      const newData = [...uData];
       const index = newData.findIndex((item) => key === item.id);
-
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        setData(newData);
+        setUdata(newData);
         setEditingKey('');
       } else {
         newData.push(row);
-        setData(newData);
+        setUdata(newData);
         setEditingKey('');
       }
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
   };
+  
   const columns = [
     {
         title: 'Ảnh mô tả sản phẩm',
@@ -106,7 +114,7 @@ function AdminListProduct() {
     {
         title: 'Tên sản phẩm',
         dataIndex: 'productName',
-        width: '40%',
+        width: '30%',
         editable: true,
     },
     {
@@ -121,6 +129,22 @@ function AdminListProduct() {
     {
         title: 'Số lượng biến thể',
         dataIndex: `quantityProperty`,
+    },
+    {
+      title: 'Xem sảm phẩm',
+      dataIndex: `operation`,
+      render: (record,index) => {
+        const viewDetail =()=>{
+          navigate(`/admin/product/${index.id}/detail` )
+        }
+        return (
+          <Typography.Link
+          onClick={() => {viewDetail()}}
+          >
+          Xem chi tiết
+          </Typography.Link>
+        )
+        } 
     },
     {
       title: 'Sửa thông tin',
@@ -143,7 +167,7 @@ function AdminListProduct() {
           </span>
         ) : (
           <Typography.Link disabled={editingKey !== ''} onClick={(e) => edit(record, e)}>
-            Edit
+            Sửa
           </Typography.Link>
         );
       },
@@ -163,6 +187,11 @@ function AdminListProduct() {
         }),
       };
     });
+    
+    useEffect(() => {
+      getAPIproduct() 
+      
+    },[])
 return (
     <Form form={form} component={false}>
     <Table
@@ -176,14 +205,7 @@ return (
         onChange: cancel,
       }}
       columns={mergedColumns}
-      onRow={(record,index) => {
-        return {
-          onClick: event => {
-            navigate(`/admin/product/${Data[index].id}/detail` )
-          },
-        }
-      }}
-        dataSource={Data}
+      dataSource={uData}
     />
     </Form>
 )

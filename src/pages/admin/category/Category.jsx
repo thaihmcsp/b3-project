@@ -3,127 +3,135 @@ import { VscQuestion } from "react-icons/vsc";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImDropbox } from "react-icons/im";
 import { IoIosMenu } from "react-icons/io";
-import { CgArrowsV } from "react-icons/cg";
-import { AiOutlineCloseSquare } from "react-icons/ai";
-
-import data from "../../../static/Truong/productDetail.json";
+import { Modal } from "antd";
 import "./Category.css";
+import { getAPI, patchAPI, postAPI } from "../../../config/api";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { message, Upload } from "antd";
+
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+
+  return isJpgOrPng && isLt2M;
+};
 
 function Category() {
   let [num, setNum] = useState(0);
   const [active, setActive] = useState(1);
-  const [openModal, setOpenModal] = useState(false);
   const [items, setItems] = useState([]); //[]
-  const [index, setIndex] = useState(undefined);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false)
+  const [nameCategory, setNameCategory] = useState("");
+  const [nameUpdateCategory, setNameUpdateCategory] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+  const [dataUpload, setDataUpload] = useState(new FormData())
+  const [dataUpdateUpload, setDataUpdateUpload] = useState(new FormData())
+  const [idUpdate, setIdUpdate] = useState("")
 
   useEffect(() => {
-    if (!window.localStorage.getItem("data")) {
-      setItems(data);
-    } else {
-      setItems(JSON.parse(window.localStorage.getItem("data")));
-    }
+    const getData = async () => {
+      try {
+        let data = await getAPI("/category/get-all-categories");
+        setItems(data.data.categories);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
   }, [num]);
 
   const headerClick = (index) => {
     setActive(index);
   };
 
-  const getIndex = (index) => {
-    let addBtn = document.querySelector(".add-button");
-    let updateBtn = document.querySelector(".update-button");
-    let cancelBtn = document.querySelector(".cancel-button");
-    let LinkImg = document.querySelector(".admin-category-imageLink");
-    addBtn.style.display = "none";
-    updateBtn.style.display = "block";
-    cancelBtn.style.display = "block";
-    LinkImg.style.display = "none";
-    setIndex(index);
-    showModal();
-  };
-
   const showModal = () => {
-    setOpenModal(true);
+    setNameCategory("")
+    setDataUpload(new FormData())
+    setIsModalOpen(true);
   };
 
-  const hideModal = () => {
-    setOpenModal(false);
-  };
-
-  const cancel = () => {
-    hideModal();
-  };
-
-  const add = () => {
-    let addBtn = document.querySelector(".add-button");
-    let updateBtn = document.querySelector(".update-button");
-    let cancelBtn = document.querySelector(".cancel-button");
-    let LinkImg = document.querySelector(".admin-category-imageLink");
-    addBtn.style.display = "block";
-    updateBtn.style.display = "none";
-    cancelBtn.style.display = "block";
-    LinkImg.style.display = "block";
-    showModal();
-  };
-
-  const addProduct = () => {
-    let color = document.querySelector("#color").value;
-    let ram = document.querySelector("#ram").value;
-    let rom = document.querySelector("#rom").value;
-    let storage = document.querySelector("#storage").value;
-    let link = document.querySelector("#image").value;
-
-    if (
-      !color.trim() ||
-      !ram.trim() ||
-      !rom.trim() ||
-      !storage.trim() ||
-      !link.trim()
-    ) {
-      alert("Hãy nhập đủ thông tin");
-    } else {
-      let clone = [
-        ...items,
-        {
-          color,
-          ram,
-          rom,
-          storage,
-          listImg: [link],
-          productId:
-            "p" + (Number(items[items.length - 1].productId.slice(1)) + 1),
-          _id: "pd" + (Number(items[items.length - 1]._id.slice(2)) + 1),
-        },
-      ];
-      window.localStorage.setItem("data", JSON.stringify(clone));
-      setNum((num += 1));
-      hideModal();
+  const handleOk = async (e) => {
+    if (nameCategory) {
+      dataUpload.append("categoryName", nameCategory)
+      await postAPI("/category/create-category", dataUpload)
+      setNum((pre) => pre + 1);
+      setIsModalOpen(false);
     }
   };
 
-  const update = (index) => {
-    let color = document.querySelector("#color").value;
-    let ram = document.querySelector("#ram").value;
-    let rom = document.querySelector("#rom").value;
-    let storage = document.querySelector("#storage").value;
-    if (!color.trim() || !ram.trim() || !rom.trim() || !storage.trim()) {
-      alert("Hãy nhập đủ thông tin");
-    } else {
-      let clone = [...items];
-      clone[index] = {
-        listImg: [items[index].listImg[0]],
-        color,
-        ram,
-        rom,
-        storage,
-        productId: clone[index].productId,
-        _id: clone[index]._id,
-      };
-      window.localStorage.setItem("data", JSON.stringify(clone));
-      setNum((num += 1));
-
-      hideModal();
-    }
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
+
+  const handleChange = (info) => {
+    const formData = new FormData()
+    formData.append("thumb", info.file.originFileObj)
+    setDataUpload(formData)
+    getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+    });
+  };
+
+  const showModalUpdate = (id) => {
+    setNameUpdateCategory("")
+    setDataUpdateUpload(new FormData())
+    setIdUpdate(id)
+    setIsModalUpdateOpen(true)
+  }
+
+  const handleUpdateOk = async () => {
+    if (nameUpdateCategory) {
+      dataUpdateUpload.append("categoryName", nameUpdateCategory)
+      await patchAPI("/category/update-category/" + idUpdate, dataUpdateUpload)
+      setNum((pre) => pre + 1);
+      setIsModalUpdateOpen(false);
+    }
+  }
+
+  const handleCancelUpdate = () => {
+    setIsModalUpdateOpen(false);
+  }
+
+  const handleChangeUpdate = (info) => {
+    const formData = new FormData()
+    formData.append("thumb", info.file.originFileObj)
+    setDataUpdateUpload(formData)
+    getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+    });
+  }
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
 
   return (
     <div className="admin-category-container">
@@ -156,9 +164,9 @@ function Category() {
           </div>
 
           <div className="admin-category-header-right-addProduct">
-            <button onClick={add}>
+            <button onClick={showModal}>
               <AiOutlinePlus />
-              Thêm 1 sản phẩm mới
+              Thêm 1 biến thể mới
             </button>
           </div>
 
@@ -204,119 +212,36 @@ function Category() {
       {/* BODY */}
       <div className="admin-category-body">
         {/* BODY FIRST */}
-        <div className="admin-category-body-product-info">
-          <div className="admin-category-body-product-info-first">
-            <div className="admin-category-body-product-info-checkbox">
-              <input type="checkbox" />
-            </div>
-
-            <div>
-              <p className="admin-category-body-product-info-p">Tên sản phẩm</p>
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-second">
-            <p className="admin-category-body-product-info-p">SKU phân loại</p>
-          </div>
-
-          <div className="admin-category-body-product-info-third">
-            <p className="admin-category-body-product-info-p">Phân loại hàng</p>
-          </div>
-
-          <div className="admin-category-body-product-info-fourth">
-            <div>
-              <p className="admin-category-body-product-info-p">Giá</p>
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <CgArrowsV className="admin-category-body-product-info-div-arrowIcon-other" />
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-fifth">
-            <div>
-              <p className="admin-category-body-product-info-p">Kho hàng</p>
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <VscQuestion className="admin-category-body-product-info-div-questionIcon" />
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <CgArrowsV className="admin-category-body-product-info-div-arrowIcon" />
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-sixth">
-            <div>
-              <p className="admin-category-body-product-info-p">Doanh số</p>
-            </div>
-
-            <div className="admin-category-body-product-info-div">
-              <CgArrowsV className="admin-category-body-product-info-div-arrowIcon-other" />
-            </div>
-          </div>
-
-          <div className="admin-category-body-product-info-seventh">
-            <p className="admin-category-body-product-info-p">Hoạt động</p>
-          </div>
+        <div className="admin-category-body-heading">
+          <div>Ảnh phân loại</div>
+          <div>Tên phân loại</div>
+          <div>Tồn kho</div>
+          <div>Thao tác</div>
         </div>
         {/* BODY FIRST DONE */}
 
         {/* BODY SECOND */}
         <div className="admin-category-body-listItems">
           {items.map((item, index) => {
-            console.log(270, item.productId);
             return (
-              <div
-                style={{
-                  display: "flex",
-                  marginBottom: "1rem",
-                  borderBottom: "1px solid grey",
-                }}
-                key={item._id}
-              >
-                <div
-                  style={{
-                    width: "35%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <img style={{ width: "50%" }} src={item.listImg[0]} alt="" />
+              <div className="admin-category-body-item" key={item._id}>
+                <div className="admin-category-item-img">
+                  <img
+                    src={"https://shope-b3.thaihm.site/" + item.thumbnail}
+                    alt=""
+                  />
                 </div>
 
-                <div
-                  style={{
-                    width: "30%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  {/* <h1>ID sản phẩm: {item.productId} </h1> */}
-                  <p>Màu: {item.color}</p>
-                  <p>RAM: {item.ram}</p>
-                  <p>ROM: {item.rom}</p>
+                <div className="admin-category-item-name">
+                  <p>{item.categoryName}</p>
                 </div>
 
-                <div
-                  style={{
-                    width: "20%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <p>Tồn kho: {item.storage}</p>
+                <div className="admin-category-item-store">
+                  {/* <p>Tồn kho: {item.storage}</p> */}
                 </div>
 
-                <div style={{ width: "15%", position: "relative" }}>
-                  <button
-                    onClick={() => {
-                      getIndex(index);
-                    }}
-                    className="admin-category-body-listItems-updateBtn"
-                  >
+                <div className="admin-category-item-handle">
+                  <button className="admin-category-item-handle-update" onClick={() => showModalUpdate(item._id)}>
                     Sửa
                   </button>
                 </div>
@@ -328,92 +253,79 @@ function Category() {
       </div>
       {/* BODY DONE */}
 
-      {/* MODAL */}
-      <div
-        className={`admin-category-modalContainer ${
-          openModal ? "openModal" : ""
-        }`}
+      {/* MODAL ADD */}
+      <Modal
+        title="Thêm phân loại"
+        visible={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
       >
-        <div className="admin-category-modal">
-          <div className="admin-category-modal-header">
-            <h1 style={{ fontSize: "2rem" }}>Thông tin sản phẩm</h1>
-            <AiOutlineCloseSquare
-              onClick={cancel}
+        <input
+          type="text"
+          id="admin_category-modal-name"
+          value={nameCategory}
+          placeholder="Tên phân loại"
+          onChange={(e) => setNameCategory(e.target.value)}
+        />
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+          onChange={handleChange}
+        >
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="avatar"
               style={{
-                cursor: "pointer",
-                position: "absolute",
-                right: "0",
-                top: "0",
-                fontSize: "1.3rem",
+                width: "100%",
               }}
             />
-          </div>
-
-          <div className="admin-category-modal-body">
-            <div style={{ marginRight: "1rem" }}>
-              <div>
-                Màu: <input id="color" type="text" placeholder="Màu..." />
-              </div>
-              <div>
-                RAM: <input id="ram" type="text" placeholder="RAM..." />
-              </div>
-              <div className="admin-category-imageLink">
-                Link ảnh:{" "}
-                <input id="image" type="text" placeholder="Link ảnh..." />
-              </div>
-            </div>
-
-            <div>
-              <div>
-                ROM: <input id="rom" type="text" placeholder="ROM..." />
-              </div>
-              <div>
-                Tồn Kho:{" "}
-                <input id="storage" type="text" placeholder="Tồn kho..." />
-              </div>
-            </div>
-          </div>
-
-          <div className="admin-category-modal-footer">
-            <button
-              className="cancel-button"
+          ) : (
+            uploadButton
+          )}
+        </Upload>
+      </Modal>
+      {/* MODAL ADD DONE */}
+      {/* MODAL UPDATE */}
+      <Modal
+        title="Sửa phân loại"
+        visible={isModalUpdateOpen}
+        onOk={handleUpdateOk}
+        onCancel={handleCancelUpdate}
+      >
+        <input
+          type="text"
+          id="admin_category-modal-name"
+          value={nameUpdateCategory}
+          placeholder="Tên phân loại"
+          onChange={(e) => setNameUpdateCategory(e.target.value)}
+        />
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+          onChange={handleChangeUpdate}
+        >
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="avatar"
               style={{
-                padding: "4px 10px",
-                border: "none",
-                marginRight: "0.5rem",
-                cursor: "pointer",
+                width: "100%",
               }}
-              onClick={cancel}
-            >
-              Hủy
-            </button>
-            <button
-              className="update-button"
-              style={{
-                padding: "4px 10px",
-                border: "none",
-                cursor: "pointer",
-                marginRight: "0.5rem",
-              }}
-              onClick={() => {
-                update(index);
-              }}
-            >
-              Sửa
-            </button>
-            <button
-              className="add-button"
-              style={{ padding: "4px 10px", border: "none", cursor: "pointer" }}
-              onClick={addProduct}
-            >
-              Thêm
-            </button>
-          </div>
-        </div>
-      </div>
-      {/* MODAL DONE */}
+            />
+          ) : (
+            uploadButton
+          )}
+        </Upload>
+      </Modal>
+      {/* MODAL UPDATE DONE */}
     </div>
   );
 }
-
 export default Category;

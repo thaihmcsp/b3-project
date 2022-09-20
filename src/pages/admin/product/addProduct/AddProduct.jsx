@@ -18,7 +18,7 @@ const suffix = (
   <AudioOutlined
     style={{
       fontSize: 16,
-      color: '#1890ff',
+      color: "#1890ff",
     }}
   />
 );
@@ -48,6 +48,7 @@ const beforeUpload = (file) => {
 const onSearch = (value) => console.log(value);
 
 function AddProduct() {
+  const listOrder = "Chưa chọn ngành hàng";
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
@@ -58,7 +59,7 @@ function AddProduct() {
   const [dataFile, setDataFile] = useState(new FormData())
 
 
-  const nav = useNavigate()
+  const nav = useNavigate();
 
   const onFinish = async (values) => {
     console.log(72, 'Success:', values);
@@ -67,15 +68,15 @@ function AddProduct() {
       let idNewProduct = res.data.product._id
       setIdProduct(idNewProduct)
       console.log(30, res);
-      nav(`/admin/product/${idNewProduct}/detail/create`)
+      nav(`/admin/product/${idNewProduct}/detail/create`);
     } catch (error) {
       console.log(32, error);
-      alert('Sản phẩm đã tồn tại')
+      alert("Sản phẩm đã tồn tại");
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   const getCategory = async (value) => {
@@ -233,12 +234,30 @@ function AddProduct() {
         <p>Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn</p>
       </div>
       <hr />
-      <div className='search-product'>
-        <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
-          <Form.Item className='inp-search-addProduct' label="Tên sản phẩm :" name="productName" rules={[{ required: true, message: 'Hãy nhập vào tên sản phẩm' }]} >
-            <Input className='input-addProductName' showCount maxLength={120} onChange={onChange} placeholder='Nhập vào' />
+      <div className="search-product">
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            className="inp-search-addProduct"
+            label="Tên sản phẩm :"
+            name="productName"
+            rules={[{ required: true, message: "Hãy nhập vào tên sản phẩm" }]}
+          >
+            <Input
+              className="input-addProductName"
+              showCount
+              maxLength={120}
+              onChange={onChange}
+              placeholder="Nhập vào"
+            />
           </Form.Item>
-          <div className='addProduct-body'>
+          <div className="addProduct-body">
             <div className="input-search">
               <span>Chọn ngành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
             </div>
@@ -296,16 +315,15 @@ function AddProduct() {
               </div>
             </div>
             <Form.Item wrapperCol={{ offset: 8, span: 14 }}>
-              <Button id='btn-addProduct' type="primary" htmlType="submit">
+              <Button id="btn-addProduct" type="primary" htmlType="submit">
                 Tiếp theo
               </Button>
             </Form.Item>
-
           </div>
         </Form>
       </div>
     </div>
-  )
+  );
 }
 
 export default AddProduct

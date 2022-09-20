@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import axios from 'axios';
+import { getAPI } from '../../config/api';
 
 
 
@@ -33,6 +34,12 @@ function MenuProfile() {
     const [data, setData] = useState({})
     const token = window.localStorage.getItem('user')
     const [openKeys, setOpenKeys] = useState(['sub1']);
+    const [Url, setUrl] = useState('')
+    const [count , setCount] = useState(0)
+
+    const domain = 'https://shope-b3.thaihm.site/'
+    let link = ''
+
 
     const onOpenChange = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -46,23 +53,29 @@ function MenuProfile() {
 
     const getData = async () => {
         try {
-            let res = await axios.get('https://shope-b3.thaihm.site/api/auth/get-loged-in-user', {headers:{ Authorization: token }})
-            console.log(50,res.data.user);
+            let res = await getAPI('auth/get-loged-in-user')
+            link = res.data.user.avatar 
+
+            if(!link.startsWith('https')){
+                link = domain + link
+            }
+            setUrl(link)
             setData(res.data.user)
         } catch (error) {
             console.log(error);
         }
     }
 
+
     useEffect(() => {
         getData()
-    }, [])
+    }, [count])
 
     return (
         <div className='menu'>
             <div className="menu-header">
                 <div className="header-left">
-                    <img src={data.avatar ? data.avatar : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
+                    <img src={Url ? Url : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
                 </div>
                 <div className="header-right">
                     <h5>{data.email ? data.email: "Đang tải"}</h5>

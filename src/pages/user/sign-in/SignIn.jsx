@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../redux/reducers/userReducer";
 
 function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
+  const d = new Date(); 
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   let expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
@@ -47,12 +47,9 @@ function SignIn() {
   const onFinish = async (values) => {
     try {
       let res = await postAPI("/auth/sign-in", values);
-      console.log(14, res);
       setCookie("shope-b3", res.data.token, 30);
       const resp = await getAPI("/auth/get-loged-in-user");
-      console.log(resp);
       const action = userLogin(resp.data);
-      console.log(53, action);
       dispatch(action);
       nav("/");
     } catch (error) {
