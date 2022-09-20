@@ -87,7 +87,7 @@ function Home() {
   };
 
   const changePageFilter = () => {
-    nav("/filter")
+    nav(`/filter`)
   }
 
   return (
