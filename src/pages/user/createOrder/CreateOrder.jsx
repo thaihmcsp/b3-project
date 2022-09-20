@@ -1,51 +1,21 @@
 import React from "react";
 import "./CreateOrder.css";
-import tableCart from "../../../static/Truong/cart.json";
-import tableProduct from "../../../static/Truong/product.json";
-import tableProductDetail from "../../../static/Truong/productDetail.json";
 import { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import { Col, Row, Table, Button, Popconfirm } from "antd";
 import { Modal } from "antd";
 import { Form, Input } from "antd";
-import { getAPI, postAPI } from "../../../config/api";
-
-tableCart[2].listProduct.map((value, index) => {
-  let product = value.productDetailId;
-  let detail = tableProductDetail.find((value2, index) => {
-    return product === value2._id;
-  });
-
-  value.productDetailId = detail;
-  let productInfo = tableProduct.find((value3, index) => {
-    return value3._id === detail.productId;
-  });
-  value.productDetailId.productId = productInfo;
-  return value;
-});
-// antd table
-
-const dataCart = [];
-tableCart[2].listProduct.map((product, index) => {
-  dataCart.push({
-    key: index,
-    Name: <a>{product.productDetailId.productId.productName}</a>,
-    price: product.productDetailId.price,
-    listImg: <img src={product.productDetailId.listImg[0]} alt="" />,
-    stonge: product.quantity,
-    total: product.quantity * product.productDetailId.price,
-    select: false,
-  });
-});
+import { getAPI, patchAPI, postAPI } from "../../../config/api";
 
 function CreateOrder() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [dataSource, setDataSource] = useState(dataCart);
+  const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [totalQuality, setTotalQuality] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [delivery, setDelivery] = useState({});
+  const [selected, setSelected] = useState();
 
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
@@ -53,7 +23,7 @@ function CreateOrder() {
   };
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log(60, "selectedRowKeys changed: ", newSelectedRowKeys);
+    console.log(25, "selectedRowKeys changed: ", newSelectedRowKeys);
     let newDataSource = [...dataSource];
     newDataSource.map((value) => {
       value.select = false;
@@ -67,50 +37,50 @@ function CreateOrder() {
     setCount(newSelectedRowKeys.length);
   };
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-    selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-      {
-        key: "odd",
-        text: "Select Odd Row",
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return false;
-            }
+  // const rowSelection = {
+  //   selectedRowKeys,
+  //   onChange: onSelectChange,
+  //   selections: [
+  //     Table.SELECTION_ALL,
+  //     Table.SELECTION_INVERT,
+  //     Table.SELECTION_NONE,
+  //     {
+  //       key: "odd",
+  //       text: "Select Odd Row",
+  //       onSelect: (changableRowKeys) => {
+  //         let newSelectedRowKeys = [];
+  //         newSelectedRowKeys = changableRowKeys.filter((_, index) => {
+  //           if (index % 2 !== 0) {
+  //             return false;
+  //           }
 
-            return true;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-      {
-        key: "even",
-        text: "Select Even Row",
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
+  //           return true;
+  //         });
+  //         setSelectedRowKeys(newSelectedRowKeys);
+  //       },
+  //     },
+  //     {
+  //       key: "even",
+  //       text: "Select Even Row",
+  //       onSelect: (changableRowKeys) => {
+  //         let newSelectedRowKeys = [];
 
-          newSelectedRowKeys = changableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return true;
-            }
+  //         newSelectedRowKeys = changableRowKeys.filter((_, index) => {
+  //           if (index % 2 !== 0) {
+  //             return true;
+  //           }
 
-            return false;
-          });
-          // console.log(108,newSelectedRowKeys);
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-    ],
-  };
+  //           return false;
+  //         });
+
+  //         setSelectedRowKeys(newSelectedRowKeys);
+  //       },
+  //     },
+  //   ],
+  // };
   const defaultColumns = [
     {
-      title: "Sản Phẩm",
+      title: "Tên Sản Phẩm",
       dataIndex: "Name",
     },
     {
@@ -129,89 +99,71 @@ function CreateOrder() {
       title: "Thành Tiền",
       dataIndex: "total",
     },
-    {
-      title: "Thao Tác",
-      dataIndex: "delete",
-      render: (_, record) => {
-        // console.log(128,_, record.key);
-        return dataSource.length >= 1 ? (
-          <Popconfirm
-            title="Bạn chắc chắn muốn xóa không ?"
-            onConfirm={() => handleDelete(record.key)}
-          >
-            <Button type="text">
-              <i class="fa-solid fa-trash-can"></i>
-            </Button>
-          </Popconfirm>
-        ) : null;
-      },
-    },
   ];
 
   useEffect(() => {
-    let newTotal = 0;
-    let newTotalQualyti = 0;
-    dataSource.map((value, index) => {
-      if (value.select === true) {
-        newTotal += value.total;
-        newTotalQualyti += Number(value.stonge);
-        // totalQuality1 += value.stonge
-      }
-    });
-    setTotal(newTotal);
-    setTotalQuality(newTotalQualyti);
     addToCart();
+    getAddress();
   }, [count]);
 
-  const [order, setOrder] = useState([]);
-  const [cartId, setCartId] = useState("");
   async function addToCart() {
     try {
       const cart = await getAPI("/cart/get-loged-in-cart");
-      setCartId(cart.data.cart._id);
-      const Cart = cart.data.cart;
-      const listProduct = cart.data.cart.listProduct;
-      console.log(listProduct, 176);
-
-      const NEWDATA = listProduct.map((item) => {
-        return dataCart.push({
-          productDetailId: {
-            _id: item.productId._id,
-            productId: item.productId,
-            price: item.productId.price,
-          },
-          quantity: item.quantity,
-          selected: item.selected,
-          _id: item.productId._id,
-        });
-      });
-
-      const newDATA = [...NEWDATA];
-      const EndData = [];
-      newDATA.map((item) => {
-        if (item.selected) {
-          EndData.push(item);
+      console.log(cart);
+      let dataCart = [];
+      const newArray = cart.data.cart.listProduct.map(function (value, index) {
+        if (value.select === true) {
+          dataCart.push({
+            productId: value.productDetailId._id,
+            key: index,
+            Name: <a>{value.productDetailId.productId.productName}</a>,
+            price: value.productDetailId.price,
+            listImg: (
+              <img
+                src={
+                  value.productDetailId.productId.thumbnail.startsWith("https")
+                    ? value.productDetailId.productId.thumbnail
+                    : "https://shope-b3.thaihm.site/" +
+                      value.productDetailId.productId.thumbnail
+                }
+              />
+            ),
+            stonge: value.quantity,
+            total: value.quantity * value.productDetailId.price,
+            select: selected,
+          });
         }
       });
-      Cart.listProduct = EndData;
+
+      setDataSource(dataCart);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getAddress() {
+    try {
+      const name = document.querySelector("name");
+      const phone = document.querySelector("phone");
+      const address = document.querySelector("address");
+      const object = {
+        name: delivery.name,
+        phone: delivery.phone,
+        address: delivery.address,
+      };
+      setDelivery(object);
+      console.log(154, delivery);
+      console.log(object);
     } catch (error) {
       console.log(error);
     }
   }
 
-  const [money, setMoney] = useState(0);
-  useEffect(() => {
-    let total = 0;
-    for (let i = 0; i < order.length; i++) {
-      for (let j = 0; j < order[i].listProduct.length; j++) {
-        total +=
-          order[i].listProduct[j].quantity *
-          order[i].listProduct[j].productDetailId.price;
-        console.log(total, 91111);
-      }
-    }
-    setMoney(total);
-  }, []);
+  let newTotal = 0;
+  let newTotalQualyti = 0;
+  dataSource.map((value, index) => {
+    newTotal += value.total;
+    newTotalQualyti += Number(value.stonge);
+  });
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -235,7 +187,6 @@ function CreateOrder() {
     } catch (error) {
       console.log(error);
     }
-    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -423,7 +374,7 @@ function CreateOrder() {
           <Col span={20}>
             <div className="create-order-list">
               <Table
-                rowSelection={rowSelection}
+                // rowSelection={rowSelection}
                 columns={defaultColumns}
                 dataSource={dataSource}
               />
@@ -449,17 +400,19 @@ function CreateOrder() {
 
               <div className="create-order-right">
                 <div className="create-order-product-mount">
-                  Số sản phẩm được mua ({count})
+                  Số sản phẩm được mua ({newTotalQualyti})
                 </div>
                 <div className="create-order-price">
-                  Tổng thanh toán ({totalQuality} Sản phẩm ):{" "}
-                  <span>{total.toLocaleString()}đ</span>
+                  Tổng thanh toán ({newTotalQualyti} Sản phẩm ):
+                  <span>{newTotal.toLocaleString()}đ</span>
                 </div>
               </div>
             </div>
           </Col>
         </Row>
-        <button className="create-order-button">Đặt hàng</button>
+        <button className="create-order-button" onClick={getAddress}>
+          Đặt hàng
+        </button>
       </div>
     </div>
   );

@@ -39,8 +39,9 @@ function changeBox (vbox){
 }
 else{
   if(!brand){
-
-    l = local.search + `&brand=${check}`
+    let z= local.search.split("&")
+    
+    l = z[0]+`&page=1`+`&brand=${check}`
   }
   else if(brand){
     l = local.search+` ${check}`
