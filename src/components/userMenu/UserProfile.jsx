@@ -182,7 +182,7 @@ function UserProfile() {
             const res = await patchAPI('/user/change-avatar', formImg)
             console.log(res);
             const ress = await getAPI('/auth/get-loged-in-user')
-            const action = userLogin(ress.data)
+            const action = userLogin(ress.data.user);
             dispatch(action)
             setCount(count + 1)
             success()
