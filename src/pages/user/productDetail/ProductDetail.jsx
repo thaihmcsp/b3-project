@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image } from 'antd'
+import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image ,message} from 'antd'
 import 'antd/dist/antd.css';
 import './productDetail.css';
 import axios from 'axios';
@@ -70,9 +70,9 @@ function ProductDetail() {
             let addToCart = await patchAPI(`/cart/add-to-cart`,{'productDetailId':productDetailID,"quantity":inputpd})
             if(addToCart.status == 200){
                 console.log(72,addToCart);
-                alert('Thêm vào giỏ hàng thành công !')
+                message.success('Thêm vào giỏ hàng thành công !')
             }else {
-                alert('Lỗi !')
+                message.error('Thêm vào giỏ hàng thất bại !')
             }
         }
         catch (error){
