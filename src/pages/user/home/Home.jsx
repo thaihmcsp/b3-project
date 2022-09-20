@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "antd";
 import "./Home.css";
-import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Pagination } from "antd";
 import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getAPI } from "../../../config/api";
@@ -23,17 +23,15 @@ function Home() {
   const [showHeaderProduct, setShowHeaderProduct] = useState(true);
   const [listProduct, setListProduct] = useState([]);
   const [count, setCount] = useState(0);
-  const [pageCurrent, setPageCurrent] = useState(0)
-
-  const tab1 = document.querySelector(".home_product-heading");
-  const tab2 = document.querySelector(".home_product-img");
+  const [pageCurrent, setPageCurrent] = useState(0);
+  const [category, setCategory] = useState([]);
 
   const search = useLocation();
   let objectSearch = { page: 1, pageSize: 10 };
-  let page = 0
+  let page = 0;
   if (search.search) {
     const querry = search.search.slice(1).split("&");
-    page = querry[0].split("=")[1]
+    page = querry[0].split("=")[1];
     querry.map((item) => {
       const key = item.split("=")[0];
       const value = item.split("=")[1];
@@ -46,7 +44,9 @@ function Home() {
     async function getData() {
       try {
         let products = await getAPI("/product/get-all-products");
+        let categories = await getAPI("/category/get-all-categories");
         setListProduct(products.data.products);
+        setCategory(categories.data.categories);
         setShowDataPage(
           products.data.products.slice(
             (objectSearch.page - 1) * objectSearch.pageSize,
@@ -54,10 +54,10 @@ function Home() {
           )
         );
         if (search.search) {
-          setShowPagination(true)
-          setShowBtnSeeMore(false)
-          setShowHeaderProduct(false)
-          setPageCurrent(page)
+          setShowPagination(true);
+          setShowBtnSeeMore(false);
+          setShowHeaderProduct(false);
+          setPageCurrent(page);
         }
       } catch (error) {
         console.log(error);
@@ -85,6 +85,10 @@ function Home() {
     nav(`?page=${current}&pageSize=${pageSize}`);
     setCount((pre) => pre + 1);
   };
+
+  const changePageFilter = () => {
+    nav("/filter")
+  }
 
   return (
     <div className="home_container">
@@ -151,87 +155,19 @@ function Home() {
           </div>
         </div>
         <div className="home_navbar">
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="	https://cf.shopee.vn/file/46a2a2c810622f314d78455da5e5d926_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Khung Giờ Săn Sale</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Gì Cũng Rẻ - Mua Là Freeship</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="https://cf.shopee.vn/file/a8d76bca057ba0b117dcf8e1ef068d16_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Miễn Phí Vận Chuyển</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="https://cf.shopee.vn/file/b15de7d7368673a82583a88333ed23e7_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Bắt Trend - Giá Sốc</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="https://cf.shopee.vn/file/21a4856d1fecd4eda143748661315dba_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Hoàn Xu 6% - Lên Đến 200K</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="	https://cf.shopee.vn/file/8d6d5ee795e7675fed39d31ba04c3b92_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Hàng Hiệu Giá Tốt</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="	https://cf.shopee.vn/file/29961f92098bc9153b88332110a91c87_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Hàng Quốc Tế - Thương Hiệu 59K</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="	https://cf.shopee.vn/file/9df57ba80ca225e67c08a8a0d8cc7b85_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Nạp Thẻ, Hóa Đơn & Phim</p>
-          </div>
-          <div className="home_navbar-item">
-            <div className="home_navbar-item-img">
-              <img
-                src="	https://cf.shopee.vn/file/96385a65fa50800e096bb790fa5c1dba_xhdpi"
-                alt=""
-              />
-            </div>
-            <p>Deal Sốc Từ 1K</p>
-          </div>
+          {category.map((item) => {
+            return (
+              <div className="home_navbar-item" onClick={changePageFilter}>
+                <div className="home_navbar-item-img">
+                  <img
+                    src={"https://shope-b3.thaihm.site/" + item.thumbnail}
+                    alt=""
+                  />
+                </div>
+                <p>{item.categoryName}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="home_product">
@@ -241,6 +177,8 @@ function Home() {
               <div
                 className="home_product-heading tab-active"
                 onClick={() => {
+                  const tab1 = document.querySelector(".home_product-heading");
+                  const tab2 = document.querySelector(".home_product-img");
                   tab2.classList.remove("tab-active");
                   tab1.classList.add("tab-active");
                 }}
@@ -250,6 +188,8 @@ function Home() {
               <div
                 className="home_product-img"
                 onClick={() => {
+                  const tab1 = document.querySelector(".home_product-heading");
+                  const tab2 = document.querySelector(".home_product-img");
                   tab2.classList.add("tab-active");
                   tab1.classList.remove("tab-active");
                 }}
@@ -268,7 +208,10 @@ function Home() {
           <div className="home_product-list-product">
             {showDataPage.map((item, index) => {
               return (
-                <Link to={"/product-detail/" + item._id} className="home_product-item-link">
+                <Link
+                  to={"/product-detail/" + item._id}
+                  className="home_product-item-link"
+                >
                   <div
                     className="home_product-item"
                     onClick={() => changePage(item._id)}
