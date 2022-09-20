@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Input, Space, Form, Button } from 'antd';
-// import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { Col, Row } from 'antd';
+import { Input, Space, Form, Button, TreeSelect, Select } from 'antd';
+import { SwapRightOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
@@ -51,18 +52,21 @@ function AddProduct() {
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+  const [branch, setBranch] = useState('')
+  const [categoryName, setCategoryName] = useState('')
+  const [idProduct, setIdProduct] = useState([])
+  const [listCategory, setListCategory] = useState([])
   const [dataFile, setDataFile] = useState(new FormData())
 
 
   const nav = useNavigate();
 
   const onFinish = async (values) => {
-
+    console.log(72, 'Success:', values);
     try {
-      dataFile.append('productName', values)
-      let res = await postAPI('/product/create-product', dataFile)
+      let res = await postAPI('/product/create-product', values)
       let idNewProduct = res.data.product._id
-      console.log('Success:', dataFile);
+      setIdProduct(idNewProduct)
       console.log(30, res);
       nav(`/admin/product/${idNewProduct}/detail/create`);
     } catch (error) {
@@ -75,59 +79,42 @@ function AddProduct() {
     console.log("Failed:", errorInfo);
   };
 
-  const onChange = (e) => {
-    console.log(24, "Change:", e.target.value);
-  };
-
-  function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
+  const getCategory = async (value) => {
+    try {
+      let res = await getAPI('/category/get-all-categories')
+      setListCategory(res.data.categories);
+    } catch (error) {
+      console.log(80, error);
+    }
   }
 
-  const items = [
-    getItem('Điện thoại', 'sub1', null, [
-      getItem(null, null, null,
-        [getItem('Apple', '1'),
-        getItem('SamSung', '2'),
-        getItem('Xiaomi', '3'),
-        getItem('OPPO', '4'),
-        getItem('Nokia', '6'),
-        getItem('ASUS', '8'),], 'group'),
-    ]),
-    getItem('Laptop', 'sub2', null, [
-
-    ]),
-    getItem('Máy tính bảng', 'sub3', null, [
-
-    ]),
-
-  ];
-
-  const onClick = (value) => {
-    console.log(88, "click", value.key);
-    listOrder = value.key;
-    return listOrder;
+  const onChange = (e) => {
+    console.log(24, 'Change:', e.target.value);
   };
 
-  console.log(listOrder);
-
-
-  const handleChange = (info) => {
+  const handleChange = async (info) => {
     console.log(118, info);
     const formData = new FormData()
     setDataFile(formData)
     formData.append('thumb', info.file.originFileObj)
-
     getBase64(info.file.originFileObj, (url) => {
       setLoading(false);
       setImageUrl(url);
     });
   };
+
+  const handleChangeValue = (value) => {
+    console.log(95, value)
+    const branchName = value
+    setBranch(branchName)
+  }
+
+  const onChangeValue = (value, text) => {
+    console.log(104, value);
+    console.log(text.children);
+    const categoryName = text.children
+    setCategoryName(categoryName)
+  }
 
   const uploadButton = (
     <div>
@@ -142,10 +129,107 @@ function AddProduct() {
     </div>
   );
 
+  const options = [
+    {
+      title: 'Điện Thoại',
+      value: 'Điện Thoại',
+      children: [
+        {
+          title: 'Apple',
+          value: 'Apple',
+        },
+        {
+          title: 'SamSung',
+          value: 'SamSung',
+        },
+        {
+          title: 'Xiaomi',
+          value: 'Xiaomi',
+        },
+        {
+          title: 'OPPO',
+          value: 'OPPO',
+        },
+        {
+          title: 'Nokia',
+          value: 'Nokia',
+        },
+        {
+          title: 'ASUS',
+          value: 'ASUS',
+        },
+      ],
+    },
+    {
+      title: 'Máy tính bảng',
+      value: 'Máy tính bảng',
+      children: [
+        {
+          title: 'Ipad',
+          value: 'Ipad',
+        },
+        {
+          title: 'SamSung',
+          value: 'SamSung',
+        },
+        {
+          title: 'Nokia',
+          value: 'Nokia',
+        },
+        {
+          title: 'Xiaomi',
+          value: 'Xiaomi',
+        },
+        {
+          title: 'Lenovo',
+          value: 'Lenovo',
+        },
+      ],
+    },
+    {
+      title: 'Laptop',
+      value: 'Laptop',
+      children: [
+        {
+          title: 'Mac',
+          value: 'Mac',
+        },
+        {
+          title: 'Dell',
+          value: 'Dell',
+        },
+        {
+          title: 'ASUS',
+          value: 'ASUS',
+        },
+        {
+          title: 'Xiaomi',
+          value: 'Xiaomi',
+        },
+        {
+          title: 'Inrel',
+          value: 'Inrel',
+        },
+        {
+          title: 'HP',
+          value: 'HP',
+        },
+        {
+          title: 'Acer',
+          value: 'Acer',
+        },
+      ],
+    },
+  ]
+
+  useEffect(() => {
+    getCategory()
+  }, [])
 
   return (
-    <div className="classAddProduct">
-      <div className="addProduct-header">
+    <div className='classAddProduct'>
+
+      <div className='addProduct-header'>
         <h4>Thêm 1 sản phẩm mới</h4>
         <p>Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn</p>
       </div>
@@ -175,61 +259,59 @@ function AddProduct() {
           </Form.Item>
           <div className="addProduct-body">
             <div className="input-search">
-              <Search
-                placeholder="Tên ngành hàng"
-                onSearch={onSearch}
-                style={{
-                  width: "30%",
-                  borderRadius: 20,
-                }}
-              />{" "}
-              <span>
-                Chọn ngành hàng chính xác ,{" "}
-                <a className="link-addProduct" href="/">
-                  Bấm vào đây để tìm hiểu
-                </a>
-              </span>
+              <span>Chọn ngành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
             </div>
-            <div className="menuAddProduct">
-              <Menu
-                onClick={onClick}
-                style={{
-                  width: 256,
-                }}
-                mode="vertical"
-                items={items}
+
+            <Form.Item label="Tên ngành hàng : " className='addCategory-addProduct' name='categoryId'>
+              <Select onChange={onChangeValue}>
+                {listCategory.map(function(value){
+                  return(
+                    <Select.Option value={value._id}>{value.categoryName}</Select.Option>
+                  )
+                })}
+              </Select>
+            </Form.Item>
+
+            <Form.Item label="Tên hãng hàng : " className='addBranch-addProduct' name='branch'>
+              <TreeSelect
+                onChange={handleChangeValue}
+                treeData={options}
               />
-            </div>
+            </Form.Item>
+
           </div>
 
-          <div className="footer-addProduct">
-            <div className="chose-addProduct">
-              Đã chọn : <p> {listOrder}</p>
+          <div className='footer-addProduct'>
+            <div className='chose-addProduct'>
+              Đã chọn :   <p> {categoryName} <SwapRightOutlined /> {branch} </p>
             </div>
 
             <div className="upload-img">
               <h4>Thêm ảnh cho sản phẩm</h4>
               <div className='input-upload-img'>
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  beforeUpload={beforeUpload}
-                  onChange={handleChange}
-                >
-                  {imageUrl ? (
-                    <img
-                      src={imageUrl}
-                      alt="avatar"
-                      style={{
-                        width: '100%',
-                      }}
-                    />
-                  ) : (
-                    uploadButton
-                  )}
-                </Upload>
+
+                <Form.Item className='img-product' name="thumbnail" rules={[{ required: true, message: 'Hãy nhập vào ảnh của sản phẩm' }]} >
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    beforeUpload={beforeUpload}
+                    onChange={handleChange}
+                  >
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{
+                          width: '100%',
+                        }}
+                      />
+                    ) : (
+                      uploadButton
+                    )}
+                  </Upload>
+                </Form.Item>
               </div>
             </div>
             <Form.Item wrapperCol={{ offset: 8, span: 14 }}>
@@ -244,4 +326,10 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default AddProduct
+
+
+
+
+
+

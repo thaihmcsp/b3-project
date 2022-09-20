@@ -22,20 +22,20 @@ function CreateOrder() {
     setDataSource(newData);
   };
 
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log(25, "selectedRowKeys changed: ", newSelectedRowKeys);
-    let newDataSource = [...dataSource];
-    newDataSource.map((value) => {
-      value.select = false;
-    });
-    for (let i = 0; i < newSelectedRowKeys.length; i++) {
-      newDataSource[newSelectedRowKeys[i]].select = true;
-    }
+  // const onSelectChange = (newSelectedRowKeys) => {
+  //   console.log(25, "selectedRowKeys changed: ", newSelectedRowKeys);
+  //   let newDataSource = [...dataSource];
+  //   newDataSource.map((value) => {
+  //     value.select = false;
+  //   });
+  //   for (let i = 0; i < newSelectedRowKeys.length; i++) {
+  //     newDataSource[newSelectedRowKeys[i]].select = true;
+  //   }
 
-    setDataSource(newDataSource);
-    setSelectedRowKeys(newSelectedRowKeys);
-    setCount(newSelectedRowKeys.length);
-  };
+  //   setDataSource(newDataSource);
+  //   setSelectedRowKeys(newSelectedRowKeys);
+  //   setCount(newSelectedRowKeys.length);
+  // };
 
   // const rowSelection = {
   //   selectedRowKeys,
