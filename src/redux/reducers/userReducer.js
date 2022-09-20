@@ -6,9 +6,9 @@ let string = window.localStorage.getItem('user-shope')
 let init = {} 
 if(!string) {
     init = {}
+    window.localStorage.setItem('user-shope', JSON.stringify({}));
 }else{
     init = JSON.parse(string);
-   
 }
 
 function getCookie(cname) {
