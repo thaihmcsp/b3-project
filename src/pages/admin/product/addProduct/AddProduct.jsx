@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'antd';
-import { Input, Space, Form, Button, Cascader } from 'antd';
+import { Input, Space, Form, Button, TreeSelect, Select } from 'antd';
 import { SwapRightOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
@@ -76,6 +76,15 @@ function AddProduct() {
     console.log('Failed:', errorInfo);
   };
 
+  const getCategory = async (value) => {
+    try {
+      let res =await getAPI('/category/get-all-categories')
+      console.log(78 , res.data);
+    } catch (error) {
+      console.log(80 , error);
+    }
+  }
+
   const onChange = (e) => {
     console.log(24, 'Change:', e.target.value);
   };
@@ -92,10 +101,15 @@ function AddProduct() {
   };
 
   const handleChangeValue = (value) => {
-    console.log(96, value)
-    const categoryName = value[0]
-    const branchName = value[1]
+    console.log(95, value)
+    const branchName = value
     setBranch(branchName)
+  }
+
+  const onChangeValue = (value , text) => {
+    console.log(104 , value);
+    console.log(text.children);
+    const categoryName = text.children
     setCategoryName(categoryName)
   }
 
@@ -114,97 +128,101 @@ function AddProduct() {
 
   const options = [
     {
+      title: 'Điện Thoại',
       value: 'Điện Thoại',
-      label: 'Điện Thoại',
       children: [
         {
-          name: 'branch',
+          title: 'Apple',
           value: 'Apple',
-          label: 'Apple',
         },
         {
+          title: 'SamSung',
           value: 'SamSung',
-          label: 'SamSung',
         },
         {
+          title: 'Xiaomi',
           value: 'Xiaomi',
-          label: 'Xiaomi',
         },
         {
+          title: 'OPPO',
           value: 'OPPO',
-          label: 'OPPO',
         },
         {
+          title: 'Nokia',
           value: 'Nokia',
-          label: 'Nokia',
         },
         {
+          title: 'ASUS',
           value: 'ASUS',
-          label: 'ASUS',
         },
       ],
     },
     {
+      title: 'Máy tính bảng',
       value: 'Máy tính bảng',
-      label: 'Máy tính bảng',
       children: [
         {
+          title: 'Ipad',
           value: 'Ipad',
-          label: 'Ipad',
         },
         {
+          title: 'SamSung',
           value: 'SamSung',
-          label: 'SamSung',
         },
         {
+          title: 'Nokia',
           value: 'Nokia',
-          label: 'Nokia',
         },
         {
+          title: 'Xiaomi',
           value: 'Xiaomi',
-          label: 'Xiaomi',
         },
         {
+          title: 'Lenovo',
           value: 'Lenovo',
-          label: 'Lenovo',
         },
       ],
     },
     {
+      title: 'Laptop',
       value: 'Laptop',
-      label: 'Laptop',
       children: [
         {
+          title: 'Mac',
           value: 'Mac',
-          label: 'Mac',
         },
         {
+          title: 'Dell',
           value: 'Dell',
-          label: 'Dell',
         },
         {
+          title: 'ASUS',
           value: 'ASUS',
-          label: 'ASUS',
         },
         {
+          title: 'Xiaomi',
           value: 'Xiaomi',
-          label: 'Xiaomi',
         },
         {
+          title: 'Inrel',
           value: 'Inrel',
-          label: 'Inrel',
         },
         {
+          title: 'HP',
           value: 'HP',
-          label: 'HP',
         },
         {
+          title: 'Acer',
           value: 'Acer',
-          label: 'Acer',
         },
       ],
     },
   ]
+
+  useEffect(() => {
+    getCategory()
+  }, [])
+  
   return (
     <div className='classAddProduct'>
 
@@ -220,21 +238,22 @@ function AddProduct() {
           </Form.Item>
           <div className='addProduct-body'>
             <div className="input-search">
-              {/* <Search
-                placeholder="Tên ngành hàng"
-                onSearch={onSearch}
-                style={{
-                  width: '30%',
-                  borderRadius: 20
-                }}
-              />  */}
               <span>Chọn ngành hàng chính xác , <a className='link-addProduct' href="/">Bấm vào đây để tìm hiểu</a></span>
             </div>
 
-            <Form.Item label="Tên ngành hàng : " className='addBranch-addProduct' name='branch'>
-              <Cascader
+            <Form.Item label="Tên ngành hàng : " className='addCategory-addProduct' name='categoryId'>
+              <Select onChange={onChangeValue}>
+                <Select.Option value="63227fdadb8fd735e64e3e50">Điện thoại</Select.Option>
+                <Select.Option value="63227feddb8fd735e64e3e53">Máy tính bảng</Select.Option>
+                <Select.Option value="6322ddb078a5a51c786fc168">Bàn phím</Select.Option>
+                <Select.Option value="6322dfa178a5a51c786fc1de">Mouse</Select.Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item label="Tên hãng hàng : " className='addBranch-addProduct' name='branch'>
+              <TreeSelect
                 onChange={handleChangeValue}
-                options={options}
+                treeData={options}
               />
             </Form.Item>
 
