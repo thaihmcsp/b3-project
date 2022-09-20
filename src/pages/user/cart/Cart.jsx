@@ -61,7 +61,6 @@ function Cart() {
 
         }
       )
-      console.log(65, newTotal);
       setTotal(newTotal)
       setTotalQuality(newTotalQualyti)
       setSelectedRowKeys(selectList);
@@ -71,7 +70,7 @@ function Cart() {
     }
   }
 
-  console.log(56, selectedRowKeys);
+  // console.log(56, selectedRowKeys);
   // remote product
   async function remoteCartAPI(id) {
     try {
@@ -118,7 +117,23 @@ function Cart() {
     nav("/create-order");
   }
 
-
+function onSelectAll1(selected, selectedRows, changeRows){
+  console.log(122 ,selected ,'selectrows', selectedRows ,'change' , changeRows);
+  if(selected == true){
+    selectedRows.map(
+      (value)=>{
+        selectAPI(value.productId ,true)
+      }
+    )
+  }else {
+    console.log(129, selected, selectedRows , changeRows); 
+    changeRows.map(
+      (value)=>{
+        selectAPI(value.productId ,false)
+      }
+    )
+  }
+}
   const onSelectChange = async (newSelectedRowKeys) => {
     console.log(103, 'selectedRowKeys changed: ', newSelectedRowKeys, selectedRowKeys);
 
@@ -142,6 +157,7 @@ function Cart() {
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
+    onSelectAll:onSelectAll1,
     selections: [
       Table.SELECTION_ALL,
       Table.SELECTION_INVERT,
@@ -261,7 +277,7 @@ function Cart() {
       getAPIcart()
     }, [count, reload, counting]
   );
-  console.log(216, dataSource);
+  // console.log(216, dataSource);
   return (
     <div className="cart-container">
       <Row justify="center">
