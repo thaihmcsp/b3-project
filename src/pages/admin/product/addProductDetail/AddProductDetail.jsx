@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Input, Form } from 'antd';
 import './AddProductDetail.css'
 import { useParams, useNavigate } from 'react-router-dom';
-import { postAPI } from '../../../../config/api';
+import { patchAPI, postAPI } from '../../../../config/api';
 
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -28,14 +28,28 @@ const beforeUpload = (file) => {
 };
 function AddProductDetail() {
   const { productId } = useParams()
-  const [imgFile, setImgFile] = useState(new FormData) 
+  const [imgFile, setImgFile] = useState(new FormData()) ;
   const navigate = useNavigate()
+  const onFinishIMG = async (values) => {
+    console.log('Success:', values);
+    try {
+      let res = await postAPI(`/product/update-product-info/${productId}`, values)
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onFinish = async (values) => {
     console.log('Success:', values);
     try {
       let res = await postAPI(`/productDetail/create-product-detail/product/${productId}`, values)
-      console.log(res);
-      navigate('/admin/product')
+      console.log(46, res);
+      for (const pair of imgFile.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+      let data = await patchAPI(`/productDetail/add-product-detail-thumbs/${res.data.productDetail._id}`, imgFile)
+      console.log(48, data);
+      // navigate('/admin/product')
     } catch (error) {
       console.log(error);
     }
@@ -43,19 +57,21 @@ function AddProductDetail() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const handleOk = (e) =>{
-    postAPI('', {})
+  const handleOk = async (e) =>{
+    // const res = await postAPI('/productDetail/add-product-detail-thumbs/:productId', imgFile)
+    // console.log(res);
   }
- 
-  
-  
     const [loading, setLoading] = useState([false,false,false,false,false,false,false,false,false]);
     const [imageUrl, setImageUrl] = useState(['','','','','','','','','']);
     
     const name = ['* Ảnh bìa', 'Hình ảnh 1','Hình ảnh 2','Hình ảnh 3', 'Hình ảnh 4', 'Hình ảnh 5', 'Hình ảnh 6', 'Hình ảnh 7', 'Hình ảnh 8']
     const handleChange = (info, index) => {
       const formData = new FormData()
-      setImgFile(formData)
+      console.log(info.file.originFileObj);
+      // formData.append('thumps', info.file.originFileObj )
+      // setImgFile(formData)
+      imgFile.append('thumbs', info.file.originFileObj )
+      setImgFile(imgFile)
       console.log(53, info);
       if (info.file.status === 'uploading') {
         getBase64(info.file.originFileObj, (url) => {
@@ -92,6 +108,8 @@ function AddProductDetail() {
     <Form
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
+      onFinishIMG={onFinishIMG}
+      handleOk={handleOk}
     >
     <div>
         <div className='container' >
