@@ -127,7 +127,7 @@ console.log(data,24);
     }
    function nameUser() {
       let dataUs = JSON.parse(window.localStorage.getItem("user-shope"));
-    
+    if(!dataUs) dataUs = {};
     
     if (Object.keys(dataUs).length !== 0) {
         
