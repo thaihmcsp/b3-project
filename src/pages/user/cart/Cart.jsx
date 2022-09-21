@@ -281,7 +281,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
   return (
     <div className="cart-container">
       <Row justify="center">
-        <Col span={20}>
+        <Col lg={20} md={22} xs={23}>
           <div className="cart-list">
             <Table
               rowSelection={rowSelection}
@@ -292,11 +292,11 @@ function onSelectAll1(selected, selectedRows, changeRows){
         </Col>
       </Row>
       <Row justify="center">
-        <Col span={20}>
+        <Col lg={24} md={24}>
           <div className="cart-footer">
             <Row justify="center">
-              <Col span={10}></Col>
-              <Col span={10}>
+             
+              <Col lg={16} md={16} offset={6} >
                 <div className="cart-voucher-1">
                   <div className="cart-title">
                     <h2>
@@ -321,13 +321,13 @@ function onSelectAll1(selected, selectedRows, changeRows){
               </Col>
             </Row>
             <Row justify="center">
-              <Col span={10}>
+              <Col lg={10}  sm={22} xs={{order:10}} >
                 <div className="cart-footer">
                   <span>Chọn tất cả ({count})</span> <span> Xóa </span>{" "}
                   <span> Bỏ sản phẩm không hoạt động</span>
                 </div>
               </Col>
-              <Col span={10}>
+              <Col lg={10}  sm={22} xs={{order:10}}>
                 <div className="cart-footer2">
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span>{" "}
                   <span className="cart-price">{total}đ</span>

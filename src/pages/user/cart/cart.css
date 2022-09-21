@@ -1,15 +1,27 @@
 .cart-container{
     margin-top: 150px;
+    width: 100%;
 }
 .cart-container .ant-radio{
     display: none;
 }
 
+.cart-list{
+  width: 100%;
+}
+.cart-list .ant-table .ant-table-thead{
+  width: 100% !important;
+}
+.cart-list .ant-table .ant-table-tbody {
+  width: 100% !important;
+}
 .cart-list .ant-table-cell img{
     width: 145px;
     height: 100px;
 }
-
+.cart-list .ant-table-cell{
+  text-align: center;
+} 
 .code-box-demo .ant-select {
     margin: 0 8px 10px 0;
   }
@@ -29,19 +41,24 @@
  
 
   .cart-voucher-1{
+    width: 550px;
     display: flex;
+    justify-content: center !important;
   }
   .cart-voucher{
     margin-left: 50px;
-    width: 350px;
+    width: 225px;
   }
+  
   .cart-title h2 i{
     color: #FB5430;
   }
   .cart-footer {
-    margin: 20px 0;
+    text-align: center;
+    margin: 28px 0;
   }
   .cart-footer2 {
+    text-align: center;
     margin: 20px 0;
   }
   .cart-footer2 span{
