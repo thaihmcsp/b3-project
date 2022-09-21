@@ -3,12 +3,12 @@ const { createSlice } = require("@reduxjs/toolkit");
 let string = window.localStorage.getItem('user-shope')
 
 
-let init = [] 
+let init = {} 
 if(!string) {
-    init = []
+    init = {}
+    window.localStorage.setItem('user-shope', JSON.stringify({}));
 }else{
     init = JSON.parse(string);
-   
 }
 
 function getCookie(cname) {
@@ -31,11 +31,11 @@ const userSlice = createSlice({
     name: 'user',
     initialState: init,
     reducers: {
-        userLogin: function (state, action) {
-            window.localStorage.setItem('user-shope', JSON.stringify(action.payload.user))
-            return action.payload.user;
-        },
-        
+      userLogin: function (state = init, action ) {
+          console.log(action)
+          window.localStorage.setItem('user-shope', JSON.stringify(action.payload));
+          return action.payload;
+      },
     }
 })
 

@@ -127,7 +127,7 @@
 .home_navbar-item {
   text-align: center;
   margin: 0 2px;
-  width: 9%;
+  width: 20%;
 }
 
 .home_navbar-item:hover {
@@ -136,8 +136,8 @@
 }
 
 .home_navbar-item-img img {
-  width: 45px;
-  height: 45px;
+  width: 60px;
+  height: 60px;
   border-radius: 4px;
 }
 
