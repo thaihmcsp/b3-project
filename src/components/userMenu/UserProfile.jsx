@@ -113,6 +113,7 @@ function UserProfile() {
             console.log(error);
         }
     }
+    // setSex(data.sex)
 
     console.log(data);
     console.log(123,birthDay);
@@ -143,9 +144,10 @@ function UserProfile() {
             let res = await patchAPI('user/update-info', values)
             setCount(count + 1)
             console.log(res);
-            alert(res.data.message)
+            message.success('Đổi thông tin thành công')
         } catch (error) {
             console.log(error);
+            message.error('Thất bại')
         }
     };
 
@@ -193,7 +195,8 @@ function UserProfile() {
     };
 
     
-
+    
+    console.log(typeof(data.sex));
 
     return (
         <div className='user-profile'>
@@ -205,7 +208,6 @@ function UserProfile() {
                 <div className="body-left">
                     <Row>
                         <Col span={6} >Tên Đăng Nhập</Col>
-                        {/* <Col span={18}>{data.email ? data.email : "Đang cập nhật"}</Col> */}
                         <Col span={18}><Input value={data.email ? data.email : "Đang cập nhật"} /></Col>
                     </Row>
 
@@ -231,7 +233,7 @@ function UserProfile() {
                                 style={{
                                     width: 120,
                                 }}
-                                defaultValue={data.sex == "Male" ? "Male" : "Female"}
+                                defaultValue={data.sex}
                                 onChange={handleChange}
                             >
                                 <Option value="Male">Male</Option>
