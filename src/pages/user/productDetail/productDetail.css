@@ -24,7 +24,7 @@
     margin-top: 25px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .product-detail-title {
     width: 100%;
@@ -143,6 +143,7 @@
 }
 
 .product-detail-footer {
+    margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
 }

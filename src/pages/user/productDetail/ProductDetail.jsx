@@ -161,7 +161,7 @@ function ProductDetail() {
 
 
 
-
+console.log(productDetailData);
     return (
         <div className='product-detail'>
             {productDetailData.map(
@@ -170,7 +170,7 @@ function ProductDetail() {
                     return (
                         <div className='product-detail-body'>
                             <Row justify='center'>
-                                <Col span={16}>
+                                <Col  lg={16} md={16} >
                                     <PageHeader
                                         className="site-page-header"
                                         breadcrumb={{
@@ -182,7 +182,7 @@ function ProductDetail() {
                             </Row>
                             <Row justify='center' >
 
-                                <Col span={5}>
+                                <Col  lg={5} md={8} xs={24}>
                                     <div className="product-detail-left">
                                         <Carousel autoplay>
                                             <div>
@@ -230,7 +230,7 @@ function ProductDetail() {
                                         </div>
                                     </div>
                                 </Col>
-                                <Col span={11}>
+                                <Col  lg={11} md={12} xs={24}>
                                     <div className="product-detail-right">
                                         <div className="product-detail-title">
                                             <h2> {value.productName}</h2>
@@ -260,23 +260,6 @@ function ProductDetail() {
                                                 </Descriptions.Item>
                                             </Descriptions>
                                         </div>
-                                        {/* <div className="product-detail-sale">
-                                                                <Descriptions bordered>
-                                                                    <Descriptions.Item label='Mã giảm giá :'>
-                                                                        <Select
-                                                                            mode="multiple"
-                                                                            placeholder="Chọn hoặc nhập mã"
-                                                                            defaultValue={['Giảm 10%']}
-                                                                            onChange={handleChange}
-                                                                            style={{
-                                                                                width: '100%',
-                                                                            }}
-                                                                        >
-                                                                            {children}
-                                                                        </Select>
-                                                                    </Descriptions.Item>
-                                                                </Descriptions>
-                                                            </div> */}
                                         <div className="prodtuct-detail-color">
                                             <Descriptions>
                                                 <Descriptions.Item label='Màu Sắc'>
@@ -391,7 +374,7 @@ function ProductDetail() {
 
                             </Row>
                             <Row justify='center'>
-                                <Col span={6}>
+                                <Col  lg={6} md={8} xs={22}>
                                     <div className='product-detail-footer'>
                                         <div>
                                             <span>Chia sẻ:</span>
@@ -407,7 +390,7 @@ function ProductDetail() {
                                         </div>
                                     </div>
                                 </Col>
-                                <Col span={10}>
+                                <Col  lg={10} md={8} xs={24}>
                                     <div className='product-detail-add'>
                                         <Button danger className='pd-add-gh' onClick={addToCart}> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
                                         <Button type='primary' danger className='pd-add-mh'>Mua Ngay</Button>
