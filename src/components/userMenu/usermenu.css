@@ -455,3 +455,24 @@
 .btn-change-avatar {
   margin-left: calc(5% ) !important;
 }
+
+
+.user-profile .profile-body .body-left input {
+  outline: 0;
+  border: 1px solid gray;
+  padding: 4px 11px;
+}
+
+.inp-user,
+.inp-full,
+.inp-phone {
+  width: 100% ;
+}
+
+.user-profile .profile-body .body-left .ant-row {
+  margin: 0;
+}
+
+.user-profile .profile-body .body-left .email {
+  margin-bottom: 20px;
+}
