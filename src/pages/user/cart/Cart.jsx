@@ -35,7 +35,7 @@ function Cart() {
                 key: value.productDetailId._id,
                 Name: <a>{value.productDetailId.productId.productName}</a>,
                 price: value.productDetailId.price,
-                listImg: <img src={`https://shope-b3.thaihm.site/${value.productDetailId.productId.thumbnail}`}></img>,
+                listImg: <img src={`https://shope-b3.thaihm.site/${value.productDetailId.listImg[0]}`}></img>,
                 stonge: value.quantity,
                 total: value.quantity * value.productDetailId.price,
                 select: value.select
@@ -277,7 +277,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
       getAPIcart()
     }, [count, reload, counting]
   );
-  // console.log(216, dataSource);
+  console.log(216, dataSource);
   return (
     <div className="cart-container">
       <Row justify="center">
@@ -321,13 +321,13 @@ function onSelectAll1(selected, selectedRows, changeRows){
               </Col>
             </Row>
             <Row justify="center">
-              <Col lg={10}  sm={22} xs={{order:10}} >
+              <Col lg={10}  sm={22}  >
                 <div className="cart-footer">
                   <span>Chọn tất cả ({count})</span> <span> Xóa </span>{" "}
                   <span> Bỏ sản phẩm không hoạt động</span>
                 </div>
               </Col>
-              <Col lg={10}  sm={22} xs={{order:10}}>
+              <Col lg={10}  sm={22} >
                 <div className="cart-footer2">
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span>{" "}
                   <span className="cart-price">{total}đ</span>
