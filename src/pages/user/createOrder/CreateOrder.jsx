@@ -6,8 +6,14 @@ import { Col, Row, Table, Button, Popconfirm } from "antd";
 import { Modal } from "antd";
 import { Form, Input } from "antd";
 import { getAPI, patchAPI, postAPI } from "../../../config/api";
+import { useSelector } from "react-redux";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
+
+const key = "updatable";
 
 function CreateOrder() {
+  const nav = useNavigate();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(0);
@@ -103,7 +109,8 @@ function CreateOrder() {
 
   useEffect(() => {
     addToCart();
-    getAddress();
+    let address = getAddress();
+    onFinish(address);
   }, [count]);
 
   async function addToCart() {
@@ -136,27 +143,68 @@ function CreateOrder() {
       });
 
       setDataSource(dataCart);
+      // createOrder();
     } catch (error) {
       console.log(error);
     }
   }
-  async function getAddress() {
+
+  async function createOrder() {
+    const local = localStorage.getItem("address");
+    const parserr = JSON.parse(local);
+    const phoneNumber = parserr.phone;
+    const addRess = parserr.address;
+    // const cart = await getAPI("/cart/get-loged-in-cart");
+    // console.log(cart);
+    // const cartProduct = cart.data.cart.listProduct;
+    // console.log(cartProduct);
+    const obj = {
+      data: dataSource,
+      phone: phoneNumber,
+      address: addRess,
+    };
+    // console.log(obj);
     try {
-      const name = document.querySelector("name");
-      const phone = document.querySelector("phone");
-      const address = document.querySelector("address");
-      const object = {
-        name: delivery.name,
-        phone: delivery.phone,
-        address: delivery.address,
-      };
-      setDelivery(object);
-      console.log(154, delivery);
-      console.log(object);
+      if (!obj) {
+        alert("Không đủ dữ liệu để tạo đơn hàng!");
+      }
+      const dataOder = await postAPI("/order/create-order", obj);
+      console.log(dataOder, 152);
+      openMessage();
+      setTimeout(() => {
+        nav("/user/order");
+      }, 2000);
     } catch (error) {
       console.log(error);
+      alert("Không đủ dữ liệu để tạo đơn hàng!");
     }
   }
+
+  const user = useSelector((state) => state.user);
+  const getAddress = () => {
+    // const addd = {
+    //   name: user.fullname,
+    //   phone: user.phone,
+    //   address: "A4/BT3 Ngõ 214 Nguyễn Xiển - Thanh Xuân - Hà Nội",
+    // };
+    let local = localStorage.getItem("address");
+    if (!local) {
+      local = {};
+    } else {
+      local = JSON.parse(local);
+    }
+    const addd = {
+      name: local.name,
+      phone: local.phone,
+      address: local.address,
+    };
+    console.log(189, addd);
+    const address = localStorage.setItem("address", JSON.stringify(addd));
+    const diaChi = localStorage.getItem("address");
+    const diaChi2 = JSON.parse(diaChi);
+    setDelivery(diaChi2);
+    return diaChi2;
+  };
 
   let newTotal = 0;
   let newTotalQualyti = 0;
@@ -176,12 +224,23 @@ function CreateOrder() {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
   const onFinish = async (values) => {
+    console.log(216, values);
+    let data = localStorage.getItem("address");
+    if (!data) {
+      localStorage.setItem("address", "{}");
+      data = {};
+    } else {
+      data = JSON.parse(data);
+    }
+    console.log(220, data);
     try {
-      let name = document.querySelector("#name");
-      let phone = document.querySelector("#phone");
-      let address = document.querySelector("#address");
+      // let data;
+      const name = document.querySelector("#name").value;
+      const phone = document.querySelector("#phone").value;
+      const address = document.querySelector("#address").value;
+      data = { name, phone, address };
+      localStorage.setItem("address", JSON.stringify(data));
       setDelivery(values);
       handleCancel();
     } catch (error) {
@@ -191,6 +250,24 @@ function CreateOrder() {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+
+  const openMessage = () => {
+    message.loading({
+      content: "Loading...",
+      key,
+    });
+    setTimeout(() => {
+      message.success({
+        content: "Tạo đơn hàng thành công!",
+        key,
+        duration: 2,
+      });
+    }, 1000);
+
+    // setTimeout(() => {
+    //   createOrder();
+    // }, 2000);
   };
 
   return (
@@ -289,14 +366,15 @@ function CreateOrder() {
             </div>
             <div className="personal-information">
               <div className="personal-information-name">
-                {" "}
                 <span className="name">
                   {delivery.name ? delivery.name : "Vui lòng điền thông tin!"}
-                </span>{" "}
-                {delivery.phone ? delivery.phone : ""}
+                </span>
+                {delivery.phone ? delivery.phone : "Vui lòng điền thông tin!"}
               </div>
               <div className="personal-information-address">
-                {delivery.address ? delivery.address : ""}
+                {delivery.address
+                  ? delivery.address
+                  : "Vui lòng điền thông tin!"}
               </div>
               <div className="mac-dinh">Mặc định</div>
               <div className="thay-doi">
@@ -358,8 +436,11 @@ function CreateOrder() {
                         <Input placeholder="Địa chỉ nhận hàng" id="address" />
                       </Form.Item>
 
-                      <Button type="primary" htmlType="submit">
-                        {" "}
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        onClick={getAddress}
+                      >
                         Submit
                       </Button>
                     </Form>
@@ -410,7 +491,8 @@ function CreateOrder() {
             </div>
           </Col>
         </Row>
-        <button className="create-order-button" onClick={getAddress}>
+
+        <button className="create-order-button" onClick={createOrder}>
           Đặt hàng
         </button>
       </div>
