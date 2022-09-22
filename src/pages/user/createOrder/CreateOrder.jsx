@@ -142,6 +142,30 @@ function CreateOrder() {
       });
 
       setDataSource(dataCart);
+      // createOrder();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function createOrder() {
+    const local = localStorage.getItem("address");
+    const parserr = JSON.parse(local);
+    const phoneNumber = parserr.phone;
+    const addRess = parserr.address;
+    // const cart = await getAPI("/cart/get-loged-in-cart");
+    // console.log(cart);
+    // const cartProduct = cart.data.cart.listProduct;
+    // console.log(cartProduct);
+    const obj = {
+      data: dataSource,
+      phone: phoneNumber,
+      address: addRess,
+    };
+    // console.log(obj);
+    try {
+      const dataOder = postAPI("/order/create-order", obj);
+      console.log(dataOder, 152);
     } catch (error) {
       console.log(error);
     }
@@ -198,6 +222,9 @@ function CreateOrder() {
   };
 
   const openMessage = () => {
+    if (!dataSource) {
+      alert("Không có sản phẩm để tạo đơn hàng !");
+    }
     message.loading({
       content: "Loading...",
       key,
@@ -211,6 +238,7 @@ function CreateOrder() {
     }, 1000);
 
     setTimeout(() => {
+      createOrder();
       nav("/user/order");
     }, 2000);
   };
