@@ -35,7 +35,7 @@ function Cart() {
                 key: value.productDetailId._id,
                 Name: <a>{value.productDetailId.productId.productName}</a>,
                 price: value.productDetailId.price,
-                listImg: <img src={`https://shope-b3.thaihm.site/${value.productDetailId.listImg[0]}`}></img>,
+                listImg: `https://shope-b3.thaihm.site/${value.productDetailId.listImg[0]}`,
                 stonge: value.quantity,
                 total: value.quantity * value.productDetailId.price,
                 select: value.select
@@ -204,10 +204,17 @@ function onSelectAll1(selected, selectedRows, changeRows){
     {
       title: "",
       dataIndex: "listImg",
+      render: (value)=>{
+        return (
+          <div className="cart-list-img">
+           <img src={value} alt="" />
+          </div>
+        )
+      }
     },
     {
       title: "Giá",
-      dataIndex: "price",
+      dataIndex: "price"
     },
     {
       title: 'Số lượng',
@@ -235,6 +242,13 @@ function onSelectAll1(selected, selectedRows, changeRows){
     {
       title: "Thành Tiền",
       dataIndex: "total",
+      render:(value)=>{
+        return (
+          <div className="cart-list-totalPrice">
+            {value}
+          </div>
+        )
+      }
     },
     {
       title: "Thao Tác",
@@ -296,7 +310,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
           <div className="cart-footer">
             <Row justify="center">
              
-              <Col lg={16} md={16} offset={6} >
+              <Col lg={10} md={10} xs={23}>
                 <div className="cart-voucher-1">
                   <div className="cart-title">
                     <h2>
@@ -331,7 +345,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
                 <div className="cart-footer2">
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span>{" "}
                   <span className="cart-price">{total}đ</span>
-                  <Button type="primary" onClick={createOrder}>
+                  <Button type="primary" onClick={createOrder} className="cart-btn-sup">
                     Mua hàng
                   </Button>
                 </div>

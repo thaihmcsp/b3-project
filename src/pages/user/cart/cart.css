@@ -15,9 +15,8 @@
 .cart-list .ant-table .ant-table-tbody {
   width: 100% !important;
 }
-.cart-list .ant-table-cell img{
-    width: 140px;
-    height: 100px;
+.cart-list .ant-table-content table tr th ,td {
+  padding: 8px !important;
 }
 .cart-list .ant-table-cell{
   text-align: center;
@@ -41,13 +40,13 @@
  
 
   .cart-voucher-1{
-    width: 550px;
+    width: 100%;
     display: flex;
     justify-content: center !important;
   }
   .cart-voucher{
     margin-left: 50px;
-    width: 225px;
+    width: 50%;
   }
   
   .cart-title h2 i{
@@ -55,11 +54,11 @@
   }
   .cart-footer {
     text-align: center;
-    margin: 28px 0;
+    margin: 18px 0;
   }
   .cart-footer2 {
     text-align: center;
-    margin: 20px 0;
+    margin: 10px 0;
   }
   .cart-footer2 span{
     margin: 0 10px;
@@ -80,4 +79,38 @@
       width: 35px;
       text-align: center;
       margin: 0 3px;
+  }
+
+  /* responsive */
+  @media only screen and (max-width: 567px) {
+   .cart-list .ant-table-cell:nth-child(6){
+      display: none;
+
+    }
+    .cart-list .ant-table-cell:nth-child(3){
+      display: none;
+
+    }
+    .cart-list i {
+      font-size: 15px;
+    }
+    .cart-voucher {
+      margin-left: 5px;
+    }
+    .cart-footer {
+      margin: 10px 0px;
+    }
+.cart-quanlity {
+  display: flex;
+  flex-direction: row;
+}
+
+.cart-quanlity input,button{
+  width: 31px;
+  height: 30px;
+}
+.cart-btn-sup {
+margin-top: 5px;
+  width: 90%;
+}
   }
