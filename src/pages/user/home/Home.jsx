@@ -86,8 +86,8 @@ function Home() {
     setCount((pre) => pre + 1);
   };
 
-  const changePageFilter = () => {
-    nav(`/filter`)
+  const changePageFilter = (categori) => {
+    nav(`/filter?categori=${categori}&page=1`)
   }
 
   return (
@@ -157,7 +157,10 @@ function Home() {
         <div className="home_navbar">
           {category.map((item) => {
             return (
-              <div className="home_navbar-item" onClick={changePageFilter}>
+              <div className="home_navbar-item" onClick={()=>{
+                
+                changePageFilter(item.categoryName)
+              }}>
                 <div className="home_navbar-item-img">
                   <img
                     src={"https://shope-b3.thaihm.site/" + item.thumbnail}

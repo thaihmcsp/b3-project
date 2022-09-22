@@ -15,6 +15,7 @@ function ListProduct() {
     const cutLink = new URLSearchParams(location.search)
    const [dataClone,setDataClone]= useState([])
   const [brandz,setBrandz] = useState([])
+  const [dataCategori,setDataCategori]=useState([])
   let nav = useNavigate()
   let page = cutLink.get("page")
   useEffect(() => {
@@ -27,33 +28,104 @@ function ListProduct() {
       try {
             let cut = cutLink.get("search")
             let brandlink = cutLink.get("brand")
+            let categori = cutLink.get("categori")
             let data = await instance.get(`/product/find-products-by-name?productName=${cut}`)        
             let dataMini = data.data.products
             let push =[]
-            if(!brandlink){
-              setDataClone(data.data.products.slice((12*(page-1)),(12*page)))
-              // console.log(data.data.products.slice((12*(page-1)),(12*page)));
-              setDataFake(data.data.products)
-             
+            let dataBig = await instance.get(`/product/get-all-products`)
+            let dataBigCT = dataBig.data.products
+            let price = cutLink.get("price")
+            
+           if(categori){
+            let categoriFil =  dataBigCT.filter(function(value){
+                return value.categoryId.categoryName === categori
+              })
+              
+              setDataClone(categoriFil.slice((12*(page-1)),(12*page)))
+              setDataFake(categoriFil)
+            if(!brandlink && !price){
+              setDataClone(categoriFil.slice((12*(page-1)),(12*page)))
+              setDataFake(categoriFil)
             }
-            else if(brandlink){
+            else if(brandlink && !price){
                    setBrandz(brandlink.toUpperCase().split(" "))
-
-                    dataMini.map(function(value){
+                   categoriFil.map(function(value){
                         if(value.brand){
                           for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
                               if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() ){
                                 push.push(value) 
-                                
-                                setDataClone(push.slice((12*(page-1)),(12*page)));
-                                setDataFake(push)
+                                console.log(value,57);
                               }
                           }
+                          setDataClone(push.slice((12*(page-1)),(12*page)));
+                              setDataFake(push)
                         }
                     })
 
                   }
+              else if(brandlink && price){
+                let priceF = price.split("-")
+                setBrandz(brandlink.toUpperCase().split(" "))
+                categoriFil.map(function(value){
+                 
+                  if(value.brand && value.price){
+                    for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
+                        if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() && parseInt(priceF[0])<= parseInt(value.price) && parseInt(value.price) <=parseInt(priceF[1])){
+                          push.push(value) 
+                          console.log(value,74);
+                        }
+                    }
+                    setDataClone(push.slice((12*(page-1)),(12*page)));
+                    setDataFake(push)
+                  }
+              })
 
+              }
+                    if(price && !brandlink ){
+                      
+                      let priceF = price.split("-")
+                      categoriFil.map(function(value){
+                       
+                        if (value.price && parseInt(priceF[0])<= parseInt(value.price) && parseInt(value.price) <= parseInt(priceF[1])){
+                         
+
+                                push.push(value) 
+                                // console.log(push,89);
+                              }
+                            })
+                            setDataClone(push.slice((12*(page-1)),(12*page)));
+                            setDataFake(push)
+                    }
+                 
+                }
+                else if(!categori && dataMini ){
+                    console.log(dataMini);
+                      setDataClone(dataMini.slice((12*(page-1)),(12*page)))
+                      setDataFake(dataMini)
+
+                      if(!brandlink){
+                        setDataClone(data.data.products.slice((12*(page-1)),(12*page)))
+                        // console.log(data.data.products.slice((12*(page-1)),(12*page)));
+                        setDataFake(data.data.products)
+                        
+                      }
+                      else if(brandlink){
+                             setBrandz(brandlink.toUpperCase().split(" "))
+                             dataMini.map(function(value){
+                                  if(value.brand){
+                                   
+                                    for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
+                                        if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() ){
+                                          push.push(value)  
+                                          setDataClone(push.slice((12*(page-1)),(12*page)));
+                                          setDataFake(push)
+                                        }
+                                    }
+                                  }
+                              })
+          
+                            }
+                }
       } catch (error) {
         console.log(error);
       }
