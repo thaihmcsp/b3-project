@@ -374,9 +374,9 @@ console.log(productDetailData);
 
                             </Row>
                             <Row justify='center'>
-                                <Col  lg={6} md={8} xs={22}>
+                                <Col  lg={6} md={9} xs={22}>
                                     <div className='product-detail-footer'>
-                                        <div>
+                                        <div className='pd-footer-so'>
                                             <span>Chia sẻ:</span>
                                             <a href="#"><i className="fa-brands fa-facebook-messenger"></i></a>
 
@@ -385,15 +385,15 @@ console.log(productDetailData);
 
                                             <a href="#"> <i className="fa-brands fa-twitter"></i></a>
                                         </div>
-                                        <div>
+                                        <div className='pd-footer-so'>
                                             <a href="#" onClick={like1}><i className="fa-solid fa-heart"></i></a> <span> Đã Thích({like})</span>
                                         </div>
                                     </div>
                                 </Col>
-                                <Col  lg={10} md={8} xs={24}>
+                                <Col  lg={10} md={9} xs={24}>
                                     <div className='product-detail-add'>
-                                        <Button danger className='pd-add-gh' onClick={addToCart}> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
-                                        <Button type='primary' danger className='pd-add-mh'>Mua Ngay</Button>
+                                        <Button danger className='pd-add-gh pd-btn-add-cart' onClick={addToCart}> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
+                                        <Button type='primary' danger className='pd-add-mh pd-btn-add-cart'>Mua Ngay</Button>
                                     </div>
                                 </Col>
                             </Row>
