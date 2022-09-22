@@ -1,13 +1,25 @@
-import {Form, Input, InputNumber, message, Popconfirm, Table, Typography } from 'antd';
+import {Button, Form, Modal, Table, Typography, Upload,  Select, Input  } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import './AdminListProduct.css'
-import { useNavigate, useParams} from "react-router-dom";
-import { getAPI, postAPI } from '../../../../config/api';
+import { useNavigate} from "react-router-dom";
+import { getAPI } from '../../../../config/api';
 import { useEffect} from 'react';
 
 
 function AdminListProduct() {
-  const { productId } = useParams()
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const { Option } = Select;
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  };
   const [uData, setUdata] = useState([])
   async  function getAPIproduct() {
     try {
@@ -18,10 +30,10 @@ function AdminListProduct() {
             newList.push(
                   {
                     productName: value.productName,
-                    // thumpnail:<img  src= {value.thumpnail} alt=''/>,
+                    thumbnail:value.thumbnail.startsWith('https')? <img  src= {value.thumbnail} alt=''/> : <img  src= {`https://shope-b3.thaihm.site/${value.thumbnail}`} alt=''/>,
                     brand: value.brand,
-                    // quantityProperty:quantity,
-                    // type:value.categoryId=='ct1'?'Máy tính':'Điện thoại',
+                    quantityProperty:value.listDtail.length,
+                    type:value.categoryId._id==='63227fdadb8fd735e64e3e50'?'Điện thoại':'Máy tính',
                     id: value._id
                   }
               )
@@ -32,199 +44,126 @@ function AdminListProduct() {
     catch (error) {
         console.log(error);
     }
-}
-  // const onFinishFix = async (values) => {
-  //   console.log('Success:', values);
-  //   try {
-  //     let res = await postAPI(`/product/update-product-info/${productId}`, values)
-  //     message('Cập nhật thành công')
-  //     console.log( 41,res);
-  //   } catch (error) {
-  //     message('Lỗi')
-  //     console.log(error);
-  //   }
-  // };
-  // const onFinishFailed = (errorInfo) => {
-  //   console.log('Failed:', errorInfo);
-  // };
-  const navigate = useNavigate();
-  const EditableCell = ({
-    editing,
-    dataIndex,
-    title,
-    inputType,
-    record,
-    index,
-    children,
-    ...restProps
-  }) => {
-    const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
-    return (
-      <td {...restProps}>
-        {editing ? (
-          <Form.Item
-            name={dataIndex}
-            style={{
-              margin: 0,
-            }}
-            rules={[
-              {
-                required: true,
-                message: `Vui lòng điền ${title}!`,
-              },
-            ]}
-          >
-            {inputNode}
-          </Form.Item>
-        ) : (
-          children
-        )}
-      </td>
-    );
-  };
-  
-  const [form] = Form.useForm();
-  const [editingKey, setEditingKey] = useState('');
-  const isEditing = (record) => record.id === editingKey;
-  const edit = (record, e) => {
-    e.stopPropagation()
-    form.setFieldsValue({
-      productName: '',
-      brand: '',
-      ...record,
-    });
-    setEditingKey(record.id);
-  };
-  
-  const cancel = () => {
-    setEditingKey('');
+  }
+  const [open, setOpen] = useState(false);
+console.log(open);
+  const showModal = () => {
+    console.log(321321);
+    setOpen(true);
   };
 
-  const save = async (key, index) => {
-    try {
-      // let res = await postAPI(`/product/update-product-info/${key}`, newData.)
-      // console.log(107,res);
-      const row = await form.validateFields();
-      const newData = [...uData];
-      const index = newData.findIndex((item) => key === item.id);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
-        setUdata(newData);
-        setEditingKey('');
-      } else {
-        newData.push(row);
-        setUdata(newData);
-        setEditingKey('');
-      }
-    } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
-    }
+  const handleOk = (e) => {
+    console.log(e);
+    setOpen(false);
   };
+
+  const handleCancel = (e) => {
+    console.log(e);
+    setOpen(false);
+  };
+  const navigate = useNavigate();
   
-  const columns = [
-    {
-        title: 'Ảnh mô tả sản phẩm',
-        dataIndex: 'thumpnail',     
-    },  
-    {
-        title: 'Tên sản phẩm',
-        dataIndex: 'productName',
-        width: '30%',
-        editable: true,
-    },
-    {
-        title: 'Thương hiệu',
-        dataIndex: 'brand',
-        editable: true,
-    },
-    {
-        title: 'Phân loại',
-        dataIndex: 'type',
-    },
-    {
-        title: 'Số lượng biến thể',
-        dataIndex: `quantityProperty`,
-    },
-    {
-      title: 'Xem sảm phẩm',
-      dataIndex: `operation`,
-      render: (record,index) => {
-        const viewDetail =()=>{
-          navigate(`/admin/product/${index.id}/detail` )
-        }
-        return (
-          <Typography.Link
-          onClick={() => {viewDetail()}}
-          >
-          Xem chi tiết
-          </Typography.Link>
-        )
-        } 
-    },
-    {
-      title: 'Sửa thông tin',
-      dataIndex: 'operation',
-      render: (_, record) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <Typography.Link
-              onClick={() => save(record.id)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
-            </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={(e) => edit(record, e)}>
-            Sửa
-          </Typography.Link>
-        );
-      },
-    },
-    ];
-    const mergedColumns = columns.map((col) => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: (record) => ({
-          record,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          editing: isEditing(record),
-        }),
-      };
-    });
-    
+  const [form] = Form.useForm();
     useEffect(() => {
       getAPIproduct() 
-      
     },[])
+    const { Column } = Table;
 return (
-    <Form  form={form} component={false}>
-    <Table
-      components={{
-        body: {
-          cell: EditableCell,
-        },
-      }}
-      rowClassName="editable-row"
-      pagination={{
-        onChange: cancel,
-      }}
-      columns={mergedColumns}
-      dataSource={uData}
-    />
-    </Form>
-)
+    <div>
+      <Form  form={form} component={false}>
+      <Table
+        dataSource={uData}
+      >
+      <Column 
+        title= 'Ảnh mô tả sản phẩm'
+        dataIndex= 'thumbnail'  />
+      <Column 
+      title= 'Tên sản phẩm'
+      dataIndex= 'productName' 
+      width= '20%' />
+      <Column 
+      title= 'Thương hiệu'
+      dataIndex= 'brand'  />
+      <Column 
+      title= 'Phân loại'
+      dataIndex= 'type'  />
+      <Column 
+      title= 'Số lượng biến thể'
+      dataIndex= 'quantityProperty'  />
+      <Column
+        title= 'Xem sảm phẩm'
+        dataIndex= 'operation'
+        render = {(record,index) => {
+          const viewDetail =()=>{
+            navigate(`/admin/product/${index.id}/detail` )
+          };
+          return(
+            <span>
+              <Button
+              className='btn-list-product'
+              type="primary"
+              onClick={() => {viewDetail()}}
+              >
+              Xem chi tiết
+              </Button>
+            </span>
+        )}}
+      />
+      <Column
+        title= 'Sửa thông tin'
+        dataIndex= 'operation'
+        render={ (index) => {
+          return (
+            <span>
+              <Button
+                className='btn-list-product'
+                type="primary"
+                onClick={showModal}
+              >
+              Sửa
+              </Button>
+            </span>
+          )
+        } }
+      />
+      </Table>
+      </Form>
+      <Modal
+        title="Sửa thông tin"
+        visible={open}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okButtonProps={{
+          disabled: false,
+          className: 'btn-ok'
+        }}
+        cancelButtonProps={{
+          disabled: false,
+        }}
+      >
+        <p>Some contents...</p>
+        <label>Tên sản phẩm</label>
+        <Input placeholder="Vui lòng điền đủ thông tin" id='productName' width='50%' className='inp-list-product'/>
+        <br />
+        <label>Thương hiệu</label>
+        <Input placeholder="Vui lòng điền đủ thông tin" id='brand' width='50%' className='inp-list-product' />
+        <br />
+        <label>Phân loại</label>
+        <Select
+          className='select-list-product'
+          defaultValue="lucy"
+          style={{
+            width: 120,
+          }}
+          onChange={handleChange}
+          width='50%'
+        >
+          <Option value="jack">Điện thoại</Option>
+          <Option value="lucy">Máy tính</Option>
+        </Select>
+      </Modal>
+    </div>
+  )
 }
 
 export default AdminListProduct

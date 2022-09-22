@@ -1,6 +1,22 @@
 .ant-table-cell img{
     width: 100px;
 }
-.ant-input{
-    margin-bottom: 0px;
+.mystyle{
+    display: block;
+}
+.btn-list-product{
+    background-color: #ee4d2d;
+    border: none;
+}
+.select-list-product{
+    width: 100% !important;
+    margin: 10px 0 ;
+
+}
+.inp-list-product{
+    margin: 10px 0 ;
+}
+.btn-ok{
+    background-color: #ee4d2d;
+    border: none;
 }
