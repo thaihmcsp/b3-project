@@ -109,7 +109,8 @@ function CreateOrder() {
 
   useEffect(() => {
     addToCart();
-    getAddress();
+    let address = getAddress();
+    onFinish(address);
   }, [count]);
 
   async function addToCart() {
@@ -164,24 +165,45 @@ function CreateOrder() {
     };
     // console.log(obj);
     try {
-      const dataOder = postAPI("/order/create-order", obj);
+      if (!obj) {
+        alert("Không đủ dữ liệu để tạo đơn hàng!");
+      }
+      const dataOder = await postAPI("/order/create-order", obj);
       console.log(dataOder, 152);
+      openMessage();
+      setTimeout(() => {
+        nav("/user/order");
+      }, 2000);
     } catch (error) {
       console.log(error);
+      alert("Không đủ dữ liệu để tạo đơn hàng!");
     }
   }
 
   const user = useSelector((state) => state.user);
   const getAddress = () => {
+    // const addd = {
+    //   name: user.fullname,
+    //   phone: user.phone,
+    //   address: "A4/BT3 Ngõ 214 Nguyễn Xiển - Thanh Xuân - Hà Nội",
+    // };
+    let local = localStorage.getItem("address");
+    if (!local) {
+      local = {};
+    } else {
+      local = JSON.parse(local);
+    }
     const addd = {
-      name: user.fullname,
-      phone: user.phone,
-      address: "A4/BT3 Ngõ 214 Nguyễn Xiển - Thanh Xuân - Hà Nội",
+      name: local.name,
+      phone: local.phone,
+      address: local.address,
     };
+    console.log(189, addd);
     const address = localStorage.setItem("address", JSON.stringify(addd));
     const diaChi = localStorage.getItem("address");
     const diaChi2 = JSON.parse(diaChi);
     setDelivery(diaChi2);
+    return diaChi2;
   };
 
   let newTotal = 0;
@@ -203,12 +225,21 @@ function CreateOrder() {
     setIsModalVisible(false);
   };
   const onFinish = async (values) => {
+    console.log(216, values);
+    let data = localStorage.getItem("address");
+    if (!data) {
+      localStorage.setItem("address", "{}");
+      data = {};
+    } else {
+      data = JSON.parse(data);
+    }
+    console.log(220, data);
     try {
-      const data = [];
+      // let data;
       const name = document.querySelector("#name").value;
       const phone = document.querySelector("#phone").value;
       const address = document.querySelector("#address").value;
-      data.push({ name, phone, address });
+      data = { name, phone, address };
       localStorage.setItem("address", JSON.stringify(data));
       setDelivery(values);
       handleCancel();
@@ -222,9 +253,6 @@ function CreateOrder() {
   };
 
   const openMessage = () => {
-    if (!dataSource) {
-      alert("Không có sản phẩm để tạo đơn hàng !");
-    }
     message.loading({
       content: "Loading...",
       key,
@@ -237,10 +265,9 @@ function CreateOrder() {
       });
     }, 1000);
 
-    setTimeout(() => {
-      createOrder();
-      nav("/user/order");
-    }, 2000);
+    // setTimeout(() => {
+    //   createOrder();
+    // }, 2000);
   };
 
   return (
@@ -465,7 +492,7 @@ function CreateOrder() {
           </Col>
         </Row>
 
-        <button className="create-order-button" onClick={openMessage}>
+        <button className="create-order-button" onClick={createOrder}>
           Đặt hàng
         </button>
       </div>
