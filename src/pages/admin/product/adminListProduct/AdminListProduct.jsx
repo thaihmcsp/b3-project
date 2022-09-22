@@ -1,4 +1,4 @@
-import {Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
+import {Form, Input, InputNumber, message, Popconfirm, Table, Typography } from 'antd';
 import React, { useState } from 'react';
 import './AdminListProduct.css'
 import { useNavigate, useParams} from "react-router-dom";
@@ -33,18 +33,20 @@ function AdminListProduct() {
         console.log(error);
     }
 }
-  const onFinishFix = async (values) => {
-    console.log('Success:', values);
-    try {
-      let res = await postAPI(`/product/update-product-info/${productId}`, values)
-      console.log( 41,res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  // const onFinishFix = async (values) => {
+  //   console.log('Success:', values);
+  //   try {
+  //     let res = await postAPI(`/product/update-product-info/${productId}`, values)
+  //     message('Cập nhật thành công')
+  //     console.log( 41,res);
+  //   } catch (error) {
+  //     message('Lỗi')
+  //     console.log(error);
+  //   }
+  // };
+  // const onFinishFailed = (errorInfo) => {
+  //   console.log('Failed:', errorInfo);
+  // };
   const navigate = useNavigate();
   const EditableCell = ({
     editing,
@@ -98,8 +100,10 @@ function AdminListProduct() {
     setEditingKey('');
   };
 
-  const save = async (key) => {
+  const save = async (key, index) => {
     try {
+      // let res = await postAPI(`/product/update-product-info/${key}`, newData.)
+      // console.log(107,res);
       const row = await form.validateFields();
       const newData = [...uData];
       const index = newData.findIndex((item) => key === item.id);
@@ -205,7 +209,7 @@ function AdminListProduct() {
       
     },[])
 return (
-    <Form onFinishFix={onFinishFix} onFinishFailed={onFinishFailed} form={form} component={false}>
+    <Form  form={form} component={false}>
     <Table
       components={{
         body: {
