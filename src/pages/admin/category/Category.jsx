@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { VscQuestion } from "react-icons/vsc";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
-import { ImDropbox } from "react-icons/im";
-import { IoIosMenu } from "react-icons/io";
 import { Modal } from "antd";
 import "./Category.css";
 import { getAPI, patchAPI, postAPI } from "../../../config/api";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
+import { Pagination } from "antd";
 
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -33,23 +32,73 @@ const beforeUpload = (file) => {
 
 function Category() {
   let [num, setNum] = useState(0);
-  const [active, setActive] = useState(1);
-  const [items, setItems] = useState([]); //[]
+
+  // Get category
+  const [items, setItems] = useState([]);
+
+  // Get products
+  const [listProduct, setListProduct] = useState([]);
+  const [showDataPage, setShowDataPage] = useState([])
+  const [pageCurrent, setPageCurrent] = useState(0);
+
+  // Modal add category
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false)
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [nameCategory, setNameCategory] = useState("");
-  const [nameUpdateCategory, setNameUpdateCategory] = useState("")
+
+  // Modal update category name
+  const [nameUpdateCategory, setNameUpdateCategory] = useState("");
+
+  // Upload img && name category
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
-  const [dataUpload, setDataUpload] = useState(new FormData())
-  const [dataUpdateUpload, setDataUpdateUpload] = useState(new FormData())
-  const [idUpdate, setIdUpdate] = useState("")
+  const [dataUpload, setDataUpload] = useState(new FormData());
+  const [dataUpdateUpload, setDataUpdateUpload] = useState(new FormData());
+  const [idUpdate, setIdUpdate] = useState("");
+
+  const [quantityCategory, setQuantityCategory] = useState([])
+
+  const search = useLocation(), nav = useNavigate();
+  let objectSearch = { page: 1, pageSize: 10 }, page = 0;
+
+  const getInfoSearch = () => {
+    if (search.search) {
+      const querry = search.search.slice(1).split("&");
+      page = querry[0].split("=")[1];
+      querry.map((item) => {
+        const key = item.split("=")[0];
+        const value = item.split("=")[1];
+        objectSearch[key] = +value;
+        return objectSearch;
+      });
+    }
+  };
 
   useEffect(() => {
     const getData = async () => {
       try {
         let data = await getAPI("/category/get-all-categories");
+        let products = await getAPI("/product/get-all-products");
+        setListProduct(products.data.products);
         setItems(data.data.categories);
+        getInfoSearch();
+        setShowDataPage(
+          data.data.categories.slice(
+            (objectSearch.page - 1) * objectSearch.pageSize,
+            objectSearch.page * objectSearch.pageSize
+          )
+        );
+        if (search.search) {
+          setPageCurrent(page);
+        }
+        const new_categories = data.data.categories.map(category => {
+          const countCategory = products.data.products.filter(product => product.categoryId._id === category._id).length
+          return {
+              ...category,
+              count: countCategory
+          }
+        })
+        setQuantityCategory(new_categories)
       } catch (error) {
         console.log(error);
       }
@@ -57,20 +106,16 @@ function Category() {
     getData();
   }, [num]);
 
-  const headerClick = (index) => {
-    setActive(index);
-  };
-
   const showModal = () => {
-    setNameCategory("")
-    setDataUpload(new FormData())
+    setNameCategory("");
+    setDataUpload(new FormData());
     setIsModalOpen(true);
   };
 
   const handleOk = async (e) => {
     if (nameCategory) {
-      dataUpload.append("categoryName", nameCategory)
-      await postAPI("/category/create-category", dataUpload)
+      dataUpload.append("categoryName", nameCategory);
+      await postAPI("/category/create-category", dataUpload);
       setNum((pre) => pre + 1);
       setIsModalOpen(false);
     }
@@ -81,44 +126,44 @@ function Category() {
   };
 
   const handleChange = (info) => {
-    const formData = new FormData()
-    formData.append("thumb", info.file.originFileObj)
-    setDataUpload(formData)
+    const formData = new FormData();
+    formData.append("thumb", info.file.originFileObj);
+    setDataUpload(formData);
     getBase64(info.file.originFileObj, (url) => {
       setLoading(false);
       setImageUrl(url);
     });
   };
 
-  const showModalUpdate = (id) => {
-    setNameUpdateCategory("")
-    setDataUpdateUpload(new FormData())
-    setIdUpdate(id)
-    setIsModalUpdateOpen(true)
-  }
+  const showModalUpdate = (id, name) => {
+    setNameUpdateCategory(name);
+    setDataUpdateUpload(new FormData());
+    setIdUpdate(id);
+    setIsModalUpdateOpen(true);
+  };
 
   const handleUpdateOk = async () => {
     if (nameUpdateCategory) {
-      dataUpdateUpload.append("categoryName", nameUpdateCategory)
-      await patchAPI("/category/update-category/" + idUpdate, dataUpdateUpload)
+      dataUpdateUpload.append("categoryName", nameUpdateCategory);
+      await patchAPI("/category/update-category/" + idUpdate, dataUpdateUpload);
       setNum((pre) => pre + 1);
       setIsModalUpdateOpen(false);
     }
-  }
+  };
 
   const handleCancelUpdate = () => {
     setIsModalUpdateOpen(false);
-  }
+  };
 
   const handleChangeUpdate = (info) => {
-    const formData = new FormData()
-    formData.append("thumb", info.file.originFileObj)
-    setDataUpdateUpload(formData)
+    const formData = new FormData();
+    formData.append("thumb", info.file.originFileObj);
+    setDataUpdateUpload(formData);
     getBase64(info.file.originFileObj, (url) => {
       setLoading(false);
       setImageUrl(url);
     });
-  }
+  };
 
   const uploadButton = (
     <div>
@@ -133,77 +178,26 @@ function Category() {
     </div>
   );
 
+  // Update pagination
+  const onShowSizeChange = (current, pageSize) => {
+    let start = (current - 1) * pageSize;
+    let stop = current * pageSize;
+    setShowDataPage(items.slice(start, stop));
+    nav(`?page=${current}&pageSize=${pageSize}`);
+    setNum((pre) => pre + 1);
+  };
+
   return (
     <div className="admin-category-container">
       {/* HEADER */}
       <div className="admin-category-header">
-        {/* HEADER LEFT */}
-        <div className="admin-category-header-left">
-          <div className="admin-category-header-left-product">
-            <p>0 Product</p>
-          </div>
-
-          <div className="admin-category-header-left-progress">
-            <div className="admin-category-header-left-line-green"></div>
-            <div className="admin-category-header-left-line-white"></div>
-          </div>
-
-          <div className="admin-category-header-left-load">
-            <p>
-              Có thể đăng tải thêm 1000 sản phẩm
-              <VscQuestion className="question-icon" />
-            </p>
-          </div>
-        </div>
-        {/* HEADER LEFT  DONE*/}
-
         {/* HEADER RIGHT */}
         <div className="admin-category-header-right">
-          <div className="admin-category-header-right-productOptimization">
-            Tối ưu sản phẩm
-          </div>
-
           <div className="admin-category-header-right-addProduct">
             <button onClick={showModal}>
               <AiOutlinePlus />
-              Thêm 1 biến thể mới
+              Thêm 1 phân loại mới
             </button>
-          </div>
-
-          <div>
-            <select name="" id="">
-              <option value="Công cụ xử lý hàng loạt">
-                Công cụ xử lý hàng loạt
-              </option>
-            </select>
-          </div>
-
-          <div className="admin-category-header-right-icon">
-            <div
-              onClick={() => {
-                headerClick(1);
-              }}
-              className={
-                active === 1
-                  ? `admin-category-header-right-icon-left active`
-                  : `admin-category-header-right-icon-left`
-              }
-            >
-              <IoIosMenu />
-            </div>
-
-            <div
-              onClick={() => {
-                headerClick(2);
-              }}
-              className={
-                active === 2
-                  ? `admin-category-header-right-icon-right active`
-                  : `admin-category-header-right-icon-right`
-              }
-            >
-              <ImDropbox />
-            </div>
           </div>
         </div>
       </div>
@@ -222,7 +216,7 @@ function Category() {
 
         {/* BODY SECOND */}
         <div className="admin-category-body-listItems">
-          {items.map((item, index) => {
+          {showDataPage.map((item) => {
             return (
               <div className="admin-category-body-item" key={item._id}>
                 <div className="admin-category-item-img">
@@ -237,11 +231,18 @@ function Category() {
                 </div>
 
                 <div className="admin-category-item-store">
-                  {/* <p>Tồn kho: {item.storage}</p> */}
+                  <p>{quantityCategory.map(value => {
+                    if (value._id === item._id) {
+                      return value.count
+                    }
+                  })}</p>
                 </div>
 
                 <div className="admin-category-item-handle">
-                  <button className="admin-category-item-handle-update" onClick={() => showModalUpdate(item._id)}>
+                  <button
+                    className="admin-category-item-handle-update"
+                    onClick={() => showModalUpdate(item._id, item.categoryName)}
+                  >
                     Sửa
                   </button>
                 </div>
@@ -252,6 +253,14 @@ function Category() {
         {/* BODY SECOND DONE */}
       </div>
       {/* BODY DONE */}
+
+      {/* Pagination */}
+      <Pagination
+        onChange={onShowSizeChange}
+        current={1}
+        pageSize={objectSearch.pageSize}
+        total={items.length}
+      />
 
       {/* MODAL ADD */}
       <Modal
