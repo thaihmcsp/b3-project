@@ -20,6 +20,34 @@ function AdminListProduct() {
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
   };
+  const handleCancelImg = () => setPreviewOpen(false);
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+    file.preview = await getBase64(file.originFileObj);
+  }
+  setPreviewImage(file.url || file.preview);
+  setPreviewOpen(true);
+  setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+  };
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
+  const [fileList, setFileList] = useState([
+    
+    
+  ]);
+
+
   const [uData, setUdata] = useState([])
   async  function getAPIproduct() {
     try {
@@ -46,19 +74,15 @@ function AdminListProduct() {
     }
   }
   const [open, setOpen] = useState(false);
-console.log(open);
   const showModal = () => {
-    console.log(321321);
     setOpen(true);
   };
 
   const handleOk = (e) => {
-    console.log(e);
     setOpen(false);
   };
 
   const handleCancel = (e) => {
-    console.log(e);
     setOpen(false);
   };
   const navigate = useNavigate();
@@ -76,23 +100,31 @@ return (
       >
       <Column 
         title= 'Ảnh mô tả sản phẩm'
-        dataIndex= 'thumbnail'  />
+        dataIndex= 'thumbnail'  
+        className='column-list-product'
+        onPreview='handlePreview'
+        />
       <Column 
-      title= 'Tên sản phẩm'
-      dataIndex= 'productName' 
-      width= '20%' />
+        title= 'Tên sản phẩm'
+        dataIndex= 'productName' 
+        width= '20%' 
+        className='column-list-product'/>
       <Column 
-      title= 'Thương hiệu'
-      dataIndex= 'brand'  />
+        title= 'Thương hiệu'
+        dataIndex= 'brand' 
+        className='column-list-product' />
       <Column 
-      title= 'Phân loại'
-      dataIndex= 'type'  />
+        title= 'Phân loại'
+        dataIndex= 'type'  
+        className='column-list-product'/>
       <Column 
-      title= 'Số lượng biến thể'
-      dataIndex= 'quantityProperty'  />
+        title= 'Số lượng biến thể'
+        dataIndex= 'quantityProperty'  
+        className='column-list-product'/>
       <Column
         title= 'Xem sảm phẩm'
         dataIndex= 'operation'
+        className='column-list-product'
         render = {(record,index) => {
           const viewDetail =()=>{
             navigate(`/admin/product/${index.id}/detail` )
@@ -112,6 +144,7 @@ return (
       <Column
         title= 'Sửa thông tin'
         dataIndex= 'operation'
+        className='column-list-product'
         render={ (index) => {
           return (
             <span>
@@ -141,7 +174,15 @@ return (
           disabled: false,
         }}
       >
-        <p>Some contents...</p>
+        <Upload
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          listType="picture-card"
+          onPreview={handlePreview}
+          fileList={fileList}
+          onChange={handleChange}
+        >
+          {fileList.length >= 1 ? null : uploadButton}
+        </Upload>
         <label>Tên sản phẩm</label>
         <Input placeholder="Vui lòng điền đủ thông tin" id='productName' width='50%' className='inp-list-product'/>
         <br />
@@ -161,6 +202,15 @@ return (
           <Option value="jack">Điện thoại</Option>
           <Option value="lucy">Máy tính</Option>
         </Select>
+      </Modal>
+      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+        <img
+          alt="example"
+          style={{
+            width: '100%',
+          }}
+          src={previewImage}
+        />
       </Modal>
     </div>
   )
