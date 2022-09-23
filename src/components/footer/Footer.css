@@ -23,18 +23,22 @@
     justify-content: space-between;
     padding: 5px;
 }
+
 .ChamSocKhachHang {
     width: 20%;
 }
-.ChamSocKhachHang .name{
+
+.ChamSocKhachHang .name {
     font-weight: 700;
     margin-bottom: 10px;
 }
+
 .ChamSocKhachHang ul {
     margin: 0px;
 }
-.ChamSocKhachHang ul li a{
-    color: rgba(0,0,0,.65);
+
+.ChamSocKhachHang ul li a {
+    color: rgba(0, 0, 0, .65);
 }
 
 .chSocKhachHangMain ul li {
@@ -117,7 +121,7 @@
     border-top: 1px solid black;
     justify-content: space-between;
     font-size: 14px;
-    color:rgba(0,0,0,.54);
+    color: rgba(0, 0, 0, .54);
 }
 
 .baoLuuVaquocGia .baoLuu {
@@ -137,7 +141,7 @@
 .qg-kv a {
     border-right: 0.5px solid#ccc;
     padding-right: 5px;
-    color:rgba(0,0,0,.54);
+    color: rgba(0, 0, 0, .54);
 }
 
 .bottom {
@@ -155,37 +159,71 @@
     padding: 0px 25px;
 }
 
-.chinhSachHoanTien {
-    padding: 0px 25px;
-
-}
-.bottom-container span{
-    color: rgba(0,0,0,.54);
-    border-right: 1px solid rgba(0,0,0,.54);
+.bottom-container span {
+    color: rgba(0, 0, 0, .54);
+    border-right: 1px solid rgba(0, 0, 0, .54);
     padding-right: 30px;
 }
-.footer-bottom-logo{
+
+.footer-bottom-logo {
     text-align: center;
 
 }
-.footer-bottom-logo  .asd img {
+
+.footer-bottom-logo .asd img {
     width: 7.5rem;
     height: 2.8125rem;
     margin-right: 40px;
     margin-top: 50px;
 }
-.footer-bottom-logo  .asdfg img {
+
+.footer-bottom-logo .asdfg img {
     width: 3rem;
     height: 3rem;
     margin-top: 50px;
 }
-.footer-bottom-address{
+
+.footer-bottom-address {
     text-align: center;
-    color: rgba(0,0,0,.70);
+    color: rgba(0, 0, 0, .70);
     margin-bottom: 50px;
     margin-top: 20px;
 
 }
-.footer-bottom-address .company{
+
+.footer-bottom-address .company {
     margin-bottom: 20px;
+}
+
+
+@media screen and (min-width : 768px) and (max-width : 1239px) {
+    .top {
+        display: none;
+    }
+
+    .bottom {
+        width: 100%;
+        background: #f5f5f5;
+        padding: 0 20px;
+    }
+
+    .bottom-container {
+        display: none;
+    }
+
+    .footer-bottom-logo .asd img,
+    .footer-bottom-logo .asdfg img {
+        margin-top: 0;
+    }
+
+    .footer-bottom-logo .asd img {
+        margin-right: 20px;
+    }
+}
+
+@media screen and (min-width : 390px) and (max-width : 739px) {
+    .footer-container {
+        display: none;
+        padding-bottom: 0;
+    }
 }

@@ -63,6 +63,7 @@ function UserOrderHistory() {
       let res = await getAPI('/auth/get-loged-in-user')
       user = res.data.user._id;
       getOrderInfor();
+      render();
     } catch (error) {
       console.log(error);
     }
@@ -94,7 +95,7 @@ function UserOrderHistory() {
     setTimeout(() => {
       setLoading(false)
       getUser();
-    }, 500)
+    }, 1000)
     render();
   }, [number, inputValue])
 
@@ -103,15 +104,15 @@ function UserOrderHistory() {
   };
 
   function render() {
-    if (inputValue.length) {
-      listOrder.map((data) => {
-        data.listProduct.filter((value) => {
-          if (value.productDetailId?.productId.productName.includes(inputValue)) {
-            setCloneOrder([data]);
-          }
-        })
+    // if (inputValue.length) {
+    listOrder.map((data) => {
+      data.listProduct.filter((value) => {
+        if (value.productDetailId?.productId.productName.includes(inputValue)) {
+          setCloneOrder([data]);
+        }
       })
-    }
+    })
+    // }
   }
 
   const searchOrder = (e) => {

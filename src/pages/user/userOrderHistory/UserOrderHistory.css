@@ -347,3 +347,24 @@
 .order-history .ant-skeleton-paragraph li:nth-child(2) {
     height: 60px !important;
 }
+
+
+@media screen and (min-width : 739px) and (max-width : 1239px) {
+    .order-product--shop__left {
+        width: 60%;
+    }
+
+    .order-product__img {
+        width: 16%;
+    }
+
+    .total-status-btn button {
+        padding: 0px 8px;
+        height: 32px;
+    }
+
+    .order-history .ant-menu-horizontal li {
+        width: 18%;
+    }
+
+}

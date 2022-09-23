@@ -268,3 +268,17 @@
     top: -0.3em;
     margin-right: 1px;
 }
+
+.inputName {
+    width: min-content;
+}
+
+.order-detail__address-content input {
+    padding: 2px 20px;
+    border: none;
+    outline-color: #ccc;
+}
+
+.ok {
+    display: none;
+}

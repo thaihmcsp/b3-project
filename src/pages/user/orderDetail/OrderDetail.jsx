@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useState } from 'react'
 import { getAPI, patchAPI } from '../../../config/api';
 import { Steps } from 'antd';
+import { useRef } from 'react';
 const { Step } = Steps;
 
 
@@ -15,7 +16,7 @@ function OrderDetail() {
   const [btnValue, setBtnValue] = useState({});
   const [number, setNumber] = useState(0);
   const nav = useNavigate();
-
+  const inputInfor = useRef()
 
   let totalPrice = 0;
   let ship = 16500;
@@ -24,6 +25,7 @@ function OrderDetail() {
   let btn;
   let statusBtn;
   let currentStatus = 0;
+  let address = JSON.parse(window.localStorage.getItem('address'))
 
   const getOrder = async () => {
     try {
@@ -50,6 +52,14 @@ function OrderDetail() {
     }
   }
 
+  function changeInfor() {
+    inputInfor.current.focus();
+    document.querySelector('.ok').setAttribute('style', 'display:block')
+  }
+  function handleOk() {
+    console.log(inputInfor.current);
+    document.querySelector('.ok').setAttribute('style', 'display:none')
+  }
 
   const back = () => {
     nav('/user/order')
@@ -58,8 +68,6 @@ function OrderDetail() {
   useEffect(() => {
     getOrder();
   }, [])
-
-  console.log(document.querySelector('.stepper'));
 
   if (btnValue.status === 'pending') {
     status = 'Đơn hàng đang chờ xác nhận';
@@ -139,12 +147,12 @@ function OrderDetail() {
           <div className="border-top"></div>
           <div className="order-detail__address-content">
             <h1 className='address-title'>Địa chỉ nhận hàng</h1>
-            <h3>Tên khách hàng : Lê Quốc Mạnh</h3>
+            <h3>Tên khách hàng : <input className='inputName' type="text" ref={inputInfor} value={address.name} /></h3>
             <p className="address-content-detail">
-              <div>{btnValue.phone}</div>
-              <div>Số nhà 43E ngõ 97 Triều Khúc, Phường Thanh Xuân Nam, Quận Thanh Xuân, Hà Nội
-                {/* {btnValue.address} */}
-                <button className='edit-btn'>Sửa</button></div>
+              <div><input type="text" ref={inputInfor} value={address.phone} /></div>
+              <div><input type="text" ref={inputInfor} value={address.address} />
+                <button onClick={changeInfor} className='edit-btn'>Sửa</button></div>
+              <button className='ok' onClick={handleOk}>OK</button>
             </p>
           </div>
         </div>
