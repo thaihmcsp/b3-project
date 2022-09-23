@@ -452,6 +452,7 @@
 
 
 .btn-change-avatar {
+<<<<<<< HEAD
   margin-left: calc(5%) !important;
 }
 
@@ -466,4 +467,28 @@
   }
 
 
+=======
+  margin-left: calc(5% ) !important;
+}
+
+
+.user-profile .profile-body .body-left input {
+  outline: 0;
+  border: 1px solid gray;
+  padding: 4px 11px;
+}
+
+.inp-user,
+.inp-full,
+.inp-phone {
+  width: 100% ;
+}
+
+.user-profile .profile-body .body-left .ant-row {
+  margin: 0;
+}
+
+.user-profile .profile-body .body-left .email {
+  margin-bottom: 20px;
+>>>>>>> 35c46b99d9512f18b4ad277b9dfb94aafad17524
 }
