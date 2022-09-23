@@ -35,7 +35,7 @@ function Cart() {
                 key: value.productDetailId._id,
                 Name: <a>{value.productDetailId.productId.productName}</a>,
                 price: value.productDetailId.price,
-                listImg: <img src={`https://shope-b3.thaihm.site/${value.productDetailId.productId.thumbnail}`}></img>,
+                listImg: `https://shope-b3.thaihm.site/${value.productDetailId.listImg[0]}`,
                 stonge: value.quantity,
                 total: value.quantity * value.productDetailId.price,
                 select: value.select
@@ -204,10 +204,17 @@ function onSelectAll1(selected, selectedRows, changeRows){
     {
       title: "",
       dataIndex: "listImg",
+      render: (value)=>{
+        return (
+          <div className="cart-list-img">
+           <img src={value} alt="" />
+          </div>
+        )
+      }
     },
     {
       title: "Giá",
-      dataIndex: "price",
+      dataIndex: "price"
     },
     {
       title: 'Số lượng',
@@ -235,6 +242,13 @@ function onSelectAll1(selected, selectedRows, changeRows){
     {
       title: "Thành Tiền",
       dataIndex: "total",
+      render:(value)=>{
+        return (
+          <div className="cart-list-totalPrice">
+            {value}
+          </div>
+        )
+      }
     },
     {
       title: "Thao Tác",
@@ -277,11 +291,11 @@ function onSelectAll1(selected, selectedRows, changeRows){
       getAPIcart()
     }, [count, reload, counting]
   );
-  // console.log(216, dataSource);
+  console.log(216, dataSource);
   return (
     <div className="cart-container">
       <Row justify="center">
-        <Col span={20}>
+        <Col lg={20} md={22} xs={23}>
           <div className="cart-list">
             <Table
               rowSelection={rowSelection}
@@ -292,11 +306,11 @@ function onSelectAll1(selected, selectedRows, changeRows){
         </Col>
       </Row>
       <Row justify="center">
-        <Col span={20}>
+        <Col lg={24} md={24}>
           <div className="cart-footer">
             <Row justify="center">
-              <Col span={10}></Col>
-              <Col span={10}>
+             
+              <Col lg={10} md={10} xs={23}>
                 <div className="cart-voucher-1">
                   <div className="cart-title">
                     <h2>
@@ -321,17 +335,17 @@ function onSelectAll1(selected, selectedRows, changeRows){
               </Col>
             </Row>
             <Row justify="center">
-              <Col span={10}>
+              <Col lg={10}  sm={22}  >
                 <div className="cart-footer">
                   <span>Chọn tất cả ({count})</span> <span> Xóa </span>{" "}
                   <span> Bỏ sản phẩm không hoạt động</span>
                 </div>
               </Col>
-              <Col span={10}>
+              <Col lg={10}  sm={22} >
                 <div className="cart-footer2">
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span>{" "}
                   <span className="cart-price">{total}đ</span>
-                  <Button type="primary" onClick={createOrder}>
+                  <Button type="primary" onClick={createOrder} className="cart-btn-sup">
                     Mua hàng
                   </Button>
                 </div>

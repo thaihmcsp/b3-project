@@ -95,7 +95,7 @@ function App() {
           />
 
           {/* thông tin , đổi pass ... */}
-          <Route path="/admin/profile" element={<AdminProfile />} />
+          
         </Route>
 
         <Route path="/signin" element={<SignIn />} />
