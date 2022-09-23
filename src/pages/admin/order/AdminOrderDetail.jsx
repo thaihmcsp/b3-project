@@ -57,14 +57,15 @@ function AdminOrderDetail() {
                 <div>
                     <span>Trạng thái: </span>
                     {orderDetail.status === "canceled" ? (
-                    <span>canceled</span>
+                        <span>canceled</span>
                     ) : orderDetail.status === "done" ? (
-                    <span>done</span>
+                        <span>done</span>
                     ) : (
                     <select
                         value={orderDetail.status}
                         onChange={handleChangeStatus}
                         className="info-item-user-status"
+                        style={{border: "none"}}
                     >
                         <option value="canceled">canceled</option>
                         <option value="pending">pending</option>

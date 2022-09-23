@@ -48,7 +48,6 @@ const beforeUpload = (file) => {
 const onSearch = (value) => console.log(value);
 
 function AddProduct() {
-  const listOrder = "Chưa chọn ngành hàng";
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
@@ -58,19 +57,38 @@ function AddProduct() {
   const [listCategory, setListCategory] = useState([])
   const [dataFile, setDataFile] = useState(new FormData())
 
-
   const nav = useNavigate();
 
+
+  const handleChange = async (info) => {
+    console.log(118, info.file.originFileObj);
+    const formData = new FormData()
+    formData.append('thumbnail', info.file.originFileObj)
+    console.log('formData', info.file.originFileObj);
+    setDataFile(formData)
+
+    getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+    });
+  };
+
+
   const onFinish = async (values) => {
-    console.log(72, 'Success:', values);
+    console.log(65, 'Success:', values);
     try {
-      let res = await postAPI('/product/create-product', values)
-      let idNewProduct = res.data.product._id
+      console.log(74, dataFile);
+      values.thumbnail = values.thumbnail.file.originFileObj
+      dataFile.append('productName', values.productName);
+      dataFile.append('brand', values.branch);
+      dataFile.append('categoryId', values.categoryId);
+      let res = await postAPI('/product/create-product', dataFile);
+      let idNewProduct = res.data.product._id;
       setIdProduct(idNewProduct)
-      console.log(30, res);
+      console.log(79, res);
       nav(`/admin/product/${idNewProduct}/detail/create`);
     } catch (error) {
-      console.log(32, error);
+      console.log(82, error);
       alert("Sản phẩm đã tồn tại");
     }
   };
@@ -88,20 +106,7 @@ function AddProduct() {
     }
   }
 
-  const onChange = (e) => {
-    console.log(24, 'Change:', e.target.value);
-  };
 
-  const handleChange = async (info) => {
-    console.log(118, info);
-    const formData = new FormData()
-    setDataFile(formData)
-    formData.append('thumb', info.file.originFileObj)
-    getBase64(info.file.originFileObj, (url) => {
-      setLoading(false);
-      setImageUrl(url);
-    });
-  };
 
   const handleChangeValue = (value) => {
     console.log(95, value)
@@ -253,7 +258,6 @@ function AddProduct() {
               className="input-addProductName"
               showCount
               maxLength={120}
-              onChange={onChange}
               placeholder="Nhập vào"
             />
           </Form.Item>
@@ -264,8 +268,8 @@ function AddProduct() {
 
             <Form.Item label="Tên ngành hàng : " className='addCategory-addProduct' name='categoryId'>
               <Select onChange={onChangeValue}>
-                {listCategory.map(function(value){
-                  return(
+                {listCategory.map(function (value) {
+                  return (
                     <Select.Option value={value._id}>{value.categoryName}</Select.Option>
                   )
                 })}
@@ -327,9 +331,3 @@ function AddProduct() {
 }
 
 export default AddProduct
-
-
-
-
-
-

@@ -1,22 +1,16 @@
 import React from 'react'
-import { UploadOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Upload, Col, Row, Modal, Checkbox, Form, Input, DatePicker, Space, Select, message } from 'antd';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { getAPI, patchAPI } from '../../config/api';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import { userLogin } from '../../redux/reducers/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
-
 const { Option } = Select;
 
 
 // Set default value BirthDay
-const { RangePicker } = DatePicker;
-const dateFormat = 'YYYY/MM/DD';
-
 
 const props = {
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -59,7 +53,8 @@ function UserProfile() {
     const [count, setCount] = useState(0)
     const token = window.localStorage.getItem('user')
     const [data, setData] = useState({})
-    const [birthDay,setBirthDay] = useState('')
+    const [birthDay, setBirthDay] = useState('1970/01/01')
+    const [sex, setSex] = useState('')
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
     const [formImg, setFormImg] = useState(new FormData())
@@ -70,7 +65,7 @@ function UserProfile() {
 
     const domain = 'https://shope-b3.thaihm.site/'
 
-    
+
 
     const success = () => {
         message.loading({
@@ -108,44 +103,33 @@ function UserProfile() {
 
             setImageUrl(linkk)
             setData(res.data.user)
-            setBirthDay((res.data.user.dateOfBirth.split('T'))[0].split('-').join('/'))
+            setSex(res.data.user.sex)
+            setBirthDay((res.data.user.dateOfBirth.split('T'))[0].split('-').join('-'))
         } catch (error) {
             console.log(error);
         }
     }
 
-    console.log(data);
-    console.log(123,birthDay);
-
     useEffect(() => {
         getData()
     }, [count])
 
-    // Btn-open-modal
-
-
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
 
     // Form-edit
 
     const onFinish = async (values) => {
         try {
+            console.log(values);
             let res = await patchAPI('user/update-info', values)
+            const ress = await getAPI('/auth/get-loged-in-user')
+            const action = userLogin(ress.data.user);
+            dispatch(action)
             setCount(count + 1)
             console.log(res);
-            alert(res.data.message)
+            message.success('Đổi thông tin thành công')
         } catch (error) {
             console.log(error);
+            message.error('Thất bại')
         }
     };
 
@@ -154,11 +138,13 @@ function UserProfile() {
     };
 
     const onChange2 = (date, dateString) => {
-        console.log(date, dateString);
+        console.log(168, dateString);
+        setBirthDay(dateString)
     };
 
-    const handleChange = (value) => {
-        console.log(`selected ${value}`);
+    const handleChange = (values) => {
+        console.log(values);
+        setSex(values)
     };
 
     // Upload logic
@@ -182,7 +168,7 @@ function UserProfile() {
             const res = await patchAPI('/user/change-avatar', formImg)
             console.log(res);
             const ress = await getAPI('/auth/get-loged-in-user')
-            const action = userLogin(ress.data)
+            const action = userLogin(ress.data.user);
             dispatch(action)
             setCount(count + 1)
             success()
@@ -192,7 +178,15 @@ function UserProfile() {
         }
     };
 
-    
+    const changeDate = (event) => {
+        console.log(event.target.value);
+        setBirthDay(event.target.value)
+    }
+
+    const changeSex = (event) => {
+        setSex(event.target.value)
+    }
+
 
 
     return (
@@ -203,138 +197,112 @@ function UserProfile() {
             </div>
             <div className="profile-body">
                 <div className="body-left">
-                    <Row>
+
+                    <Row className='email'>
                         <Col span={6} >Tên Đăng Nhập</Col>
-                        {/* <Col span={18}>{data.email ? data.email : "Đang cập nhật"}</Col> */}
-                        <Col span={18}><Input value={data.email ? data.email : "Đang cập nhật"} /></Col>
+                        <Col span={18}><Input disabled={true} value={data.email} /></Col>
                     </Row>
 
-                    <Row>
-                        <Col span={6}>Username:</Col>
-                        <Col span={18}><Input value={data.username ? data.username : "Đang cập nhật"} /></Col>
-                    </Row>
+                    <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+                        <Form.Item
+                            name="username"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Vui lòng không để trống hoặc không được trùng thông tin cũ!',
+                                },
+                            ]}
+                        >
+                            <Row>
+                                <Col span={6}>Username:</Col>
+                                <Col span={18}>
+                                    <input className='inp-user' type="text" defaultValue={data.username} />
+                                </Col>
+                            </Row>
+                        </Form.Item>
 
-                    <Row>
-                        <Col span={6}>Fullname:</Col>
-                        <Col span={18}><Input value={data.fullname ? data.fullname : "Đang cập nhật"} /></Col>
-                    </Row>
+                        <Form.Item
+                            label=""
+                            name="fullname"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Vui lòng không để trống hoặc không được trùng thông tin cũ!',
+                                },
+                            ]}
+                        >
+                            <Row>
+                                <Col span={6}>Full Name:</Col>
+                                <Col span={18}>
+                                    <input className='inp-full' type="text" defaultValue={data.fullname} />
+                                </Col>
+                            </Row>
+                        </Form.Item>
 
-                    <Row>
-                        <Col span={6}>Phone:</Col>
-                        <Col span={18}><Input value={data.phone ? data.phone : "Đang cập nhật"} /></Col>
-                    </Row>
+                        <Form.Item
+                            label=""
+                            name="phone"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Vui lòng không để trống hoặc không được trùng thông tin cũ!',
+                                },
+                            ]}
+                        >
+                            <Row>
+                                <Col span={6}>Phone: </Col>
+                                <Col span={18}>
+                                    <input className='inp-phone' type="number" defaultValue={data.phone} />
+                                </Col>
+                            </Row>
+                        </Form.Item>
 
-                    <Row>
-                        <Col span={6}>Sex:</Col>
-                        <Col span={18}>
-                            <Select
-                                style={{
-                                    width: 120,
-                                }}
-                                defaultValue={data.sex == "Male" ? "Male" : "Female"}
-                                onChange={handleChange}
-                            >
-                                <Option value="Male">Male</Option>
-                                <Option value="Female">Female</Option>
-                            </Select>
-                        </Col>
-                    </Row>
+                        <Form.Item
+                            label=""
+                            name="sex"
+                        >
 
-                    <Row>
-                        <Col span={6}>Birth Day:</Col>
-                        <Col span={18} >
-                            <DatePicker onChange={onChange2} defaultValue={moment(birthDay, dateFormat)} format={dateFormat} />
-                        </Col>
-                    </Row>
+                            <Row>
+                                <Col span={6}>Sex: </Col>
+                                <Col span={18}>
+                                    <select name="" id="inp-sex" value={sex} onChange={(e) => { changeSex(e) }}>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </Col>
+                            </Row>
+                        </Form.Item>
 
-                    <Row>
-                        <Button type="primary" onClick={showModal}>
-                            Đổi thông tin
-                        </Button>
-                        <Modal title="Thông tin" footer={null} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
-                                <Form.Item
-                                    label="Username"
-                                    name="username"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please input your username!',
-                                        },
-                                    ]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                        <Form.Item
+                            label=""
+                            name="dateOfBirth"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Vui lòng không để trống hoặc không được trùng thông tin cũ!',
+                                },
+                            ]}
+                        >
 
-                                <Form.Item
-                                    label="Full Name"
-                                    name="fullname"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please input your Full Name!',
-                                        },
-                                    ]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                            <Row>
+                                <Col span={6}>Date of birth: </Col>
+                                <Col span={18}>
+                                    <input className='inp-date' type={'date'} value={birthDay} onChange={(e) => { changeDate(e) }} />
+                                </Col>
+                            </Row>
+                        </Form.Item>
 
-                                <Form.Item
-                                    label="Phone"
-                                    name="phone"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please input your Phone!',
-                                        },
-                                    ]}
-                                >
-                                    <Input />
-                                </Form.Item>
-
-                                <Form.Item
-                                    label="Sex"
-                                    name="sex"
-                                >
-                                    <Select
-                                        style={{
-                                            width: 120,
-                                        }}
-                                        onChange={handleChange}
-                                    >
-                                        <Option value="Male">Male</Option>
-                                        <Option value="Female">Female</Option>
-                                    </Select>
-                                </Form.Item>
-
-                                <Form.Item
-                                    label="Date of birth"
-                                    name="dateOfBirth"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Please input your Date of birth',
-                                        },
-                                    ]}
-                                >
-                                    <DatePicker onChange={onChange2} />
-                                </Form.Item>
-
-                                <Form.Item
-                                    wrapperCol={{
-                                        offset: 8,
-                                        span: 16,
-                                    }}
-                                >
-                                    <Button type="primary" htmlType="submit">
-                                        Đổi thông tin
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        </Modal>
-
-
-                    </Row>
+                        <Form.Item
+                            wrapperCol={{
+                                offset: 8,
+                                span: 16,
+                            }}
+                        >
+                            <Button type="primary" htmlType="submit">
+                                Đổi thông tin
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 </div>
 
                 <div className="body-right">
