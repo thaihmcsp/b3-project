@@ -260,12 +260,6 @@ function UserProfile() {
                         <Form.Item
                             label=""
                             name="sex"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Vui lòng không để trống hoặc không được trùng thông tin cũ!',
-                                },
-                            ]}
                         >
 
                             <Row>
