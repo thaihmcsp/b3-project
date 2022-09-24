@@ -163,9 +163,12 @@ function Header() {
         <div className='header-top-left'>
           <p onClick={Admin}>Kênh Người Bán </p>
 
+
           <p>Tải Ứng Dụng </p>
+         
+          <p id='ud'>Tải Ứng Dụng </p>
           <p id='kn'>Kết Nối   </p>
-          <p> <span><FacebookOutlined className='icon-fb' /></span><span><InstagramOutlined className='icon-itg' /></span>    </p>
+          <p className='ic'> <span><FacebookOutlined className='icon-fb' /></span><span><InstagramOutlined className='icon-itg' /></span>    </p>
         </div>
         <dir className="header-top-right"  >
           <div className='header-top-right-icon'>
@@ -195,7 +198,7 @@ function Header() {
       </div>
 
       <div className="header-seach">
-        <Link to={'/'}>
+        <a href='/'>
           <div className="header-seach-logo">
             <svg
               viewBox="0 0 192 65"
@@ -206,7 +209,7 @@ function Header() {
               </g>
             </svg>
           </div>
-        </Link>
+        </a>
         <div className="header-seach-main">
           <input type="text" className='header-seach-iput' onKeyPress={filterLinkInput} />
           <button onClick={filterLink}>
