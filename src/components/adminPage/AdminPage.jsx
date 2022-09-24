@@ -10,12 +10,12 @@ function AdminPage() {
 });
   // let data = window.localStorage.getItem('user-shope')
   let link = user.avatar
+
   const domain = 'https://shope-b3.thaihm.site/'
   if(!link.startsWith('https')) {
     link = domain + link
   }
-
-  // console.log(user.avatar);
+  console.log(user.avatar);
 
   return (
     <div className='AdminPage'>

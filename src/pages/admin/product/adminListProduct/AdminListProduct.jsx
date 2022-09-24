@@ -1,53 +1,47 @@
-import {Button, Form, Modal, Table, Typography, Upload,  Select, Input  } from 'antd';
+import {Button, Form, Modal, Table, Typography, Upload,  Select, Input, message,  Image  } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import './AdminListProduct.css'
 import { useNavigate} from "react-router-dom";
-import { getAPI } from '../../../../config/api';
+import { getAPI, patchAPI,postAPI } from '../../../../config/api';
 import { useEffect} from 'react';
 
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+  if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+  }
+
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+  }
+
+  return isJpgOrPng && isLt2M;
+};
 
 function AdminListProduct() {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
   const { Option } = Select;
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
-  const handleCancelImg = () => setPreviewOpen(false);
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-    file.preview = await getBase64(file.originFileObj);
-  }
-  setPreviewImage(file.url || file.preview);
-  setPreviewOpen(true);
-  setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-  };
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
-  const [fileList, setFileList] = useState([
-    
-    
-  ]);
-
-
+  // const [formImg, setFormImg] = useState(new FormData())
+  // const [loading, setLoading] = useState(false);
+  // const [imageUrl, setImageUrl] = useState();
+  // const [count, setCount] = useState(0)
+  // const key = 'updatable';
+  const [productId, setProductId] = useState()
+  const [productName, setProductName] = useState()
+  const [brand, setBrand] = useState()
+  const [type, setType] = useState()
   const [uData, setUdata] = useState([])
   async  function getAPIproduct() {
     try {
@@ -58,7 +52,7 @@ function AdminListProduct() {
             newList.push(
                   {
                     productName: value.productName,
-                    thumbnail:value.thumbnail.startsWith('https')? <img  src= {value.thumbnail} alt=''/> : <img  src= {`https://shope-b3.thaihm.site/${value.thumbnail}`} alt=''/>,
+                    thumbnail:value.thumbnail.startsWith('https')?  <Image className='preview-img' src={value.thumbnail} /> : <Image className='preview-img' src={`https://shope-b3.thaihm.site/${value.thumbnail}`} />,
                     brand: value.brand,
                     quantityProperty:value.listDtail.length,
                     type:value.categoryId._id==='63227fdadb8fd735e64e3e50'?'Điện thoại':'Máy tính',
@@ -73,11 +67,23 @@ function AdminListProduct() {
         console.log(error);
     }
   }
-  const [open, setOpen] = useState(false);
-  const showModal = () => {
-    setOpen(true);
-  };
+  const onFinish = async (values) => {
+    try {
+        console.log(values);
+        const res = await postAPI(`/product/update-product-info/${productId}`)
+        console.log(res);
+        message.success('Đổi thông tin thành công')
+    } catch (error) {
+        console.log(error);
+        message.error('Thất bại')
+    }
+};
 
+
+  const onFinishFailed = (errorInfo) => {
+      console.log('Failed:', errorInfo);
+  };
+  const [open, setOpen] = useState(false);
   const handleOk = (e) => {
     setOpen(false);
   };
@@ -88,13 +94,13 @@ function AdminListProduct() {
   const navigate = useNavigate();
   
   const [form] = Form.useForm();
-    useEffect(() => {
-      getAPIproduct() 
-    },[])
-    const { Column } = Table;
+  useEffect(() => {
+    getAPIproduct() 
+  },[])
+  const { Column } = Table;
 return (
     <div>
-      <Form  form={form} component={false}>
+      <Form  form={form} component={false} onFinish={onFinish}  >
       <Table
         dataSource={uData}
       >
@@ -145,7 +151,12 @@ return (
         title= 'Sửa thông tin'
         dataIndex= 'operation'
         className='column-list-product'
-        render={ (index) => {
+        render={ (record,index) => {
+          const showModal = () => {
+            setOpen(true);
+            setProductId(index.id)
+            console.log(productId);
+          };
           return (
             <span>
               <Button
@@ -160,7 +171,6 @@ return (
         } }
       />
       </Table>
-      </Form>
       <Modal
         title="Sửa thông tin"
         visible={open}
@@ -175,14 +185,22 @@ return (
         }}
       >
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          name="avatar"
           listType="picture-card"
-          onPreview={handlePreview}
-          fileList={fileList}
-          onChange={handleChange}
-        >
-          {fileList.length >= 1 ? null : uploadButton}
-        </Upload>
+          className="avatar-uploader"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+      >
+          {/* {imageUrl ?(
+              <img
+                  src={imageUrl}
+                  alt="avatar"
+                  style={{
+                      width: '100%',
+                  }}
+              />
+          ) : 'Ảnh'} */}
+      </Upload>
         <label>Tên sản phẩm</label>
         <Input placeholder="Vui lòng điền đủ thông tin" id='productName' width='50%' className='inp-list-product'/>
         <br />
@@ -192,26 +210,18 @@ return (
         <label>Phân loại</label>
         <Select
           className='select-list-product'
-          defaultValue="lucy"
+          defaultValue="Điện thoại"
           style={{
             width: 120,
           }}
           onChange={handleChange}
           width='50%'
         >
-          <Option value="jack">Điện thoại</Option>
-          <Option value="lucy">Máy tính</Option>
+          <Option value="Điện thoại">Điện thoại</Option>
+          <Option value="Máy tính">Máy tính</Option>
         </Select>
       </Modal>
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-        <img
-          alt="example"
-          style={{
-            width: '100%',
-          }}
-          src={previewImage}
-        />
-      </Modal>
+    </Form>
     </div>
   )
 }
