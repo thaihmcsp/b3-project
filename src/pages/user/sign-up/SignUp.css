@@ -178,3 +178,33 @@
       background-color: #ee4d2d;
        border-color: #ee4d2d;     
    }
+   /* ===========Responsive==================== */
+   @media screen and (max-width: 768px) {
+    .content-signup img{
+     display: none;
+   }
+   .content-signup{
+     padding-top: 40px;
+   }
+   .form-dang-ky{
+     margin: auto;
+     position: unset;
+    margin-top: 10px;
+   }
+ }
+ @media screen and (max-width: 996px) {
+  .content-signup img{
+  display: none;
+  }
+ .content-signup{
+   padding-top: 40px;
+ }
+ .form-dang-ky{
+   margin: auto;
+   position: unset;
+  margin-top: 10px;
+ }
+ .signup-icon img{
+  display: inline-block;
+ }
+}
