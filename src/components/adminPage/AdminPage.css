@@ -89,3 +89,6 @@
     border-radius: 250px;
 }
 
+.adminPage-header-right a {
+    color: black;
+}
