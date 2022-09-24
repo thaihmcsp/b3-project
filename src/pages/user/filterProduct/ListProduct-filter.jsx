@@ -54,7 +54,7 @@ function ListProduct() {
                           for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
                               if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() ){
                                 push.push(value) 
-                                console.log(value,57);
+                                
                               }
                           }
                           setDataClone(push.slice((12*(page-1)),(12*page)));
@@ -72,7 +72,7 @@ function ListProduct() {
                     for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
                         if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() && parseInt(priceF[0])<= parseInt(value.price) && parseInt(value.price) <=parseInt(priceF[1])){
                           push.push(value) 
-                          console.log(value,74);
+                          
                         }
                     }
                     setDataClone(push.slice((12*(page-1)),(12*page)));
@@ -103,28 +103,63 @@ function ListProduct() {
                       setDataClone(dataMini.slice((12*(page-1)),(12*page)))
                       setDataFake(dataMini)
 
-                      if(!brandlink){
+                      if(!brandlink && !price){
                         setDataClone(data.data.products.slice((12*(page-1)),(12*page)))
                         // console.log(data.data.products.slice((12*(page-1)),(12*page)));
                         setDataFake(data.data.products)
                         
                       }
-                      else if(brandlink){
-                             setBrandz(brandlink.toUpperCase().split(" "))
-                             dataMini.map(function(value){
-                                  if(value.brand){
-                                   
-                                    for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
-                                        if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() ){
-                                          push.push(value)  
-                                          setDataClone(push.slice((12*(page-1)),(12*page)));
-                                          setDataFake(push)
-                                        }
-                                    }
-                                  }
-                              })
-          
-                            }
+                      else if(brandlink && !price){
+                        setBrandz(brandlink.toUpperCase().split(" "))
+                        dataMini.map(function(value){
+                             if(value.brand){
+                               for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
+                                
+                                   if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() ){
+                                     push.push(value) 
+                                    
+                                   }
+                               }
+                               setDataClone(push.slice((12*(page-1)),(12*page)));
+                                   setDataFake(push)
+                             }
+                         })
+     
+                       }
+                         
+                    if(price && !brandlink ){
+                      
+                      let priceF = price.split("-")
+                      dataMini.map(function(value){
+                       
+                        if (value.price && parseInt(priceF[0])<= parseInt(value.price) && parseInt(value.price) <= parseInt(priceF[1])){
+                         
+
+                                push.push(value) 
+                                // console.log(push,89);
+                              }
+                            })
+                            setDataClone(push.slice((12*(page-1)),(12*page)));
+                            setDataFake(push)
+                    }   
+                    else if(brandlink && price){
+                      let priceF = price.split("-")
+                      setBrandz(brandlink.toUpperCase().split(" "))
+                      dataMini.map(function(value){
+                       
+                        if(value.brand && value.price){
+                          for(let i=0;i<brandlink.toUpperCase().split(" ").length;i++){
+                              if(brandlink.toUpperCase().split(" ")[i] === value.brand.toUpperCase() && parseInt(priceF[0])<= parseInt(value.price) && parseInt(value.price) <=parseInt(priceF[1])){
+                                push.push(value) 
+                                
+                              }
+                          }
+                          setDataClone(push.slice((12*(page-1)),(12*page)));
+                          setDataFake(push)
+                        }
+                    })
+      
+                    }
                 }
       } catch (error) {
         console.log(error);
