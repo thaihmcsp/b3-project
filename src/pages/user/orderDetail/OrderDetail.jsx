@@ -15,8 +15,8 @@ function OrderDetail() {
   const [orderAPI, setOrderAPI] = useState([]);
   const [btnValue, setBtnValue] = useState({});
   const [number, setNumber] = useState(0);
+  const [inputInfor, setInputInfor] = useState('')
   const nav = useNavigate();
-  const inputInfor = useRef()
 
   let totalPrice = 0;
   let ship = 16500;
@@ -60,7 +60,9 @@ function OrderDetail() {
     console.log(inputInfor.current);
     document.querySelector('.ok').setAttribute('style', 'display:none')
   }
-
+  function getValue(e) {
+    setInputInfor(e.target.value);
+  }
   const back = () => {
     nav('/user/order')
   }
@@ -147,12 +149,10 @@ function OrderDetail() {
           <div className="border-top"></div>
           <div className="order-detail__address-content">
             <h1 className='address-title'>Địa chỉ nhận hàng</h1>
-            <h3>Tên khách hàng : <input className='inputName' type="text" ref={inputInfor} value={address.name} /></h3>
+            <h3>Tên khách hàng : {address.name}</h3>
             <p className="address-content-detail">
-              <div><input type="text" ref={inputInfor} value={address.phone} /></div>
-              <div><input type="text" ref={inputInfor} value={address.address} />
-                <button onClick={changeInfor} className='edit-btn'>Sửa</button></div>
-              <button className='ok' onClick={handleOk}>OK</button>
+              <div>Số điện thoại : {address.phone}</div>
+              <div>Địa chỉ nhận hàng : {address.address} </div>
             </p>
           </div>
         </div>
@@ -169,8 +169,8 @@ function OrderDetail() {
                   <div className="order-product--shop__left">
                     <span className='shop-love'>Yêu thích+</span>
                     <h1> Dareu Viet Nam</h1>
-                    <button className='chat'> <i class="fa-solid fa-comment"></i> Chat</button>
-                    <button className="watch-shop"><i class="fa-solid fa-store"></i>Xem Shop</button>
+                    <button className='chat'> <i className="fa-solid fa-comment"></i> Chat</button>
+                    <button className="watch-shop"><i className="fa-solid fa-store"></i>Xem Shop</button>
                   </div>
 
                   <div className="order-product--shop__right">

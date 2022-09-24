@@ -49,9 +49,9 @@ function UserOrderHistory() {
   let count = 0;
   const objType = {}
   let noOrder =
-    <div class="no-product">
-      <div class="no-product__content "></div>
-      <div class="no-product__text">Chưa có đơn hàng</div>
+    <div className="no-product">
+      <div className="no-product__content "></div>
+      <div className="no-product__text">Chưa có đơn hàng</div>
     </div>
 
   if (search.search) {
@@ -63,17 +63,17 @@ function UserOrderHistory() {
       let res = await getAPI('/auth/get-loged-in-user')
       user = res.data.user._id;
       getOrderInfor();
-      render();
     } catch (error) {
       console.log(error);
     }
   }
-  console.log(69, objType, inputValue);
+  // console.log(69, objType, inputValue);
 
   const getOrderInfor = async () => {
     try {
       let res = await getAPI('/order/get-order-by-userId/user/' + user);
       setListOrder(res.data.order);
+      render(res.data.order);
     } catch (error) {
       console.log(error);
     }
@@ -92,29 +92,31 @@ function UserOrderHistory() {
   }
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       setLoading(false)
-      getUser();
-    }, 1000)
-    render();
+      await getUser();
+
+    }, 500)
+    setInputValue(objType.keyword);
   }, [number, inputValue])
 
   const onClick = (e) => {
     setCurrent(e.key);
   };
 
-  function render() {
-    // if (inputValue.length) {
-    listOrder.map((data) => {
-      data.listProduct.filter((value) => {
-        if (value.productDetailId?.productId.productName.includes(inputValue)) {
-          setCloneOrder([data]);
-        }
-      })
+  function render(listData) {
+    listData.map((data) => {
+      if (data._id.includes(inputValue)) {
+        setCloneOrder([data])
+      } else {
+        data.listProduct.filter((value) => {
+          if (value.productDetailId?.productId.productName.includes(inputValue)) {
+            setCloneOrder([data]);
+          }
+        })
+      }
     })
-    // }
   }
-
   const searchOrder = (e) => {
     if (e.keyCode == 13) {
       let inputValue = document.querySelector('.searchOrder').value;
@@ -130,7 +132,7 @@ function UserOrderHistory() {
       </div>
 
       <div className="search-input">
-        <svg width="19px" height="19px" viewBox="0 0 19 19"><g id="Search-New" stroke-width="1" fill="none" fill-rule="evenodd"><g id="my-purchase-copy-27" transform="translate(-399.000000, -221.000000)" stroke-width="2"><g id="Group-32" transform="translate(400.000000, 222.000000)"><circle id="Oval-27" cx="7" cy="7" r="7"></circle><path d="M12,12 L16.9799555,16.919354" id="Path-184" stroke-linecap="round" stroke-linejoin="round"></path></g></g></g></svg>
+        <svg width="19px" height="19px" viewBox="0 0 19 19"><g id="Search-New" strokeWidth="1" fill="none" fillRule="evenodd"><g id="my-purchase-copy-27" transform="translate(-399.000000, -221.000000)" strokeWidth="2"><g id="Group-32" transform="translate(400.000000, 222.000000)"><circle id="Oval-27" cx="7" cy="7" r="7"></circle><path d="M12,12 L16.9799555,16.919354" id="Path-184" strokeLinecap="round" strokeLinejoin="round"></path></g></g></g></svg>
         <input type="text" className='searchOrder' placeholder='Tìm kiếm theo Tên Shop, ID đơn hàng hoặc tên sản phẩm' onKeyUp={searchOrder} />
       </div>
 

@@ -452,25 +452,8 @@
 
 
 .btn-change-avatar {
-<<<<<<< HEAD
   margin-left: calc(5%) !important;
 }
-
-
-@media screen and (min-width : 768px) and (max-width : 1239px) {
-  .menu {
-    display: none;
-  }
-
-  .user-menu .container {
-    width: 100% !important;
-  }
-
-
-=======
-  margin-left: calc(5% ) !important;
-}
-
 
 .user-profile .profile-body .body-left input {
   outline: 0;
@@ -481,7 +464,7 @@
 .inp-user,
 .inp-full,
 .inp-phone {
-  width: 100% ;
+  width: 100%;
 }
 
 .user-profile .profile-body .body-left .ant-row {
@@ -490,5 +473,28 @@
 
 .user-profile .profile-body .body-left .email {
   margin-bottom: 20px;
->>>>>>> 35c46b99d9512f18b4ad277b9dfb94aafad17524
+}
+
+
+@media screen and (min-width : 768px) and (max-width : 1239px) {
+  .menu {
+    display: none;
+  }
+
+  .user-menu .container {
+    width: 100% !important;
+    padding: 0;
+  }
+}
+
+@media screen and (min-width : 390px) and (max-width : 739px) {
+  .menu {
+    display: none;
+  }
+
+  .user-menu .container {
+    width: 100% !important;
+    padding: 0;
+  }
+
 }
