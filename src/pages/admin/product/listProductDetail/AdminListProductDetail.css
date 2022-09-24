@@ -40,3 +40,6 @@
     background:#f6f6f6 ;
     padding: 8px 16px;
 }
+tr{
+    height: 100px !important;
+}
