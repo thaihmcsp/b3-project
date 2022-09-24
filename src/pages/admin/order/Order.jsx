@@ -69,7 +69,7 @@ function Order() {
   }
 
   const onSearch = (value) => {
-    console.log('value', value);
+    // console.log('value', value);
     setSearchValue(value)
   }
 
@@ -128,13 +128,13 @@ function Order() {
   }
 
   async function onChangeStatus(e) {
-    console.log('e', e.target.id);
+    // console.log('e', e.target.id);
     const id = e.target.id
     const value = e.target.value
     setChangeStatus(value)
     try {
       let res = await patchAPI('/order/change-order-status/' + id, { status: changeStatus })
-      console.log(127, res.data.order);
+      // console.log(127, res.data.order);
     } catch (error) {
       console.log(error);
     }
@@ -193,6 +193,7 @@ function Order() {
       },
       filteredValue: [selectDate],
       onFilter: (value, record) => {
+        // console.log('value' , value);
         let down = new Date(value.split(',')[0]);
         let up = new Date(value.split(',')[1]);
         let current = new Date(record.createdAt);
