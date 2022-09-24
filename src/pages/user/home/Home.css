@@ -224,6 +224,7 @@
   height: 188px;
   margin-bottom: 8px;
   object-fit: cover;
+  display: block;
 }
 
 .home_product-item h2 {
@@ -480,7 +481,7 @@
   }
 
   .home_navbar-item {
-    width: 19%;
+    width: 18%;
   }
 
   .home_product-list-product {
@@ -490,7 +491,7 @@
   }
 
   .home_product-item-link {
-    width: 47%;
+    width: 46%;
   }
 
   .home_product-header {
