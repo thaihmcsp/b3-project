@@ -135,3 +135,9 @@
   /* outline: none; */
   border: 1px solid grey;
 }
+
+.ant-image-preview-img {
+  max-width: unset;
+  max-height: unset;
+  width: 50%;
+}
