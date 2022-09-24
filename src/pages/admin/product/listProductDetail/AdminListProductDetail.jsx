@@ -25,6 +25,7 @@ function AdminListProductDetail() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
+  const [dataDetail, setDataDetail] = useState({})
   const [fileList, setFileList] = useState([])
   const domain = 'https://shope-b3.thaihm.site/'
   const handleCancelPreview = () => setPreviewOpen(false);
@@ -125,9 +126,23 @@ function AdminListProductDetail() {
   const [isModalOpenn, setIsModalOpenn] = useState(false);
   const [idEdit, setIdEdit] = useState('')
 
+  console.log(idEdit);
   // const showModal1 = () => {
   //   setIsModalOpenn(true);
   // };
+
+  const onFinish1 = async (values) => {
+    try {
+      let res = await patchAPI('/productDetail/update-product-detail-info/' + idEdit, values)
+      console.log(res);
+      alert(res.statusText)
+      setcount(count + 1)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   const handleOk1 = () => {
     setIsModalOpenn(false);
@@ -142,6 +157,7 @@ function AdminListProductDetail() {
     showModal()
   }
 
+  // console.log(Data);
 
   return (
     <div className='adminListProductDetail' >
@@ -154,7 +170,7 @@ function AdminListProductDetail() {
             + Thêm 1 sản phẩm mới
           </Button>
           <Modal title={editDetail ? 'Edit Detail Form' : "Create Product Detail"} footer={null} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={editDetail ? onFinish1 : onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
               <Form.Item
                 label="Color"
                 name="color"
@@ -165,7 +181,7 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <Input />
+                <input type="text" value={editDetail ? dataDetail ? dataDetail.color : "Đang cập nhật" : ""} />
               </Form.Item>
 
               <Form.Item
@@ -178,7 +194,8 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <Input />
+                {/* <Input /> */}
+                <input type="text" value={editDetail ? (dataDetail ? dataDetail.ram : "Đang cập nhật") : ""} />
               </Form.Item>
 
               <Form.Item
@@ -191,7 +208,7 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <Input />
+                <Input value={editDetail ? (dataDetail ? dataDetail.rom : "Đang cập nhật") : ""} />
               </Form.Item>
 
               <Form.Item
@@ -247,15 +264,9 @@ function AdminListProductDetail() {
                   span: 16,
                 }}
               >
-                {editDetail ?
-                  <Button type="primary" htmlType="submit">
-                    Add Detail
-                  </Button>
-                  :
-                  <Button type="primary" htmlType="submit">
-                    Add Detail
-                  </Button>
-                }
+                <Button type="primary" htmlType="submit">
+                  {editDetail ? 'Change Detail' : "Add Detail"}
+                </Button>
               </Form.Item>
             </Form>
           </Modal>
@@ -287,21 +298,26 @@ function AdminListProductDetail() {
                   }
                 };
 
-                const onFinish1 = async (values) => {
+                const getDataDetail = async () => {
                   try {
-                    let res = await patchAPI('/productDetail/update-product-detail-info/' + idEdit, values)
-                    console.log(res);
-                    alert(res.statusText)
-                    setcount(count + 1)
+                    setIdEdit(value._id)
+                    let res = await getAPI('/productDetail/get-one-detail/' + value._id)
+                    console.log(res.data.detail);
+                    setDataDetail(res.data.detail)
+                    setEditDetail(true)
+                    showModal()
+                    setIsModalOpenn(true);
                   } catch (error) {
                     console.log(error);
                   }
+                }
+
+                const openModall = () => {
+                  getDataDetail()
                 };
 
-                const showModal1 = () => {
-                  setIdEdit(value._id)
-                  setIsModalOpenn(true);
-                };
+
+
 
                 return (
                   <div className='product'>
@@ -317,7 +333,7 @@ function AdminListProductDetail() {
                       </Descriptions.Item>
                       <Descriptions.Item label=""></Descriptions.Item>
                       <Descriptions.Item label="">
-                        <Button type="primary" onClick={openModall}>
+                        <Button type="primary" onClick={() => { openModall() }}>
                           Edit Detail
                         </Button>
                         {/* <Modal title="Basic Modal" visible={isModalOpenn} open={isModalOpenn} onOk={handleOk1} onCancel={handleCancel1} footer={null}>
