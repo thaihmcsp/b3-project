@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image ,message} from 'antd'
+import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image, message } from 'antd'
 import 'antd/dist/antd.css';
 import './productDetail.css';
 import axios from 'axios';
@@ -58,24 +58,24 @@ function ProductDetail() {
             setProductDetailPrice(products.data.product.price)
             setProductDetailData([products.data.product])
             setProductDetailCheck(products.data.product.listDtail)
-            
+
         }
         catch (error) {
             console.log(error);
         }
     }
 
-    async function addToCart(){
+    async function addToCart() {
         try {
-            let addToCart = await patchAPI(`/cart/add-to-cart`,{'productDetailId':productDetailID,"quantity":inputpd})
-            if(addToCart.status == 200){
-                console.log(72,addToCart);
+            let addToCart = await patchAPI(`/cart/add-to-cart`, { 'productDetailId': productDetailID, "quantity": inputpd })
+            if (addToCart.status == 200) {
+                console.log(72, addToCart);
                 message.success('Thêm vào giỏ hàng thành công !')
-            }else {
+            } else {
                 message.error('Thêm vào giỏ hàng thất bại !')
             }
         }
-        catch (error){
+        catch (error) {
             console.log(error);
         }
     }
@@ -93,8 +93,8 @@ function ProductDetail() {
     function setPrice1(value) {
         let color = value.target.value
         setpdColor(color)
-        getPrice(color, pdRam, pdRom )
-        
+        getPrice(color, pdRam, pdRom)
+
     }
     function setPrice2(value) {
         let ram = value.target.value
@@ -108,7 +108,7 @@ function ProductDetail() {
     }
 
 
-    function getPrice(pdColor, pdRam, pdRom){
+    function getPrice(pdColor, pdRam, pdRom) {
         if (pdColor, pdRam, pdRom) {
 
             let arrPrice = productDetailCheck.find(
@@ -148,20 +148,15 @@ function ProductDetail() {
         }
     }
 
-    //
-    
-
-//
     // useEffect
     useEffect(() => {
         getAPIproductDetail()
-        // setProductDetailPrice(productDetailData[0].price);
 
     }, [count])
 
 
 
-console.log(productDetailData);
+    console.log(productDetailData);
     return (
         <div className='product-detail'>
             {productDetailData.map(
@@ -182,7 +177,7 @@ console.log(productDetailData);
                             </Row>
                             <Row justify='center' >
 
-                                <Col  lg={5} md={8} xs={24}>
+                                <Col lg={5} md={8} xs={24}>
                                     <div className="product-detail-left">
                                         <Carousel autoplay>
                                             <div>
@@ -230,7 +225,7 @@ console.log(productDetailData);
                                         </div>
                                     </div>
                                 </Col>
-                                <Col  lg={11} md={12} xs={24}>
+                                <Col lg={11} md={12} xs={24}>
                                     <div className="product-detail-right">
                                         <div className="product-detail-title">
                                             <h2> {value.productName}</h2>
@@ -374,7 +369,7 @@ console.log(productDetailData);
 
                             </Row>
                             <Row justify='center'>
-                                <Col  lg={6} md={9} xs={22}>
+                                <Col lg={6} md={9} xs={22}>
                                     <div className='product-detail-footer'>
                                         <div className='pd-footer-so'>
                                             <span>Chia sẻ:</span>
@@ -390,7 +385,7 @@ console.log(productDetailData);
                                         </div>
                                     </div>
                                 </Col>
-                                <Col  lg={10} md={9} xs={24}>
+                                <Col lg={10} md={9} xs={24}>
                                     <div className='product-detail-add'>
                                         <Button danger className='pd-add-gh pd-btn-add-cart' onClick={addToCart}> <i className="fa-solid fa-cart-plus"></i>  Thêm vào giỏ hàng</Button>
                                         <Button type='primary' danger className='pd-add-mh pd-btn-add-cart'>Mua Ngay</Button>
