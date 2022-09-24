@@ -73,7 +73,7 @@
 }
 .describe-create-order{
     /* margin: 10px 30px; */
-    margin-top: 30px;
+    /* margin-top: 30px; */
     background-color: white;
     padding-bottom: 30px;
 }
@@ -145,6 +145,7 @@
 .create-order-price span{
    color: #ee4d2d;
    font-size: 30px;
+   margin-left: 30px;
 }
 .create-order-product-mount{
     margin-top: 20px;
@@ -160,12 +161,70 @@
     padding: 16px;
     outline: none;
     border: 0;
-    margin-right: 100px;
+    margin-right: 50px;
 }
 .personal-information .name{
     margin-right: 20px;
 }
 
+ /* ===========Responsive==================== */
+ @media screen and (max-width: 560px) {
+    .shop-create-order{
+        display: none;
+    }
+    .border{
+        display: inline-block;
+        margin-top: 80px;
+    }
+    .thay-doi .ant-btn-primary{
+        display: inline-block;
+        background: #1890ff;
+        width: 70px;
+        padding: 0;
+    }
+    .mac-dinh{
+        display: none;
+    }
+    .create-order-button{
+        width: 100px;
+        height: 52px;
+        margin-top: 10px;
+        margin-right: 30px;
+    }
+    .create-order-product-mount{
+        display: none;
+    }
+   
+ }
+ @media screen and (max-width: 996px) {
+    .shop-create-order{
+        display: none;
+    }
+    .border{
+        display: inline-block;
+        margin-top: 60px;
+    }
+    .thay-doi .ant-btn-primary{
+        display: inline-block;
+        background: #1890ff;
+        width: 70px;
+        padding: 0;
+    }
+    /* .mac-dinh{
+        display: none;
+    } */
+    .create-order-button{
+        width: 100px;
+        height: 52px;
+        margin-top: 10px;
+        margin-right: 30px;
+    }
+    .create-order-product-mount{
+        display: none;
+    }
+ }
+   
+ 
 
 
 
