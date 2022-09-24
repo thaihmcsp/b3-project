@@ -137,7 +137,7 @@
 }
 
 .ant-image-preview-img {
-  max-width: unset;
-  max-height: unset;
-  width: 50%;
+  max-width: 90%;
+  max-height: 90%;
+  /* width: 50%; */
 }
