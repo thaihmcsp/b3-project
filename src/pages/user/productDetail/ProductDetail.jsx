@@ -170,7 +170,7 @@ console.log(productDetailData);
                     return (
                         <div className='product-detail-body'>
                             <Row justify='center'>
-                                <Col  lg={16} md={16} >
+                                <Col lg={16} md={16} >
                                     <PageHeader
                                         className="site-page-header"
                                         breadcrumb={{
