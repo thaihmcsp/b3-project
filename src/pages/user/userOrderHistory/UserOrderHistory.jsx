@@ -11,33 +11,33 @@ import { Skeleton } from 'antd';
 const items = [
   {
     label: <Link to={'/user/order?type=1'}>Tất cả</Link>,
-    key: 'all',
+    key: 1,
     icon: null,
   },
   {
     label: <Link to={'/user/order?type=2'}>Chờ xác nhận</Link>,
-    key: 'wait-confirm',
+    key: 2,
     icon: null,
   },
   {
     label: <Link to={'/user/order?type=3'}>Đang giao</Link>,
-    key: 'delivering',
+    key: 3,
     icon: null,
   },
   {
     label: <Link to={'/user/order?type=4'}>Đã giao</Link>,
-    key: 'shipping',
+    key: 4,
     icon: null
   },
   {
     label: <Link to={'/user/order?type=5'}>Đã hủy</Link>,
-    key: 'cancel',
+    key: 5,
     icon: null
   }
 ];
 
 function UserOrderHistory() {
-  const [current, setCurrent] = useState('all');
+  const [current, setCurrent] = useState(1);
   const [number, setNumber] = useState(0);
   const [loading, setLoading] = useState(true);
   const [listOrder, setListOrder] = useState([]);
@@ -98,6 +98,7 @@ function UserOrderHistory() {
 
     }, 500)
     setInputValue(objType.keyword);
+    setCurrent(objType.type);
   }, [number, inputValue])
 
   const onClick = (e) => {
