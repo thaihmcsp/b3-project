@@ -7,6 +7,7 @@ import { getAPI, patchAPI, postAPI } from "../../../config/api";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { Pagination } from "antd";
+import { Image } from "antd";
 
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -38,7 +39,7 @@ function Category() {
 
   // Get products
   const [listProduct, setListProduct] = useState([]);
-  const [showDataPage, setShowDataPage] = useState([])
+  const [showDataPage, setShowDataPage] = useState([]);
   const [pageCurrent, setPageCurrent] = useState(0);
 
   // Modal add category
@@ -56,10 +57,12 @@ function Category() {
   const [dataUpdateUpload, setDataUpdateUpload] = useState(new FormData());
   const [idUpdate, setIdUpdate] = useState("");
 
-  const [quantityCategory, setQuantityCategory] = useState([])
+  const [quantityCategory, setQuantityCategory] = useState([]);
 
-  const search = useLocation(), nav = useNavigate();
-  let objectSearch = { page: 1, pageSize: 10 }, page = 0;
+  const search = useLocation(),
+    nav = useNavigate();
+  let objectSearch = { page: 1, pageSize: 10 },
+    page = 0;
 
   const getInfoSearch = () => {
     if (search.search) {
@@ -91,14 +94,16 @@ function Category() {
         if (search.search) {
           setPageCurrent(page);
         }
-        const new_categories = data.data.categories.map(category => {
-          const countCategory = products.data.products.filter(product => product.categoryId._id === category._id).length
+        const new_categories = data.data.categories.map((category) => {
+          const countCategory = products.data.products.filter(
+            (product) => product.categoryId._id === category._id
+          ).length;
           return {
-              ...category,
-              count: countCategory
-          }
-        })
-        setQuantityCategory(new_categories)
+            ...category,
+            count: countCategory,
+          };
+        });
+        setQuantityCategory(new_categories);
       } catch (error) {
         console.log(error);
       }
@@ -220,9 +225,9 @@ function Category() {
             return (
               <div className="admin-category-body-item" key={item._id}>
                 <div className="admin-category-item-img">
-                  <img
+                  <Image
+                    width={"100%"}
                     src={"https://shope-b3.thaihm.site/" + item.thumbnail}
-                    alt=""
                   />
                 </div>
 
@@ -231,11 +236,13 @@ function Category() {
                 </div>
 
                 <div className="admin-category-item-store">
-                  <p>{quantityCategory.map(value => {
-                    if (value._id === item._id) {
-                      return value.count
-                    }
-                  })}</p>
+                  <p>
+                    {quantityCategory.map((value) => {
+                      if (value._id === item._id) {
+                        return value.count;
+                      }
+                    })}
+                  </p>
                 </div>
 
                 <div className="admin-category-item-handle">

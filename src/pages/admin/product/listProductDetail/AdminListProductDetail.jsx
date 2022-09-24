@@ -1,20 +1,60 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Form, Modal, Descriptions, Input, InputNumber, Switch } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Form, Modal, Descriptions, Input, InputNumber, Switch, Upload } from 'antd';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import './AdminListProductDetail.css'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { getAPI, patchAPI, postAPI } from '../../../../config/api';
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => resolve(reader.result);
+
+    reader.onerror = (error) => reject(error);
+  });
 
 function AdminListProductDetail() {
   const { productId } = useParams()
   const [Data, setData] = useState([])
   const [count, setcount] = useState(0)
   const [Urll, setUrl] = useState('')
-
+  const [editDetail, setEditDetail] = useState(false)
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [dataDetail, setDataDetail] = useState({})
+  const [fileList, setFileList] = useState([])
   const domain = 'https://shope-b3.thaihm.site/'
+  const handleCancelPreview = () => setPreviewOpen(false);
 
+  const handlePreview = async (file) => {
+    console.log(31, file)
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+  };
+
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
   useEffect(() => {
     getData()
   }, [count])
@@ -49,14 +89,27 @@ function AdminListProductDetail() {
   };
 
   const handleCancel = () => {
+    if (editDetail) {
+      setEditDetail(false)
+    }
     setIsModalVisible(false);
   };
 
   // Form-logic
 
   const onFinish = async (values) => {
+    console.log(96, values);
+    console.log(97, fileList);
     try {
-      let res = await postAPI('productDetail/create-product-detail/product/' + productId, values)
+      let res = await postAPI('productDetail/create-product-detail/product/' + productId, values);
+      console.log(97, res.data.productDetail._id);
+      const formData = new FormData();
+      for (let i = 0; i < fileList.length; i++) {
+        let file = fileList[i].originFileObj
+        formData.append('thumbs', file);
+      }
+      let newDetail = await patchAPI('/productDetail/add-product-detail-thumbs/' + res.data.productDetail._id, formData);
+      console.log(105, newDetail.data);
       setcount(count + 1)
     } catch (error) {
       console.log(error);
@@ -73,9 +126,23 @@ function AdminListProductDetail() {
   const [isModalOpenn, setIsModalOpenn] = useState(false);
   const [idEdit, setIdEdit] = useState('')
 
+  console.log(idEdit);
   // const showModal1 = () => {
   //   setIsModalOpenn(true);
   // };
+
+  const onFinish1 = async (values) => {
+    try {
+      let res = await patchAPI('/productDetail/update-product-detail-info/' + idEdit, values)
+      console.log(res);
+      alert(res.statusText)
+      setcount(count + 1)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   const handleOk1 = () => {
     setIsModalOpenn(false);
@@ -85,7 +152,12 @@ function AdminListProductDetail() {
     setIsModalOpenn(false);
   };
 
+  const openModall = () => {
+    setEditDetail(true)
+    showModal()
+  }
 
+  // console.log(Data);
 
   return (
     <div className='adminListProductDetail' >
@@ -97,8 +169,8 @@ function AdminListProductDetail() {
           <Button type="primary" onClick={showModal} >
             + Thêm 1 sản phẩm mới
           </Button>
-          <Modal title="Create Product Detail" footer={null} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+          <Modal title={editDetail ? 'Edit Detail Form' : "Create Product Detail"} footer={null} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={editDetail ? onFinish1 : onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
               <Form.Item
                 label="Color"
                 name="color"
@@ -109,7 +181,7 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <Input />
+                <input type="text" value={editDetail ? dataDetail ? dataDetail.color : "Đang cập nhật" : ""} />
               </Form.Item>
 
               <Form.Item
@@ -122,7 +194,8 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <Input />
+                {/* <Input /> */}
+                <input type="text" value={editDetail ? (dataDetail ? dataDetail.ram : "Đang cập nhật") : ""} />
               </Form.Item>
 
               <Form.Item
@@ -135,7 +208,7 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <Input />
+                <Input value={editDetail ? (dataDetail ? dataDetail.rom : "Đang cập nhật") : ""} />
               </Form.Item>
 
               <Form.Item
@@ -164,6 +237,27 @@ function AdminListProductDetail() {
                 <InputNumber />
               </Form.Item>
 
+              <Form.Item>
+                <Upload
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                >
+                  {fileList.length >= 8 ? null : uploadButton}
+                </Upload>
+                <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancelPreview}>
+                  <img
+                    alt="example"
+                    style={{
+                      width: '100%',
+                    }}
+                    src={previewImage}
+                  />
+                </Modal>
+
+              </Form.Item>
+
               <Form.Item
                 wrapperCol={{
                   offset: 8,
@@ -171,7 +265,7 @@ function AdminListProductDetail() {
                 }}
               >
                 <Button type="primary" htmlType="submit">
-                  Add Detail
+                  {editDetail ? 'Change Detail' : "Add Detail"}
                 </Button>
               </Form.Item>
             </Form>
@@ -204,21 +298,26 @@ function AdminListProductDetail() {
                   }
                 };
 
-                const onFinish1 = async (values) => {
+                const getDataDetail = async () => {
                   try {
-                    let res = await patchAPI('/productDetail/update-product-detail-info/' + idEdit, values)
-                    console.log(res);
-                    alert(res.statusText)
-                    setcount(count + 1)
+                    setIdEdit(value._id)
+                    let res = await getAPI('/productDetail/get-one-detail/' + value._id)
+                    console.log(res.data.detail);
+                    setDataDetail(res.data.detail)
+                    setEditDetail(true)
+                    showModal()
+                    setIsModalOpenn(true);
                   } catch (error) {
                     console.log(error);
                   }
+                }
+
+                const openModall = () => {
+                  getDataDetail()
                 };
 
-                const showModal1 = () => {
-                  setIdEdit(value._id)
-                  setIsModalOpenn(true);
-                };
+
+
 
                 return (
                   <div className='product'>
@@ -234,10 +333,10 @@ function AdminListProductDetail() {
                       </Descriptions.Item>
                       <Descriptions.Item label=""></Descriptions.Item>
                       <Descriptions.Item label="">
-                        <Button type="primary" onClick={showModal1}>
+                        <Button type="primary" onClick={() => { openModall() }}>
                           Edit Detail
                         </Button>
-                        <Modal title="Basic Modal" visible={isModalOpenn} open={isModalOpenn} onOk={handleOk1} onCancel={handleCancel1} footer={null}>
+                        {/* <Modal title="Basic Modal" visible={isModalOpenn} open={isModalOpenn} onOk={handleOk1} onCancel={handleCancel1} footer={null}>
                           <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish1} onFinishFailed={onFinishFailed} autoComplete="off" >
                             <Form.Item
                               label="Color"
@@ -315,7 +414,7 @@ function AdminListProductDetail() {
                               </Button>
                             </Form.Item>
                           </Form>
-                        </Modal>
+                        </Modal> */}
                       </Descriptions.Item>
                     </Descriptions>
                   </div>
@@ -325,6 +424,15 @@ function AdminListProductDetail() {
           </div>
         </div>
       </div>
+      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancelPreview}>
+        <img
+          alt="example"
+          style={{
+            width: '100%',
+          }}
+          src={previewImage}
+        />
+      </Modal>
     </div>
   )
 }

@@ -95,7 +95,7 @@ function App() {
           />
 
           {/* thông tin , đổi pass ... */}
-          
+
         </Route>
 
         <Route path="/signin" element={<SignIn />} />

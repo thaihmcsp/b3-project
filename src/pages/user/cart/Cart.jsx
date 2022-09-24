@@ -222,14 +222,14 @@ function onSelectAll1(selected, selectedRows, changeRows){
       render: (text, record) => {
         return (
           <div className='cart-quanlity'>
-            <Button type="primary" onClick={
+            <Button className='cart-quanlity-btn' type="primary" onClick={
               async () => {
                 await setQuanlityAPI(record.productId, --text)
                 setCounting(counting - 1)
               }
             }>-</Button>
-            <input placeholder="" value={text} />
-            <Button type="primary" onClick={
+            <input placeholder="" value={text}  className='cart-quanlity-input' />
+            <Button className='cart-quanlity-btn' type="primary" onClick={
               async () => {
                 await setQuanlityAPI(record.productId, ++text);
                 setCounting(counting + 1)

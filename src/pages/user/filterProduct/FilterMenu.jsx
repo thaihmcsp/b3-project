@@ -5,8 +5,8 @@ import "./Menufilter.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo","Asus"]
-const dataCategory=["Laptop","PC","ĐiệnThoại"]
+const dataCheck = ["SamSung","Redmi","HP","Apple","Oppo","Asus","Xiaomi","Nokia",]
+
 function FilterMenu() {
   let [filterBox ,setFilterBox] = useState([])
   let [valueCheckbox,setValueCheckbox] = useState([])
@@ -69,7 +69,7 @@ function price (){
     let z= p[p.length-1].split("=")[1]=`${valuePrice}-${valuePriceLast}`
     // console.log(z.split("=")[1]=`${valuePrice}-${valuePriceLast}`);
     p[p.length-1]=`price=${z}`
-    console.log(p);
+   
     link = p.join("&")
   }
   nav(link)

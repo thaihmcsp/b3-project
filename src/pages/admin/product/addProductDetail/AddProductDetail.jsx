@@ -49,7 +49,7 @@ function AddProductDetail() {
       }
       let data = await patchAPI(`/productDetail/add-product-detail-thumbs/${res.data.productDetail._id}`, imgFile)
       console.log(48, data);
-      // navigate('/admin/product')
+      navigate('/admin/product')
     } catch (error) {
       console.log(error);
     }

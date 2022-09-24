@@ -1,5 +1,5 @@
-import { DatePicker, Space, Input, Table, Select } from 'antd';
-import { MenuOutlined, ShopOutlined } from '@ant-design/icons'
+import { DatePicker, Space, Input, Table, Select, Button } from 'antd';
+import { MenuOutlined, SearchOutlined, ShopOutlined } from '@ant-design/icons'
 import { AudioOutlined } from '@ant-design/icons';
 import React from 'react';
 import './order.css'
@@ -10,9 +10,12 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 import { getAPI, patchAPI } from '../../../config/api';
+import moment from 'moment';
 
 const { RangePicker } = DatePicker;
+
 const { Search } = Input;
+
 const suffix = (
   <AudioOutlined
     style={{
@@ -24,16 +27,15 @@ const suffix = (
 
 const { Option } = Select;
 
-const onSearch = (value) => {
 
-  console.log('value', value);
-}
 function Order() {
   const [getOrder, setGetOrder] = useState([])
   const [getUser, setGetUser] = useState([])
   const [savePlaceholder, setSavePlaceholder] = useState([])
   const [valueSelect, setValueSelect] = useState([])
-  const [changeStatus , setChangeStatus] = useState('')
+  const [searchValue, setSearchValue] = useState('')
+  const [changeStatus, setChangeStatus] = useState('')
+  const [selectDate, setSelectDate] = useState([])
   const getOrders = async (value) => {
     try {
       let res = await getAPI('/order/get-all-order')
@@ -64,6 +66,11 @@ function Order() {
     } catch (error) {
       console.log(35, error);
     }
+  }
+
+  const onSearch = (value) => {
+    // console.log('value', value);
+    setSearchValue(value)
   }
 
   for (let i = 0; i < getOrder.length; i++) {
@@ -121,17 +128,18 @@ function Order() {
   }
 
   async function onChangeStatus(e) {
-    console.log('e' , e.target.id);
+    // console.log('e', e.target.id);
     const id = e.target.id
     const value = e.target.value
     setChangeStatus(value)
     try {
-      let res = await patchAPI('/order/change-order-status/' + id, {status: changeStatus})
-      console.log(127 , res.data.order);
+      let res = await patchAPI('/order/change-order-status/' + id, { status: changeStatus })
+      // console.log(127, res.data.order);
     } catch (error) {
       console.log(error);
     }
   }
+
   const columns = [
     {
       title: 'ID ',
@@ -165,6 +173,14 @@ function Order() {
       title: 'Phone',
       key: 'phone',
       dataIndex: 'phone',
+      filteredValue: [searchValue],
+      onFilter: (value, record) => {
+        if (valueSelect == 'phone' || valueSelect == '') {
+          if (record.phone) {
+            return record.phone.toLowerCase().includes(value.toLowerCase())
+          }
+        }
+      }
     },
     {
       title: 'Ngày tạo',
@@ -174,6 +190,15 @@ function Order() {
         let date = new Date(text)
         let dateTime = date.toLocaleDateString()
         return dateTime
+      },
+      filteredValue: [selectDate],
+      onFilter: (value, record) => {
+        // console.log('value' , value);
+        let down = new Date(value.split(',')[0]);
+        let up = new Date(value.split(',')[1]);
+        let current = new Date(record.createdAt);
+        if (!value) return true;
+        return down <= current && current >= up;
       }
     },
     {
@@ -207,7 +232,11 @@ function Order() {
         <span>Ngày đặt hàng </span>
         <div className='date-order'>
           <Space direction="vertical" size={12}>
-            <RangePicker />
+            <RangePicker onChange={(value) => {
+              setSelectDate(value.map(dateValue => {
+                return moment(dateValue).format('YYYY-MM-DD')
+              }))
+            }} />
           </Space>
         </div>
 

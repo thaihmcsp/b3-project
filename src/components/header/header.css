@@ -186,3 +186,29 @@
 #display{
   display: none;
 }
+@media only screen and (max-width: 768px) {
+  .header-top-right-icon{
+    display: none;
+  }
+  #kn{
+    display: none;
+  }
+  #ud{
+    display: none;
+  }
+  .ic{
+    display: none;
+  }
+  /* .header-seach-iput{
+    display: none;
+  } */
+  .header-seach-cart{
+    display: none;
+  }
+  .header-seach-main{
+    background-color: #fb5430;
+  }
+  .header-seach{
+    justify-content: space-between;
+  }
+}
