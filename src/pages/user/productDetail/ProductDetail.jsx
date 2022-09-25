@@ -1,43 +1,17 @@
 import React from 'react'
-import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image, message } from 'antd'
+import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image, message, Modal } from 'antd'
 import 'antd/dist/antd.css';
 import './productDetail.css';
 import axios from 'axios';
 import { Routes, Route, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import product from '../../../static/Truong/product.json'
 import { getAPI, patchAPI } from '../../../config/api';
 import { instance } from '../../../config/axios';
+import { Pagination } from "antd";
+import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 // Select 
-const { Option } = Select;
-const children = [
-    <Option key={1}> {'Giảm 10%'}</Option>,
-    <Option key={2}> {'Giảm 15%'}</Option>,
-    <Option key={3}>{'Giảm 25%'}</Option>,
-    <Option key={4}>{'Giảm 50%'}</Option>,
-    <Option key={5}>{'Free ship'}</Option>,
 
-];
-
-
-const handleChange = (value) => {
-    console.log(`Selected: ${value}`);
-
-};
-const routes = [
-    {
-        path: 'index',
-        breadcrumbName: 'First-level Menu',
-    },
-    {
-        path: 'first',
-        breadcrumbName: 'Second-level Menu',
-    },
-    {
-        path: 'second',
-        breadcrumbName: 'Third-level Menu',
-    },
-];
 
 function ProductDetail() {
     const { productId } = useParams()
@@ -46,11 +20,22 @@ function ProductDetail() {
     const [productDetailData, setProductDetailData] = useState([])
     const [productDetailCheck, setProductDetailCheck] = useState([])
     const [productDetailID, setProductDetailID] = useState()
-
     const [count, setCount] = useState(0);
     // getAPI 
-
-    // console.log(count,51);
+    const routes = [
+        {
+            path: 'index',
+            breadcrumbName: 'Trang chủ',
+        },
+        {
+            path: 'first',
+            breadcrumbName: 'Product Detail',
+        },
+        {
+            path: 'second',
+            breadcrumbName: `${productId}`,
+        },
+    ];
     async function getAPIproductDetail() {
 
         try {
@@ -159,7 +144,6 @@ function ProductDetail() {
         let listImg = []
         productDetailData[0].listDtail.map(
             (value, index) => {
-                console.log(162, value);
                 value.listImg.map(
                     (val) => {
                         listImg.push(val)
@@ -169,11 +153,50 @@ function ProductDetail() {
         )
         return listImg
     }
+    // get 4 img
+    function get4imgProductDetail() {
+        let list4Img = []
+        for (let i = 0; i <= 3; i++) {
+            list4Img.push(getListImgProductDetail()[i])
+        }
+        return list4Img
+    }
+    const [pdImg, setPdImg] = useState()
+    // Model
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    // carourel
+    let refCarousel = useRef(null);
+    const handlePrevSlider = () => {
+        refCarousel.prev();
+    };
+
+    const handleNextSlider = () => {
+        refCarousel.next();
+    };
+    const contentStyle = {
+        color: "#fff",
+        lineHeight: "160px",
+        textAlign: "center",
+        background: "#364d79",
+        height: "238px",
+        borderRadius: "4px",
+    };
     return (
         <div className='product-detail'>
             {productDetailData.map(
                 (value, index) => {
-
                     return (
                         <div className='product-detail-body'>
                             <Row justify='center'>
@@ -189,35 +212,85 @@ function ProductDetail() {
                             </Row>
                             <Row justify='center' >
 
-                                <Col lg={5} md={8} xs={24}>
+                                <Col lg={6} md={8} xs={24}>
                                     <div className="product-detail-left">
-                                        <div className="product-detail-listimg">
-                                            <Image
-                                                width={66}
+                                        <div className="product-detail-img">
+                                            <img
+                                                onClick={showModal}
+                                                width={`100%`}
                                                 src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
                                             />
                                         </div>
-                                        <div>
-                                            <Carousel >
-                                                {getListImgProductDetail().map(
-                                                    (value) => {
-                                                        return (
-                                                            <div>
-                                                                <div className='product-detail-carousel-card'>
-                                                                    <img src={`https://shope-b3.thaihm.site/${value}`} alt="" />
+                                        <div className="product-detail-list-img">
+                                            {get4imgProductDetail().map(
+                                                (value) => {
+                                                    return (
+                                                        <div >
+                                                            <img
+                                                                src={`https://shope-b3.thaihm.site/${value}`}
+                                                                alt="" onClick={showModal}
+                                                                onMouseEnter={() => { console.log(234, value) }} />
+                                                        </div>
+                                                    )
+                                                }
+                                            )}
+                                            <Modal
+                                                open={isModalOpen}
+                                                onOk={handleOk}
+                                                onCancel={handleCancel}
+                                                width={`70%`}
+                                                footer={null}
+                                            >
+                                                <div className="product-detail-modal">
 
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    }
-                                                )}
-                                            </Carousel>
-                                           
+                                                    <div className="product-detail-carourel-left">
+                                                        <button className="product-detail-carourel-left-btn" onClick={handlePrevSlider}>
+                                                            <LeftOutlined />
+                                                        </button>
+                                                        <Carousel ref={(node) => (refCarousel = node)}>
+                                                            {getListImgProductDetail().map(
+                                                                (value) => {
+                                                                    return (
+                                                                        <div >
+
+                                                                            <h3 style={contentStyle}>
+                                                                                <img
+                                                                                    className="product-detail-carourel-left-img"
+                                                                                    src={`https://shope-b3.thaihm.site/${value}`}
+                                                                                    alt=""
+                                                                                />
+                                                                            </h3>
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            )}
+                                                        </Carousel>
+                                                        <button
+                                                            className="product-detail-carourel-right-btn"
+                                                            onClick={handleNextSlider}
+                                                        >
+                                                            <RightOutlined />
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="product-detail-modal-listimg">
+                                                        {getListImgProductDetail().map(
+                                                            (value) => {
+                                                                return (
+                                                                    <div className='product-detail-modal-img'>
+                                                                        <Image src={`https://shope-b3.thaihm.site/${value}`} className='pd-item-img' width={80} />
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </Modal>
                                         </div>
 
                                     </div>
                                 </Col>
-                                <Col lg={11} md={12} xs={24}>
+                                <Col lg={10} md={12} xs={24}>
                                     <div className="product-detail-right">
                                         <div className="product-detail-title">
                                             <h2> {value.productName}</h2>
@@ -327,25 +400,6 @@ function ProductDetail() {
 
                                             </Descriptions>
                                         </div>
-                                        {/* <div className="prodtuct-detail-address">
-                                                                <Descriptions>
-                                                                    <Descriptions.Item label='Phi vận chuyển'>
-                                                                        <Select
-                                                                            defaultValue="0"
-                                                                            style={{
-                                                                                width: 100,
-                                                                            }}
-                                                                            onChange={handleChange}
-                                                                        >
-                    
-                                                                            <Option value="0">Miễn Phí</Option>
-                                                                            <Option value="15000">15000đ</Option>
-                                                                            <Option value="25000">25000đ</Option>
-                    
-                                                                        </Select>
-                                                                    </Descriptions.Item>
-                                                                </Descriptions>
-                                                            </div> */}
                                         <div className="product-detail-quantity">
                                             <Descriptions>
                                                 <Descriptions.Item label='Số lượng'>
@@ -362,20 +416,7 @@ function ProductDetail() {
                             </Row>
                             <Row justify='center'>
                                 <Col lg={6} md={9} xs={22}>
-                                    <div className='product-detail-footer'>
-                                        <div className='pd-footer-so'>
-                                            <span>Chia sẻ:</span>
-                                            <a href="#"><i className="fa-brands fa-facebook-messenger"></i></a>
-
-                                            <a href="#"> <i className="fa-brands fa-facebook"></i></a>
-                                            <a href="#"> <i className="fa-brands fa-pinterest"></i></a>
-
-                                            <a href="#"> <i className="fa-brands fa-twitter"></i></a>
-                                        </div>
-                                        <div className='pd-footer-so'>
-                                            <a href="#" onClick={like1}><i className="fa-solid fa-heart"></i></a> <span> Đã Thích({like})</span>
-                                        </div>
-                                    </div>
+                                    
                                 </Col>
                                 <Col lg={10} md={9} xs={24}>
                                     <div className='product-detail-add'>
