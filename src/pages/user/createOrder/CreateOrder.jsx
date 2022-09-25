@@ -14,7 +14,7 @@ const key = "updatable";
 
 function CreateOrder() {
   const nav = useNavigate();
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
   const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
@@ -111,7 +111,7 @@ function CreateOrder() {
     addToCart();
     let address = getAddress();
     onFinish(address);
-  }, [count]);
+  }, []);
 
   async function addToCart() {
     try {
@@ -143,7 +143,6 @@ function CreateOrder() {
       });
 
       setDataSource(dataCart);
-      // createOrder();
     } catch (error) {
       console.log(error);
     }
@@ -154,10 +153,7 @@ function CreateOrder() {
     const parserr = JSON.parse(local);
     const phoneNumber = parserr.phone;
     const addRess = parserr.address;
-    // const cart = await getAPI("/cart/get-loged-in-cart");
-    // console.log(cart);
-    // const cartProduct = cart.data.cart.listProduct;
-    // console.log(cartProduct);
+
     const obj = {
       data: dataSource,
       phone: phoneNumber,
@@ -165,18 +161,21 @@ function CreateOrder() {
     };
     // console.log(obj);
     try {
-      if (!obj) {
-        alert("Không đủ dữ liệu để tạo đơn hàng!");
+      if (!obj.data.length) {
+        alert("Vui lòng chọn mua sản phẩm để tạo đơn hàng!");
+      } else if (!obj.phone) {
+        alert("Vui lòng điền thông tin, địa chỉ để tạo đơn hàng!");
+      } else {
+        const dataOder = await postAPI("/order/create-order", obj);
+        // console.log(dataOder, 152);
+        openMessage();
+        setTimeout(() => {
+          nav("/user/order");
+        }, 2000);
       }
-      const dataOder = await postAPI("/order/create-order", obj);
-      console.log(dataOder, 152);
-      openMessage();
-      setTimeout(() => {
-        nav("/user/order");
-      }, 2000);
     } catch (error) {
       console.log(error);
-      alert("Không đủ dữ liệu để tạo đơn hàng!");
+      alert(error.response.data.message);
     }
   }
 
@@ -225,7 +224,6 @@ function CreateOrder() {
     setIsModalVisible(false);
   };
   const onFinish = async (values) => {
-    console.log(216, values);
     let data = localStorage.getItem("address");
     if (!data) {
       localStorage.setItem("address", "{}");
@@ -233,7 +231,7 @@ function CreateOrder() {
     } else {
       data = JSON.parse(data);
     }
-    console.log(220, data);
+
     try {
       // let data;
       const name = document.querySelector("#name").value;
@@ -369,12 +367,10 @@ function CreateOrder() {
                 <span className="name">
                   {delivery.name ? delivery.name : "Vui lòng điền thông tin!"}
                 </span>
-                {delivery.phone ? delivery.phone : "Vui lòng điền thông tin!"}
               </div>
+              <div>{delivery.phone ? delivery.phone : ""}</div>
               <div className="personal-information-address">
-                {delivery.address
-                  ? delivery.address
-                  : "Vui lòng điền thông tin!"}
+                {delivery.address ? delivery.address : ""}
               </div>
               <div className="mac-dinh">Mặc định</div>
               <div className="thay-doi">

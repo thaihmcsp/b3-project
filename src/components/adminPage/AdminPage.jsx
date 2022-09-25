@@ -1,15 +1,22 @@
 import React from 'react'
-import { Outlet , Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Outlet, Link } from 'react-router-dom'
 import AdminMenu from '../adminMenu/AdminMenu'
 import './AdminPage.css'
 
 function AdminPage() {
-  let data = window.localStorage.getItem('user-shope')
-  let newData = JSON.parse(data)
+  const user = useSelector(function (state) {
+    return state.user;
+  });
+  // let data = window.localStorage.getItem('user-shope')
+  let link = user.avatar
+
   const domain = 'https://shope-b3.thaihm.site/'
-  if(!newData.avatar.startsWith('https')) {
-    newData.avatar = domain + newData.avatar
+  if (!link.startsWith('https')) {
+    link = domain + link
   }
+  console.log(user.avatar);
+
   return (
     <div className='AdminPage'>
       <div className="adminPage-header">
@@ -20,10 +27,12 @@ function AdminPage() {
           <h2>Admin</h2>
         </div>
         <div className="adminPage-header-right">
-          <div className="header-right-profile">
-            <img src={newData.avatar ? newData.avatar : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
-            <p>{newData.email ? newData.email : "Đang cập nhật"}</p>
-          </div>
+          <Link to={'/admin/profile'}>
+            <div className="header-right-profile">
+              <img src={link ? link : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
+              <p>{user.email ? user.email : "Đang cập nhật"}</p>
+            </div>
+          </Link>
         </div>
       </div>
       <div className="adminPage-body">

@@ -91,8 +91,8 @@ function SignIn() {
             src="https://cf.shopee.vn/file/5569eb9dc7e09e2dbed5315b8f2ea8ba"
             alt=""
           />
-          <div className="form-dang-ky">
-            <div className="content-dang-ky">Đăng nhập</div>
+          <div className="form-dang-nhap">
+            <div className="content-dang-nhap">Đăng nhập</div>
 
             <div className="content-center">
               <Form
