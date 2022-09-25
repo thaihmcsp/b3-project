@@ -154,9 +154,21 @@ function ProductDetail() {
 
     }, [count])
 
-
-
-    console.log(productDetailData);
+    // get list img product detail
+    function getListImgProductDetail() {
+        let listImg = []
+        productDetailData[0].listDtail.map(
+            (value, index) => {
+                console.log(162, value);
+                value.listImg.map(
+                    (val) => {
+                        listImg.push(val)
+                    }
+                )
+            }
+        )
+        return listImg
+    }
     return (
         <div className='product-detail'>
             {productDetailData.map(
@@ -179,50 +191,30 @@ function ProductDetail() {
 
                                 <Col lg={5} md={8} xs={24}>
                                     <div className="product-detail-left">
-                                        <Carousel autoplay>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-
-                                                </div>
-                                            </div>
-
-                                        </Carousel>
                                         <div className="product-detail-listimg">
                                             <Image
                                                 width={66}
                                                 src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
                                             />
-                                            <Image
-                                                width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
-                                            />
-                                            <Image
-                                                width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
-                                            />
-                                            <Image
-                                                width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
-                                            />
                                         </div>
+                                        <div>
+                                            <Carousel >
+                                                {getListImgProductDetail().map(
+                                                    (value) => {
+                                                        return (
+                                                            <div>
+                                                                <div className='product-detail-carousel-card'>
+                                                                    <img src={`https://shope-b3.thaihm.site/${value}`} alt="" />
+
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    }
+                                                )}
+                                            </Carousel>
+                                           
+                                        </div>
+
                                     </div>
                                 </Col>
                                 <Col lg={11} md={12} xs={24}>
