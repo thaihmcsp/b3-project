@@ -96,10 +96,9 @@ function AdminListProduct() {
 };
 const handleChange2 = (info) => {
   const formData = new FormData()
-  formData.append('avatar', info.file.originFileObj)
+  formData.append('thumb', info.file.originFileObj)
   console.log(100, info);
   setFormImg(formData)
-
   getBase64(info.file.originFileObj, (url) => {
       setLoading(false);
       setImageUrl(url);
