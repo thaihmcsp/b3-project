@@ -1,43 +1,17 @@
 import React from 'react'
-import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image, message } from 'antd'
+import { Col, Row, Carousel, PageHeader, Descriptions, Radio, Tag, Button, Select, Image, message, Modal } from 'antd'
 import 'antd/dist/antd.css';
 import './productDetail.css';
 import axios from 'axios';
 import { Routes, Route, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import product from '../../../static/Truong/product.json'
 import { getAPI, patchAPI } from '../../../config/api';
 import { instance } from '../../../config/axios';
+import { Pagination } from "antd";
+import { CheckOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 // Select 
-const { Option } = Select;
-const children = [
-    <Option key={1}> {'Giảm 10%'}</Option>,
-    <Option key={2}> {'Giảm 15%'}</Option>,
-    <Option key={3}>{'Giảm 25%'}</Option>,
-    <Option key={4}>{'Giảm 50%'}</Option>,
-    <Option key={5}>{'Free ship'}</Option>,
 
-];
-
-
-const handleChange = (value) => {
-    console.log(`Selected: ${value}`);
-
-};
-const routes = [
-    {
-        path: 'index',
-        breadcrumbName: 'First-level Menu',
-    },
-    {
-        path: 'first',
-        breadcrumbName: 'Second-level Menu',
-    },
-    {
-        path: 'second',
-        breadcrumbName: 'Third-level Menu',
-    },
-];
 
 function ProductDetail() {
     const { productId } = useParams()
@@ -46,11 +20,30 @@ function ProductDetail() {
     const [productDetailData, setProductDetailData] = useState([])
     const [productDetailCheck, setProductDetailCheck] = useState([])
     const [productDetailID, setProductDetailID] = useState()
-
     const [count, setCount] = useState(0);
-    // getAPI 
 
-    // console.log(count,51);
+    // get value option
+    const [pdColor, setpdColor] = useState();
+    const [pdRam, setpdRam] = useState();
+    const [pdRom, setpdRom] = useState();
+    const [list4Img, setList4Img] = useState([]);
+    const [listAllImg, setListAllImg] = useState([]);
+    const [pdImg, setPdImg] = useState('');
+    // getAPI 
+    const routes = [
+        {
+            path: 'index',
+            breadcrumbName: 'Trang chủ',
+        },
+        {
+            path: 'first',
+            breadcrumbName: 'Product Detail',
+        },
+        {
+            path: 'second',
+            breadcrumbName: `${productId}`,
+        },
+    ];
     async function getAPIproductDetail() {
 
         try {
@@ -58,7 +51,7 @@ function ProductDetail() {
             setProductDetailPrice(products.data.product.price)
             setProductDetailData([products.data.product])
             setProductDetailCheck(products.data.product.listDtail)
-
+            get4imgProductDetail([products.data.product][0]);
         }
         catch (error) {
             console.log(error);
@@ -81,14 +74,18 @@ function ProductDetail() {
     }
 
     // set product price
-    const [productDetailPrice, setProductDetailPrice] = useState(0)
+    const [productDetailPrice, setProductDetailPrice] = useState('')
 
-
-    // get value option
-    const [pdColor, setpdColor] = useState();
-    const [pdRam, setpdRam] = useState();
-    const [pdRom, setpdRom] = useState();
-
+    function formatPdPrice(price) {
+        if (price) {
+            let str = price.toString(10)
+            return str.split('').reverse().reduce((prev, next, index) => {
+                return ((index % 3) ? next : (next + '.')) + prev
+            })
+        } else {
+            return ''
+        }
+    }
     // set price
     function setPrice1(value) {
         let color = value.target.value
@@ -148,20 +145,78 @@ function ProductDetail() {
         }
     }
 
+    function get4imgProductDetail(data) {
+        let list4ImgClone = []
+        // console.log(160, getListImgProductDetail());
+        let list = getListImgProductDetail(data);
+        for (let i = 0; i <= 3; i++) {
+            list4ImgClone.push(list[i])
+        }
+        // console.log(164, list4ImgClone[0]);
+        setPdImg(list4ImgClone[0])
+        setList4Img(list4ImgClone);
+    }
+
+    function OnMEnterImg(linkImg) {
+        setPdImg(linkImg)
+    }
     // useEffect
     useEffect(() => {
-        getAPIproductDetail()
-
-    }, [count])
+        getAPIproductDetail();
 
 
+    }, [])
 
-    console.log(productDetailData);
+    // get list img product detail
+    function getListImgProductDetail(data) {
+        let listImg = []
+        data.listDtail.map(
+            (value, index) => {
+                value.listImg.map(
+                    (val) => {
+                        listImg.push(val)
+                    }
+                )
+            }
+        )
+        setListAllImg(listImg)
+        return listImg
+    }
+    // Model
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    // carourel
+    let refCarousel = useRef(null);
+    const handlePrevSlider = () => {
+        refCarousel.prev();
+    };
+
+    const handleNextSlider = () => {
+        refCarousel.next();
+    };
+    const contentStyle = {
+        color: "#fff",
+        lineHeight: "160px",
+        textAlign: "center",
+        background: "#364d79",
+        height: "238px",
+        borderRadius: "4px",
+    };
     return (
         <div className='product-detail'>
             {productDetailData.map(
                 (value, index) => {
-
                     return (
                         <div className='product-detail-body'>
                             <Row justify='center'>
@@ -177,55 +232,86 @@ function ProductDetail() {
                             </Row>
                             <Row justify='center' >
 
-                                <Col lg={5} md={8} xs={24}>
+                                <Col lg={6} md={8} xs={24}>
                                     <div className="product-detail-left">
-                                        <Carousel autoplay>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className='product-detail-carousel-card'>
-                                                    <img src={`https://shope-b3.thaihm.site/${value.thumbnail}`} alt="" />
-
-                                                </div>
-                                            </div>
-
-                                        </Carousel>
-                                        <div className="product-detail-listimg">
-                                            <Image
-                                                width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
-                                            />
-                                            <Image
-                                                width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
-                                            />
-                                            <Image
-                                                width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
-                                            />
-                                            <Image
-                                                width={66}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
+                                        <div className="product-detail-img">
+                                            <img
+                                                onClick={showModal}
+                                                width={`100%`}
+                                                src={`https://shope-b3.thaihm.site/${pdImg}`}
                                             />
                                         </div>
+                                        <div className="product-detail-list-img">
+                                            {list4Img.map(
+                                                (value) => {
+                                                    return (
+                                                        <div >
+                                                            <img
+                                                                src={`https://shope-b3.thaihm.site/${value}`}
+                                                                alt="" onClick={showModal}
+                                                                onMouseEnter={() => { setPdImg(value) }} />
+                                                        </div>
+                                                    )
+                                                }
+                                            )}
+                                            <div className="pd-modal-item">
+                                                <Modal
+                                                    open={isModalOpen}
+                                                    onOk={handleOk}
+                                                    onCancel={handleCancel}
+                                                    footer={null}
+                                                >
+                                                    <div className="product-detail-modal">
+
+                                                        <div className="product-detail-carourel-left">
+                                                            <button className="product-detail-carourel-left-btn" onClick={handlePrevSlider}>
+                                                                <LeftOutlined />
+                                                            </button>
+                                                            <Carousel ref={(node) => (refCarousel = node)}>
+                                                                {listAllImg.map(
+                                                                    (value) => {
+                                                                        return (
+                                                                            <div >
+
+                                                                                <h3 style={contentStyle}>
+                                                                                    <img
+                                                                                        className="product-detail-carourel-left-img"
+                                                                                        src={`https://shope-b3.thaihm.site/${value}`}
+                                                                                        alt=""
+                                                                                    />
+                                                                                </h3>
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                )}
+                                                            </Carousel>
+                                                            <button
+                                                                className="product-detail-carourel-right-btn"
+                                                                onClick={handleNextSlider}
+                                                            >
+                                                                <RightOutlined />
+                                                            </button>
+                                                        </div>
+
+                                                        <div className="product-detail-modal-listimg">
+                                                            {listAllImg.map(
+                                                                (value) => {
+                                                                    return (
+                                                                        <div className='product-detail-modal-img'>
+                                                                            <Image src={`https://shope-b3.thaihm.site/${value}`} className='pd-item-img' width={80} />
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </Modal>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </Col>
-                                <Col lg={11} md={12} xs={24}>
+                                <Col lg={10} md={12} xs={24}>
                                     <div className="product-detail-right">
                                         <div className="product-detail-title">
                                             <h2> {value.productName}</h2>
@@ -251,7 +337,7 @@ function ProductDetail() {
                                         </div>
                                         <div className="product-detail-price">
                                             <Descriptions bordered>
-                                                <Descriptions.Item label={productDetailPrice}>
+                                                <Descriptions.Item label={formatPdPrice(productDetailPrice)}>
                                                 </Descriptions.Item>
                                             </Descriptions>
                                         </div>
@@ -335,25 +421,6 @@ function ProductDetail() {
 
                                             </Descriptions>
                                         </div>
-                                        {/* <div className="prodtuct-detail-address">
-                                                                <Descriptions>
-                                                                    <Descriptions.Item label='Phi vận chuyển'>
-                                                                        <Select
-                                                                            defaultValue="0"
-                                                                            style={{
-                                                                                width: 100,
-                                                                            }}
-                                                                            onChange={handleChange}
-                                                                        >
-                    
-                                                                            <Option value="0">Miễn Phí</Option>
-                                                                            <Option value="15000">15000đ</Option>
-                                                                            <Option value="25000">25000đ</Option>
-                    
-                                                                        </Select>
-                                                                    </Descriptions.Item>
-                                                                </Descriptions>
-                                                            </div> */}
                                         <div className="product-detail-quantity">
                                             <Descriptions>
                                                 <Descriptions.Item label='Số lượng'>
@@ -370,20 +437,7 @@ function ProductDetail() {
                             </Row>
                             <Row justify='center'>
                                 <Col lg={6} md={9} xs={22}>
-                                    <div className='product-detail-footer'>
-                                        <div className='pd-footer-so'>
-                                            <span>Chia sẻ:</span>
-                                            <a href="#"><i className="fa-brands fa-facebook-messenger"></i></a>
 
-                                            <a href="#"> <i className="fa-brands fa-facebook"></i></a>
-                                            <a href="#"> <i className="fa-brands fa-pinterest"></i></a>
-
-                                            <a href="#"> <i className="fa-brands fa-twitter"></i></a>
-                                        </div>
-                                        <div className='pd-footer-so'>
-                                            <a href="#" onClick={like1}><i className="fa-solid fa-heart"></i></a> <span> Đã Thích({like})</span>
-                                        </div>
-                                    </div>
                                 </Col>
                                 <Col lg={10} md={9} xs={24}>
                                     <div className='product-detail-add'>
