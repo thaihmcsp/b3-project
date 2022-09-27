@@ -21,6 +21,14 @@ function ProductDetail() {
     const [productDetailCheck, setProductDetailCheck] = useState([])
     const [productDetailID, setProductDetailID] = useState()
     const [count, setCount] = useState(0);
+
+    // get value option
+    const [pdColor, setpdColor] = useState();
+    const [pdRam, setpdRam] = useState();
+    const [pdRom, setpdRom] = useState();
+    const [list4Img, setList4Img] = useState([]);
+    const [listAllImg, setListAllImg] = useState([]);
+    const [pdImg, setPdImg] = useState('');
     // getAPI 
     const routes = [
         {
@@ -43,7 +51,7 @@ function ProductDetail() {
             setProductDetailPrice(products.data.product.price)
             setProductDetailData([products.data.product])
             setProductDetailCheck(products.data.product.listDtail)
-
+            get4imgProductDetail([products.data.product][0]);
         }
         catch (error) {
             console.log(error);
@@ -66,14 +74,18 @@ function ProductDetail() {
     }
 
     // set product price
-    const [productDetailPrice, setProductDetailPrice] = useState(0)
+    const [productDetailPrice, setProductDetailPrice] = useState('')
 
-
-    // get value option
-    const [pdColor, setpdColor] = useState();
-    const [pdRam, setpdRam] = useState();
-    const [pdRom, setpdRom] = useState();
-
+    function formatPdPrice(price) {
+        if (price) {
+            let str = price.toString(10)
+            return str.split('').reverse().reduce((prev, next, index) => {
+                return ((index % 3) ? next : (next + '.')) + prev
+            })
+        }else{
+            return ''
+        }
+    }
     // set price
     function setPrice1(value) {
         let color = value.target.value
@@ -133,16 +145,32 @@ function ProductDetail() {
         }
     }
 
+    function get4imgProductDetail(data) {
+        let list4ImgClone = []
+        // console.log(160, getListImgProductDetail());
+        let list = getListImgProductDetail(data);
+        for (let i = 0; i <= 3; i++) {
+            list4ImgClone.push(list[i])
+        }
+        // console.log(164, list4ImgClone[0]);
+        setPdImg(list4ImgClone[0])
+        setList4Img(list4ImgClone);
+    }
+
+    function OnMEnterImg(linkImg) {
+        setPdImg(linkImg)
+    }
     // useEffect
     useEffect(() => {
-        getAPIproductDetail()
+        getAPIproductDetail();
 
-    }, [count])
+
+    }, [])
 
     // get list img product detail
-    function getListImgProductDetail() {
+    function getListImgProductDetail(data) {
         let listImg = []
-        productDetailData[0].listDtail.map(
+        data.listDtail.map(
             (value, index) => {
                 value.listImg.map(
                     (val) => {
@@ -151,17 +179,9 @@ function ProductDetail() {
                 )
             }
         )
+        setListAllImg(listImg)
         return listImg
     }
-    // get 4 img
-    function get4imgProductDetail() {
-        let list4Img = []
-        for (let i = 0; i <= 3; i++) {
-            list4Img.push(getListImgProductDetail()[i])
-        }
-        return list4Img
-    }
-    const [pdImg, setPdImg] = useState()
     // Model
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -218,18 +238,18 @@ function ProductDetail() {
                                             <img
                                                 onClick={showModal}
                                                 width={`100%`}
-                                                src={`https://shope-b3.thaihm.site/${value.thumbnail}`}
+                                                src={`https://shope-b3.thaihm.site/${pdImg}`}
                                             />
                                         </div>
                                         <div className="product-detail-list-img">
-                                            {get4imgProductDetail().map(
+                                            {list4Img.map(
                                                 (value) => {
                                                     return (
                                                         <div >
                                                             <img
                                                                 src={`https://shope-b3.thaihm.site/${value}`}
                                                                 alt="" onClick={showModal}
-                                                                onMouseEnter={() => { console.log(234, value) }} />
+                                                                onMouseEnter={() => { setPdImg(value) }} />
                                                         </div>
                                                     )
                                                 }
@@ -248,7 +268,7 @@ function ProductDetail() {
                                                             <LeftOutlined />
                                                         </button>
                                                         <Carousel ref={(node) => (refCarousel = node)}>
-                                                            {getListImgProductDetail().map(
+                                                            {listAllImg.map(
                                                                 (value) => {
                                                                     return (
                                                                         <div >
@@ -274,7 +294,7 @@ function ProductDetail() {
                                                     </div>
 
                                                     <div className="product-detail-modal-listimg">
-                                                        {getListImgProductDetail().map(
+                                                        {listAllImg.map(
                                                             (value) => {
                                                                 return (
                                                                     <div className='product-detail-modal-img'>
@@ -316,7 +336,7 @@ function ProductDetail() {
                                         </div>
                                         <div className="product-detail-price">
                                             <Descriptions bordered>
-                                                <Descriptions.Item label={productDetailPrice}>
+                                                <Descriptions.Item label={formatPdPrice(productDetailPrice)}>
                                                 </Descriptions.Item>
                                             </Descriptions>
                                         </div>
@@ -416,7 +436,7 @@ function ProductDetail() {
                             </Row>
                             <Row justify='center'>
                                 <Col lg={6} md={9} xs={22}>
-                                    
+
                                 </Col>
                                 <Col lg={10} md={9} xs={24}>
                                     <div className='product-detail-add'>
