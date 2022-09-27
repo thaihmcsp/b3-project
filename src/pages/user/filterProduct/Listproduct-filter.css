@@ -9,13 +9,14 @@
     /*   */
     flex-direction: row;
    
-    justify-content: space-around;
+    /* justify-content: space-around; */
 
 }
 .Listproduct-product-card{
    
    width: 23%;
    margin-bottom: 15px;
+   margin-right: 1%;
 
 }
 

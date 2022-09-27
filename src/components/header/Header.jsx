@@ -21,7 +21,9 @@ function Header() {
     return state
   })
 
+
   const [cloneData, setCloneData] = useState(data)
+
   function Login() {
     nav("/signin")
   }
