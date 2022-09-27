@@ -18,6 +18,7 @@ function ListProduct() {
   const [dataCategori,setDataCategori]=useState([])
   let nav = useNavigate()
   let page = cutLink.get("page")
+  let [pageCuren,setPageCuren] = useState(page)
   useEffect(() => {
 
     getData()
@@ -199,7 +200,7 @@ function ListProduct() {
                         <div className='Listproduct-product-card' key={index} >
                                 <Link to={`/product-detail/${value._id}`}>
                                         <Card hoverable cover={<img alt="example" src={value.thumbnail.startsWith("http")?value.thumbnail:'https://shope-b3.thaihm.site/'+value.thumbnail}  className="card-listproduct"/>}>
-                                            <Meta title={value.productName} description={value.price?value.price.toLocaleString():"Het hang "} />
+                                            <Meta title={value.productName} description={value.price?value.price.toLocaleString()+"đ":"Het hang "} />
                                             </Card>
                                 </Link>
 
@@ -214,7 +215,7 @@ function ListProduct() {
     </div>
     
     <div>
-               <Pagination defaultCurrent={1} total={dataFake.length} onChange={clickPage} />;
+               <Pagination current={pageCuren} total={dataFake.length} onChange={clickPage} />;
      </div>
     </>
   )
