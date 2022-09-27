@@ -84,13 +84,13 @@ function Footer() {
                             <li>
                                 <div className='img'>
                                     <img src="https://downloadlogomienphi.com/sites/default/files/logos/download-logo-visa-mien-phi.jpg" alt="" />
-          
+
                                 </div>
                             </li>
                             <li>
                                 <div className='img'>
                                     <img src="data:image/jpeg;base64,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" alt="" />
-                                  
+
                                 </div>
                             </li>
                             <li>
@@ -171,7 +171,7 @@ function Footer() {
                                     <img src="data:image/jpeg;base64,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" alt="" />
                                 </div>
                             </li>
-                            
+
                         </ul>
                     </div>
                     <div className="ChamSocKhachHang">
@@ -207,11 +207,11 @@ function Footer() {
                     <div className="ChamSocKhachHang">
                         <div className="name"><span>TẢI ỨNG DỤNG SHOPPE </span></div>
                         <a href="" className='updateApp'>
-                                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/d91264e165ed6facc6178994d5afae79.png" alt="download_qr_code"/>
+                            <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/d91264e165ed6facc6178994d5afae79.png" alt="download_qr_code" />
                             <div className="apps">
-                                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/39f189e19764dab688d3850742f13718.png" alt="App Store"/>
-                                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/f4f5426ce757aea491dce94201560583.png" alt="Play Store"/>
-                                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/1ae215920a31f2fc75b00d4ee9ae8551.png" alt="App Gallery"/>
+                                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/39f189e19764dab688d3850742f13718.png" alt="App Store" />
+                                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/f4f5426ce757aea491dce94201560583.png" alt="Play Store" />
+                                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/1ae215920a31f2fc75b00d4ee9ae8551.png" alt="App Gallery" />
                             </div>
                         </a>
                     </div>
@@ -257,7 +257,7 @@ function Footer() {
                         <div className="qg-kv">
                             <a href="">Poland</a>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -278,22 +278,22 @@ function Footer() {
                             <span>CHÍNH SÁCH VẬN CHUYỂN</span>
                         </a>
                     </div>
-                    <div className="chinhSachHoanTien">
+                    <div className="chinhSach">
                         <a href="">
                             <span>CHÍNH SÁCH TRẢ HÀNG VÀ HOÀN TIỀN</span>
                         </a>
                     </div>
                 </div>
-               
+
                 <div className="footer-bottom-logo">
                     <a className='asd' target="_blank" rel="noopener noreferrer" href="http://online.gov.vn/HomePage/AppDisplay.aspx?DocId=29" >
-                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/footer/bo-cong-thuong.svg" height="32" width="83" alt=""/>
+                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/footer/bo-cong-thuong.svg" height="32" width="83" alt="" />
                     </a>
                     <a className='asd' target="_blank" rel="noopener noreferrer" href="http://online.gov.vn/HomePage/AppDisplay.aspx?DocId=29" >
-                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/footer/bo-cong-thuong.svg" height="32" width="83" alt=""/>
+                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/footer/bo-cong-thuong.svg" height="32" width="83" alt="" />
                     </a>
                     <a className='asdfg' target="_blank" rel="noopener noreferrer" href="https://shopee.vn/docs/170" >
-                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/footer/bo-cong-thuong-2.png" width="32" height="32" alt=""/>
+                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/footer/bo-cong-thuong-2.png" width="32" height="32" alt="" />
                     </a>
                 </div>
                 <div className="footer-bottom-address">

@@ -11,33 +11,33 @@ import { Skeleton } from 'antd';
 const items = [
   {
     label: <Link to={'/user/order?type=1'}>Tất cả</Link>,
-    key: 'all',
+    key: 1,
     icon: null,
   },
   {
     label: <Link to={'/user/order?type=2'}>Chờ xác nhận</Link>,
-    key: 'wait-confirm',
+    key: 2,
     icon: null,
   },
   {
     label: <Link to={'/user/order?type=3'}>Đang giao</Link>,
-    key: 'delivering',
+    key: 3,
     icon: null,
   },
   {
     label: <Link to={'/user/order?type=4'}>Đã giao</Link>,
-    key: 'shipping',
+    key: 4,
     icon: null
   },
   {
     label: <Link to={'/user/order?type=5'}>Đã hủy</Link>,
-    key: 'cancel',
+    key: 5,
     icon: null
   }
 ];
 
 function UserOrderHistory() {
-  const [current, setCurrent] = useState('all');
+  const [current, setCurrent] = useState(1);
   const [number, setNumber] = useState(0);
   const [loading, setLoading] = useState(true);
   const [listOrder, setListOrder] = useState([]);
@@ -49,9 +49,9 @@ function UserOrderHistory() {
   let count = 0;
   const objType = {}
   let noOrder =
-    <div class="no-product">
-      <div class="no-product__content "></div>
-      <div class="no-product__text">Chưa có đơn hàng</div>
+    <div className="no-product">
+      <div className="no-product__content "></div>
+      <div className="no-product__text">Chưa có đơn hàng</div>
     </div>
 
   if (search.search) {
@@ -67,12 +67,13 @@ function UserOrderHistory() {
       console.log(error);
     }
   }
-  console.log(69, objType, inputValue);
+  // console.log(69, objType, inputValue);
 
   const getOrderInfor = async () => {
     try {
       let res = await getAPI('/order/get-order-by-userId/user/' + user);
       setListOrder(res.data.order);
+      render(res.data.order);
     } catch (error) {
       console.log(error);
     }
@@ -91,29 +92,32 @@ function UserOrderHistory() {
   }
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       setLoading(false)
-      getUser();
+      await getUser();
+
     }, 500)
-    render();
+    setInputValue(objType.keyword);
+    setCurrent(objType.type);
   }, [number, inputValue])
 
   const onClick = (e) => {
     setCurrent(e.key);
   };
 
-  function render() {
-    if (inputValue.length) {
-      listOrder.map((data) => {
+  function render(listData) {
+    listData.map((data) => {
+      if (data._id.includes(inputValue)) {
+        setCloneOrder([data])
+      } else {
         data.listProduct.filter((value) => {
           if (value.productDetailId?.productId.productName.includes(inputValue)) {
             setCloneOrder([data]);
           }
         })
-      })
-    }
+      }
+    })
   }
-
   const searchOrder = (e) => {
     if (e.keyCode == 13) {
       let inputValue = document.querySelector('.searchOrder').value;
@@ -129,7 +133,7 @@ function UserOrderHistory() {
       </div>
 
       <div className="search-input">
-        <svg width="19px" height="19px" viewBox="0 0 19 19"><g id="Search-New" stroke-width="1" fill="none" fill-rule="evenodd"><g id="my-purchase-copy-27" transform="translate(-399.000000, -221.000000)" stroke-width="2"><g id="Group-32" transform="translate(400.000000, 222.000000)"><circle id="Oval-27" cx="7" cy="7" r="7"></circle><path d="M12,12 L16.9799555,16.919354" id="Path-184" stroke-linecap="round" stroke-linejoin="round"></path></g></g></g></svg>
+        <svg width="19px" height="19px" viewBox="0 0 19 19"><g id="Search-New" strokeWidth="1" fill="none" fillRule="evenodd"><g id="my-purchase-copy-27" transform="translate(-399.000000, -221.000000)" strokeWidth="2"><g id="Group-32" transform="translate(400.000000, 222.000000)"><circle id="Oval-27" cx="7" cy="7" r="7"></circle><path d="M12,12 L16.9799555,16.919354" id="Path-184" strokeLinecap="round" strokeLinejoin="round"></path></g></g></g></svg>
         <input type="text" className='searchOrder' placeholder='Tìm kiếm theo Tên Shop, ID đơn hàng hoặc tên sản phẩm' onKeyUp={searchOrder} />
       </div>
 
