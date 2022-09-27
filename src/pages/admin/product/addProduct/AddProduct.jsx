@@ -82,6 +82,7 @@ function AddProduct() {
       dataFile.append('productName', values.productName);
       dataFile.append('brand', values.branch);
       dataFile.append('categoryId', values.categoryId);
+      dataFile.append('price' , values.price*1)
       let res = await postAPI('/product/create-product', dataFile);
       let idNewProduct = res.data.product._id;
       setIdProduct(idNewProduct)
