@@ -68,6 +68,9 @@ function Order() {
     }
   }
 
+  let data = localStorage.getItem("address");
+  console.log('data' , data);
+
   const onSearch = (value) => {
     // console.log('value', value);
     setSearchValue(value)
