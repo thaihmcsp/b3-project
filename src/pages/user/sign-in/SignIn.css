@@ -46,7 +46,7 @@
       margin-top: 10px;
       position: relative;
      }
-     .form-dang-ky{
+     .form-dang-nhap{
        background-color: white;
        width: 24.8125rem;;
        height: 500px;
@@ -55,7 +55,7 @@
        top: 50px;
        border-radius: 10px;
      }
-     .content-dang-ky{
+     .content-dang-nhap{
        font-size: 20px;
        padding: 1.375rem 1.875rem;
      }
@@ -179,3 +179,36 @@
       .ant-input{
         margin-bottom: 0;
       }
+
+      /* ===========Responsive==================== */
+      @media screen and (max-width: 768px) {
+         .content-signin img{
+          display: none;
+        }
+        .content-signin{
+          padding-top: 40px;
+        }
+        .form-dang-nhap{
+          margin: auto;
+          position: unset;
+         margin-top: 10px;
+        }
+      }
+      @media screen and (max-width: 996px) {
+        .content-signin img{
+        display: none;
+        }
+       .content-signin{
+         padding-top: 40px;
+       }
+       .form-dang-nhap{
+         margin: auto;
+         position: unset;
+        margin-top: 10px;
+       }
+       .signin-icon img{
+        display: inline-block;
+       }
+      }
+        
+      
