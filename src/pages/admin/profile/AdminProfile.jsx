@@ -64,7 +64,11 @@ function AdminProfile() {
         message.loading({
             content: 'Loading...',
             key,
-        });
+            className: 'custom-class',
+            style: {
+                marginTop: '10vh',
+            }
+            });
 
 
         setTimeout(() => {
@@ -72,6 +76,9 @@ function AdminProfile() {
                 content: 'Đổi ảnh đại diện thành công',
                 key,
                 duration: 2,
+                style: {
+                    marginTop: '10vh',
+                }
             });
         }, 1000);
     };
@@ -131,7 +138,7 @@ function AdminProfile() {
 
     // Form-edit
 
-    
+
     const onFinish = async (values) => {
         try {
             console.log(values);
@@ -141,10 +148,22 @@ function AdminProfile() {
             dispatch(action)
             setCount(count + 1)
             console.log(res);
-            message.success('Đổi thông tin thành công')
+            message.success({
+                content: 'Đổi thông tin thành công',
+                className: 'custom-class',
+                style: {
+                  marginTop: '10vh',
+                },
+              });
         } catch (error) {
             console.log(error);
-            message.error('Thất bại')
+            message.error({
+                content: 'Thất bại',
+                className: 'custom-class',
+                style: {
+                  marginTop: '10vh',
+                },
+              });
         }
     };
 
@@ -202,7 +221,7 @@ function AdminProfile() {
                     <Row>
                         <Col span={6} >Tên Đăng Nhập</Col>
                         <Col span={18}>
-                            <input style={{marginBottom:"20px",width:"100%"}} type="text" value={data.email} disabled />
+                            <input style={{ marginBottom: "20px", width: "100%" }} type="text" value={data.email} disabled />
                         </Col>
                     </Row>
 
