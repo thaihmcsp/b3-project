@@ -12,13 +12,15 @@ const { Meta } = Card;
 function ListProduct() {
     const [dataFake,setDataFake] = useState([])
     const location = useLocation()
+    console.log(15, location)
     const cutLink = new URLSearchParams(location.search)
    const [dataClone,setDataClone]= useState([])
   const [brandz,setBrandz] = useState([])
   const [dataCategori,setDataCategori]=useState([])
   let nav = useNavigate()
   let page = cutLink.get("page")
-  let [pageCuren,setPageCuren] = useState(page)
+  let [pageCuren,setPageCuren] = useState((new URLSearchParams(location.search)).get("page") * 1)
+ 
   useEffect(() => {
 
     getData()
@@ -161,6 +163,8 @@ function ListProduct() {
                     })
       
                     }
+                    let newLink = (new URLSearchParams(location.search)).get("page")
+                    setPageCuren(newLink)
                 }
       } catch (error) {
         console.log(error);
@@ -187,6 +191,7 @@ function ListProduct() {
           l = link[0]+"&"+mini.join("=")
           
         }
+        setPageCuren(page)
         nav(l)
       }
    
