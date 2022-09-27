@@ -82,7 +82,7 @@ function ProductDetail() {
             return str.split('').reverse().reduce((prev, next, index) => {
                 return ((index % 3) ? next : (next + '.')) + prev
             })
-        }else{
+        } else {
             return ''
         }
     }
@@ -254,58 +254,59 @@ function ProductDetail() {
                                                     )
                                                 }
                                             )}
-                                            <Modal
-                                                open={isModalOpen}
-                                                onOk={handleOk}
-                                                onCancel={handleCancel}
-                                                width={`70%`}
-                                                footer={null}
-                                            >
-                                                <div className="product-detail-modal">
+                                            <div className="pd-modal-item">
+                                                <Modal
+                                                    open={isModalOpen}
+                                                    onOk={handleOk}
+                                                    onCancel={handleCancel}
+                                                    footer={null}
+                                                >
+                                                    <div className="product-detail-modal">
 
-                                                    <div className="product-detail-carourel-left">
-                                                        <button className="product-detail-carourel-left-btn" onClick={handlePrevSlider}>
-                                                            <LeftOutlined />
-                                                        </button>
-                                                        <Carousel ref={(node) => (refCarousel = node)}>
+                                                        <div className="product-detail-carourel-left">
+                                                            <button className="product-detail-carourel-left-btn" onClick={handlePrevSlider}>
+                                                                <LeftOutlined />
+                                                            </button>
+                                                            <Carousel ref={(node) => (refCarousel = node)}>
+                                                                {listAllImg.map(
+                                                                    (value) => {
+                                                                        return (
+                                                                            <div >
+
+                                                                                <h3 style={contentStyle}>
+                                                                                    <img
+                                                                                        className="product-detail-carourel-left-img"
+                                                                                        src={`https://shope-b3.thaihm.site/${value}`}
+                                                                                        alt=""
+                                                                                    />
+                                                                                </h3>
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                )}
+                                                            </Carousel>
+                                                            <button
+                                                                className="product-detail-carourel-right-btn"
+                                                                onClick={handleNextSlider}
+                                                            >
+                                                                <RightOutlined />
+                                                            </button>
+                                                        </div>
+
+                                                        <div className="product-detail-modal-listimg">
                                                             {listAllImg.map(
                                                                 (value) => {
                                                                     return (
-                                                                        <div >
-
-                                                                            <h3 style={contentStyle}>
-                                                                                <img
-                                                                                    className="product-detail-carourel-left-img"
-                                                                                    src={`https://shope-b3.thaihm.site/${value}`}
-                                                                                    alt=""
-                                                                                />
-                                                                            </h3>
+                                                                        <div className='product-detail-modal-img'>
+                                                                            <Image src={`https://shope-b3.thaihm.site/${value}`} className='pd-item-img' width={80} />
                                                                         </div>
                                                                     )
                                                                 }
                                                             )}
-                                                        </Carousel>
-                                                        <button
-                                                            className="product-detail-carourel-right-btn"
-                                                            onClick={handleNextSlider}
-                                                        >
-                                                            <RightOutlined />
-                                                        </button>
+                                                        </div>
                                                     </div>
-
-                                                    <div className="product-detail-modal-listimg">
-                                                        {listAllImg.map(
-                                                            (value) => {
-                                                                return (
-                                                                    <div className='product-detail-modal-img'>
-                                                                        <Image src={`https://shope-b3.thaihm.site/${value}`} className='pd-item-img' width={80} />
-                                                                    </div>
-                                                                )
-                                                            }
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </Modal>
+                                                </Modal>
+                                            </div>
                                         </div>
 
                                     </div>
