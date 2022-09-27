@@ -46,11 +46,11 @@ const beforeUpload = (file) => {
 
 function AdminProfile() {
     const [count, setCount] = useState(0)
-    const [imageUrl, setImageUrl] = useState();
     const [birthDay, setBirthDay] = useState('')
     const [sex, setSex] = useState('')
     const [formImg, setFormImg] = useState(new FormData())
     const [loading, setLoading] = useState(false);
+    const [imageUrl, setImageUrl] = useState();
     const [data, setData] = useState({})
 
     let linkk = ''
