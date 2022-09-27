@@ -34,13 +34,12 @@
 .product-detail-modal-listimg {
     width: 100%;
     display: flex;
-    justify-content: first baseline;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 .product-detail-modal-listimg img {
     width: 75px;
     height: 75px;
-    margin: 0 5px;
     object-fit: contain;
 }
 
@@ -339,8 +338,7 @@
     }
 
     .product-detail-modal-img {
-        width: 55px;
-        object-fit: cover;
+        object-fit: contain;
     }
 
 }
