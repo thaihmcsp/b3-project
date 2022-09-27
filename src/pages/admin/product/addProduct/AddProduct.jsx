@@ -290,6 +290,18 @@ function AddProduct() {
               Đã chọn :   <p> {categoryName} <SwapRightOutlined /> {branch} </p>
             </div>
 
+            <Form.Item
+              className="inp-addPriceProduct"
+              label="Giá :"
+              name="price"
+              rules={[{ required: true, message: "Hãy nhập vào tên sản phẩm" }]}
+            >
+              <Input
+                className="input-priceProduct"
+                placeholder="Nhập vào"
+              />
+            </Form.Item>
+
             <div className="upload-img">
               <h4>Thêm ảnh cho sản phẩm</h4>
               <div className='input-upload-img'>

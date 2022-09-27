@@ -96,3 +96,8 @@
     max-width: 10%;
   }
 
+  .inp-addPriceProduct {
+    position: relative;
+    right: 255px;
+  }
+    
