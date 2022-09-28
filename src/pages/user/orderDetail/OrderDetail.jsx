@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { useState } from 'react'
 import { getAPI, patchAPI } from '../../../config/api';
 import { Steps } from 'antd';
-import { useRef } from 'react';
 const { Step } = Steps;
 
 
@@ -52,17 +51,6 @@ function OrderDetail() {
     }
   }
 
-  function changeInfor() {
-    inputInfor.current.focus();
-    document.querySelector('.ok').setAttribute('style', 'display:block')
-  }
-  function handleOk() {
-    console.log(inputInfor.current);
-    document.querySelector('.ok').setAttribute('style', 'display:none')
-  }
-  function getValue(e) {
-    setInputInfor(e.target.value);
-  }
   const back = () => {
     nav('/user/order')
   }

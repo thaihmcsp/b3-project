@@ -34,9 +34,9 @@ function UserMenu() {
         }
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         checkLogin()
-    },[])
+    }, [])
 
     return (
         <div className='user-menu'>

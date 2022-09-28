@@ -272,3 +272,17 @@
 .inputName {
     width: min-content;
 }
+
+.menu-list .ant-menu-light .ant-menu-submenu-title:hover,
+.menu-list .ant-menu-light .ant-menu-item:hover,
+.menu-list .ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow,
+.menu-list .ant-menu-active {
+    color: #EE4D2D;
+}
+
+.menu-list .ant-menu-item-selected a,
+.ant-menu-item-selected a:hover,
+.menu-list .ant-menu-item-selected,
+.menu-list .ant-menu-submenu-selected {
+    color: #EE4D2D;
+}

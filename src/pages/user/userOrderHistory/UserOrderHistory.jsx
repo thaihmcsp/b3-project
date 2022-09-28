@@ -7,6 +7,9 @@ import { useEffect } from 'react';
 import { getAPI, patchAPI, postAPI } from '../../../config/api';
 import UserOrderItem from './UserOrderItem';
 import { Skeleton } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Button, Modal, Space } from 'antd';
+import ReasonCancel from './ReasonCancel';
 
 const items = [
   {
@@ -81,13 +84,11 @@ function UserOrderHistory() {
 
   const cancelOrder = async (orderId) => {
     let values = { status: 'canceled' }
-    if (window.confirm('Do you want to cancel the order ?') === true) {
-      try {
-        await patchAPI('/order/change-order-status/' + orderId, values);
-        setNumber(number + 1);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await patchAPI('/order/change-order-status/' + orderId, values);
+      setNumber(number + 1);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -126,6 +127,19 @@ function UserOrderHistory() {
     }
   }
 
+  const confirm = () => {
+    Modal.confirm({
+      title: 'Chọn lý do hủy',
+      icon: <ExclamationCircleOutlined />,
+      content: <ReasonCancel />,
+      okText: 'Hủy đơn hàng',
+      cancelText: 'Không phải bây giờ'
+    });
+  };
+
+
+
+
   return (
     <div className='order-history'>
       <div className="order-history--item">
@@ -142,7 +156,10 @@ function UserOrderHistory() {
           !loading ?
             (listOrder.length ? ((objType.type || !objType.keyword ? listOrder : cloneOrder).map((orderItem) => {
               let statusPending = 'Đang chờ xác nhận';
-              let btnPending = <Fragment ><button className='btn-took-product' onClick={() => { cancelOrder(orderItem._id) }}>Hủy đơn hàng</button> <button className='btn-secondary'>Liên hệ người bán</button></Fragment>;
+              let btnPending = <Fragment >
+                <button className='btn-took-product' onClick={() => confirm(orderItem)}>Hủy đơn hàng</button>
+                <button className='btn-secondary'>Liên hệ người bán</button>
+              </Fragment>;
               let textPending = <span>Đơn hàng của bạn sẽ được shop xác nhận nhanh chóng. Vui lòng đợi nha !</span>;
               let statusDone = 'Đã giao hàng thành công';
               let btnDone = <Fragment><button className='btn-took-product'>Đánh giá</button>
@@ -156,6 +173,7 @@ function UserOrderHistory() {
               let statusDelivering = 'Đang giao hàng';
               let btnDelivering = <Fragment><button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
               let textDelivering = <span>Hàng của bạn đang được giao vui lòng để ý điện thoại để nhận hàng nhé !!</span>
+
 
               if (objType.type == 1 || !objType.type) {
                 if (orderItem.status === 'pending') {
