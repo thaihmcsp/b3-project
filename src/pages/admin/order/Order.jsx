@@ -68,8 +68,8 @@ function Order() {
     }
   }
 
-  let data = localStorage.getItem("address");
-  console.log('data' , data);
+  let address = JSON.parse(window.localStorage.getItem('address'))
+  console.log('data' , address);
 
   const onSearch = (value) => {
     // console.log('value', value);
@@ -83,7 +83,7 @@ function Order() {
       // console.log(55 ,elementOrder.userId._id);
       // console.log(56 , elementUser._id);
       if (elementOrder.userId._id === elementUser._id) {
-        elementOrder.userName = elementUser.email
+        elementOrder.userName = elementUser.fullname
         elementOrder.phone = elementUser.phone
       }
     }
@@ -160,7 +160,14 @@ function Order() {
     {
       title: 'User Name',
       dataIndex: 'userName',
-      key: 'userName',
+      key: 'userName', 
+      // filteredValue: [searchValue],
+      // onFilter: (value , record) => {
+      //   console.log(165 , record);
+      //   if(valueSelect == 'fullname' || valueSelect == ''){
+      //     return record.userName.toLowerCase().includes(value.toLowerCase())
+      //   }
+      // }
     },
     {
       title: 'total',
@@ -221,6 +228,8 @@ function Order() {
   ];
 
   const handleChange = (value, text) => {
+    // console.log(224 , text.children);
+    // console.log(225 , value);
     setSavePlaceholder(text.children)
     setValueSelect(value)
   };
@@ -254,7 +263,7 @@ function Order() {
           }}
           onChange={handleChange}
         >
-          <Option value="userName">Tên người mua</Option>
+          <Option value="fullname">Tên người mua</Option>
           <Option value="phone">Số điện thoại</Option>
         </Select>
         <div className='input-search-order'>
