@@ -129,9 +129,23 @@ function AdminListProductDetail() {
           price:''
         })
       setFileList([])
+      message.success({
+        content: 'Thêm Detail thành công',
+        className: 'custom-class',
+        style: {
+          marginTop: '10vh',
+        },
+      });
       setcount(count + 1)
     } catch (error) {
       console.log(error);
+      message.error({
+        content: 'Thất bại',
+        className: 'custom-class',
+        style: {
+          marginTop: '10vh',
+        },
+      });
     }
   };
 
@@ -146,6 +160,7 @@ function AdminListProductDetail() {
   const [idEdit, setIdEdit] = useState('')
 
   const onFinish1 = async (values) => {
+    console.log(values);
     try {
       let res = await patchAPI('/productDetail/update-product-detail-info/' + idEdit, values)
       console.log(res);
@@ -154,12 +169,37 @@ function AdminListProductDetail() {
         let file = fileList[i].originFileObj
         formData.append('thumbs', file);
       }
-      let newDetail = await patchAPI('/productDetail/add-product-detail-thumbs/' + idEdit, formData);
-      console.log(newDetail);
-      alert(res.statusText)
+      if(formData) {
+        let newDetail = await patchAPI('/productDetail/add-product-detail-thumbs/' + idEdit, formData);
+        console.log(newDetail);
+        // alert(res.statusText)
+        message.success({
+          content: `Sửa thông tin và thêm ảnh thành công`,
+          className: 'custom-class',
+          style: {
+            marginTop: '10vh',
+          },
+        });
+      }else {
+        message.success({
+          content: 'Sửa thông tin Detail thành công ',
+          className: 'custom-class',
+          style: {
+            marginTop: '10vh',
+          },
+        });
+      }
       setcount(count + 1)
+      handleCancel()
     } catch (error) {
       console.log(error);
+      message.error({
+        content: 'Thất bại',
+        className: 'custom-class',
+        style: {
+          marginTop: '10vh',
+        },
+      });
     }
   };
 
@@ -198,7 +238,7 @@ function AdminListProductDetail() {
         content: 'Xóa ảnh thành công',
         className: 'custom-class',
         style: {
-          marginTop: '20vh',
+          marginTop: '10vh',
         },
       });
     } catch (error) {
@@ -207,7 +247,7 @@ function AdminListProductDetail() {
         content: 'Thất bại',
         className: 'custom-class',
         style: {
-          marginTop: '20vh',
+          marginTop: '10vh',
         },
       });
     }
