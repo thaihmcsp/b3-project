@@ -80,6 +80,7 @@ function AdminListProduct() {
         brand:data.brand,
         categoryId:data.categoryId
       }
+      console.log(83, changeInfo);
       const res = await patchAPI(`/product/update-product-info/${productId}`, changeInfo)
       const ress = await patchAPI(`/product/update-product-thumb/${productId}`, formImg)
       console.log(84, res);
@@ -184,6 +185,7 @@ return (
                 brand: index.brand,
                 categoryId: index.type
               })
+            setProductId(index.id)
             setOpen(true);
           };
           return (
