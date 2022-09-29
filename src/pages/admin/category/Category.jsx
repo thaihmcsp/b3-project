@@ -221,7 +221,7 @@ function Category() {
 
         {/* BODY SECOND */}
         <div className="admin-category-body-listItems">
-          {showDataPage.map((item) => {
+          {showDataPage ? showDataPage.map((item) => {
             return (
               <div className="admin-category-body-item" key={item._id}>
                 <div className="admin-category-item-img">
@@ -255,7 +255,7 @@ function Category() {
                 </div>
               </div>
             );
-          })}
+          }) : "No data"}
         </div>
         {/* BODY SECOND DONE */}
       </div>
