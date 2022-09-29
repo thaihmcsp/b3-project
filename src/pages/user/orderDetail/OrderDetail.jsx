@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import './OrderDetail.css'
 import { LeftOutlined } from '@ant-design/icons';
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react';
 import { useState } from 'react'
 import { getAPI, patchAPI } from '../../../config/api';
@@ -14,9 +14,8 @@ function OrderDetail() {
   const [orderAPI, setOrderAPI] = useState([]);
   const [btnValue, setBtnValue] = useState({});
   const [number, setNumber] = useState(0);
-  const [inputInfor, setInputInfor] = useState('')
   const nav = useNavigate();
-
+  let search = useLocation();
   let totalPrice = 0;
   let ship = 16500;
   let discount = 1;
@@ -25,6 +24,14 @@ function OrderDetail() {
   let statusBtn;
   let currentStatus = 0;
   let address = JSON.parse(window.localStorage.getItem('address'))
+
+
+  let objType = {}
+  if (search.search) {
+    let query = search.search.slice(1).split('=');
+    objType[query[0]] = query[1];
+  }
+  console.log(objType);
 
   const getOrder = async () => {
     try {
@@ -52,12 +59,13 @@ function OrderDetail() {
   }
 
   const back = () => {
-    nav('/user/order')
+    nav(`/user/order/${objType.type ? `?type=${objType.type}` : ''}`)
   }
 
   useEffect(() => {
     getOrder();
   }, [])
+
 
   if (btnValue.status === 'pending') {
     status = 'Đơn hàng đang chờ xác nhận';

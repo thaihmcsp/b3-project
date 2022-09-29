@@ -28,7 +28,7 @@ function UserOrderItem(props) {
                     props.orderItem.listProduct.map((data) => {
                         return (
                             <Fragment>
-                                <Link to={'/user/order/' + props.orderItem._id}>
+                                <Link to={'/user/order/' + props.orderItem._id + `${props.type ? `/?type=${props.type}` : ''}`}>
                                     <div className="order-product">
                                         <div className="order-product--detail">
                                             <div className="order-product__img">
