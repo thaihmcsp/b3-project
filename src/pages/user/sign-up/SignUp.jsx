@@ -30,7 +30,7 @@ function SignUp() {
     try {
       const email = document.querySelector("#email").value;
       const username = email.slice(0, email.indexOf("@"));
-      //  console.log(username, 35);
+
       const mailFormat =
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       const password = document.querySelector("#password").value;
