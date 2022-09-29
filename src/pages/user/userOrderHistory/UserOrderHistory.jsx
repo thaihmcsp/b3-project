@@ -7,10 +7,13 @@ import { useEffect } from 'react';
 import { getAPI, patchAPI, postAPI } from '../../../config/api';
 import UserOrderItem from './UserOrderItem';
 import { Skeleton } from 'antd';
+import { Button, Modal } from 'antd';
+import ReasonCancel from './ReasonCancel';
+import { AutoComplete, Input } from 'antd';
 
 const items = [
   {
-    label: <Link to={'/user/order?type=1'}>Tất cả</Link>,
+    label: <Link to={'/user/order'}>Tất cả</Link>,
     key: 1,
     icon: null,
   },
@@ -37,12 +40,15 @@ const items = [
 ];
 
 function UserOrderHistory() {
-  const [current, setCurrent] = useState(1);
+  const [options, setOptions] = useState([]);
+
+  const [current, setCurrent] = useState('1');
   const [number, setNumber] = useState(0);
   const [loading, setLoading] = useState(true);
   const [listOrder, setListOrder] = useState([]);
   let [inputValue, setInputValue] = useState('');
   const [cloneOrder, setCloneOrder] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   let user;
   const search = useLocation();
   const nav = useNavigate();
@@ -81,13 +87,12 @@ function UserOrderHistory() {
 
   const cancelOrder = async (orderId) => {
     let values = { status: 'canceled' }
-    if (window.confirm('Do you want to cancel the order ?') === true) {
-      try {
-        await patchAPI('/order/change-order-status/' + orderId, values);
-        setNumber(number + 1);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await patchAPI('/order/change-order-status/' + orderId, values);
+      setNumber(number + 1);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -98,7 +103,7 @@ function UserOrderHistory() {
 
     }, 500)
     setInputValue(objType.keyword);
-    setCurrent(objType.type);
+    setCurrent(objType.type ? objType.type : '1');
   }, [number, inputValue])
 
   const onClick = (e) => {
@@ -106,16 +111,19 @@ function UserOrderHistory() {
   };
 
   function render(listData) {
+    let arr = [];
     listData.map((data) => {
-      if (data._id.includes(inputValue)) {
-        setCloneOrder([data])
-      } else {
-        data.listProduct.filter((value) => {
-          if (value.productDetailId?.productId.productName.includes(inputValue)) {
-            setCloneOrder([data]);
-          }
-        })
-      }
+      data.listProduct.filter((value) => {
+        if (value.productDetailId?.productId.productName.includes(inputValue)) {
+          arr.push(data);
+          console.log(119, arr);
+          setCloneOrder(arr);
+          document.querySelector('.searchOrder').value = '';
+          document.querySelector('.searchOrder').focus();
+        } else {
+          setCloneOrder([]);
+        }
+      })
     })
   }
   const searchOrder = (e) => {
@@ -125,6 +133,14 @@ function UserOrderHistory() {
       setInputValue(inputValue);
     }
   }
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className='order-history'>
@@ -142,7 +158,13 @@ function UserOrderHistory() {
           !loading ?
             (listOrder.length ? ((objType.type || !objType.keyword ? listOrder : cloneOrder).map((orderItem) => {
               let statusPending = 'Đang chờ xác nhận';
-              let btnPending = <Fragment ><button className='btn-took-product' onClick={() => { cancelOrder(orderItem._id) }}>Hủy đơn hàng</button> <button className='btn-secondary'>Liên hệ người bán</button></Fragment>;
+              let btnPending = <Fragment >
+                <button className='btn-took-product' onClick={showModal}>Hủy đơn hàng</button>
+                <Modal okText={'Hủy đơn hàng'} cancelText={'Không phải lúc này'} title="Chọn lý do hủy" visible={isModalOpen} onOk={() => { cancelOrder(orderItem._id) }} onCancel={handleCancel}>
+                  <ReasonCancel />
+                </Modal>
+                <button className='btn-secondary'>Liên hệ người bán</button>
+              </Fragment>;
               let textPending = <span>Đơn hàng của bạn sẽ được shop xác nhận nhanh chóng. Vui lòng đợi nha !</span>;
               let statusDone = 'Đã giao hàng thành công';
               let btnDone = <Fragment><button className='btn-took-product'>Đánh giá</button>
@@ -157,24 +179,25 @@ function UserOrderHistory() {
               let btnDelivering = <Fragment><button className='btn-secondary'>Liên Hệ Người Bán</button></Fragment>
               let textDelivering = <span>Hàng của bạn đang được giao vui lòng để ý điện thoại để nhận hàng nhé !!</span>
 
+
               if (objType.type == 1 || !objType.type) {
                 if (orderItem.status === 'pending') {
-                  return <UserOrderItem orderItem={orderItem} status={statusPending} btn={btnPending} text={textPending}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusPending} btn={btnPending} text={textPending} type={objType.type}></UserOrderItem>
                 } else if (orderItem.status === 'done') {
-                  return <UserOrderItem orderItem={orderItem} status={statusDone} btn={btnDone} text={textDone}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusDone} btn={btnDone} text={textDone} type={objType.type}></UserOrderItem>
 
                 } else if (orderItem.status === 'canceled') {
-                  return <UserOrderItem orderItem={orderItem} status={statusCancel} btn={btnCancel} text={textCancel}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusCancel} btn={btnCancel} text={textCancel} type={objType.type}></UserOrderItem>
 
                 } else if (orderItem.status === 'delivering') {
-                  return <UserOrderItem orderItem={orderItem} status={statusDelivering} btn={btnDelivering} text={textDelivering}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusDelivering} btn={btnDelivering} text={textDelivering} type={objType.type}></UserOrderItem>
                 }
               }
 
 
               if (objType.type == 2) {
                 if (orderItem.status === 'pending') {
-                  return <UserOrderItem orderItem={orderItem} status={statusPending} btn={btnPending} text={textPending}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusPending} btn={btnPending} text={textPending} type={objType.type}></UserOrderItem>
                 } else {
                   count++;
                   if (count === listOrder.length) {
@@ -185,7 +208,7 @@ function UserOrderHistory() {
 
               if (objType.type == 4) {
                 if (orderItem.status === 'done') {
-                  return <UserOrderItem orderItem={orderItem} status={statusDone} btn={btnDone} text={textDone}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusDone} btn={btnDone} text={textDone} type={objType.type}></UserOrderItem>
                 } else {
                   count++;
                   if (count === listOrder.length) {
@@ -196,7 +219,7 @@ function UserOrderHistory() {
 
               if (objType.type == 5) {
                 if (orderItem.status === 'canceled') {
-                  return <UserOrderItem orderItem={orderItem} status={statusCancel} btn={btnCancel} text={textCancel}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusCancel} btn={btnCancel} text={textCancel} type={objType.type}></UserOrderItem>
                 } else {
                   count++;
                   if (count === listOrder.length) {
@@ -207,7 +230,7 @@ function UserOrderHistory() {
 
               if (objType.type == 3) {
                 if (orderItem.status === 'delivering') {
-                  return <UserOrderItem orderItem={orderItem} status={statusDelivering} btn={btnDelivering} text={textDelivering}></UserOrderItem>
+                  return <UserOrderItem orderItem={orderItem} status={statusDelivering} btn={btnDelivering} text={textDelivering} type={objType.type}></UserOrderItem>
                 } else {
                   count++;
                   if (count === listOrder.length) {
