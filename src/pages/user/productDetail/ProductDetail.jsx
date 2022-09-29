@@ -59,8 +59,13 @@ function ProductDetail() {
     }
 
     async function addToCart() {
+        console.log(123);
         try {
+            if(!productDetailID){
+                return message.error('Bạn chưa chọn sản phẩm !')
+            }
             let addToCart = await patchAPI(`/cart/add-to-cart`, { 'productDetailId': productDetailID, "quantity": inputpd })
+            console.log(64, addToCart);
             if (addToCart.status == 200) {
                 console.log(72, addToCart);
                 message.success('Thêm vào giỏ hàng thành công !')
