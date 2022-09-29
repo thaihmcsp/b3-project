@@ -5,6 +5,9 @@ import './AdminListProduct.css'
 import { useNavigate} from "react-router-dom";
 import { getAPI, patchAPI,postAPI } from '../../../../config/api';
 import { useEffect} from 'react';
+import FormItem from 'antd/es/form/FormItem';
+import { useDispatch } from 'react-redux';
+
 
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -29,54 +32,77 @@ const beforeUpload = (file) => {
 };
 
 function AdminListProduct() {
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  const { Option } = Select;
-  // const [formImg, setFormImg] = useState(new FormData())
-  // const [loading, setLoading] = useState(false);
-  // const [imageUrl, setImageUrl] = useState();
-  // const [count, setCount] = useState(0)
-  // const key = 'updatable';
   const [productId, setProductId] = useState()
-  const [productName, setProductName] = useState()
-  const [brand, setBrand] = useState()
-  const [type, setType] = useState()
+  const [listCategory, setListCategory] = useState([])
   const [uData, setUdata] = useState([])
+  const [count, setCount] = useState(0);
+  const [imageUrl, setImageUrl] = useState();
+  const [formImg, setFormImg] = useState(new FormData())
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+
+
   async  function getAPIproduct() {
     try {
-        let products = await getAPI(`product/get-all-products`);
+        let products = await getAPI(`/product/get-all-products`);
         let newList = []
         products.data.products.map(
           (value)=>{
             newList.push(
-                  {
-                    productName: value.productName,
-                    thumbnail:value.thumbnail.startsWith('https')?  <Image className='preview-img' src={value.thumbnail} /> : <Image className='preview-img' src={`https://shope-b3.thaihm.site/${value.thumbnail}`} />,
-                    brand: value.brand,
-                    quantityProperty:value.listDtail.length,
-                    type:value.categoryId._id==='63227fdadb8fd735e64e3e50'?'Điện thoại':'Máy tính',
-                    id: value._id
-                  }
-              )
+              {
+                productName: value.productName,
+                thumbnail:value.thumbnail.startsWith('https')?  <Image className='preview-img' src={value.thumbnail} /> : <Image className='preview-img' src={`https://shope-b3.thaihm.site/${value.thumbnail}`} />,
+                brand: value.brand,
+                quantityProperty: value.listDtail.length,
+                type: value.categoryId.categoryName,
+                id: value._id
+              }
+            )
           }
         )
         setUdata(newList)
+        setCount(count + 1)
     }
     catch (error) {
         console.log(error);
     }
   }
-  const onFinish = async (values) => {
+  const getCategory = async () => {
     try {
-        console.log(values);
-        const res = await postAPI(`/product/update-product-info/${productId}`)
-        console.log(res);
-        message.success('Đổi thông tin thành công')
+      let res = await getAPI('/category/get-all-categories')
+      setListCategory(res.data.categories);
+      console.log(res.data.categories);
+    } catch (error) {
+      console.log(66, error);
+    }
+  }
+  const onFinish = async (data) => {
+    console.log(77, data);
+    try {  
+      let changeInfo ={
+        productName:data.productName,
+        brand:data.brand,
+        categoryId:data.categoryId
+      }
+      const res = await patchAPI(`/product/update-product-info/${productId}`,changeInfo)
+      const ress = await patchAPI(`/product/update-product-thumb/${productId}`, formImg)
+      console.log(84, res);
+      console.log(ress);
+      message.success('Đổi thông tin thành công')
     } catch (error) {
         console.log(error);
         message.error('Thất bại')
     }
+};
+const handleChange2 = (info) => {
+  const formData = new FormData()
+  formData.append('thumb', info.file.originFileObj)
+  console.log(100, info);
+  setFormImg(formData)
+  getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+  });
 };
 
 
@@ -96,11 +122,16 @@ function AdminListProduct() {
   const [form] = Form.useForm();
   useEffect(() => {
     getAPIproduct() 
+    getCategory()
   },[])
   const { Column } = Table;
+
+  function selectCategory (category){
+    console.log(113, category);
+    form.setFieldValue('categoryId', category)
+  }
 return (
     <div>
-      <Form  form={form} component={false} onFinish={onFinish}  >
       <Table
         dataSource={uData}
       >
@@ -155,7 +186,6 @@ return (
           const showModal = () => {
             setOpen(true);
             setProductId(index.id)
-            console.log(productId);
           };
           return (
             <span>
@@ -174,6 +204,7 @@ return (
       <Modal
         title="Sửa thông tin"
         visible={open}
+        footer={null}
         onOk={handleOk}
         onCancel={handleCancel}
         okButtonProps={{
@@ -184,44 +215,81 @@ return (
           disabled: false,
         }}
       >
+      <Form
+      name="basic"
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      form={form}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item>    
         <Upload
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          beforeUpload={beforeUpload}
-      >
-          {/* {imageUrl ?(
-              <img
-                  src={imageUrl}
-                  alt="avatar"
-                  style={{
-                      width: '100%',
-                  }}
-              />
-          ) : 'Ảnh'} */}
-      </Upload>
-        <label>Tên sản phẩm</label>
-        <Input placeholder="Vui lòng điền đủ thông tin" id='productName' width='50%' className='inp-list-product'/>
-        <br />
-        <label>Thương hiệu</label>
-        <Input placeholder="Vui lòng điền đủ thông tin" id='brand' width='50%' className='inp-list-product' />
-        <br />
-        <label>Phân loại</label>
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              onChange={handleChange2}
+          >
+            {imageUrl ?(
+                <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{
+                        width: '100%',
+                    }}
+                />
+            ) : 'Ảnh'}
+            </Upload>
+      </Form.Item>     
+      <label>Tên sản phẩm</label>
+      <Form.Item name='producName'>
+        <Input dataIndex='productName' placeholder="Vui lòng điền đủ thông tin" id='productNameInput' width='50%' className='inp-list-product'/>
+      </Form.Item>
+      <label>Thương hiệu</label>
+      <Form.Item name='brand'>
+        <Input dataIndex='brand' placeholder="Vui lòng điền đủ thông tin" id='brandInput' width='50%' className='inp-list-product' />
+      </Form.Item>
+      <Form.Item dataIndex='category' name='categoryId'>
+        <label>Ngành hàng</label>
         <Select
           className='select-list-product'
-          defaultValue="Điện thoại"
           style={{
             width: 120,
           }}
-          onChange={handleChange}
           width='50%'
-        >
-          <Option value="Điện thoại">Điện thoại</Option>
-          <Option value="Máy tính">Máy tính</Option>
+          id='categorySelect'
+          onChange={selectCategory}
+          >
+          {listCategory.map(function (value) {
+            return (
+              <Select.Option value={value._id} >{value.categoryName}</Select.Option>
+            )
+          })}
         </Select>
-      </Modal>
+      </Form.Item>
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+     
     </Form>
+      </Modal>
     </div>
   )
 }

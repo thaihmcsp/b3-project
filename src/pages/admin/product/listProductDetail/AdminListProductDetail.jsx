@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Form, Modal, Descriptions, Input, InputNumber, Switch, Upload } from 'antd';
+import { Button, Checkbox, Form, Modal, Descriptions, Input, InputNumber, Switch, Upload, message } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import './AdminListProductDetail.css'
 import { useParams } from 'react-router-dom';
@@ -29,6 +29,7 @@ function AdminListProductDetail() {
   const [fileList, setFileList] = useState([])
   const domain = 'https://shope-b3.thaihm.site/'
   const handleCancelPreview = () => setPreviewOpen(false);
+  const [form] = Form.useForm()
 
   const handlePreview = async (file) => {
     console.log(31, file)
@@ -71,7 +72,7 @@ function AdminListProductDetail() {
       }
       setUrl(url)
       setData(res.data.productDetails)
-    } catch (error) {
+    }catch (error) {
       console.log(error);
     }
   }
@@ -82,6 +83,15 @@ function AdminListProductDetail() {
 
   const showModal = () => {
     setIsModalVisible(true);
+    form.setFieldsValue(
+      {
+        color: '',
+        ram:'',
+        rom:'',
+        storage:'',
+        price:''
+      })
+    setFileList([])
   };
 
   const handleOk = () => {
@@ -91,6 +101,7 @@ function AdminListProductDetail() {
   const handleCancel = () => {
     if (editDetail) {
       setEditDetail(false)
+
     }
     setIsModalVisible(false);
   };
@@ -109,7 +120,15 @@ function AdminListProductDetail() {
         formData.append('thumbs', file);
       }
       let newDetail = await patchAPI('/productDetail/add-product-detail-thumbs/' + res.data.productDetail._id, formData);
-      console.log(105, newDetail.data);
+      form.setFieldsValue(
+        {
+          color: '',
+          ram:'',
+          rom:'',
+          storage:'',
+          price:''
+        })
+      setFileList([])
       setcount(count + 1)
     } catch (error) {
       console.log(error);
@@ -126,15 +145,17 @@ function AdminListProductDetail() {
   const [isModalOpenn, setIsModalOpenn] = useState(false);
   const [idEdit, setIdEdit] = useState('')
 
-  console.log(idEdit);
-  // const showModal1 = () => {
-  //   setIsModalOpenn(true);
-  // };
-
   const onFinish1 = async (values) => {
     try {
       let res = await patchAPI('/productDetail/update-product-detail-info/' + idEdit, values)
       console.log(res);
+      const formData = new FormData();
+      for (let i = 0; i < fileList.length; i++) {
+        let file = fileList[i].originFileObj
+        formData.append('thumbs', file);
+      }
+      let newDetail = await patchAPI('/productDetail/add-product-detail-thumbs/' + idEdit, formData);
+      console.log(newDetail);
       alert(res.statusText)
       setcount(count + 1)
     } catch (error) {
@@ -156,8 +177,41 @@ function AdminListProductDetail() {
     setEditDetail(true)
     showModal()
   }
-
+// console.log(FileList);
   // console.log(Data);
+  // if(dataDetail) {
+  //   dataDetail.listImg?.map((value) => {
+  //     if(!value.startsWith('http')){
+  //       value = domain + value
+  //       array.push(value)
+  //     }
+  //   })
+  //   // setFileList(array)
+  // }
+
+  const removeFile = async (e) => {
+    const linkRemove = e.url.split('https://shope-b3.thaihm.site/')[1];
+    try {
+      let res = patchAPI('/productDetail/remove-product-detail-thumbs/'+idEdit, {path:linkRemove})
+      console.log(res);
+      message.success({
+        content: 'Xóa ảnh thành công',
+        className: 'custom-class',
+        style: {
+          marginTop: '20vh',
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      message.error({
+        content: 'Thất bại',
+        className: 'custom-class',
+        style: {
+          marginTop: '20vh',
+        },
+      });
+    }
+  }
 
   return (
     <div className='adminListProductDetail' >
@@ -170,7 +224,7 @@ function AdminListProductDetail() {
             + Thêm 1 sản phẩm mới
           </Button>
           <Modal title={editDetail ? 'Edit Detail Form' : "Create Product Detail"} footer={null} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={editDetail ? onFinish1 : onFinish} onFinishFailed={onFinishFailed} autoComplete="off" >
+            <Form form={form} name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={editDetail ? onFinish1 : onFinish} onFinishFailed={onFinishFailed}  autoComplete="off" >
               <Form.Item
                 label="Color"
                 name="color"
@@ -181,7 +235,7 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <input type="text" value={editDetail ? dataDetail ? dataDetail.color : "Đang cập nhật" : ""} />
+                <Input />
               </Form.Item>
 
               <Form.Item
@@ -195,7 +249,7 @@ function AdminListProductDetail() {
                 ]}
               >
                 {/* <Input /> */}
-                <input type="text" value={editDetail ? (dataDetail ? dataDetail.ram : "Đang cập nhật") : ""} />
+                <Input />
               </Form.Item>
 
               <Form.Item
@@ -208,7 +262,7 @@ function AdminListProductDetail() {
                   },
                 ]}
               >
-                <Input value={editDetail ? (dataDetail ? dataDetail.rom : "Đang cập nhật") : ""} />
+                <Input />
               </Form.Item>
 
               <Form.Item
@@ -243,6 +297,7 @@ function AdminListProductDetail() {
                   fileList={fileList}
                   onPreview={handlePreview}
                   onChange={handleChange}
+                  onRemove={removeFile}
                 >
                   {fileList.length >= 8 ? null : uploadButton}
                 </Upload>
@@ -300,12 +355,28 @@ function AdminListProductDetail() {
 
                 const getDataDetail = async () => {
                   try {
+                    let array = []
                     setIdEdit(value._id)
                     let res = await getAPI('/productDetail/get-one-detail/' + value._id)
                     console.log(res.data.detail);
                     setDataDetail(res.data.detail)
                     setEditDetail(true)
-                    showModal()
+                    form.setFieldsValue(
+                      {
+                        color: res.data.detail.color,
+                        ram: res.data.detail.ram,
+                        rom: res.data.detail.rom,
+                        storage: res.data.detail.storage,
+                        price: res.data.detail.price
+                      })
+                    res.data.detail.listImg?.map((val) => {
+                      if (!val.startsWith('http')) {
+                        val = domain + val
+                        array.push({url:val})
+                      }
+                    })
+                    setFileList(array)
+                    setIsModalVisible(true);
                     setIsModalOpenn(true);
                   } catch (error) {
                     console.log(error);
@@ -336,85 +407,6 @@ function AdminListProductDetail() {
                         <Button type="primary" onClick={() => { openModall() }}>
                           Edit Detail
                         </Button>
-                        {/* <Modal title="Basic Modal" visible={isModalOpenn} open={isModalOpenn} onOk={handleOk1} onCancel={handleCancel1} footer={null}>
-                          <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} initialValues={{ remember: true }} onFinish={onFinish1} onFinishFailed={onFinishFailed} autoComplete="off" >
-                            <Form.Item
-                              label="Color"
-                              name="color"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input color!',
-                                },
-                              ]}
-                            >
-                              <Input />
-                            </Form.Item>
-
-                            <Form.Item
-                              label="Ram"
-                              name="ram"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input ram!',
-                                },
-                              ]}
-                            >
-                              <Input />
-                            </Form.Item>
-
-                            <Form.Item
-                              label="Rom"
-                              name="rom"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input rom!',
-                                },
-                              ]}
-                            >
-                              <Input />
-                            </Form.Item>
-
-                            <Form.Item
-                              label="Storage"
-                              name="storage"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input Storage!',
-                                },
-                              ]}
-                            >
-                              <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item
-                              label="Price"
-                              name="price"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input Price!',
-                                },
-                              ]}
-                            >
-                              <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item
-                              wrapperCol={{
-                                offset: 8,
-                                span: 16,
-                              }}
-                            >
-                              <Button type="primary" htmlType="submit">
-                                Add Detail
-                              </Button>
-                            </Form.Item>
-                          </Form>
-                        </Modal> */}
                       </Descriptions.Item>
                     </Descriptions>
                   </div>
