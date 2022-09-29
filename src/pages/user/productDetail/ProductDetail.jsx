@@ -58,6 +58,7 @@ function ProductDetail() {
         }
     }
 
+    
     async function addToCart() {
         console.log(123);
         try {
