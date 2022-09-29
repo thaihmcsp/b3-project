@@ -194,7 +194,7 @@
   flex-wrap: wrap;
   max-width: 1200px;
   margin: 0 auto;
-  padding-top: 20px;
+  padding: 20px 0;
 }
 
 .home_product-item-link {
@@ -212,7 +212,6 @@
 }
 
 .home_product-item-link:hover {
-  padding-bottom: 9px;
   display: block;
   border-color: #ee4d2d;
   cursor: pointer;
@@ -242,6 +241,7 @@
 .home_product-item-text {
   text-align: left;
   padding: 0 8px;
+  margin-top: 6px;
 }
 
 .home_product-item span {
@@ -449,7 +449,7 @@
   }
 
   .home_product-list-product {
-    justify-content: space-between;
+    /* justify-content: space-between; */
   }
 
   .home_product-item-link {
