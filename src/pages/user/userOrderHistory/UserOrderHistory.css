@@ -296,6 +296,7 @@
     background-color: #fff;
     border: 1px solid #ccc;
     margin-left: 30px;
+    color: #000;
 }
 
 .btn-secondary:hover {
@@ -356,6 +357,52 @@
 }
 
 
+.main-reason {
+    list-style-type: none;
+}
+
+.reason-title span {
+    margin-left: 10px;
+}
+
+.reason-title {
+    background-color: #fffdf8;
+    border: 1px solid rgba(255, 174, 4, .3);
+    padding: 10px;
+}
+
+.main-reason li {
+    display: flex;
+    padding: 10px 0;
+}
+
+.main-reason li input {
+    margin-right: 20px;
+}
+
+.ant-modal {
+    width: 40% !important;
+}
+
+.ant-btn-primary {
+    border-color: #EE4D2D !important;
+    background-color: #EE4D2D !important;
+    color: #fff !important;
+}
+
+.ant-btn:hover,
+.ant-btn:active,
+.ant-btn:focus {
+    border-color: #ccc !important;
+    background-color: #ccc;
+    color: #fff;
+}
+
+.ant-btn-primary:hover {
+    opacity: 0.8;
+}
+
+/* Responsive */
 @media screen and (min-width : 768px) and (max-width : 1023px) {
     .order-product--shop__left {
         width: 60%;

@@ -1,12 +1,9 @@
-import {Button, Form, Modal, Table, Typography, Upload,  Select, Input, message,  Image  } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import {Button, Form, Modal, Table, Upload,  Select, Input, message,  Image  } from 'antd';
 import React, { useState } from 'react';
 import './AdminListProduct.css'
 import { useNavigate} from "react-router-dom";
-import { getAPI, patchAPI,postAPI } from '../../../../config/api';
+import { getAPI, patchAPI } from '../../../../config/api';
 import { useEffect} from 'react';
-import FormItem from 'antd/es/form/FormItem';
-import { useDispatch } from 'react-redux';
 
 
 const getBase64 = (img, callback) => {
@@ -38,10 +35,9 @@ function AdminListProduct() {
   const [count, setCount] = useState(0);
   const [imageUrl, setImageUrl] = useState();
   const [formImg, setFormImg] = useState(new FormData())
-  const dispatch = useDispatch()
-  const [loading, setLoading] = useState(false);
-
-
+  const [defaultValueName, setDefaultValueName] = useState();
+  const [defaultValueBrand, setDefaultValueBrand] = useState();
+  const [defaultValueType, setDefaultValueType] = useState();
   async  function getAPIproduct() {
     try {
         let products = await getAPI(`/product/get-all-products`);
@@ -58,7 +54,7 @@ function AdminListProduct() {
                 id: value._id
               }
             )
-          }
+          } 
         )
         setUdata(newList)
         setCount(count + 1)
@@ -84,7 +80,7 @@ function AdminListProduct() {
         brand:data.brand,
         categoryId:data.categoryId
       }
-      const res = await patchAPI(`/product/update-product-info/${productId}`,changeInfo)
+      const res = await patchAPI(`/product/update-product-info/${productId}`, changeInfo)
       const ress = await patchAPI(`/product/update-product-thumb/${productId}`, formImg)
       console.log(84, res);
       console.log(ress);
@@ -93,19 +89,16 @@ function AdminListProduct() {
         console.log(error);
         message.error('Thất bại')
     }
-};
-const handleChange2 = (info) => {
-  const formData = new FormData()
-  formData.append('thumb', info.file.originFileObj)
-  console.log(100, info);
-  setFormImg(formData)
-  getBase64(info.file.originFileObj, (url) => {
-      setLoading(false);
-      setImageUrl(url);
-  });
-};
-
-
+  };
+  const handleChange2 = (info) => {
+    const formData = new FormData()
+    formData.append('thumb', info.file.originFileObj)
+    console.log(100, info);
+    setFormImg(formData)
+    getBase64(info.file.originFileObj, (url) => {
+        setImageUrl(url);
+    });
+  };
   const onFinishFailed = (errorInfo) => {
       console.log('Failed:', errorInfo);
   };
@@ -184,8 +177,14 @@ return (
         className='column-list-product'
         render={ (record,index) => {
           const showModal = () => {
+            console.log(index);
+            form.setFieldsValue(
+              {
+                productName: index.productName,
+                brand: index.brand,
+                categoryId: index.type
+              })
             setOpen(true);
-            setProductId(index.id)
           };
           return (
             <span>
@@ -233,9 +232,8 @@ return (
     >
       <Form.Item>    
         <Upload
-              name="avatar"
+              name="thumb"
               listType="picture-card"
-              className="avatar-uploader"
               showUploadList={false}
               beforeUpload={beforeUpload}
               onChange={handleChange2}
@@ -252,16 +250,17 @@ return (
             </Upload>
       </Form.Item>     
       <label>Tên sản phẩm</label>
-      <Form.Item name='producName'>
-        <Input dataIndex='productName' placeholder="Vui lòng điền đủ thông tin" id='productNameInput' width='50%' className='inp-list-product'/>
+      <Form.Item name='productName'>
+        <Input dataIndex='productName' defaultValue={defaultValueName} placeholder="Vui lòng điền đủ thông tin" id='productNameInput' width='50%' className='inp-list-product'/>
       </Form.Item>
       <label>Thương hiệu</label>
       <Form.Item name='brand'>
-        <Input dataIndex='brand' placeholder="Vui lòng điền đủ thông tin" id='brandInput' width='50%' className='inp-list-product' />
+        <Input dataIndex='brand' defaultValue={defaultValueBrand} placeholder="Vui lòng điền đủ thông tin" id='brandInput' width='50%' className='inp-list-product' />
       </Form.Item>
       <Form.Item dataIndex='category' name='categoryId'>
         <label>Ngành hàng</label>
         <Select
+          defaultValue={defaultValueType}
           className='select-list-product'
           style={{
             width: 120,
