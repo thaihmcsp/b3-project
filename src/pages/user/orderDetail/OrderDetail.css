@@ -194,8 +194,8 @@
 }
 
 .order-product-detail__img img {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
