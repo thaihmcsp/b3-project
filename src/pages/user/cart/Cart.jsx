@@ -6,7 +6,14 @@ import { Col, Row, Table, Button, Popconfirm, Select } from 'antd'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getAPI, patchAPI } from '../../../config/api';
-
+const { Option } = Select;
+const children = [
+  <Option key={1}> {"Giảm 10%"}</Option>,
+  <Option key={2}> {"Giảm 15%"}</Option>,
+  <Option key={3}>{"Giảm 25%"}</Option>,
+  <Option key={4}>{"Giảm 50%"}</Option>,
+  <Option key={5}>{"Free ship"}</Option>,
+];
 // // antd table
 function Cart() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -16,13 +23,16 @@ function Cart() {
   const [listProductDetail, setListProductDetail] = useState([]);
   const [reload, setReload] = useState(true);
   const [counting, setCounting] = useState(0)
+  // data Cart
+
+  const [dataSource, setDataSource] = useState([]);
 
 
   const nav = useNavigate()
   // get API
   async function getAPIcart() {
     try {
-      let arrDataCart = await getAPI("cart/get-loged-in-cart");
+      let arrDataCart = await getAPI("/cart/get-loged-in-cart");
       setListProductDetail(arrDataCart.data.cart.listProduct);
       let dataCart = [];
       let selectList = []
@@ -33,7 +43,7 @@ function Cart() {
               {
                 productId: value.productDetailId._id,
                 key: value.productDetailId._id,
-                Name: <a>{value.productDetailId.productId.productName}</a>,
+                Name:value.productDetailId.productId.productName,
                 price: value.productDetailId.price,
                 listImg: `https://shope-b3.thaihm.site/${value.productDetailId.listImg[0]}`,
                 stonge: value.quantity,
@@ -102,9 +112,6 @@ function Cart() {
       console.log(error);
     }
   }
-  // data Cart
-
-  const [dataSource, setDataSource] = useState([]);
   // Table
 
   const handleDelete = (id) => {
@@ -267,17 +274,6 @@ function onSelectAll1(selected, selectedRows, changeRows){
       },
     },
   ];
-  // selecttion
-
-  // Select
-  const { Option } = Select;
-  const children = [
-    <Option key={1}> {"Giảm 10%"}</Option>,
-    <Option key={2}> {"Giảm 15%"}</Option>,
-    <Option key={3}>{"Giảm 25%"}</Option>,
-    <Option key={4}>{"Giảm 50%"}</Option>,
-    <Option key={5}>{"Free ship"}</Option>,
-  ];
 
   const handleChange = (value) => {
     console.log(`Selected: ${value}`);
@@ -286,12 +282,10 @@ function onSelectAll1(selected, selectedRows, changeRows){
   // table antd
   useEffect(
     () => {
-
       setQuanlityAPI()
       getAPIcart()
     }, [count, reload, counting]
   );
-  console.log(216, dataSource);
   return (
     <div className="cart-container">
       <Row justify="center">
