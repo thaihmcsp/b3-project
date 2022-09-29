@@ -43,7 +43,7 @@ function Cart() {
               {
                 productId: value.productDetailId._id,
                 key: value.productDetailId._id,
-                Name:value.productDetailId.productId.productName,
+                Name: value.productDetailId.productId.productName,
                 price: value.productDetailId.price,
                 listImg: `https://shope-b3.thaihm.site/${value.productDetailId.listImg[0]}`,
                 stonge: value.quantity,
@@ -124,23 +124,23 @@ function Cart() {
     nav("/create-order");
   }
 
-function onSelectAll1(selected, selectedRows, changeRows){
-  console.log(122 ,selected ,'selectrows', selectedRows ,'change' , changeRows);
-  if(selected == true){
-    selectedRows.map(
-      (value)=>{
-        selectAPI(value.productId ,true)
-      }
-    )
-  }else {
-    console.log(129, selected, selectedRows , changeRows); 
-    changeRows.map(
-      (value)=>{
-        selectAPI(value.productId ,false)
-      }
-    )
+  function onSelectAll1(selected, selectedRows, changeRows) {
+    console.log(122, selected, 'selectrows', selectedRows, 'change', changeRows);
+    if (selected == true) {
+      selectedRows.map(
+        (value) => {
+          selectAPI(value.productId, true)
+        }
+      )
+    } else {
+      console.log(129, selected, selectedRows, changeRows);
+      changeRows.map(
+        (value) => {
+          selectAPI(value.productId, false)
+        }
+      )
+    }
   }
-}
   const onSelectChange = async (newSelectedRowKeys) => {
     console.log(103, 'selectedRowKeys changed: ', newSelectedRowKeys, selectedRowKeys);
 
@@ -164,7 +164,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
-    onSelectAll:onSelectAll1,
+    onSelectAll: onSelectAll1,
     selections: [
       Table.SELECTION_ALL,
       Table.SELECTION_INVERT,
@@ -207,14 +207,21 @@ function onSelectAll1(selected, selectedRows, changeRows){
     {
       title: "Sản Phẩm",
       dataIndex: "Name",
+      render: (value) => {
+        return (
+          <div>
+            <a href="#">{value}</a>
+          </div>
+        )
+      }
     },
     {
       title: "",
       dataIndex: "listImg",
-      render: (value)=>{
+      render: (value) => {
         return (
           <div className="cart-list-img">
-           <img src={value} alt="" />
+            <img src={value} alt="" />
           </div>
         )
       }
@@ -235,7 +242,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
                 setCounting(counting - 1)
               }
             }>-</Button>
-            <input placeholder="" value={text}  className='cart-quanlity-input' />
+            <input placeholder="" value={text} className='cart-quanlity-input' />
             <Button className='cart-quanlity-btn' type="primary" onClick={
               async () => {
                 await setQuanlityAPI(record.productId, ++text);
@@ -249,7 +256,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
     {
       title: "Thành Tiền",
       dataIndex: "total",
-      render:(value)=>{
+      render: (value) => {
         return (
           <div className="cart-list-totalPrice">
             {value}
@@ -278,7 +285,6 @@ function onSelectAll1(selected, selectedRows, changeRows){
   const handleChange = (value) => {
     console.log(`Selected: ${value}`);
   };
-
   // table antd
   useEffect(
     () => {
@@ -303,7 +309,7 @@ function onSelectAll1(selected, selectedRows, changeRows){
         <Col lg={24} md={24}>
           <div className="cart-footer">
             <Row justify="center">
-             
+
               <Col lg={10} md={10} xs={23}>
                 <div className="cart-voucher-1">
                   <div className="cart-title">
@@ -329,13 +335,13 @@ function onSelectAll1(selected, selectedRows, changeRows){
               </Col>
             </Row>
             <Row justify="center">
-              <Col lg={10}  sm={22}  >
+              <Col lg={10} sm={22}  >
                 <div className="cart-footer">
                   <span>Chọn tất cả ({count})</span> <span> Xóa </span>{" "}
                   <span> Bỏ sản phẩm không hoạt động</span>
                 </div>
               </Col>
-              <Col lg={10}  sm={22} >
+              <Col lg={10} sm={22} >
                 <div className="cart-footer2">
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span>{" "}
                   <span className="cart-price">{total}đ</span>
