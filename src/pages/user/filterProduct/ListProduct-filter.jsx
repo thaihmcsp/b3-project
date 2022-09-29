@@ -12,7 +12,7 @@ const { Meta } = Card;
 function ListProduct() {
     const [dataFake,setDataFake] = useState([])
     const location = useLocation()
-    console.log(15, location)
+   
     const cutLink = new URLSearchParams(location.search)
    const [dataClone,setDataClone]= useState([])
   const [brandz,setBrandz] = useState([])
@@ -102,7 +102,7 @@ function ListProduct() {
                  
                 }
                 else if(!categori && dataMini ){
-                    console.log(dataMini);
+                    
                       setDataClone(dataMini.slice((12*(page-1)),(12*page)))
                       setDataFake(dataMini)
 
@@ -208,15 +208,10 @@ function ListProduct() {
                                             <Meta title={value.productName} description={value.price?value.price.toLocaleString()+"đ":"Het hang "} />
                                             </Card>
                                 </Link>
-
-                        </div>
-                        
-                    )
-                    
+                        </div>    
+                    )    
                 })
             }
-
-            
     </div>
     
     <div>
