@@ -49,9 +49,11 @@ function AddProductDetail() {
       }
       let data = await patchAPI(`/productDetail/add-product-detail-thumbs/${res.data.productDetail._id}`, imgFile)
       console.log(48, data);
+      message.success('Thêm thành công')
       navigate('/admin/product')
     } catch (error) {
       console.log(error);
+      message.error('Thất bại')
     }
   };
   const onFinishFailed = (errorInfo) => {
