@@ -201,7 +201,7 @@
 }
 
 .product-detail-price .ant-descriptions-item-label span::after {
-    content: 'đ';
+    /* content: 'đ'; */
     font-size: 25px;
     text-decoration: underline;
 

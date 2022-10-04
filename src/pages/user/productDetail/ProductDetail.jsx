@@ -21,8 +21,6 @@ function ProductDetail() {
     const [productDetailCheck, setProductDetailCheck] = useState([])
     const [productDetailID, setProductDetailID] = useState()
     const [count, setCount] = useState(0);
-
-    // get value option
     const [pdColor, setpdColor] = useState();
     const [pdRam, setpdRam] = useState();
     const [pdRom, setpdRom] = useState();
@@ -78,10 +76,8 @@ function ProductDetail() {
 
     function formatPdPrice(price) {
         if (price) {
-            let str = price.toString(10)
-            return str.split('').reverse().reduce((prev, next, index) => {
-                return ((index % 3) ? next : (next + '.')) + prev
-            })
+            return price.toLocaleString ()+ " d"
+           
         } else {
             return ''
         }
