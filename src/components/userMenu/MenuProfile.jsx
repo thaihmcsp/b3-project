@@ -35,7 +35,7 @@ function MenuProfile() {
     const token = window.localStorage.getItem('user')
     const [openKeys, setOpenKeys] = useState(['sub1']);
     const [Url, setUrl] = useState('')
-    const [count , setCount] = useState(0)
+    const [count, setCount] = useState(0)
 
     const domain = 'https://shope-b3.thaihm.site/'
 
@@ -46,7 +46,7 @@ function MenuProfile() {
     let link = user.avatar
 
 
-    
+
     const onOpenChange = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
 
@@ -58,10 +58,10 @@ function MenuProfile() {
     };
 
 
-    if(!link.startsWith('https')){
+    if (!link.startsWith('https')) {
         link = domain + link
     }
- 
+
     return (
         <div className='menu'>
             <div className="menu-header">
@@ -69,7 +69,7 @@ function MenuProfile() {
                     <img src={link ? link : "https://64.media.tumblr.com/970f8c9047f214078b5b023089059228/4860ecfa29757f0c-62/s640x960/9578d9dcf4eac298d85cf624bcf8b672a17e558c.jpg"} alt="" />
                 </div>
                 <div className="header-right">
-                    <h5>{user.username ? user.username: "Đang tải"}</h5>
+                    <h5>{user.username ? user.username : "Đang tải"}</h5>
                     <p><EditOutlined /> Sửa hồ sơ</p>
                 </div>
             </div>

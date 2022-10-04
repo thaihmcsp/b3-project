@@ -27,7 +27,7 @@ const suffix = (
 
 const { Option } = Select;
 
-
+const select = ['pending', 'delivering', 'done', 'canceled']
 function Order() {
   const [getOrder, setGetOrder] = useState([])
   const [getUser, setGetUser] = useState([])
@@ -36,6 +36,7 @@ function Order() {
   const [searchValue, setSearchValue] = useState('')
   const [changeStatus, setChangeStatus] = useState('')
   const [selectDate, setSelectDate] = useState([])
+  const [test, setTest] = useState("")
   const getOrders = async (value) => {
     try {
       let res = await getAPI('/order/get-all-order')
@@ -69,11 +70,17 @@ function Order() {
   }
 
   let address = JSON.parse(window.localStorage.getItem('address'))
-  console.log('data' , address);
+  console.log('data', address);
 
   const onSearch = (value) => {
     // console.log('value', value);
     setSearchValue(value)
+  }
+
+  const onClick = () => {
+
+    let data2 = document.querySelector(".ant-input").value
+    onSearch(data2)
   }
 
   for (let i = 0; i < getOrder.length; i++) {
@@ -141,6 +148,7 @@ function Order() {
     } catch (error) {
       console.log(error);
     }
+    window.location.reload()
   }
 
   const columns = [
@@ -160,7 +168,7 @@ function Order() {
     {
       title: 'User Name',
       dataIndex: 'userName',
-      key: 'userName', 
+      key: 'userName',
       // filteredValue: [searchValue],
       // onFilter: (value , record) => {
       //   console.log(165 , record);
@@ -238,6 +246,7 @@ function Order() {
     getOrders()
   }, [])
 
+
   return (
     <div className="classOrder">
       <div className="header-order">
@@ -268,10 +277,10 @@ function Order() {
         </Select>
         <div className='input-search-order'>
           <Space direction="vertical">
-            <Search className='ant-input-search-order' placeholder={savePlaceholder} onSearch={onSearch} style={{ width: 720 }} />
+            <Search className='ant-input-search-order ' placeholder={savePlaceholder} onSearch={onSearch} style={{ width: 720 }} />
           </Space>
         </div>
-        <button id='btn-search-product' >Tìm Kiếm</button>
+        <button id='btn-search-product' onClick={onClick}>Tìm Kiếm</button>
         <button id='btn-setAgain'>Đặt lại</button>
       </div>
 
