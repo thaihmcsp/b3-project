@@ -49,9 +49,11 @@ function AddProductDetail() {
       }
       let data = await patchAPI(`/productDetail/add-product-detail-thumbs/${res.data.productDetail._id}`, imgFile)
       console.log(48, data);
+      message.success('Thêm thành công')
       navigate('/admin/product')
     } catch (error) {
       console.log(error);
+      message.error('Thất bại')
     }
   };
   const onFinishFailed = (errorInfo) => {
@@ -66,10 +68,7 @@ function AddProductDetail() {
     
     const name = ['* Ảnh bìa', 'Hình ảnh 1','Hình ảnh 2','Hình ảnh 3', 'Hình ảnh 4', 'Hình ảnh 5', 'Hình ảnh 6', 'Hình ảnh 7', 'Hình ảnh 8']
     const handleChange = (info, index) => {
-      const formData = new FormData()
       console.log(info.file.originFileObj);
-      // formData.append('thumps', info.file.originFileObj )
-      // setImgFile(formData)
       imgFile.append('thumbs', info.file.originFileObj )
       setImgFile(imgFile)
       console.log(53, info);

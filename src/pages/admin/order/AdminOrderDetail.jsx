@@ -5,6 +5,7 @@ import "./AdminOrderDetail.css";
 
 function AdminOrderDetail() {
     const [orderDetail, setOrderDetail] = useState();
+    console.log(orderDetail);
     const [count, setCount] = useState(0)
     const search = useParams();
     const nav = useNavigate();
@@ -31,7 +32,7 @@ function AdminOrderDetail() {
 
     const handleChangeStatus = async (e) => {
         try {
-            await patchAPI("/order/change-order-status/" + search.orderId, {'status': e.target.value});
+            await patchAPI("/order/change-order-status/" + search.orderId, {"status": e.target.value});
             setCount(pre => pre + 1)
         } catch (error) {
             console.log(error);
@@ -47,12 +48,12 @@ function AdminOrderDetail() {
             <h3 className="info_user-item-heading">ĐỊA CHỈ NGƯỜI NHẬN</h3>
             {orderDetail ? (
                 <div className="info_user-item-user">
-                <h2>Tên người nhận: Lại Huy Trường</h2>
+                    <h2>Tên người nhận: { orderDetail.userId.fullname }</h2>
                 <p className="info-item-user-address">
                     Địa chỉ: {orderDetail.address}
                 </p>
                 <p className="info-item-user-phone">
-                    Điện thoại: {orderDetail.phone}
+                    Điện thoại: {orderDetail.userId.phone}
                 </p>
                 <div>
                     <span>Trạng thái: </span>
@@ -69,7 +70,6 @@ function AdminOrderDetail() {
                     >
                         <option value="canceled">canceled</option>
                         <option value="pending">pending</option>
-                        <option value="delivery">delivery</option>
                         <option value="done">done</option>
                     </select>
                     )}

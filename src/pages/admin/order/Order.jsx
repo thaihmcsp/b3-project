@@ -1,4 +1,4 @@
-import { DatePicker, Space, Input, Table, Select, Button } from 'antd';
+import { DatePicker, Space, Input, Table, Select, Button, message } from 'antd';
 import { MenuOutlined, SearchOutlined, ShopOutlined } from '@ant-design/icons'
 import { AudioOutlined } from '@ant-design/icons';
 import React from 'react';
@@ -36,7 +36,8 @@ function Order() {
   const [searchValue, setSearchValue] = useState('')
   const [changeStatus, setChangeStatus] = useState('')
   const [selectDate, setSelectDate] = useState([])
-  const [test, setTest] = useState("")
+  const [test, setTest] = useState(0)
+
   const getOrders = async (value) => {
     try {
       let res = await getAPI('/order/get-all-order')
@@ -70,13 +71,13 @@ function Order() {
   }
 
   let address = JSON.parse(window.localStorage.getItem('address'))
-  console.log('data', address);
 
   const onSearch = (value) => {
     // console.log('value', value);
     setSearchValue(value)
   }
 
+  console.log(getOrder);
   const onClick = () => {
 
     let data2 = document.querySelector(".ant-input").value
@@ -144,11 +145,12 @@ function Order() {
     setChangeStatus(value)
     try {
       let res = await patchAPI('/order/change-order-status/' + id, { status: changeStatus })
+      setTest(test + 1)
+      
       // console.log(127, res.data.order);
     } catch (error) {
       console.log(error);
     }
-    window.location.reload()
   }
 
   const columns = [
@@ -224,6 +226,23 @@ function Order() {
       key: 'status',
       dataIndex: 'status',
       render: (text, record) => {
+        async function onChangeStatus(e) {
+          try {
+            let res = await patchAPI('/order/change-order-status/' + record._id, { status: e.target.value })
+            setTest(test + 1)
+            message.success({
+              content: 'Sửa status thành công',
+              className: 'custom-class',
+              style: {
+                marginTop: '10vh',
+              },
+            });
+            // console.log(127, res.data.order);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
         return (
           <select name="" id={record._id} value={text} style={{ border: 'none' }} onChange={(e) => onChangeStatus(e)}>
             <option value="pending">pending</option>
@@ -244,7 +263,7 @@ function Order() {
 
   useEffect(() => {
     getOrders()
-  }, [])
+  }, [test])
 
 
   return (

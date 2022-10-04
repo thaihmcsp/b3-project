@@ -87,15 +87,13 @@ function ProductDetail() {
   // set product price
   const [productDetailPrice, setProductDetailPrice] = useState("");
 
-
-    function formatPdPrice(price) {
-        if (price) {
-            return price.toLocaleString ()+ " d"
-           
-        } else {
-            return ''
-        }
-
+  function formatPdPrice(price) {
+    if (price) {
+      let str = price.toLocaleString() + "đ";
+      return str;
+    } else {
+      return "Hết hàng!";
+    }
   }
   // set price
   function setPrice1(value) {
