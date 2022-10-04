@@ -70,7 +70,6 @@ function AdminOrderDetail() {
                     >
                         <option value="canceled">canceled</option>
                         <option value="pending">pending</option>
-                        <option value="delivery">delivery</option>
                         <option value="done">done</option>
                     </select>
                     )}

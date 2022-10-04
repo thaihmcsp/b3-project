@@ -118,12 +118,12 @@ function UserOrderHistory() {
       data.listProduct.filter((value) => {
         if (value.productDetailId?.productId.productName.toLowerCase().includes(inputValue.toLowerCase())) {
           arr.push(data);
-          ref.current.value = '';
-          ref.current.focus();
           return true
         }
       })
     })
+    ref.current.value = '';
+    ref.current.focus();
     setCloneOrder(arr);
   }
 

@@ -259,7 +259,7 @@ function Cart() {
       render: (value) => {
         return (
           <div className="cart-list-totalPrice">
-            {value}
+            {value.toLocaleString()}
           </div>
         )
       }
@@ -344,7 +344,7 @@ function Cart() {
               <Col lg={10} sm={22} >
                 <div className="cart-footer2">
                   <span>Tổng thanh toán ({totalQuality} Sản phẩm ): </span>{" "}
-                  <span className="cart-price">{total}đ</span>
+                  <span className="cart-price">{total.toLocaleString()}đ</span>
                   <Button type="primary" onClick={createOrder} className="cart-btn-sup">
                     Mua hàng
                   </Button>
