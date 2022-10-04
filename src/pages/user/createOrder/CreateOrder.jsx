@@ -162,9 +162,9 @@ function CreateOrder() {
     // console.log(obj);
     try {
       if (!obj.data.length) {
-        alert("Vui lòng chọn mua sản phẩm để tạo đơn hàng!");
-      } else if (!obj.phone) {
-        alert("Vui lòng điền thông tin, địa chỉ để tạo đơn hàng!");
+        message.error("Vui lòng chọn mua sản phẩm để tạo đơn hàng!");
+      } else if (!obj.phone || !obj.address) {
+        message.error("Vui lòng điền thông tin, địa chỉ để tạo đơn hàng!");
       } else {
         const dataOder = await postAPI("/order/create-order", obj);
         // console.log(dataOder, 152);
