@@ -89,15 +89,10 @@ function ProductDetail() {
 
   function formatPdPrice(price) {
     if (price) {
-      let str = price.toString(10);
-      return str
-        .split("")
-        .reverse()
-        .reduce((prev, next, index) => {
-          return (index % 3 ? next : next + ".") + prev;
-        });
+      let str = price.toLocaleString() + "đ";
+      return str;
     } else {
-      return "khong co hang";
+      return "Hết hàng!";
     }
   }
   // set price
