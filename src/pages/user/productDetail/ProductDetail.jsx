@@ -60,8 +60,8 @@ function ProductDetail() {
 
     
     async function addToCart() {
-        console.log(123);
         try {
+            console.log(productDetailID);
             if(!productDetailID){
                 return message.error('Bạn chưa chọn sản phẩm !')
             }
@@ -153,12 +153,10 @@ function ProductDetail() {
 
     function get4imgProductDetail(data) {
         let list4ImgClone = []
-        // console.log(160, getListImgProductDetail());
         let list = getListImgProductDetail(data);
         for (let i = 0; i <= 3; i++) {
             list4ImgClone.push(list[i])
         }
-        // console.log(164, list4ImgClone[0]);
         setPdImg(list4ImgClone[0])
         setList4Img(list4ImgClone);
     }
