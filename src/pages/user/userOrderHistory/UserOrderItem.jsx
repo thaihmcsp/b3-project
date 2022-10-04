@@ -11,7 +11,7 @@ function UserOrderItem(props) {
             <div className="order-product--shop">
                 <div className="order-product--shop__left">
                     <span className='shop-love'>Yêu thích+</span>
-                    <h1> Dareu Viet Nam</h1>
+                    <h1>Viet Nam</h1>
                     <button className='chat'> <i className="fa-solid fa-comment"></i> Chat</button>
                     <button className="watch-shop"><i className="fa-solid fa-store"></i>Xem Shop</button>
                 </div>
