@@ -6,7 +6,12 @@ import { useEffect } from 'react';
 import { useState } from 'react'
 import { getAPI, patchAPI } from '../../../config/api';
 import { Steps } from 'antd';
+import { Button, Modal, message } from 'antd';
+import ReasonCancel from '../userOrderHistory/ReasonCancel';
+
 const { Step } = Steps;
+const key = 'updatable';
+
 
 
 function OrderDetail() {
@@ -14,6 +19,9 @@ function OrderDetail() {
   const [orderAPI, setOrderAPI] = useState([]);
   const [btnValue, setBtnValue] = useState({});
   const [number, setNumber] = useState(0);
+  const [address, setAddress] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [count, setCount] = useState(0)
   const nav = useNavigate();
   let search = useLocation();
   let totalPrice = 0;
@@ -23,7 +31,6 @@ function OrderDetail() {
   let btn;
   let statusBtn;
   let currentStatus = 0;
-  let address = JSON.parse(window.localStorage.getItem('address'))
 
 
   let objType = {}
@@ -31,12 +38,12 @@ function OrderDetail() {
     let query = search.search.slice(1).split('=');
     objType[query[0]] = query[1];
   }
-  console.log(objType);
 
   const getOrder = async () => {
     try {
       let res = await getAPI('/order/get-one-order/' + orderId);
       setOrderAPI(res.data.order.listProduct);
+      setAddress(res.data.order);
       let object = {};
       object = res.data.order;
       setBtnValue(object);
@@ -45,16 +52,15 @@ function OrderDetail() {
     }
   }
 
-
   const cancelOrder = async (orderId) => {
     let values = { status: 'canceled' }
-    if (window.confirm('Do you want to cancel the order ?') === true) {
-      try {
-        await patchAPI('/order/change-order-status/' + orderId, values);
-        setNumber(number + 1);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await patchAPI('/order/change-order-status/' + orderId, values);
+      setNumber(number + 1);
+      setIsModalOpen(false);
+      openMessage();
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -64,12 +70,38 @@ function OrderDetail() {
 
   useEffect(() => {
     getOrder();
-  }, [])
+  }, [count])
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const openMessage = () => {
+    message.loading({ content: 'Loading...', key });
+    setTimeout(() => {
+      message.success({ content: 'Đã hủy đơn hàng thành công', key, duration: 2 });
+      btn = <Fragment >
+        <button className='btn-took-product'>Hủy đơn hàng</button>
+        <button className='btn-secondary'>Liên hệ người bán</button>
+      </Fragment>;
+      setCount(count + 1);
+    }, 1500);
+  };
 
   if (btnValue.status === 'pending') {
     status = 'Đơn hàng đang chờ xác nhận';
-    btn = <Fragment ><button className='btn-took-product' onClick={() => cancelOrder(btnValue._id)} style={{ width: '100%' }}>Hủy đơn hàng</button> <button className='btn-secondary'>Liên hệ người bán</button></Fragment>
+    btn = <Fragment >
+      <button className='btn-took-product' onClick={showModal}>Hủy đơn hàng</button>
+      <Modal okText={'Hủy đơn hàng'} cancelText={'Không phải lúc này'} title="Chọn lý do hủy" visible={isModalOpen} onOk={() => {
+        cancelOrder(btnValue._id)
+      }} onCancel={handleCancel}>
+        <ReasonCancel />
+      </Modal>
+      <button className='btn-secondary'>Liên hệ người bán</button>
+    </Fragment>;
     statusBtn = "wait";
     currentStatus = 1;
   } else if (btnValue.status === 'done') {
@@ -90,7 +122,6 @@ function OrderDetail() {
     statusBtn = "process";
     currentStatus = 3;
   }
-
 
   return (
     <div className='order-detail-container'>
@@ -140,15 +171,14 @@ function OrderDetail() {
             {btn}
           </div>
         </div>
-
         <div className="order-detail__address">
           <div className="border-top"></div>
           <div className="order-detail__address-content">
             <h1 className='address-title'>Địa chỉ nhận hàng</h1>
-            <h3>Tên khách hàng : {address.name}</h3>
+            <h3>Tên khách hàng : {address?.userId?.fullname}</h3>
             <p className="address-content-detail">
-              <div>Số điện thoại : {address.phone}</div>
-              <div>Địa chỉ nhận hàng : {address.address} </div>
+              <div>Số điện thoại : {address?.userId?.phone}</div>
+              <div>Địa chỉ nhận hàng : {address?.address} </div>
             </p>
           </div>
         </div>
@@ -159,6 +189,7 @@ function OrderDetail() {
         totalPrice += data.quantity * data.productDetailId?.price;
         return (
           <Fragment>
+
             <div className="order-detail__product">
               <div className="order-detail__product-header">
                 <div className="order-product--shop">
@@ -181,7 +212,7 @@ function OrderDetail() {
                 <div className="order-product--detail">
                   <Fragment>
                     <div className="order-product-detail__img">
-                      <img src={data.productDetailId?.listImg[0] ? data.productDetailId?.listImg[0] : (data.productDetailId?.productId.thumbnail.startsWith('https') ? data.productDetailId?.productId.thumbnail : 'https://shope-b3.thaihm.site/' + data.productDetailId?.productId.thumbnail)} alt="" />
+                      <img src={(data.productDetailId?.productId.thumbnail.startsWith('https') ? data.productDetailId?.productId.thumbnail : 'https://shope-b3.thaihm.site/' + data.productDetailId?.productId.thumbnail)} alt="" />
                     </div>
                     <div className="order-product-detail__name">
 
