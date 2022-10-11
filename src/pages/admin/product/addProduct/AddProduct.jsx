@@ -226,6 +226,58 @@ function AddProduct() {
         },
       ],
     },
+    {
+      title: 'Chuột',
+      value: 'Chuột',
+      children: [
+        {
+          title: 'Apple',
+          value: 'Apple',
+        },
+        {
+          title: 'Razer',
+          value: 'Razer',
+        },
+        {
+          title: 'Nogitech',
+          value: 'Nogitech',
+        },
+        {
+          title: 'ASUS',
+          value: 'ASUS',
+        },
+        {
+          title: 'Microsoft',
+          value: 'Microsoft',
+        },
+      ],
+    },
+    {
+      title: 'Keyboard',
+      value: 'Keyboard',
+      children: [
+        {
+          title: 'Apple',
+          value: 'Apple',
+        },
+        {
+          title: 'Razer',
+          value: 'Razer',
+        },
+        {
+          title: 'Nogitech',
+          value: 'Nogitech',
+        },
+        {
+          title: 'ASUS',
+          value: 'ASUS',
+        },
+        {
+          title: 'Microsoft',
+          value: 'Microsoft',
+        },
+      ],
+    },
   ]
 
   useEffect(() => {

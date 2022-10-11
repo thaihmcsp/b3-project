@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import MenuProfile from "./MenuProfile";
 import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "../footer/Footer";
-import "./usermenu.css";
+import "./UserMenu.css";
 import { useState } from "react";
 import { SmileOutlined } from "@ant-design/icons";
 import { Button, notification } from "antd";
