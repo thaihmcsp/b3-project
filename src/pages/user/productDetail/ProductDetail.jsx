@@ -58,9 +58,15 @@ function ProductDetail() {
         }
     }
 
+    
     async function addToCart() {
         try {
+            console.log(productDetailID);
+            if(!productDetailID){
+                return message.error('Bạn chưa chọn sản phẩm !')
+            }
             let addToCart = await patchAPI(`/cart/add-to-cart`, { 'productDetailId': productDetailID, "quantity": inputpd })
+            console.log(64, addToCart);
             if (addToCart.status == 200) {
                 console.log(72, addToCart);
                 message.success('Thêm vào giỏ hàng thành công !')
@@ -147,12 +153,10 @@ function ProductDetail() {
 
     function get4imgProductDetail(data) {
         let list4ImgClone = []
-        // console.log(160, getListImgProductDetail());
         let list = getListImgProductDetail(data);
         for (let i = 0; i <= 3; i++) {
             list4ImgClone.push(list[i])
         }
-        // console.log(164, list4ImgClone[0]);
         setPdImg(list4ImgClone[0])
         setList4Img(list4ImgClone);
     }
