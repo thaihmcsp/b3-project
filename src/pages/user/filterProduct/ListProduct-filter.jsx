@@ -174,6 +174,7 @@ function ListProduct() {
       function clickPage (page){
         let pageSize = 12
       //  let dataCl = dataClone
+      console.log(dataFake.length);
        let clone = dataFake.slice((pageSize*(page-1)),(pageSize*page))
         
         setDataClone(clone)
@@ -215,7 +216,7 @@ function ListProduct() {
     </div>
     
     <div>
-               <Pagination current={pageCuren} total={dataFake.length} onChange={clickPage} />;
+               <Pagination current={pageCuren} total={dataFake.length} onChange={clickPage} defaultPageSize={12} />;
      </div>
     </>
   )
