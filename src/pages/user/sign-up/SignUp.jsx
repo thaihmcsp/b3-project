@@ -8,6 +8,17 @@ import { Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { postAPI } from "../../../config/api";
+import { message } from "antd";
+
+const success = () => {
+  message.success({
+    content: "This is a prompt message with custom className and style",
+    className: "custom-class",
+    style: {
+      marginTop: "20vh",
+    },
+  });
+};
 
 function SignUp() {
   const nav = useNavigate();
@@ -30,25 +41,29 @@ function SignUp() {
     try {
       const email = document.querySelector("#email").value;
       const username = email.slice(0, email.indexOf("@"));
-      //  console.log(username, 35);
+
       const mailFormat =
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       const password = document.querySelector("#password").value;
       if (values.password !== values.confim) {
-        return alert("Mật khẩu không khớp nhau !");
-      } else if (!mailFormat.test(email)) {
-        return alert("Email không hợp lệ !");
+        message.error("Mật khẩu không khớp nhau !");
+      } else if (!mailFormat.test(values.email)) {
+        message.error("Email không hợp lệ !");
       } else if (password.length < 6) {
-        return alert("Mật khẩu ít nhất phải 6 ký tự !");
+        message.error("Mật khẩu ít nhất phải 6 ký tự !");
       } else {
-        // let res  = await postAPI('/auth/sign-up',values )
-        // console.log(47,res);
-        hanleSubmit(values);
+        const email = document.querySelector("#email").value;
+        const username = email.slice(0, email.indexOf("@"));
+        const password = document.querySelector("#password").value;
+        let res = await postAPI("/auth/sign-up", { email, password, username });
+
+        message.success("Tạo tài khoản thành công!");
+        // hanleSubmit(values);
         nav("/signin");
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      message.error(error.response.data.message);
     }
   };
 
@@ -56,11 +71,13 @@ function SignUp() {
     console.log("Failed:", errorInfo);
   };
   function hanleSubmit() {
-    const email = document.querySelector("#email").value;
-    const username = email.slice(0, email.indexOf("@"));
-    const password = document.querySelector("#password").value;
-    let res = postAPI("/auth/sign-up", { email, password, username });
+    // const email = document.querySelector("#email").value;
+    // const username = email.slice(0, email.indexOf("@"));
+    // const password = document.querySelector("#password").value;
+    // let res = postAPI("/auth/sign-up", { email, password, username });
+    // console.log(res, 88);
   }
+
   return (
     <div>
       <div className="container-signup">
