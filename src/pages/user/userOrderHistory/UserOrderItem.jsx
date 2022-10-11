@@ -11,7 +11,7 @@ function UserOrderItem(props) {
             <div className="order-product--shop">
                 <div className="order-product--shop__left">
                     <span className='shop-love'>Yêu thích+</span>
-                    <h1> Dareu Viet Nam</h1>
+                    <h1>Viet Nam</h1>
                     <button className='chat'> <i className="fa-solid fa-comment"></i> Chat</button>
                     <button className="watch-shop"><i className="fa-solid fa-store"></i>Xem Shop</button>
                 </div>
@@ -32,7 +32,7 @@ function UserOrderItem(props) {
                                     <div className="order-product">
                                         <div className="order-product--detail">
                                             <div className="order-product__img">
-                                                <img src={data.productDetailId?.listImg[0] ? data.productDetailId?.listImg[0] : (data.productDetailId?.productId.thumbnail.startsWith('https') ? data.productDetailId?.productId.thumbnail : 'https://shope-b3.thaihm.site/' + data.productDetailId?.productId.thumbnail)} alt="" />
+                                                <img src={(data.productDetailId?.productId.thumbnail.startsWith('https') ? data.productDetailId?.productId.thumbnail : 'https://shope-b3.thaihm.site/' + data.productDetailId?.productId.thumbnail)} alt="" />
                                             </div>
                                             <div className="order-product__name">
                                                 <h3>{data.productDetailId?.productId.productName}</h3>
