@@ -65,7 +65,6 @@ function AddProductDetail() {
   }
     const [loading, setLoading] = useState([false,false,false,false,false,false,false,false,false]);
     const [imageUrl, setImageUrl] = useState(['','','','','','','','','']);
-    
     const name = ['* Ảnh bìa', 'Hình ảnh 1','Hình ảnh 2','Hình ảnh 3', 'Hình ảnh 4', 'Hình ảnh 5', 'Hình ảnh 6', 'Hình ảnh 7', 'Hình ảnh 8']
     const handleChange = (info, index) => {
       console.log(info.file.originFileObj);
