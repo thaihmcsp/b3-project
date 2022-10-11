@@ -16,6 +16,7 @@ function FilterMenu() {
  let brand = link.get("brand")
  let search = link.get("search")
  let priceFil = link.get("price")
+ let categori = link.get("categori")
 function changeBox (vbox){
   let check = document.querySelector(`.${vbox}`).value
   let cheKbox = document.querySelector(`.${vbox}`).checked
@@ -32,12 +33,16 @@ function changeBox (vbox){
     
     if(arrBrand.length === 0){
       let lc = local.search.split("&")
-      console.log(lc);
       l =  lc[0]+`&page=1`
     }
     if(arrBrand.length > 0){
-
-      l = `?search=${search}&page=1&brand=${arrBrand.join(" ")}`
+      
+      if(!categori){
+        l = `?search=${search}&page=1&brand=${arrBrand.join(" ")}`
+      }
+      else if(categori){
+        l = `?categori=${categori}&page=1&brand=${arrBrand.join(" ")}`
+      }
     }
    
 }
@@ -54,7 +59,6 @@ else{
 }
 
 nav(l)
-
 
 }
 function price (){
